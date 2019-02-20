@@ -2,23 +2,68 @@ security:
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
     providers:
         in_memory: { memory: ~ }
+        fos_userbundle:
+            id: fos_user.user_provider.username
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
         main:
-            anonymous: true
+            pattern: /api(.*)
+            context: user
+            http_basic: ~
+            provider: fos_userbundle
+        admin:
+            pattern:            /admin(.*)
+            context:            user
+            provider:           fos_userbundle 
+            form_login:
+                login_path:     sonata_user_admin_security_login
+                use_forward:    false
+                check_path:     sonata_user_admin_security_check
+                failure_path:   sonata_user_admin_security_login
+                always_use_default_target_path: true
+                default_target_path: sonata_admin_dashboard
+            logout:
+                path:           sonata_user_admin_security_logout
+                target:         sonata_user_admin_security_login
+            anonymous:          true
+            switch_user:        true
+        media:
+            pattern: /media(.*)
+            context: user
+            http_basic: ~
+            provider: fos_userbundle
 
-            # activate different ways to authenticate
-
-            # http_basic: true
-            # https://symfony.com/doc/current/security.html#a-configuring-how-your-users-will-authenticate
-
-            # form_login: true
-            # https://symfony.com/doc/current/security/form_login_setup.html
+    role_hierarchy:
+        ROLE_ADMIN:
+            -ROLE_USER
+            - ROLE_SONATA_ADMIN
+        ROLE_SUPER_ADMIN:
+            - ROLE_ADMIN
+            - ROLE_ALLOWED_TO_SWITCH
+        SONATA:
+            - ROLE_SONATA_PAGE_ADMIN_PAGE_EDIT
 
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
         # - { path: ^/admin, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }
+
+        # Admin login page needs to be accessed without credential
+        - { path: ^/admin/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/admin/logout$, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/admin/login_check$, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/admin/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
+
+        # Secured part of the site
+        # This config requires being logged for the whole site and having the admin role for the admin part.
+        # Change these rules to adapt them to your needs
+        - { path: ^/admin/, role: ROLE_ADMIN }
+        - { path: ^/media/, role: [IS_AUTHENTICATED_FULLY, IS_AUTHENTICATED_REMEMBERED] }
+        - { path: ^/api/, role: ROLE_USER }
+        - { path: ^/.*, role: IS_AUTHENTICATED_ANONYMOUSLY }
+
+    encoders:
+        FOS\UserBundle\Model\UserInterface: sha512

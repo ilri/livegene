@@ -98,6 +98,9 @@
     "fig/link-util": {
         "version": "1.0.0"
     },
+    "friendsofsymfony/user-bundle": {
+        "version": "v2.1.2"
+    },
     "guzzlehttp/psr7": {
         "version": "1.5.2"
     },
@@ -247,6 +250,9 @@
             "version": "3.13",
             "ref": "e25412e53b20827db07abb6f2aa0b8e4d26c284c"
         }
+    },
+    "sonata-project/user-bundle": {
+        "version": "4.3.0"
     },
     "swiftmailer/swiftmailer": {
         "version": "v6.1.3"
