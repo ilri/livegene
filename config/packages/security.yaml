@@ -8,11 +8,6 @@ security:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
-        main:
-            pattern: /api(.*)
-            context: user
-            http_basic: ~
-            provider: fos_userbundle
         admin:
             pattern:            /admin(.*)
             context:            user
@@ -29,8 +24,8 @@ security:
                 target:         sonata_user_admin_security_login
             anonymous:          true
             switch_user:        true
-        media:
-            pattern: /media(.*)
+        main:
+            pattern: ^/
             context: user
             http_basic: ~
             provider: fos_userbundle
