@@ -152,6 +152,9 @@
     "kriswallsmith/buzz": {
         "version": "v0.16.1"
     },
+    "liip/functional-test-bundle": {
+        "version": "2.0.0-alpha12"
+    },
     "monolog/monolog": {
         "version": "1.24.0"
     },
