@@ -39,11 +39,36 @@ class VoterSecurityHandlerTest extends WebTestCase
      */
     public function testUserCannotLoginToAdmin()
     {
-        $user = $this->fixtures->getReference('user');
-        $this->logIn($user->getUsername());
+        $username = $this->fixtures->getReference('user')->getUsername();
+        $this->logIn($username);
         $this->client->followRedirect();
         $this->client->request('GET', '/admin/dashboard');
-        $this->assertSame(Response::HTTP_FORBIDDEN, $this->client->getResponse()->getStatusCode());
+        $this->assertSame(
+            Response::HTTP_FORBIDDEN,
+            $this->client->getResponse()->getStatusCode()
+        );
+    }
+
+    /**
+     * Test that a normal user can access the API platform.
+     */
+    public function testUserCanAccessApiPlatform()
+    {
+        $username = $this->fixtures->getReference('user')->getUsername();
+        $this->logIn($username);
+        $formats = ['jsonld', 'json', 'html'];
+        foreach ($formats as $format) {
+            $this->client->request('GET', sprintf('/api/index.%s', $format));
+            $this->assertSame(
+                Response::HTTP_OK,
+                $this->client->getResponse()->getStatusCode()
+            );
+            $this->client->request('GET', sprintf('/api/docs.%s', $format));
+            $this->assertSame(
+                Response::HTTP_OK,
+                $this->client->getResponse()->getStatusCode()
+            );
+        }
     }
 
     /**
@@ -51,12 +76,15 @@ class VoterSecurityHandlerTest extends WebTestCase
      */
     public function testSonataAdminCanLoginToAdmin()
     {
-        $user = $this->fixtures->getReference('sonata_admin');
-        $this->logIn($user->getUsername());
+        $username = $this->fixtures->getReference('sonata_admin')->getUsername();
+        $this->logIn($username);
         $this->client->followRedirect();
         $crawler = $this->client->request('GET', '/admin/dashboard');
-        $this->assertSame(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
-        $this->accessAdminArea($crawler);
+        $this->assertSame(
+            Response::HTTP_OK,
+            $this->client->getResponse()->getStatusCode()
+        );
+        $this->accessAdminArea($crawler, $username);
     }
 
     /**
@@ -64,12 +92,15 @@ class VoterSecurityHandlerTest extends WebTestCase
      */
     public function testAdminCanLoginToAdmin()
     {
-        $user = $this->fixtures->getReference('admin');
-        $this->logIn($user->getUsername());
+        $username = $this->fixtures->getReference('admin')->getUsername();
+        $this->logIn($username);
         $this->client->followRedirect();
         $crawler = $this->client->request('GET', '/admin/dashboard');
-        $this->assertSame(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
-        $this->accessAdminArea($crawler);
+        $this->assertSame(
+            Response::HTTP_OK,
+            $this->client->getResponse()->getStatusCode()
+        );
+        $this->accessAdminArea($crawler, $username);
     }
 
     /**
@@ -77,14 +108,21 @@ class VoterSecurityHandlerTest extends WebTestCase
      */
     public function testSuperAdminCanLoginToAdmin()
     {
-        $user = $this->fixtures->getReference('super_admin');
-        $this->logIn($user->getUsername());
+        $username = $this->fixtures->getReference('super_admin')->getUsername();
+        $this->logIn($username);
         $this->client->followRedirect();
         $crawler = $this->client->request('GET', '/admin/dashboard');
-        $this->assertSame(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
-        $this->accessAdminArea($crawler);
-        $this->assertTrue(
-            $crawler->filter('ul.sidebar-menu > li')->children()->count() > 0
+        $this->assertSame(
+            Response::HTTP_OK,
+            $this->client->getResponse()->getStatusCode()
+        );
+        $this->accessAdminArea($crawler, $username);
+
+        // the sidebar menu should contain the admin groups
+        // for sonata_media and sonata_user
+        $this->assertGreaterThan(
+            0,
+            $crawler->filter('ul.sidebar-menu > li')->children()->count()
         );
         $menuItems = $this->getSidebarMenuItems($crawler);
         $adminGroups = ['Media Library', 'Users'];
@@ -104,11 +142,15 @@ class VoterSecurityHandlerTest extends WebTestCase
         ]);
     }
 
-    private function accessAdminArea(Crawler $crawler)
+    private function accessAdminArea(Crawler $crawler, $username)
     {
         $this->assertSame(
             'LiveGene',
             $crawler->filter('a.logo > span')->text()
+        );
+        $this->assertSame(
+            $username,
+            $crawler->filter('li.user-header > p')->text()
         );
     }
 
