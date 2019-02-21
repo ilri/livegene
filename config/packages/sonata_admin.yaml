@@ -4,6 +4,8 @@ sonata_admin:
     dashboard:
         blocks:
             - { type: sonata.admin.block.admin_list, position: left }
+    security:
+        handler: sonata.admin.security.handler.voter
 
 sonata_block:
     blocks:

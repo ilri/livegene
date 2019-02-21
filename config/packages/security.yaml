@@ -62,3 +62,6 @@ security:
 
     encoders:
         FOS\UserBundle\Model\UserInterface: sha512
+
+    access_decision_manager:
+        strategy: unanimous
