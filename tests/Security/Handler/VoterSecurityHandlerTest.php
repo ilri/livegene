@@ -16,7 +16,9 @@ class VoterSecurityHandlerTest extends WebTestCase
     {
         $this->client = $this->createClient();
         $this->fixtures = $this->loadFixtures([
-            'App\DataFixtures\UserFixtures'
+            'App\DataFixtures\UserFixtures',
+            'App\DataFixtures\MediaFixtures',
+            'App\DataFixtures\GalleryFixtures',
         ])->getReferenceRepository();
     }
 
@@ -32,6 +34,57 @@ class VoterSecurityHandlerTest extends WebTestCase
             'Authentication',
             $crawler->filter('div.login-box-body > p.login-box-msg')->text()
         );
+    }
+
+    /**
+     * Test that an anonymous user can't access the API platform.
+     */
+    public function testAnonymousCannotAccessApiPlatform()
+    {
+        $formats = ['jsonld', 'json', 'html'];
+        foreach ($formats as $format) {
+            $this->client->request('GET', sprintf('/api/index.%s', $format));
+            $this->assertSame(
+                Response::HTTP_UNAUTHORIZED,
+                $this->client->getResponse()->getStatusCode()
+            );
+            $this->client->request('GET', sprintf('/api/docs.%s', $format));
+            $this->assertSame(
+                Response::HTTP_UNAUTHORIZED,
+                $this->client->getResponse()->getStatusCode()
+            );
+        } 
+    }
+
+    /**
+     * Test that an anonymous user can't access the routes provided by
+     * SonataMediaBundle.
+     */
+    public function testAnonymousCannotAccessMedia()
+    {
+        $galleryId = $this->fixtures->getReference('gallery')->getId();
+        $mediaId = $this->fixtures->getReference('media')->getId();
+        $this->client->request('GET', '/media/gallery/');
+        $this->assertSame(
+            Response::HTTP_UNAUTHORIZED,
+            $this->client->getResponse()->getStatusCode()
+        );
+        $this->client->request('GET', sprintf('/media/gallery/view/%s/', $galleryId));
+        $this->assertSame(
+            Response::HTTP_UNAUTHORIZED,
+            $this->client->getResponse()->getStatusCode()
+        );
+        $this->client->request('GET', sprintf('/media/view/%s/', $mediaId));
+        $this->assertSame(
+            Response::HTTP_UNAUTHORIZED,
+            $this->client->getResponse()->getStatusCode()
+        );
+        $this->client->request('GET', sprintf('/media/download/%s/', $mediaId));
+        $this->assertSame(
+            Response::HTTP_UNAUTHORIZED,
+            $this->client->getResponse()->getStatusCode()
+        );
+
     }
 
     /**
@@ -69,6 +122,39 @@ class VoterSecurityHandlerTest extends WebTestCase
                 $this->client->getResponse()->getStatusCode()
             );
         }
+    }
+
+    /**
+     * Test that a normal user can access the routes provided by
+     * SonataMediaBundle.
+     */
+    public function testUserCanAccessMedia()
+    {
+        $galleryId = $this->fixtures->getReference('gallery')->getId();
+        $mediaId = $this->fixtures->getReference('media')->getId();
+        $username = $this->fixtures->getReference('user')->getUsername();
+        $this->logIn($username);
+        $this->client->request('GET', '/media/gallery/');
+        $this->assertSame(
+            Response::HTTP_OK,
+            $this->client->getResponse()->getStatusCode()
+        );
+        $this->client->request('GET', sprintf('/media/gallery/view/%s/', $galleryId));
+        $this->assertSame(
+            Response::HTTP_OK,
+            $this->client->getResponse()->getStatusCode()
+        );
+        $this->client->request('GET', sprintf('/media/view/%s/', $mediaId));
+        $this->assertSame(
+            Response::HTTP_OK,
+            $this->client->getResponse()->getStatusCode()
+        );
+        $this->client->request('GET', sprintf('/media/download/%s/', $mediaId));
+        $this->assertSame(
+            Response::HTTP_OK,
+            $this->client->getResponse()->getStatusCode()
+        );
+
     }
 
     /**

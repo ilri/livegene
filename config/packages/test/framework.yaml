@@ -5,4 +5,5 @@ framework:
         storage_id: session.storage.mock_file
         name: MOCKSESSION
 
-liip_functional_test: ~
+liip_functional_test:
+    cache_db: true
