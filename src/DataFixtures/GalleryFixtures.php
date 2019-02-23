@@ -4,18 +4,27 @@ namespace App\DataFixtures;
 
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use App\Application\Sonata\MediaBundle\Entity\Gallery;
 
 class GalleryFixtures extends Fixture
 {
+    private $container;
+
+    public function __construct(ContainerInterface $container)
+    {
+        $this->container = $container;
+    }
+
     public function load(ObjectManager $manager)
     {
-        $gallery = new Gallery();
+        $galleryManager = $this->container->get('sonata.media.manager.gallery');
+        $gallery = $galleryManager->create();
         $gallery->setName('test');
         $gallery->setContext('default');
         $gallery->setEnabled(true);
-        $manager->persist($gallery);
-        $manager->flush();
+        $galleryManager->save($gallery);
+
         $this->addReference('gallery', $gallery);
     }
 }
