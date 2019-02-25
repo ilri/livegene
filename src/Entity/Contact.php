@@ -34,10 +34,7 @@ class Contact
 
     /**
      * @ORM\Column(type="string", length=100)
-     * @Assert\Email(
-     *     message = "The email '{{ value }}' is not a valid email.",
-     *     checkMX = true
-     * )
+     * @Assert\Email(mode="strict")
      */
     private $email;
 

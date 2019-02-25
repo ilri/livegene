@@ -39,10 +39,7 @@ class StaffMember
     /**
      * @ORM\Column(type="string", length=100, unique=true)
      * @Assert\NotBlank()
-     * @Assert\Email(
-     *     message = "The email '{{ value }}' is not a valid email.",
-     *     checkMX = true
-     * )
+     * @Assert\Email(mode="strict")
      */
     private $email;
 
