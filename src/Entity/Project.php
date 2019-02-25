@@ -473,12 +473,12 @@ class Project
     /**
      * @return Collection|SDGRole[]
      */
-    public function getSdgRoles(): Collection
+    public function getSDGRoles(): Collection
     {
         return $this->sdgRoles;
     }
 
-    public function addSdgRole(SDGRole $sdgRole): self
+    public function addSDGRole(SDGRole $sdgRole): self
     {
         if (!$this->sdgRoles->contains($sdgRole)) {
             $this->sdgRoles[] = $sdgRole;
@@ -488,7 +488,7 @@ class Project
         return $this;
     }
 
-    public function removeSdgRole(SDGRole $sdgRole): self
+    public function removeSDGRole(SDGRole $sdgRole): self
     {
         if ($this->sdgRoles->contains($sdgRole)) {
             $this->sdgRoles->removeElement($sdgRole);
@@ -499,5 +499,37 @@ class Project
         }
 
         return $this;
+    }
+
+    public function getTotalCountryRolesPercent(): int
+    {
+        $totalPercent = 0;
+
+        if (!$this->id) {
+            return $totalPercent;
+        }
+
+        $roles = $this->getCountryRoles();
+        foreach ($roles as $role) {
+            $totalPercent += $role->getPercent();
+        }
+
+        return $totalPercent;
+    }
+
+    public function getTotalSDGRolesPercent(): int
+    {
+        $totalPercent = 0;
+
+        if (!$this->id) {
+            return $totalPercent;
+        }
+
+        $roles = $this->getSDGRoles();
+        foreach ($roles as $role) {
+            $totalPercent += $role->getPercent();
+        }
+
+        return $totalPercent;
     }
 }

@@ -140,28 +140,28 @@ class SDG
     /**
      * @return Collection|SDGRole[]
      */
-    public function getSdgRoles(): Collection
+    public function getSDGRoles(): Collection
     {
         return $this->sdgRoles;
     }
 
-    public function addSdgRole(SDGRole $sdgRole): self
+    public function addSDGRole(SDGRole $sdgRole): self
     {
         if (!$this->sdgRoles->contains($sdgRole)) {
             $this->sdgRoles[] = $sdgRole;
-            $sdgRole->setSdg($this);
+            $sdgRole->setSDG($this);
         }
 
         return $this;
     }
 
-    public function removeSdgRole(SDGRole $sdgRole): self
+    public function removeSDGRole(SDGRole $sdgRole): self
     {
         if ($this->sdgRoles->contains($sdgRole)) {
             $this->sdgRoles->removeElement($sdgRole);
             // set the owning side to null (unless already changed)
-            if ($sdgRole->getSdg() === $this) {
-                $sdgRole->setSdg(null);
+            if ($sdgRole->getSDG() === $this) {
+                $sdgRole->setSDG(null);
             }
         }
 

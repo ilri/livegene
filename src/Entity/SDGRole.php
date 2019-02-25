@@ -59,12 +59,12 @@ class SDGRole
         return $this;
     }
 
-    public function getSdg(): ?SDG
+    public function getSDG(): ?SDG
     {
         return $this->sdg;
     }
 
-    public function setSdg(?SDG $sdg): self
+    public function setSDG(?SDG $sdg): self
     {
         $this->sdg = $sdg;
 
