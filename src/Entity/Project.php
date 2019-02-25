@@ -10,12 +10,14 @@ use Doctrine\Common\Collections\{
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use App\Validator\Constraints as AppAssert;
 
 /**
  * @ApiResource()
  * @ORM\Entity(repositoryClass="App\Repository\ProjectRepository")
  * @ORM\Table(name="app_project")
  * @UniqueEntity("ilriCode")
+ * @AppAssert\StartDateBeforeEndDate()
  */
 class Project
 {

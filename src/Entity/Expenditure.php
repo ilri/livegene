@@ -5,11 +5,13 @@ namespace App\Entity;
 use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use App\Validator\Constraints as AppAssert;
 
 /**
  * @ApiResource()
  * @ORM\Entity(repositoryClass="App\Repository\ExpenditureRepository")
  * @ORM\Table(name="app_expenditure")
+ * @AppAssert\StartDateBeforeEndDate()
  */
 class Expenditure
 {

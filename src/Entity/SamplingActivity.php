@@ -10,6 +10,7 @@ use Doctrine\Common\Collections\{
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use App\Validator\Constraints as AppAssert;
 
 /**
  * @ApiResource()
@@ -19,6 +20,8 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  *     uniqueConstraints={@ORM\UniqueConstraint(name="project_description", columns={"project_id", "description"})}
  * )
  * @UniqueEntity({"project", "description"})
+ * @AppAssert\StartDateBeforeEndDate()
+ * @AppAssert\ChildDateRangeWithinParentDateRange()
  */
 class SamplingActivity
 {
