@@ -1,13 +1,14 @@
 <?php
 
-namespace App\DataFixtures;
+namespace App\DataFixtures\Tests;
 
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use App\Application\Sonata\MediaBundle\Entity\Gallery;
 
-class GalleryFixtures extends Fixture
+class GalleryFixtures extends Fixture implements FixtureGroupInterface
 {
     private $container;
 
@@ -26,5 +27,10 @@ class GalleryFixtures extends Fixture
         $galleryManager->save($gallery);
 
         $this->addReference('gallery', $gallery);
+    }
+
+    public static function getGroups(): array
+    {
+        return ['test'];
     }
 }

@@ -1,12 +1,13 @@
 <?php
 
-namespace App\DataFixtures;
+namespace App\DataFixtures\Tests;
 
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use App\Application\Sonata\UserBundle\Entity\User;
 
-class UserFixtures extends Fixture
+class UserFixtures extends Fixture implements FixtureGroupInterface
 {
     public const PASSWORD = 'password';
 
@@ -30,5 +31,10 @@ class UserFixtures extends Fixture
             $manager->flush();
             $this->addReference($username, $user);
         }
+    }
+
+    public static function getGroups(): array
+    {
+        return ['test'];
     }
 }

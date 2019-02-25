@@ -1,14 +1,15 @@
 <?php
 
-namespace App\DataFixtures;
+namespace App\DataFixtures\Tests;
 
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\File\File;
 use App\Application\Sonata\UserBundle\Entity\Media;
 
-class MediaFixtures extends Fixture
+class MediaFixtures extends Fixture implements FixtureGroupInterface
 {
     private $container;
 
@@ -30,5 +31,10 @@ class MediaFixtures extends Fixture
         $mediaManager->save($media);
 
         $this->addReference('media', $media);
+    }
+
+    public static function getGroups(): array
+    {
+        return ['test'];
     }
 }
