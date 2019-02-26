@@ -53,6 +53,12 @@ sonata_admin:
                 position: right
                 settings:
                     groups: [sonata_user, sonata_media]
+    assets:
+        extra_stylesheets:
+            - build/app.css
+        extra_javascripts:
+            - build/runtime.js
+            - build/app.js
     security:
         handler: sonata.admin.security.handler.role
 
