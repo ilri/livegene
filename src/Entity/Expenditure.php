@@ -42,6 +42,7 @@ class Expenditure
 
     /**
      * @ORM\Column(type="date")
+     * @Assert\NotBlank()
      */
     private $startDate;
 
@@ -51,7 +52,8 @@ class Expenditure
     private $endDate;
 
     /**
-     * @ORM\Column(type="date")
+     * @ORM\Column(type="datetime")
+     * @Assert\NotBlank()
      */
     private $reportDate;
 
