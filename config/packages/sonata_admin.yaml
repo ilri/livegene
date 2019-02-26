@@ -1,11 +1,60 @@
 sonata_admin:
     title: 'LiveGene'
-    title_logo: '/bundles/sonataadmin/logo.png'
     dashboard:
+        groups:
+            sonata_user:
+                label_catalogue: SonataUserBundle
+                icon: ~
+            sonata_media:
+                label_catalogue: SonataMediaBundle
+                icon: ~
+            app.admin.groups.project:
+                label: "Project management"
+                label_catalogue: App
+                icon: "<i class=\"fa fa-bar-chart\" aria-hidden=\"true\"></i>"
+                items:
+                    - admin.project
+                    - admin.organisation
+                    - admin.partnership
+                    - admin.partnership_type
+                    - admin.contact
+                    - admin.staff_member
+                    - admin.staff_role
+                    - admin.country
+                    - admin.country_role
+                    - admin.sdg
+                    - admin.sdg_role
+            app.admin.groups.finances:
+                label: "Finances"
+                label_catalogue: App
+                icon: "<i class=\"fa fa-money\" aria-hidden=\"true\"></i>"
+                items:
+                    - admin.expenditure
+            app.admin.groups.sampling:
+                label: "Sampling management"
+                label_catalogue: App
+                icon: "<i class=\"fa fa-flask\" aria-hidden=\"true\"></i>"
+                items:
+                    - admin.sampling_activity
+                    - admin.sampling_documentation
+                    - admin.sampling_document_type
+                    - admin.animal_species
         blocks:
-            - { type: sonata.admin.block.admin_list, position: left }
+            -
+                type: sonata.admin.block.admin_list
+                position: left
+                settings:
+                    groups:
+                        - app.admin.groups.project
+                        - app.admin.groups.sampling
+                        - app.admin.groups.finances
+            -
+                type: sonata.admin.block.admin_list
+                position: right
+                settings:
+                    groups: [sonata_user, sonata_media]
     security:
-        handler: sonata.admin.security.handler.voter
+        handler: sonata.admin.security.handler.role
 
 sonata_block:
     blocks:

@@ -29,6 +29,125 @@ services:
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
 
-    sonata.admin.security.handler.voter:
-        class: App\Security\Handler\VoterSecurityHandler
-        arguments: ["@security.authorization_checker", ['ROLE_SUPER_ADMIN']]
+    # sonata.admin.security.handler.voter:
+        # class: App\Security\Handler\VoterSecurityHandler
+        # arguments: ["@security.authorization_checker", ['ROLE_SUPER_ADMIN']]
+
+    # admin services
+    admin.animal_species:
+        class: App\Admin\AnimalSpeciesAdmin
+        arguments: [~, App\Entity\AnimalSpecies, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, label: 'Animal Species', show_mosiac_button: false }
+        public: true
+
+    admin.contact:
+        class: App\Admin\ContactAdmin
+        arguments: [~, App\Entity\Contact, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, label: 'Contacts', show_mosaic_button: false }
+        public: true
+
+    admin.country:
+        class: App\Admin\CountryAdmin
+        arguments: [~, App\Entity\Country, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, label: 'Countries', show_mosaic_button: true }
+        calls:
+            - [ setTemplate, [outer_list_rows_mosaic, "SonataAdmin/CRUD/Country/list_outer_rows_mosaic.html.twig"] ]
+        public: true
+
+    admin.country_role:
+        class: App\Admin\CountryRoleAdmin
+        arguments: [~, App\Entity\CountryRole, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, label: 'Country Roles', show_mosaic_button: false }
+        public: true
+
+    admin.expenditure:
+        class: App\Admin\ExpenditureAdmin
+        arguments: [~, App\Entity\Expenditure, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, label: 'Expenditures', show_mosaic_button: false }
+        public: true
+
+    admin.organisation:
+        class: App\Admin\OrganisationAdmin
+        arguments: [~, App\Entity\Organisation, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, label: 'Organisations', show_mosaic_button: true }
+        calls:
+            - [ setTemplate, [outer_list_rows_mosaic, "SonataAdmin/CRUD/Organisation/list_outer_rows_mosaic.html.twig"] ]
+        public: true
+
+    admin.partnership:
+        class: App\Admin\PartnershipAdmin
+        arguments: [~, App\Entity\Partnership, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, label: 'Partnerships', show_mosaic_button: false }
+        public: true
+
+    admin.partnership_type:
+        class: App\Admin\PartnershipTypeAdmin
+        arguments: [~, App\Entity\PartnershipType, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, label: 'Partnership types', show_mosaic_button: false }
+        public: true
+
+    admin.project:
+        class: App\Admin\ProjectAdmin
+        arguments: [~, App\Entity\Project, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, label: 'Projects', show_mosaic_button: false }
+        public: true
+
+    admin.sdg:
+        class: App\Admin\SDGAdmin
+        arguments: [~, App\Entity\SDG, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, label: 'Sustainable Development Goals', show_mosaic_button: true }
+        public: true
+
+    admin.sdg_role:
+        class: App\Admin\SDGRoleAdmin
+        arguments: [~, App\Entity\SDGRole, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, label: 'Sustainable Development Goals Roles', show_mosaic_button: false }
+        public: true
+
+    admin.sampling_activity:
+        class: App\Admin\SamplingActivityAdmin
+        arguments: [~, App\Entity\SamplingActivity, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, label: 'Sampling Activities', show_mosaic_button: false }
+        calls:
+            - [ addChild, ['@admin.sampling_documentation'] ]
+        public: true
+
+    admin.sampling_document_type:
+        class: App\Admin\SamplingDocumentTypeAdmin
+        arguments: [~, App\Entity\SamplingDocumentType, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, label: 'Sampling Document Types', show_mosaic_button: false }
+        public: true
+
+    admin.sampling_documentation:
+        class: App\Admin\SamplingDocumentationAdmin
+        arguments: [~, App\Entity\SamplingDocumentation, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, label: 'Sampling Documentations', show_mosaic_button: false }
+        public: true
+
+    admin.staff_member:
+        class: App\Admin\StaffMemberAdmin
+        arguments: [~, App\Entity\StaffMember, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, label: 'Staff', show_mosaic_button: false }
+        public: true
+
+    admin.staff_role:
+        class: App\Admin\StaffRoleAdmin
+        arguments: [~, App\Entity\StaffRole, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, label: 'Staff Roles', show_mosaic_button: false }
+        public: true
