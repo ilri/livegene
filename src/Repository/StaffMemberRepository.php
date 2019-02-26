@@ -2,25 +2,25 @@
 
 namespace App\Repository;
 
-use App\Entity\Staff;
+use App\Entity\StaffMember;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
- * @method Staff|null find($id, $lockMode = null, $lockVersion = null)
- * @method Staff|null findOneBy(array $criteria, array $orderBy = null)
- * @method Staff[]    findAll()
- * @method Staff[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method StaffMember|null find($id, $lockMode = null, $lockVersion = null)
+ * @method StaffMember|null findOneBy(array $criteria, array $orderBy = null)
+ * @method StaffMember[]    findAll()
+ * @method StaffMember[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class StaffRepository extends ServiceEntityRepository
+class StaffMemberRepository extends ServiceEntityRepository
 {
     public function __construct(RegistryInterface $registry)
     {
-        parent::__construct($registry, Staff::class);
+        parent::__construct($registry, StaffMember::class);
     }
 
     // /**
-    //  * @return Staff[] Returns an array of Staff objects
+    //  * @return StaffMember[] Returns an array of Staff objects
     //  */
     /*
     public function findByExampleField($value)

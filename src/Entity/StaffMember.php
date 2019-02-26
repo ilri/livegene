@@ -14,7 +14,7 @@ use App\Entity\Traits\PersonTrait;
 
 /**
  * @ApiResource()
- * @ORM\Entity(repositoryClass="App\Repository\StaffRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\StaffMemberRepository")
  * @ORM\Table(name="app_staff_member")
  * @UniqueEntity("username")
  * @UniqueEntity("email")
