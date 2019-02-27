@@ -1,0 +1,14 @@
+{% extends '@SonataAdmin/CRUD/list_outer_rows_mosaic.html.twig' %}
+
+{% block sonata_mosaic_background %}
+    <p style="text-align: center; margin-top: 2em; background-color: #f9f9f9;">
+        <span class="flag-icon flag-icon-{{ object.country|lower }}" style="font-size:5em;"></span>
+    </p>
+{% endblock %}
+
+{% block sonata_mosaic_hover_view %}
+    <span class="mosaic-box-label label label-primary pull-right">#{{ admin.id(object) }}</span>
+    <p style="text-align: center; margin-top: 1em; background-color: #f9f9f9;">
+        <span class="flag-icon flag-icon-{{ object.country|lower }}" style="font-size:6em;"></span>
+    </p>
+{% endblock %}

@@ -1,0 +1,7 @@
+{% extends '@SonataAdmin/CRUD/base_list_field.html.twig' %}
+
+{% block field %}
+    <div style="background-color:{{ value }}; min-height:100%; min-width:100%; text-align:center;">
+        <span style="vertical-align:middle;font-weight:700;">{{ value }}</span>
+    </div>
+{% endblock %}

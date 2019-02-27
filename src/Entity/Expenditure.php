@@ -59,11 +59,17 @@ class Expenditure
 
     /**
      * @ORM\Column(type="integer", nullable=true, options={"unsigned": true})
+     * @Assert\Range(
+     *     min=0
+     * )
      */
     private $totalBudget;
 
     /**
      * @ORM\Column(type="integer", nullable=true, options={"unsigned": true})
+     * @Assert\Range(
+     *     min=0
+     * )
      */
     private $amount;
 

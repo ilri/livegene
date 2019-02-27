@@ -1,0 +1,9 @@
+{% extends '@SonataAdmin/CRUD/base_show_field.html.twig' %}
+
+{% block field %}
+    <div>
+        <a href="{% path object.document, 'reference' %}">
+            <img src="{% path object.document, 'admin' %}" alt="thumbnail">
+        </a>
+    </div>
+{% endblock %}

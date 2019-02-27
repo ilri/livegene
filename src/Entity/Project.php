@@ -88,6 +88,9 @@ class Project
 
     /**
      * @ORM\Column(type="integer", options={"unsigned": true})
+     * @Assert\Range(
+     *     min=1
+     * )
      */
     private $totalProjectValue;
 
@@ -97,6 +100,9 @@ class Project
      *     "this.getTotalIlriValue() <= this.getTotalProjectValue()",
      *     message="The total ILRI value must not exceed the total project value."
      * )
+     * @Assert\Range(
+     *     min=1
+     * )
      */
     private $totalIlriValue;
 
@@ -105,6 +111,9 @@ class Project
      * @Assert\Expression(
      *     "this.getTotalLivegeneValue() <= this.getTotalProjectValue()",
      *     message="The total LiveGene value must not exceed the total project value."
+     * )
+     * @Assert\Range(
+     *     min=1
      * )
      */
     private $totalLivegeneValue;
@@ -222,12 +231,12 @@ class Project
         return $this;
     }
 
-    public function getPrincipalInvestigator(): ?Staff
+    public function getPrincipalInvestigator(): ?StaffMember
     {
         return $this->principalInvestigator;
     }
 
-    public function setPrincipalInvestigator(?Staff $principalInvestigator): self
+    public function setPrincipalInvestigator(?StaffMember $principalInvestigator): self
     {
         $this->principalInvestigator = $principalInvestigator;
 

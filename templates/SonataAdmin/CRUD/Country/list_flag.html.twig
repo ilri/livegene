@@ -1,0 +1,8 @@
+{% extends '@SonataAdmin/CRUD/base_list_field.html.twig' %}
+
+{% block field %}
+    <div style="height: 3em; max-height:3em; width:100%; min-width:100%; text-align: center;">
+        <span class="flag-icon flag-icon-{{ object.country|lower }}" style="font-size:3em;"></span>
+    </div>
+{% endblock %}
+
