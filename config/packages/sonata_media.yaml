@@ -1,6 +1,7 @@
 sonata_media:
     db_driver: doctrine_orm
     default_context: default
+    admin_format: { width: 64, quality: ~, format: ~ }
     contexts:
         default:
             download:
