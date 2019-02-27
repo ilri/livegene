@@ -15,10 +15,12 @@ class CountryAdmin extends AbstractAdmin
 {
     protected function configureListFields(ListMapper $listMapper)
     {
-        if ($mode = $this->request->query->get('_list_mode')) {
-            $this->setListMode($mode);
-        } else {
-            $this->setListMode('mosaic');
+        if ($this->hasRequest()) {
+            if ($mode = $this->request->query->get('_list_mode')) {
+                $this->setListMode($mode);
+            } else {
+                $this->setListMode('mosaic');
+            }
         }
 
         $listMapper

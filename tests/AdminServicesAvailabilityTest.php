@@ -74,5 +74,6 @@ class AdminServicesAvailabilityTest extends WebTestCase
             yield ["/admin/app/$service/list"];
             yield ["/admin/app/$service/create"];
         }
+        yield["/admin/search"];
     }
 }
