@@ -9,7 +9,11 @@ use Sonata\AdminBundle\Datagrid\{
 };
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Show\ShowMapper;
-use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\{
+    EmailType,
+    IntegerType
+};
+use Sonata\Form\Type\CollectionType;
 
 class StaffMemberAdmin extends AbstractAdmin
 {
@@ -23,12 +27,12 @@ class StaffMemberAdmin extends AbstractAdmin
             ->add('lastName')
             ->add('homeProgram')
             ->add('email')
-            ->add('_action', 'actions', array(
-                'actions' => array(
-                    'show' => array(),
-                    'edit' => array(),
-                )
-        ))
+            ->add('_action', 'actions', [
+                'actions' => [
+                    'show' => [],
+                    'edit' => [],
+                ]
+            ])
         ;
     }
 
@@ -45,12 +49,37 @@ class StaffMemberAdmin extends AbstractAdmin
     protected function configureFormFields(FormMapper $formMapper)
     {
         $formMapper
-            ->add('username')
-            ->add('firstName')
-            ->add('lastName')
-            ->add('homeProgram')
-            ->add('email', EmailType::class)
+            ->with('Main', [
+                'class' => 'col-md-4'
+            ])
+                ->add('username')
+                ->add('firstName')
+                ->add('lastName')
+                ->add('homeProgram')
+                ->add('email', EmailType::class)
+            ->end()
         ;
+
+        // roles can be added only to an existing StaffMember
+        if ($this->getSubject()->getId()) {
+            $formMapper
+                ->with('Roles', [
+                    'class' => 'col-md-8'
+                ])
+                    ->add('staffRoles', CollectionType::class, [
+                        'by_reference' => false,
+                    ], [
+                        'edit' => 'inline',
+                        'inline' => 'table',
+
+                    ])
+                    ->add('totalRolesPercent', IntegerType::class, [
+                        'required' => false,
+                        'disabled' => true,
+                    ])
+                ->end()
+            ;
+        }
     }
 
     protected function configureShowFields(ShowMapper $showMapper)
@@ -61,6 +90,7 @@ class StaffMemberAdmin extends AbstractAdmin
             ->add('lastName')
             ->add('homeProgram')
             ->add('email')
+            ->add('totalRolesPercent')
         ;
     }
 }

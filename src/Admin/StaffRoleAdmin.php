@@ -10,7 +10,11 @@ use Sonata\AdminBundle\Datagrid\{
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\AdminBundle\Form\Type\ModelListType;
-use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\{
+    CheckboxType,
+    IntegerType,
+    HiddenType
+};
 
 class StaffRoleAdmin extends AbstractAdmin
 {
@@ -41,8 +45,47 @@ class StaffRoleAdmin extends AbstractAdmin
     protected function configureFormFields(FormMapper $formMapper)
     {
         $formMapper
-            ->add('project', ModelListType::class)
-            ->add('staffMember', ModelListType::class)
+            ->add('project', ModelListType::class, [
+                'btn_add' => false,
+                'btn_edit' => false,
+                'btn_delete' => false,
+            ])
+            ;
+
+        // get the subject id
+        // if it is a new subject the id is null
+        $id = $this->id($this->getSubject());
+
+        // if it is an existing subject add the field project.isActive
+        // otherwise add a dummy hidden field to keep the table layout
+        if (null !== $id) {
+            $formMapper
+                ->add('project.isActive', CheckboxType::class, [
+                    'required' => false,
+                    'disabled' => true,
+                    'label' => 'Project is active'
+                ])
+            ;
+        } else {
+            $formMapper
+                ->add('dummy', HiddenType::class, [
+                    'mapped' => false,
+                    'required' => false,
+                    'disabled' => true,
+                    'label' => 'Project is active'
+                ])
+            ;
+        }
+
+        // if it is nested within a parent StaffMemberAdmin this field
+        // should not be displayed
+        if (!$this->hasParentFieldDescription()) {
+            $formMapper
+                ->add('staffMember', ModelListType::class)
+            ;
+        }
+
+        $formMapper
             ->add('percent', IntegerType::class, [
                 'attr' => [
                     'min' => 0,

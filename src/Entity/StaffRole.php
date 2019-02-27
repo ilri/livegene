@@ -6,6 +6,7 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use App\Validator\Constraints as AppAssert;
 use App\Entity\Traits\RoleTrait;
 
 /**
@@ -15,7 +16,8 @@ use App\Entity\Traits\RoleTrait;
  *     name="app_staff_role",
  *     uniqueConstraints={@ORM\UniqueConstraint(name="project_staff_member", columns={"project_id", "staff_member_id"})}
  * )
- * @UniqueEntity({"project", "staff_member"})
+ * @UniqueEntity({"project", "staffMember"})
+ * @AppAssert\Percent()
  */
 class StaffRole
 {

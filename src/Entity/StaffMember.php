@@ -56,6 +56,7 @@ class StaffMember
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\StaffRole", mappedBy="staffMember", cascade={"persist", "remove"})
+     * @Assert\Valid()
      */
     private $staffRoles;
 
