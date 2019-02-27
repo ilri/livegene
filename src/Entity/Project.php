@@ -549,4 +549,10 @@ class Project
 
         return $totalPercent;
     }
+
+    public function getIsActive(): bool
+    {
+        $now = new \DateTime();
+        return $this->endDate >= $now && $this->startDate <= $now;
+    }
 }

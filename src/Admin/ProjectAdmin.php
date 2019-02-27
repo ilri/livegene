@@ -28,6 +28,7 @@ class ProjectAdmin extends AbstractAdmin
                 'template' => 'SonataAdmin/CRUD/Project/list_full_name.html.twig'
             ])
             ->add('team')
+            ->add('isActive', 'boolean')
             ->add('_action', 'actions', [
                 'actions' => [
                     'show' => [],
@@ -144,6 +145,7 @@ class ProjectAdmin extends AbstractAdmin
                 ->add('team')
                 ->add('startDate')
                 ->add('endDate')
+                ->add('isActive', 'boolean')
                 ->add('status')
                 ->add('capacityDevelopment')
             ->end()
