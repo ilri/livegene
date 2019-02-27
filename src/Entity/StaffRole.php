@@ -42,6 +42,14 @@ class StaffRole
      */
     private $staffMember;
 
+    public function __toString()
+    {
+        return $this->id
+            ? sprintf('%s - %s', $this->staffMember, $this->project)
+            : ''
+        ;
+    }
+
     public function getId(): ?int
     {
         return $this->id;

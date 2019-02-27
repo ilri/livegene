@@ -161,6 +161,14 @@ class Project
         $this->sdgRoles = new ArrayCollection();
     }
 
+    public function __toString()
+    {
+        return $this->id
+            ? sprintf('%s - %s', $this->ilriCode, $this->shortName)
+            : ''
+        ;
+    }
+
     public function getId(): ?int
     {
         return $this->id;

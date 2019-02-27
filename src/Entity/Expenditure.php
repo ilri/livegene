@@ -67,6 +67,14 @@ class Expenditure
      */
     private $amount;
 
+    public function __toString()
+    {
+        return $this->id
+            ? sprintf('%s - %s', $this->ilriCode, $this->reportDate->format('Y-m-d H:i:s'))
+            : ''
+        ;
+    }
+
     public function getId(): ?int
     {
         return $this->id;

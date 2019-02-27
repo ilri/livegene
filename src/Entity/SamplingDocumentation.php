@@ -42,6 +42,11 @@ class SamplingDocumentation
      */
     private $document;
 
+    public function __toString()
+    {
+        return $this->id ? $this->document : '';
+    }
+
     public function getId(): ?int
     {
         return $this->id;

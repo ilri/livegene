@@ -56,6 +56,11 @@ class Country
         $this->countryRoles = new ArrayCollection();
     }
 
+    public function __toString()
+    {
+        return $this->id ? $this->getCountryName() : '';
+    }
+
     public function getId(): ?int
     {
         return $this->id;

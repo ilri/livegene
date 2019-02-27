@@ -42,6 +42,14 @@ class SDGRole
      */
     private $sdg;
 
+    public function __toString()
+    {
+        return $this->id
+            ? sprintf('%s - %s', $this->project, $this->sdg)
+            : ''
+        ;
+    }
+
     public function getId(): ?int
     {
         return $this->id;

@@ -49,6 +49,11 @@ class AnimalSpecies
         $this->samplingActivities = new ArrayCollection();
     }
 
+    public function __toString()
+    {
+        return $this->id ? sprintf('%s (%s)', $this->commonName, $this->scientificName) : '';
+    }
+
     public function getId(): ?int
     {
         return $this->id;

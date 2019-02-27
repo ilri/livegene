@@ -83,6 +83,14 @@ class Organisation
         $this->samplingActivities = new ArrayCollection();
     }
 
+    public function __toString()
+    {
+        return $this->id
+            ? sprintf('%s (%s)', $this->fullName, $this->shortName)
+            : ''
+        ;
+    }
+
     public function getId(): ?int
     {
         return $this->id;

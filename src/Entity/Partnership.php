@@ -74,6 +74,14 @@ class Partnership
         $this->contacts = new ArrayCollection();
     }
 
+    public function __toString()
+    {
+        return $this->id
+            ? sprintf('%s - %s', $this->project, $this->partner)
+            : ''
+        ;
+    }
+
     public function getId(): ?int
     {
         return $this->id;

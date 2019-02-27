@@ -53,6 +53,14 @@ class Contact
         $this->partnerships = new ArrayCollection();
     }
 
+    public function __toString()
+    {
+        return $this->id
+            ? trim(sprintf('%s %s %s', $this->title, $this->firstName, $this->lastName))
+            : ''
+        ;
+    }
+
     public function getId(): ?int
     {
         return $this->id;

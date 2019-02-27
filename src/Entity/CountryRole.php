@@ -42,6 +42,14 @@ class CountryRole
      */
     private $country;
 
+    public function __toString()
+    {
+        return $this->id
+            ? sprintf('%s - %s', $this->project, $this->country)
+            : ''
+        ;
+    }
+
     public function getId(): ?int
     {
         return $this->id;

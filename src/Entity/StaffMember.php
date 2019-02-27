@@ -65,6 +65,14 @@ class StaffMember
         $this->staffRoles = new ArrayCollection();
     }
 
+    public function __toString()
+    {
+        return $this->id
+            ? sprintf('%s %s', $this->firstName, $this->lastName)
+            : ''
+        ;
+    }
+
     public function getId(): ?int
     {
         return $this->id;

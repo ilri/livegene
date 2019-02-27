@@ -89,6 +89,11 @@ class SamplingActivity
         $this->samplingDocumentations = new ArrayCollection();
     }
 
+    public function __toString()
+    {
+        return $this->id ? $this->description : '';
+    }
+
     public function getId(): ?int
     {
         return $this->id;
