@@ -17,9 +17,9 @@ use App\Validator\Constraints as AppAssert;
  * @ORM\Entity(repositoryClass="App\Repository\PartnershipRepository")
  * @ORM\Table(
  *     name="app_partnership",
- *     uniqueConstraints={@ORM\UniqueConstraint(name="project_partner", columns={"project_id", "partner_id"})}
+ *     uniqueConstraints={@ORM\UniqueConstraint(name="project_partner", columns={"project_id", "partner_id", "partnership_type_id"})}
  * )
- * @UniqueEntity({"project", "partner"})
+ * @UniqueEntity({"project", "partner", "partnershipType"})
  * @AppAssert\StartDateBeforeEndDate()
  * @AppAssert\ChildDateRangeWithinParentDateRange()
  */
