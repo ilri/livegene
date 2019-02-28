@@ -177,19 +177,21 @@ class StaffMember
         return $this;
     }
 
+    /**
+     * Get the total percent sum for all staff roles.
+     * The function array_reduce accepts array as first argument.
+     * The collection staffRoles has to be therefore converted to array.
+     * In the callback function the sum is calculated.
+     */
     public function getTotalRolesPercent(): int
     {
-        $totalPercent = 0;
-
-        if (!$this->id) {
-            return $totalPercent;
-        }
-
-        $roles = $this->getStaffRoles();
-        foreach ($roles as $role) {
-            $totalPercent += $role->getPercent();
-        }
-
-        return $totalPercent;
+        return array_reduce(
+            $this->getStaffRoles()->toArray(),
+            function($carry, $item) {
+                $carry += $item->getPercent();
+                return $carry;
+            },
+            0
+        );
     }
 }
