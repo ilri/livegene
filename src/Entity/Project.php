@@ -522,34 +522,24 @@ class Project
 
     public function getTotalCountryRolesPercent(): int
     {
-        $totalPercent = 0;
-
-        if (!$this->id) {
-            return $totalPercent;
-        }
-
-        $roles = $this->getCountryRoles();
-        foreach ($roles as $role) {
-            $totalPercent += $role->getPercent();
-        }
-
-        return $totalPercent;
+        return $this->calculateTotalPercent($this->getCountryRoles()->toArray());
     }
 
     public function getTotalSDGRolesPercent(): int
     {
-        $totalPercent = 0;
+        return $this->calculateTotalPercent($this->getSDGRoles()->toArray());
+    }
 
-        if (!$this->id) {
-            return $totalPercent;
-        }
-
-        $roles = $this->getSDGRoles();
-        foreach ($roles as $role) {
-            $totalPercent += $role->getPercent();
-        }
-
-        return $totalPercent;
+    private function calculateTotalPercent(array $roles): int
+    {
+        return array_reduce(
+            $roles,
+            function($carry, $item) {
+                $carry += $item->getPercent();
+                return $carry;
+            },
+            0
+        );
     }
 
     public function getIsActive(): bool
