@@ -10,13 +10,6 @@ use App\Entity\StaffRole;
 
 class PercentValidator extends ConstraintValidator
 {
-    private $em;
-
-    public function __construct(EntityManagerInterface $em)
-    {
-        $this->em = $em;
-    }
-
     public function validate($entity, Constraint $constraint)
     {
         /* @var $constraint App\Validator\Constraint\Percent */
@@ -26,8 +19,9 @@ class PercentValidator extends ConstraintValidator
                 $subject = $entity->getStaffMember();
                 $totalPercent = $subject->getTotalRolesPercent();
                 break;
-            case 'App\Entity\SDGROle':
+            case 'App\Entity\SDGRole':
                 $subject = $entity->getProject();
+                dump($subject);
                 $totalPercent = $subject->getTotalSDGRolesPercent();
                 break;
             case 'App\Entity\CountryRole':
