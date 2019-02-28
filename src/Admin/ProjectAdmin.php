@@ -10,10 +10,14 @@ use Sonata\AdminBundle\Datagrid\{
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\DoctrineORMAdminBundle\Filter\DateRangeFilter;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\{
+    DateType,
+    IntegerType
+};
 use Sonata\Form\Type\{
     DateRangePickerType,
-    DatePickerType
+    DatePickerType,
+    CollectionType
 };
 use Sonata\AdminBundle\Form\Type\ModelListType;
 
@@ -130,6 +134,46 @@ class ProjectAdmin extends AbstractAdmin
                 ->end()
             ->end()
         ;
+
+        if ($this->subject->getId()) {
+            $formMapper
+                ->tab('Roles')
+                    ->with('Country roles', [
+                        'class' => 'col-md-6'
+                    ])
+                        ->add('totalCountryRolesPercent', IntegerType::class, [
+                            'label' => 'Total country roles percent',
+                            'required' => false, 
+                            'disabled' => true
+                        ])
+                        ->add('countryRoles', CollectionType::class, [
+                            'label' => 'Country roles',
+                            'by_reference' => false,
+                        ], [
+                            'edit' => 'inline',
+                            'inline' => 'table',
+                        ])
+                    ->end()
+                    ->with('SDG roles', [
+                        'class' => 'col-md-6'
+                    ], [
+                    ])
+                        ->add('totalSDGRolesPercent', IntegerType::class, [
+                            'label' => 'Total SDG roles percent',
+                            'required' => false,
+                            'disabled' => true
+                        ])
+                        ->add('sdgRoles', CollectionType::class, [
+                            'label' => 'SDG roles',
+                            'by_reference' => false,
+                        ], [
+                            'edit' => 'inline',
+                            'inline' => 'table',
+                        ])
+                    ->end()
+                ->end()
+            ;
+        }
     }
 
     protected function configureShowFields(ShowMapper $showMapper)

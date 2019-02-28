@@ -40,8 +40,13 @@ class CountryRoleAdmin extends AbstractAdmin
 
     protected function configureFormFields(FormMapper $formMapper)
     {
+        if (!$this->hasParentFieldDescription()) {
+            $formMapper
+                ->add('project', ModelListType::class)
+            ;
+        }
+
         $formMapper
-            ->add('project', ModelListType::class)
             ->add('country', ModelListType::class)
             ->add('percent', IntegerType::class, [
                 'attr' => [

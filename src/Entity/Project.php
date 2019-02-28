@@ -152,12 +152,14 @@ class Project
     private $staffRoles;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\CountryRole", mappedBy="project", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="App\Entity\CountryRole", mappedBy="project", orphanRemoval=true, cascade={"persist", "remove"})
+     * @Assert\Valid()
      */
     private $countryRoles;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\SDGRole", mappedBy="project", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="App\Entity\SDGRole", mappedBy="project", orphanRemoval=true, cascade={"persist", "remove"})
+     * @Assert\Valid()
      */
     private $sdgRoles;
 
