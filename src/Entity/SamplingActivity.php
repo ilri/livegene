@@ -68,16 +68,19 @@ class SamplingActivity
 
     /**
      * @ORM\Column(type="date")
+     * @Assert\NotBlank()
      */
     private $startDate;
 
     /**
      * @ORM\Column(type="date")
+     * @Assert\NotBlank()
      */
     private $endDate;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\SamplingDocumentation", mappedBy="samplingActivity", cascade={"persist"})
+     * @Assert\Valid()
      */
     private $samplingDocumentations;
 

@@ -20,7 +20,7 @@ class ChildDateRangeWithinParentDateRangeValidator extends ConstraintValidator
     {
         /* @var $constraint App\Validator\Constraint\ChildDateRangeWithinParentDateRange */
 
-        if (null === $entity->getStartDate() || null === $entity->getEndDate()) {
+        if (null === $entity->getStartDate() || null === $entity->getEndDate() || null === $entity->getProject()) {
             return;
         }
 

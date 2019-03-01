@@ -61,11 +61,13 @@ class Project
 
     /**
      * @ORM\Column(type="date")
+     * @Assert\NotBlank()
      */
     private $startDate;
 
     /**
      * @ORM\Column(type="date")
+     * @Assert\NotBlank()
      */
     private $endDate;
 
