@@ -94,7 +94,7 @@ class SamplingActivity
 
     public function __toString()
     {
-        return $this->id ? $this->description : '';
+        return $this->description ?: 'new Sampling Activity';
     }
 
     public function getId(): ?int
@@ -209,7 +209,7 @@ class SamplingActivity
         return $this->startDate;
     }
 
-    public function setStartDate(\DateTimeInterface $startDate): self
+    public function setStartDate(?\DateTimeInterface $startDate): self
     {
         $this->startDate = $startDate;
 
@@ -221,7 +221,7 @@ class SamplingActivity
         return $this->endDate;
     }
 
-    public function setEndDate(\DateTimeInterface $endDate): self
+    public function setEndDate(?\DateTimeInterface $endDate): self
     {
         $this->endDate = $endDate;
 

@@ -37,12 +37,12 @@ class SamplingActivityAdmin extends AbstractAdmin
             ->add('description')
             ->add('startDate')
             ->add('endDate')
-            ->add('_action', 'actions', array(
-                'actions' => array(
-                    'show' => array(),
-                    'edit' => array(),
-                )
-            ))
+            ->add('_action', 'actions', [
+                'actions' => [
+                    'show' => [],
+                    'edit' => [],
+                ]
+            ])
         ;
     }
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
@@ -70,17 +70,18 @@ class SamplingActivityAdmin extends AbstractAdmin
     {
 	    $formMapper
             ->add('project', ModelListType::class)
-            ->add('samplingPartners', null, [
-                'label' => 'Sampling partners',
-                'required' => true
+            ->add('samplingPartners', ModelType::class, [
+                'multiple' => true,
+                'required' => true,
+                'btn_add' => false,
             ])
             ->add('animalSpecies', ModelType::class, [
                 'multiple' => true,
-                'required' => true
+                'required' => true,
             ])
-            ->add('countries', null, [
-                'label' => 'Countries',
-                'required' => true
+            ->add('countries', ModelType::class, [
+                'multiple' => true,
+                'required' => true,
             ])
             ->add('description')
             ->add('startDate', DatePickerType::class, [
@@ -94,10 +95,10 @@ class SamplingActivityAdmin extends AbstractAdmin
         if ($this->subject->getId()) {
             $formMapper
                 ->add('samplingDocumentations', CollectionType::class, [
-                    'by_reference' => false
+                    'by_reference' => false,
                 ], [
                     'edit' => 'inline',
-                    'inline' => 'table'
+                    'inline' => 'table',
                 ])
             ;
         }
