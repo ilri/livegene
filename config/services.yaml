@@ -124,7 +124,7 @@ services:
 
     admin.sampling_activity:
         class: App\Admin\SamplingActivityAdmin
-        arguments: [~, App\Entity\SamplingActivity, ~]
+        arguments: [~, App\Entity\SamplingActivity, App\Controller\Admin\SamplingActivityAdminController]
         tags:
             - { name: sonata.admin, manager_type: orm, label: 'Sampling Activities', show_mosaic_button: false }
         calls:
