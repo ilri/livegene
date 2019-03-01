@@ -41,15 +41,19 @@ class ContactAdmin extends AbstractAdmin
     {
         $formMapper
             ->add('title', null, [
-                'required' => false
+                'required' => false,
+                'empty_data' => '',
+
             ])
             ->add('firstName')
             ->add('lastName')
             ->add('email', null, [
-                'required' => false
+                'required' => false,
+                'empty_data' => '',
             ])
             ->add('phone', null, [
-                'required' => false
+                'required' => false,
+                'empty_data' => '',
             ])
         ;
     }
