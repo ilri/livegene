@@ -16,6 +16,8 @@ doctrine:
             collate: utf8mb4_unicode_ci
 
         url: '%env(resolve:DATABASE_URL)%'
+        options:
+            'PRAGMA foreign_keys': 'ON'
         types:
             json: Sonata\Doctrine\Types\JsonType
     orm:
