@@ -2,7 +2,7 @@
 
 {% block field %}
     <div>
-        <a href="{% path object.document, 'reference' %}">
+        <a data-fancybox="pdf" href="{% path object.document, 'reference' %}">
             <img src="{% path object.document, 'admin' %}" alt="thumbnail">
         </a>
     </div>
