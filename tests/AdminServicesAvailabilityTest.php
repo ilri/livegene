@@ -66,7 +66,6 @@ class AdminServicesAvailabilityTest extends WebTestCase
             'sdgrole',
             'samplingactivity',
             'samplingdocumenttype',
-            'samplingdocumentation',
             'staffmember',
             'staffrole',
         ];

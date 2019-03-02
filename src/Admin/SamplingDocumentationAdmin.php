@@ -3,6 +3,7 @@
 namespace App\Admin;
 
 use Sonata\AdminBundle\Admin\AbstractAdmin;
+use Sonata\AdminBundle\Route\RouteCollection;
 use Sonata\AdminBundle\Datagrid\{
     ListMapper,
     DatagridMapper
@@ -14,6 +15,17 @@ use Sonata\MediaBundle\Form\Type\MediaType;
 
 class SamplingDocumentationAdmin extends AbstractAdmin
 {
+    protected $parentAssociationMapping = 'samplingActivity';
+
+    protected function configureRoutes(RouteCollection $collection)
+    {
+        if ($this->isChild()) {
+            return;
+        }
+
+        $collection->clear();
+    }
+
     protected function configureListFields(ListMapper $listMapper)
     {
         $listMapper->addIdentifier('id')

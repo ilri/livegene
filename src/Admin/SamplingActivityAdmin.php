@@ -6,6 +6,7 @@ use Sonata\AdminBundle\Admin\{
     AbstractAdmin,
     AdminInterface
 };
+use Knp\Menu\ItemInterface as MenuItemInterface;
 use Sonata\AdminBundle\Datagrid\{
     ListMapper,
     DatagridMapper
@@ -16,7 +17,6 @@ use Sonata\AdminBundle\Form\Type\{
     ModelType,
     ModelListType
 };
-use Knp\Menu\ItemInterface as MenuItemInterface;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Sonata\CoreBundle\Form\Type\DatePickerType;
 use Sonata\DoctrineORMAdminBundle\Filter\DateRangeFilter;
@@ -27,6 +27,32 @@ use Sonata\Form\Type\{
 
 class SamplingActivityAdmin extends AbstractAdmin
 {
+    protected function configureSideMenu(MenuItemInterface $menu, $action, AdminInterface $childAdmin = null)
+    {
+        if (!$childAdmin && !in_array($action, ['edit', 'show'])) {
+            return;
+        }
+
+        $admin = $this->isChild() ? $this->getParent() : $this;
+        $id = $admin->getRequest()->get('id');
+
+        $menu->addChild('View Sampling Activity', [
+            'uri' => $admin->generateUrl('show', ['id' => $id])
+        ]);
+
+        if ($this->isGranted('EDIT')) {
+            $menu->addChild('Edit Sampling Activity', [
+                'uri' => $admin->generateUrl('edit', ['id' => $id])
+            ]);
+        }
+
+        if ($this->isGranted('LIST')) {
+            $menu->addChild('Manage Sampling Documentations', [
+                'uri' => $admin->generateUrl('admin.sampling_documentation.list', ['id' => $id])
+            ]);
+        }
+    }
+
     protected function configureListFields(ListMapper $listMapper)
     {
         $listMapper->addIdentifier('id')
@@ -45,6 +71,7 @@ class SamplingActivityAdmin extends AbstractAdmin
             ])
         ;
     }
+
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
         $datagridMapper
@@ -115,35 +142,7 @@ class SamplingActivityAdmin extends AbstractAdmin
             ->add('description')
             ->add('startDate')
             ->add('endDate')
-            ->add('samplingDocumentations', null, [
-                'template' => '@SonataAdmin/CRUD/Association/show_many_to_many.html.twig'
-            ])
+            ->add('samplingDocumentations')
         ;
-    }
-
-    protected function configureSideMenu(MenuItemInterface $menu, $action, AdminInterface $childAdmin = null)
-    {
-        if (!$childAdmin && !in_array($action, ['edit', 'show'])) {
-            return;
-        }
-
-        $admin = $this->isChild() ? $this->getParent() : $this;
-        $id = $admin->getRequest()->get('id');
-
-        $menu->addChild('View Sampling Activity', [
-            'uri' => $admin->generateUrl('show', ['id' => $id])
-        ]);
-
-        if ($this->isGranted('EDIT')) {
-            $menu->addChild('Edit Sampling Activity', [
-                'uri' => $admin->generateUrl('edit', ['id' => $id])
-            ]);
-        }
-
-        if ($this->isGranted('LIST')) {
-            $menu->addChild('Manage Sampling Documentations', [
-                'uri' => $admin->generateUrl('admin.sampling_documentation.list', ['id' => $id])
-            ]);
-        }
     }
 }
