@@ -599,6 +599,11 @@
     lodash "^4.17.11"
     to-fast-properties "^2.0.0"
 
+"@fancyapps/fancybox@^3.5.6":
+  version "3.5.6"
+  resolved "https://registry.yarnpkg.com/@fancyapps/fancybox/-/fancybox-3.5.6.tgz#d5e513def9aa18acb5767ce6155dc8a2e430a24a"
+  integrity sha512-Hp83AAWb0uNR7ekGQExGv0fMJEa/0t97Ab1aPk2hopWnKKpFI6acnIssJ2SD2YCBqv5Rb4W+lHDJTtJPRbcqhA==
+
 "@symfony/webpack-encore@^0.22.0":
   version "0.22.4"
   resolved "https://registry.yarnpkg.com/@symfony/webpack-encore/-/webpack-encore-0.22.4.tgz#249609c784706aa3dac9243c55ac4ec667a26d6e"

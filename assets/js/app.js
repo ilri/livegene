@@ -9,6 +9,9 @@
 require('../css/app.css');
 // flag icon css
 require('../../node_modules/flag-icon-css/css/flag-icon.css');
+// fancybox
+require('../../node_modules/@fancyapps/fancybox/dist/jquery.fancybox.css');
+require('../../node_modules/@fancyapps/fancybox/dist/jquery.fancybox.js');
 
 // Need jQuery? Install it with "yarn add jquery", then uncomment to require it.
 // const $ = require('jquery');
