@@ -40,6 +40,16 @@ services:
             - { name: kernel.event_listener, event: kernel.request }
         public: true
 
+    app.event_listener.pdoexception_listener:
+        class: App\EventListener\ModelManagerExceptionResponseListener
+        arguments:
+            - '@session'
+            - '@router'
+            - '@doctrine.orm.entity_manager'
+        tags:
+            - {name: kernel.event_listener, event: kernel.exception}
+        public: true
+
     # admin services
     admin.animal_species:
         class: App\Admin\AnimalSpeciesAdmin
