@@ -8,7 +8,10 @@ use Symfony\Component\Validator\Constraints as Assert;
 use App\Validator\Constraints as AppAssert;
 
 /**
- * @ApiResource()
+ * @ApiResource(
+ *     collectionOperations={"get"={"method"="GET"}},
+ *     itemOperations={"get"={"method"="GET"}},
+ * )
  * @ORM\Entity(repositoryClass="App\Repository\ExpenditureRepository")
  * @ORM\Table(name="app_expenditure")
  * @AppAssert\StartDateBeforeEndDate()
