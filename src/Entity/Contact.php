@@ -3,16 +3,23 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Doctrine\Common\Collections\{
     ArrayCollection,
     Collection
 };
-use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
 use App\Entity\Traits\PersonTrait;
 
 /**
- * @ApiResource()
+ * @ApiResource(
+ *     collectionOperations={"get"={"method"="GET"}},
+ *     itemOperations={"get"={"method"="GET"}},
+ *     attributes={
+ *         "normalization_context"={"groups"={"read"}},
+ *     }
+ * )
  * @ORM\Entity(repositoryClass="App\Repository\ContactRepository")
  * @ORM\Table(name="app_contact")
  */
@@ -24,11 +31,13 @@ class Contact
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     * @Groups({"read"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=20)
+     * @Groups({"read"})
      */
     private $title;
 
@@ -36,12 +45,12 @@ class Contact
      * @ORM\Column(type="string", length=100)
      * @Assert\Email(mode="strict")
      */
-    private $email;
+    private $email = '';
 
     /**
      * @ORM\Column(type="string", length=30)
      */
-    private $phone;
+    private $phone = '';
 
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Partnership", mappedBy="contacts")
