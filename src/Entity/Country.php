@@ -2,18 +2,28 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Annotation\{
+    ApiResource,
+    ApiProperty
+};
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Doctrine\Common\Collections\{
     ArrayCollection,
     Collection
 };
-use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Intl\Intl;
 
 /**
- * @ApiResource()
+ * @ApiResource(
+ *     collectionOperations={"get"={"method"="GET"}},
+ *     itemOperations={"get"={"method"="GET"}},
+ *     attributes={
+ *         "normalization_context"={"groups"={"read"}},
+ *     }
+ * )
  * @ORM\Entity(repositoryClass="App\Repository\CountryRepository")
  * @ORM\Table(name="app_country")
  * @UniqueEntity("country")
@@ -24,6 +34,8 @@ class Country
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     * @ApiProperty(identifier=false)
+     * @Groups({"read"})
      */
     private $id;
 
@@ -31,6 +43,8 @@ class Country
      * @ORM\Column(type="string", length=2, unique=true)
      * @Assert\NotBlank()
      * @Assert\Country()
+     * @ApiProperty(identifier=true)
+     * @Groups({"read"})
      */
     private $country;
 
@@ -46,6 +60,7 @@ class Country
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\CountryRole", mappedBy="country", cascade={"persist", "remove"})
+     * @Groups({"read"})
      */
     private $countryRoles;
 
@@ -78,6 +93,10 @@ class Country
         return $this;
     }
 
+    /**
+     * @ApiProperty()
+     * @Groups({"read"})
+     */
     public function getCountryName()
     {
         return Intl::getRegionBundle()->getCountryName($this->getCountry());
