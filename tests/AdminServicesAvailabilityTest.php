@@ -4,7 +4,7 @@ namespace App\Tests;
 
 use Liip\FunctionalTestBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
-use App\DataFixtures\Tests\UserFixtures;
+use App\DataFixtures\Test\UserFixtures;
 
 class AdminServicesAvailabilityTest extends WebTestCase
 {
@@ -15,7 +15,7 @@ class AdminServicesAvailabilityTest extends WebTestCase
     {
         $this->client = $this->createClient();
         $this->fixtures = $this->loadFixtures([
-            'App\DataFixtures\Tests\UserFixtures',
+            'App\DataFixtures\Test\UserFixtures',
         ])->getReferenceRepository();
     }
 

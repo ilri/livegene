@@ -5,7 +5,7 @@ namespace App\Tests;
 use Liip\FunctionalTestBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\DomCrawler\Crawler;
-use App\DataFixtures\Tests\UserFixtures;
+use App\DataFixtures\Test\UserFixtures;
 
 /**
  * Test that all routes are accessible as anticipated.
@@ -28,9 +28,9 @@ class ApplicationSecurityTest extends WebTestCase
         $this->client = $this->createClient();
         $this->entityManager = $this->getContainer()->get('doctrine')->getManager();
         $this->fixtures = $this->loadFixtures([
-            'App\DataFixtures\Tests\UserFixtures',
-            'App\DataFixtures\Tests\MediaFixtures',
-            'App\DataFixtures\Tests\GalleryFixtures',
+            'App\DataFixtures\Test\UserFixtures',
+            'App\DataFixtures\Test\MediaFixtures',
+            'App\DataFixtures\Test\GalleryFixtures',
         ])->getReferenceRepository();
     }
 

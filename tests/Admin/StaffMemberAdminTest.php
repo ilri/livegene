@@ -4,7 +4,7 @@ namespace App\Tests\Admin;
 
 use Liip\FunctionalTestBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
-use App\DataFixtures\Tests\UserFixtures;
+use App\DataFixtures\Test\UserFixtures;
 
 class StaffMemberAdminTest extends WebTestCase
 {
@@ -37,7 +37,7 @@ class StaffMemberAdminTest extends WebTestCase
     public function testNewStaffMemberFormDoesnotDisplayRoles()
     {
         $fixtures = $this->loadFixtures([
-            'App\DataFixtures\Tests\UserFixtures',
+            'App\DataFixtures\Test\UserFixtures',
         ])->getReferenceRepository();
         $username = $fixtures->getReference('super_admin')->getUsername();
         $this->formLogin($username);
@@ -60,11 +60,11 @@ class StaffMemberAdminTest extends WebTestCase
     public function testExistingStaffMemberWithoutRolesDisplaysEmptyBox()
     {
         $fixtures = $this->loadFixtures([
-            'App\DataFixtures\Tests\UserFixtures',
-            'App\DataFixtures\Tests\CountryFixtures',
-            'App\DataFixtures\Tests\OrganisationFixtures',
-            'App\DataFixtures\Tests\StaffMemberFixtures',
-            'App\DataFixtures\Tests\ProjectFixtures',
+            'App\DataFixtures\Test\UserFixtures',
+            'App\DataFixtures\Test\CountryFixtures',
+            'App\DataFixtures\Test\OrganisationFixtures',
+            'App\DataFixtures\Test\StaffMemberFixtures',
+            'App\DataFixtures\Test\ProjectFixtures',
         ])->getReferenceRepository();
 
         $crawler = $this->existingStaffMemberCanManageRoles($fixtures);
@@ -83,12 +83,12 @@ class StaffMemberAdminTest extends WebTestCase
     public function testExistingStaffMemberWithRolesDisplaysTable()
     {
         $fixtures = $this->loadFixtures([
-            'App\DataFixtures\Tests\UserFixtures',
-            'App\DataFixtures\Tests\CountryFixtures',
-            'App\DataFixtures\Tests\OrganisationFixtures',
-            'App\DataFixtures\Tests\StaffMemberFixtures',
-            'App\DataFixtures\Tests\ProjectFixtures',
-            'App\DataFixtures\Tests\StaffRoleFixtures',
+            'App\DataFixtures\Test\UserFixtures',
+            'App\DataFixtures\Test\CountryFixtures',
+            'App\DataFixtures\Test\OrganisationFixtures',
+            'App\DataFixtures\Test\StaffMemberFixtures',
+            'App\DataFixtures\Test\ProjectFixtures',
+            'App\DataFixtures\Test\StaffRoleFixtures',
         ])->getReferenceRepository();
 
         $crawler = $this->existingStaffMemberCanManageRoles($fixtures);

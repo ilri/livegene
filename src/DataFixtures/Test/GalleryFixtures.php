@@ -1,6 +1,6 @@
 <?php
 
-namespace App\DataFixtures\Tests;
+namespace App\DataFixtures\Test;
 
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
