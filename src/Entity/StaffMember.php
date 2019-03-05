@@ -2,18 +2,28 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Annotation\{
+    ApiResource,
+    ApiProperty
+};
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Doctrine\Common\Collections\{
     ArrayCollection,
     Collection
 };
-use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use App\Entity\Traits\PersonTrait;
 
 /**
- * @ApiResource()
+ * @ApiResource(
+ *     collectionOperations={"get"={"method"="GET", "path"="/staff"}},
+ *     itemOperations={"get"={"method"="GET", "path"="/staff/{id}", "requirements"={"id"="[a-z]+"}}},
+ *     attributes={
+ *         "normalization_context"={"groups"={"read"}},
+ *     }
+ * )
  * @ORM\Entity(repositoryClass="App\Repository\StaffMemberRepository")
  * @ORM\Table(name="app_staff_member")
  * @UniqueEntity("username")
@@ -27,12 +37,16 @@ class StaffMember
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     * @ApiProperty(identifier=false)
+     * @Groups({"read"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=15, unique=true)
      * @Assert\NotBlank()
+     * @ApiProperty(identifier=true)
+     * @Groups({"read"})
      */
     private $username;
 
@@ -40,12 +54,14 @@ class StaffMember
      * @ORM\Column(type="string", length=100, unique=true)
      * @Assert\NotBlank()
      * @Assert\Email(mode="strict")
+     * @Groups({"read"})
      */
     private $email;
 
     /**
      * @ORM\Column(type="string", length=30)
      * @Assert\NotBlank()
+     * @Groups({"read"})
      */
     private $homeProgram;
 
@@ -182,6 +198,8 @@ class StaffMember
      * The function array_reduce accepts array as first argument.
      * The collection staffRoles has to be therefore converted to array.
      * In the callback function the sum is calculated.
+     *
+     * @Groups({"read"})
      */
     public function getTotalRolesPercent(): int
     {
