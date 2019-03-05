@@ -3,16 +3,23 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Doctrine\Common\Collections\{
     ArrayCollection,
     Collection
 };
-use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
- * @ApiResource()
+ * @ApiResource(
+ *     collectionOperations={"get"={"method"="GET", "path"="/sdgs"}},
+ *     itemOperations={"get"={"method"="GET", "path"="/sdgs/{id}", "requirements"={"id"="\d+"}}},
+ *     attributes={
+ *         "normalization_context"={"groups"={"read"}},
+ *     }
+ * )
  * @ORM\Entity(repositoryClass="App\Repository\SDGRepository")
  * @ORM\Table(name="app_sdg")
  * @UniqueEntity("headline")
@@ -27,24 +34,28 @@ class SDG
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     * @Groups({"read"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=50, unique=true)
      * @Assert\NotBlank()
+     * @Groups({"read"})
      */
     private $headline;
 
     /**
      * @ORM\Column(type="string", length=200, unique=true)
      * @Assert\NotBlank()
+     * @Groups({"read"})
      */
     private $fullName;
 
     /**
      * @ORM\Column(type="string", length=7, unique=true)
      * @Assert\NotBlank()
+     * @Groups({"read"})
      */
     private $color;
 
@@ -52,6 +63,7 @@ class SDG
      * @ORM\Column(type="string", length=255, unique=true)
      * @Assert\NotBlank()
      * @Assert\Url()
+     * @Groups({"read"})
      */
     private $link;
 
@@ -59,6 +71,7 @@ class SDG
      * @ORM\Column(type="string", length=255, unique=true)
      * @Assert\NotBlank()
      * @Assert\Url()
+     * @Groups({"read"})
      */
     private $logoUrl;
 
