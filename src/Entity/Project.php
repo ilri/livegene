@@ -3,17 +3,24 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
+use App\Validator\Constraints as AppAssert;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Doctrine\Common\Collections\{
     ArrayCollection,
     Collection
 };
-use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-use App\Validator\Constraints as AppAssert;
 
 /**
- * @ApiResource()
+ * @ApiResource(
+ *     collectionOperations={"get"={"method"="GET"}},
+ *     itemOperations={"get"={"method"="GET"}},
+ *     attributes={
+ *         "normalization_context"={"groups"={"read"}},
+ *     }
+ * )
  * @ORM\Entity(repositoryClass="App\Repository\ProjectRepository")
  * @ORM\Table(name="app_project")
  * @UniqueEntity("ilriCode")
@@ -25,30 +32,35 @@ class Project
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     * @Groups({"read"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=20, unique=true)
      * @Assert\NotBlank()
+     * @Groups({"read"})
      */
     private $ilriCode;
 
     /**
      * @ORM\Column(type="string", length=200)
      * @Assert\NotBlank()
+     * @Groups({"read"})
      */
     private $fullName;
 
     /**
      * @ORM\Column(type="string", length=50)
      * @Assert\NotBlank()
+     * @Groups({"read"})
      */
     private $shortName;
 
     /**
      * @ORM\Column(type="string", length=20)
      * @Assert\NotBlank()
+     * @Groups({"read"})
      */
     private $team;
 
@@ -56,18 +68,21 @@ class Project
      * @ORM\ManyToOne(targetEntity="App\Entity\StaffMember", inversedBy="projects")
      * @ORM\JoinColumn(nullable=false)
      * @Assert\NotBlank()
+     * @Groups({"read"})
      */
     private $principalInvestigator;
 
     /**
      * @ORM\Column(type="date")
      * @Assert\NotBlank()
+     * @Groups({"read"})
      */
     private $startDate;
 
     /**
      * @ORM\Column(type="date")
      * @Assert\NotBlank()
+     * @Groups({"read"})
      */
     private $endDate;
 
@@ -75,24 +90,28 @@ class Project
      * @ORM\ManyToOne(targetEntity="App\Entity\Organisation", inversedBy="projects")
      * @ORM\JoinColumn(nullable=false)
      * @Assert\NotBlank()
+     * @Groups({"read"})
      */
     private $donor;
 
     /**
      * @ORM\Column(type="string", length=50)
+     * @Groups({"read"})
      */
-    private $donorReference;
+    private $donorReference = '';
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"read"})
      */
-    private $donorProjectName;
+    private $donorProjectName = '';
 
     /**
      * @ORM\Column(type="integer", options={"unsigned": true})
      * @Assert\Range(
      *     min=1
      * )
+     * @Groups({"read"})
      */
     private $totalProjectValue;
 
@@ -105,6 +124,7 @@ class Project
      * @Assert\Range(
      *     min=1
      * )
+     * @Groups({"read"})
      */
     private $totalIlriValue;
 
@@ -117,6 +137,7 @@ class Project
      * @Assert\Range(
      *     min=1
      * )
+     * @Groups({"read"})
      */
     private $totalLivegeneValue;
 
@@ -126,6 +147,7 @@ class Project
      *     min=0,
      *     max=100
      * )
+     * @Groups({"read"})
      */
     private $status;
 
@@ -135,6 +157,7 @@ class Project
      *    min=0,
      *    max=100
      * )
+     * @Groups({"read"})
      */
     private $capacityDevelopment;
 
@@ -522,11 +545,17 @@ class Project
         return $this;
     }
 
+    /**
+     * @Groups({"read"})
+     */
     public function getTotalCountryRolesPercent(): int
     {
         return $this->calculateTotalPercent($this->getCountryRoles()->toArray());
     }
 
+    /**
+     * @Groups({"read"})
+     */
     public function getTotalSDGRolesPercent(): int
     {
         return $this->calculateTotalPercent($this->getSDGRoles()->toArray());
@@ -544,6 +573,9 @@ class Project
         );
     }
 
+    /**
+     * @Groups({"read"})
+     */
     public function getIsActive(): bool
     {
         $now = new \DateTime();

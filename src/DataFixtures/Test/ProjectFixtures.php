@@ -45,6 +45,6 @@ class ProjectFixtures extends Fixture implements DependentFixtureInterface, Fixt
 
     public static function getGroups(): array
     {
-        return ['sonata_admin'];
+        return ['api', 'sonata_admin'];
     }
 }
