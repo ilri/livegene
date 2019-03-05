@@ -14,11 +14,15 @@ use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 
 class SDGRoleAdmin extends AbstractAdmin
 {
+    protected $classnameLabel = 'Sustainable Development Goal Role';
+
     protected function configureListFields(ListMapper $listMapper)
     {
         $listMapper->addIdentifier('id')
             ->add('project')
-            ->add('sdg')
+            ->add('sdg', null, [
+                'label' => 'SDG',
+            ])
             ->add('percent')
             ->add('_action', 'actions', [
                 'actions' => [
@@ -33,7 +37,9 @@ class SDGRoleAdmin extends AbstractAdmin
     {
         $datagridMapper
             ->add('project')
-            ->add('sdg')
+            ->add('sdg', null, [
+                'label' => 'SDG',
+            ])
             ->add('percent')
         ;
     }
@@ -47,7 +53,9 @@ class SDGRoleAdmin extends AbstractAdmin
         }
 
         $formMapper
-            ->add('sdg', ModelListType::class)
+            ->add('sdg', ModelListType::class, [
+                'label' => 'SDG',
+            ])
             ->add('percent', IntegerType::class, [
                 'attr' => [
                     'min' => 0,
@@ -61,7 +69,9 @@ class SDGRoleAdmin extends AbstractAdmin
     {
         $showMapper
             ->add('project')
-            ->add('sdg')
+            ->add('sdg', null, [
+                'label' => 'SDG',
+            ])
             ->add('percent')
         ;
     }

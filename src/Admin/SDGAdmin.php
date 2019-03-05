@@ -16,6 +16,8 @@ use Symfony\Component\Form\Extension\Core\Type\{
 
 class SDGAdmin extends AbstractAdmin
 {
+    protected $classnameLabel = 'Sustainable Development Goal';
+
     protected function configureListFields(ListMapper $listMapper)
     {
         $listMapper->addIdentifier('id')
