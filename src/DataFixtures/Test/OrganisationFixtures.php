@@ -35,6 +35,6 @@ class OrganisationFixtures extends Fixture implements DependentFixtureInterface,
 
     public static function getGroups(): array
     {
-        return ['sonata_admin'];
+        return ['api', 'sonata_admin'];
     }
 }

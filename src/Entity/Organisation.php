@@ -3,16 +3,23 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Doctrine\Common\Collections\{
     ArrayCollection,
     Collection
 };
-use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
- * @ApiResource()
+ * @ApiResource(
+ *     collectionOperations={"get"={"method"="GET"}},
+ *     itemOperations={"get"={"method"="GET"}},
+ *     attributes={
+ *         "normalization_context"={"groups"={"read"}},
+ *     }
+ * )
  * @ORM\Entity(repositoryClass="App\Repository\OrganisationRepository")
  * @ORM\Table(name="app_organisation")
  * @UniqueEntity("fullName")
@@ -23,41 +30,48 @@ class Organisation
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     * @Groups({"read"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=20)
+     * @Groups({"read"})
      */
-    private $shortName;
+    private $shortName = '';
 
     /**
      * @ORM\Column(type="string", length=200, unique=true)
      * @Assert\NotBlank()
+     * @Groups({"read"})
      */
     private $fullName;
 
     /**
      * @ORM\Column(type="string", length=200)
+     * @Groups({"read"})
      */
-    private $localName;
+    private $localName = '';
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Assert\Url()
+     * @Groups({"read"})
      */
-    private $link;
+    private $link = '';
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Assert\Url()
+     * @Groups({"read"})
      */
-    private $logoUrl;
+    private $logoUrl = '';
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Country", inversedBy="organisations")
      * @ORM\JoinColumn(nullable=false)
      * @Assert\NotBlank()
+     * @Groups({"read"})
      */
     private $country;
 
