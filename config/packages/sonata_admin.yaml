@@ -1,5 +1,6 @@
 sonata_admin:
     title: 'LiveGene'
+    title_logo: '/images/logo.png'
     dashboard:
         groups:
             sonata_user:
