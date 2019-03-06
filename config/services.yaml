@@ -47,8 +47,12 @@ services:
             - '@router'
             - '@doctrine.orm.entity_manager'
         tags:
-            - {name: kernel.event_listener, event: kernel.exception}
+            - { name: kernel.event_listener, event: kernel.exception }
         public: true
+
+    'App\Serializer\Normalizer\SamplingDocumentationNormalizer':
+        decorates: 'api_platform.jsonld.normalizer.item'
+        arguments: [ '@App\Serializer\Normalizer\SamplingDocumentationNormalizer.inner' ]
 
     # admin services
     admin.animal_species:
