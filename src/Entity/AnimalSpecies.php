@@ -31,21 +31,21 @@ class AnimalSpecies
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
-     * @Groups({"read"})
+     * @Groups({"read", "sampling"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=30, unique=true)
      * @Assert\NotBlank()
-     * @Groups({"read"})
+     * @Groups({"read", "sampling"})
      */
     private $commonName;
 
     /**
      * @ORM\Column(type="string", length=50, unique=true)
      * @Assert\NotBlank()
-     * @Groups({"read"})
+     * @Groups({"read", "sampling"})
      */
     private $scientificName;
 

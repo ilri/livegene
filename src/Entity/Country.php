@@ -35,7 +35,7 @@ class Country
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      * @ApiProperty(identifier=false)
-     * @Groups({"read"})
+     * @Groups({"read", "sampling"})
      */
     private $id;
 
@@ -44,7 +44,7 @@ class Country
      * @Assert\NotBlank()
      * @Assert\Country()
      * @ApiProperty(identifier=true)
-     * @Groups({"read"})
+     * @Groups({"read", "sampling"})
      */
     private $country;
 
@@ -94,8 +94,7 @@ class Country
     }
 
     /**
-     * @ApiProperty()
-     * @Groups({"read"})
+     * @Groups({"read", "sampling"})
      */
     public function getCountryName()
     {

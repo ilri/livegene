@@ -3,17 +3,24 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
+use App\Validator\Constraints as AppAssert;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Doctrine\Common\Collections\{
     ArrayCollection,
     Collection
 };
-use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-use App\Validator\Constraints as AppAssert;
 
 /**
- * @ApiResource()
+ * @ApiResource(
+ *     collectionOperations={"get"={"method"="GET"}},
+ *     itemOperations={"get"={"method"="GET"}},
+ *     attributes={
+ *         "normalization_context"={"groups"={"sampling"}},
+ *     }
+ * )
  * @ORM\Entity(repositoryClass="App\Repository\SamplingActivityRepository")
  * @ORM\Table(
  *     name="app_sampling_activity",
@@ -29,6 +36,7 @@ class SamplingActivity
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     * @Groups({"sampling"})
      */
     private $id;
 
@@ -36,6 +44,7 @@ class SamplingActivity
      * @ORM\ManyToOne(targetEntity="App\Entity\Project", inversedBy="samplingActivities")
      * @ORM\JoinColumn(nullable=false)
      * @Assert\NotBlank()
+     * @Groups({"sampling"})
      */
     private $project;
 
@@ -43,6 +52,7 @@ class SamplingActivity
      * @ORM\ManyToMany(targetEntity="App\Entity\Organisation", inversedBy="samplingActivities")
      * @ORM\JoinTable(name="app_sampling_activity_organisation")
      * @Assert\Count(min=1)
+     * @Groups({"sampling"})
      */
     private $samplingPartners;
 
@@ -50,6 +60,7 @@ class SamplingActivity
      * @ORM\ManyToMany(targetEntity="App\Entity\AnimalSpecies", inversedBy="samplingActivities")
      * @ORM\JoinTable(name="app_sampling_activity_animal_species")
      * @Assert\Count(min=1)
+     * @Groups({"sampling"})
      */
     private $animalSpecies;
 
@@ -57,24 +68,28 @@ class SamplingActivity
      * @ORM\ManyToMany(targetEntity="App\Entity\Country", inversedBy="samplingActivities")
      * @ORM\JoinTable(name="app_sampling_activity_country")
      * @Assert\Count(min=1)
+     * @Groups({"sampling"})
      */
     private $countries;
 
     /**
      * @ORM\Column(type="string", length=200)
      * @Assert\NotBlank()
+     * @Groups({"sampling"})
      */
     private $description;
 
     /**
      * @ORM\Column(type="date")
      * @Assert\NotBlank()
+     * @Groups({"sampling"})
      */
     private $startDate;
 
     /**
      * @ORM\Column(type="date")
      * @Assert\NotBlank()
+     * @Groups({"sampling"})
      */
     private $endDate;
 
