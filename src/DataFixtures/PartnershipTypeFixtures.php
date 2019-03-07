@@ -26,6 +26,8 @@ class PartnershipTypeFixtures extends Fixture implements FixtureGroupInterface
         }
 
         $manager->flush();
+
+        $this->addReference('partnership-type', $partnershipType);
     }
 
     public static function getGroups(): array

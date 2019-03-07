@@ -3,17 +3,20 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
+use App\Validator\Constraints as AppAssert;
 use Doctrine\Common\Collections\{
     ArrayCollection,
     Collection
 };
-use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-use App\Validator\Constraints as AppAssert;
 
 /**
- * @ApiResource()
+ * @ApiResource(
+ *     collectionOperations={"get"={"method"="GET"}},
+ *     itemOperations={"get"={"method"="GET"}},
+ * )
  * @ORM\Entity(repositoryClass="App\Repository\PartnershipRepository")
  * @ORM\Table(
  *     name="app_partnership",
