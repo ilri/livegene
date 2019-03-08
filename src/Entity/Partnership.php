@@ -116,7 +116,7 @@ class Partnership
 
     public function getStartDate(): ?\DateTimeInterface
     {
-        if ($this->id) {
+        if ($this->getProject()) {
             return $this->startDate ?: $this->project->getStartDate();
         }
 
@@ -132,7 +132,7 @@ class Partnership
 
     public function getEndDate(): ?\DateTimeInterface
     {
-        if ($this->id) {
+        if ($this->getProject()) {
             return $this->endDate ?: $this->project->getEndDate();
         }
 
