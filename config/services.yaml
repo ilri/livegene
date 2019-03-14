@@ -127,6 +127,8 @@ services:
         arguments: [~, App\Entity\SDG, ~]
         tags:
             - { name: sonata.admin, manager_type: orm, label: 'Sustainable Development Goals', show_mosaic_button: true }
+        calls:
+            - [ setTemplate, [outer_list_rows_mosaic, "SonataAdmin/CRUD/SDG/list_outer_rows_mosaic.html.twig"] ]
         public: true
 
     admin.sdg_role:
