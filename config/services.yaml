@@ -5,8 +5,8 @@
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     locale: 'en'
-    mailer_transport: smtp
-    mailer_user: test
+    mailer_transport: gmail
+    mailer_user: 'ilri.livegene@gmail.com'
 
 services:
     # default configuration for services in *this* file
