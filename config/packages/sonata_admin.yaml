@@ -42,6 +42,11 @@ sonata_admin:
                     - admin.animal_species
         blocks:
             -
+                type: sonata.block.service.template
+                position: left
+                settings:
+                    template: 'SonataAdmin/Block/home.html.twig'
+            -
                 type: sonata.admin.block.admin_list
                 position: left
                 settings:
@@ -68,4 +73,6 @@ sonata_block:
         sonata.admin.block.admin_list:
             contexts: [admin]
         sonata.admin.block.search_result:
+            contexts: [admin]
+        sonata.block.service.template:
             contexts: [admin]
