@@ -12,7 +12,7 @@ use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\AdminBundle\Form\Type\ModelListType;
 use Symfony\Component\Form\Extension\Core\Type\{
     CheckboxType,
-    IntegerType,
+    PercentType,
     HiddenType
 };
 
@@ -23,7 +23,7 @@ class StaffRoleAdmin extends AbstractAdmin
         $listMapper->addIdentifier('id')
             ->add('project')
             ->add('staffMember')
-            ->add('percent')
+            ->add('percent', 'percent')
             ->add('_action', 'actions', [
                 'actions' => [
                     'show' => [],
@@ -86,7 +86,8 @@ class StaffRoleAdmin extends AbstractAdmin
         }
 
         $formMapper
-            ->add('percent', IntegerType::class, [
+            ->add('percent', PercentType::class, [
+                'type' => 'integer',
                 'attr' => [
                     'min' => 0,
                     'max' => 100
@@ -100,7 +101,7 @@ class StaffRoleAdmin extends AbstractAdmin
         $showMapper
             ->add('project')
             ->add('staffMember')
-            ->add('percent')
+            ->add('percent', 'percent')
         ;
     }
 }

@@ -12,7 +12,7 @@ use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\DoctrineORMAdminBundle\Filter\DateRangeFilter;
 use Symfony\Component\Form\Extension\Core\Type\{
     DateType,
-    IntegerType
+    PercentType
 };
 use Sonata\Form\Type\{
     DateRangePickerType,
@@ -141,10 +141,11 @@ class ProjectAdmin extends AbstractAdmin
                     ->with('Country roles', [
                         'class' => 'col-md-6'
                     ])
-                        ->add('totalCountryRolesPercent', IntegerType::class, [
+                        ->add('totalCountryRolesPercent', PercentType::class, [
                             'label' => 'Total country roles percent',
                             'required' => false, 
-                            'disabled' => true
+                            'disabled' => true,
+                            'type' => 'integer'
                         ])
                         ->add('countryRoles', CollectionType::class, [
                             'label' => 'Country roles',
@@ -158,10 +159,11 @@ class ProjectAdmin extends AbstractAdmin
                         'class' => 'col-md-6'
                     ], [
                     ])
-                        ->add('totalSDGRolesPercent', IntegerType::class, [
+                        ->add('totalSDGRolesPercent', PercentType::class, [
                             'label' => 'Total SDG roles percent',
                             'required' => false,
-                            'disabled' => true
+                            'disabled' => true,
+                            'type' => 'integer'
                         ])
                         ->add('sdgRoles', CollectionType::class, [
                             'label' => 'SDG roles',

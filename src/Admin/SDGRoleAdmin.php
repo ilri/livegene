@@ -10,7 +10,7 @@ use Sonata\AdminBundle\Datagrid\{
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\AdminBundle\Form\Type\ModelListType;
-use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\PercentType;
 
 class SDGRoleAdmin extends AbstractAdmin
 {
@@ -23,7 +23,7 @@ class SDGRoleAdmin extends AbstractAdmin
             ->add('sdg', null, [
                 'label' => 'SDG',
             ])
-            ->add('percent')
+            ->add('percent', 'percent')
             ->add('_action', 'actions', [
                 'actions' => [
                     'show' => [],
@@ -56,7 +56,8 @@ class SDGRoleAdmin extends AbstractAdmin
             ->add('sdg', ModelListType::class, [
                 'label' => 'SDG',
             ])
-            ->add('percent', IntegerType::class, [
+            ->add('percent', PercentType::class, [
+                'type' => 'integer',
                 'attr' => [
                     'min' => 0,
                     'max' => 100
@@ -72,7 +73,7 @@ class SDGRoleAdmin extends AbstractAdmin
             ->add('sdg', null, [
                 'label' => 'SDG',
             ])
-            ->add('percent')
+            ->add('percent', 'percent')
         ;
     }
 }

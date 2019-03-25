@@ -11,7 +11,7 @@ use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Symfony\Component\Form\Extension\Core\Type\{
     EmailType,
-    IntegerType
+    PercentType
 };
 use Sonata\Form\Type\CollectionType;
 
@@ -73,9 +73,10 @@ class StaffMemberAdmin extends AbstractAdmin
                         'inline' => 'table',
 
                     ])
-                    ->add('totalRolesPercent', IntegerType::class, [
+                    ->add('totalRolesPercent', PercentType::class, [
                         'required' => false,
                         'disabled' => true,
+                        'type' => 'integer'
                     ])
                 ->end()
             ;
