@@ -15,7 +15,7 @@ class CountryRoleFixtures extends Fixture implements DependentFixtureInterface, 
         $countryRole = new CountryRole();
         $countryRole->setProject($this->getReference('project'));
         $countryRole->setCountry($this->getReference('country'));
-        $countryRole->setPercent(50);
+        $countryRole->setPercent(0.5);
         $manager->persist($countryRole);
 
         $manager->flush();

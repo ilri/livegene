@@ -49,11 +49,8 @@ class CountryRoleAdmin extends AbstractAdmin
         $formMapper
             ->add('country', ModelListType::class)
             ->add('percent', PercentType::class, [
-                'type' => 'integer',
-                'attr' => [
-                    'min' => 0,
-                    'max' => 100
-                ]
+                'type' => 'fractional',
+                'scale' => 2,
             ])
         ;
     }

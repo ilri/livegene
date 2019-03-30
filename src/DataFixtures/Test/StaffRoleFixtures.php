@@ -15,7 +15,7 @@ class StaffRoleFixtures extends Fixture implements DependentFixtureInterface, Fi
         $staffRole = new StaffRole();
         $staffRole->setProject($this->getReference('project'));
         $staffRole->setStaffMember($this->getReference('coyote'));
-        $staffRole->setPercent(50);
+        $staffRole->setPercent(0.5);
         $manager->persist($staffRole);
 
         $manager->flush();

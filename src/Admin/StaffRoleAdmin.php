@@ -87,11 +87,8 @@ class StaffRoleAdmin extends AbstractAdmin
 
         $formMapper
             ->add('percent', PercentType::class, [
-                'type' => 'integer',
-                'attr' => [
-                    'min' => 0,
-                    'max' => 100
-                ]
+                'type' => 'fractional',
+                'scale' => 2
             ])
         ;
     }

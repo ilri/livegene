@@ -16,7 +16,7 @@ class SDGRoleFixtures extends Fixture implements DependentFixtureInterface, Fixt
         $sdgRole = new SDGRole();
         $sdgRole->setProject($this->getReference('project'));
         $sdgRole->setSDG($this->getReference('sdg1'));
-        $sdgRole->setPercent(50);
+        $sdgRole->setPercent(0.5);
         $manager->persist($sdgRole);
 
         $manager->flush();

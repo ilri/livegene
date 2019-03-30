@@ -118,8 +118,8 @@ class StaffMemberAdminTest extends WebTestCase
         // check that the fourth column contains the percent for the staff role
         $percent = $staffRole->getPercent();
         $this->assertSame(
-            (string)$percent,
-            $crawler->filter('table.table.table-bordered tr td')->eq(3)->filter('input[type="number"]')->attr('value')
+            sprintf('%.2f', doubleval($percent) * 100),
+            $crawler->filter('table.table.table-bordered tr td')->eq(3)->filter('input[type="text"]')->attr('value')
         );
 
         // delete the staff role

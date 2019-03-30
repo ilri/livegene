@@ -81,7 +81,7 @@ class CountryRoleAPITest extends WebTestCase
                 'id' => 1,
                 'project' => '/api/projects/1',
                 'country' => '/api/countries/GB',
-                'percent' => 50,
+                'percent' => '0.5',
             ]
         );
     }

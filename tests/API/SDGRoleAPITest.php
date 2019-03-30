@@ -81,7 +81,7 @@ class SDGRoleAPITest extends WebTestCase
                 'id' => 1,
                 'project' => '/api/projects/1',
                 'SDG' => '/api/sdgs/1',
-                'percent' => 50,
+                'percent' => '0.5',
             ]
         );
     }

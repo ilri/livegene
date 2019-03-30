@@ -81,7 +81,7 @@ class StaffRoleAPITest extends WebTestCase
                 'id' => 1,
                 'project' => '/api/projects/1',
                 'staffMember' => '/api/staff/coyote',
-                'percent' => 50,
+                'percent' => '0.5',
             ]
         );
     }

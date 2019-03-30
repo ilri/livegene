@@ -145,7 +145,8 @@ class ProjectAdmin extends AbstractAdmin
                             'label' => 'Total country roles percent',
                             'required' => false, 
                             'disabled' => true,
-                            'type' => 'integer'
+                            'type' => 'fractional',
+                            'scale' => 2
                         ])
                         ->add('countryRoles', CollectionType::class, [
                             'label' => 'Country roles',
@@ -163,7 +164,8 @@ class ProjectAdmin extends AbstractAdmin
                             'label' => 'Total SDG roles percent',
                             'required' => false,
                             'disabled' => true,
-                            'type' => 'integer'
+                            'type' => 'fractional',
+                            'scale' => 2
                         ])
                         ->add('sdgRoles', CollectionType::class, [
                             'label' => 'SDG roles',

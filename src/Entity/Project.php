@@ -548,7 +548,7 @@ class Project
     /**
      * @Groups({"read"})
      */
-    public function getTotalCountryRolesPercent(): int
+    public function getTotalCountryRolesPercent(): float
     {
         return $this->calculateTotalPercent($this->getCountryRoles()->toArray());
     }
@@ -561,12 +561,12 @@ class Project
         return $this->calculateTotalPercent($this->getSDGRoles()->toArray());
     }
 
-    private function calculateTotalPercent(array $roles): int
+    private function calculateTotalPercent(array $roles): float
     {
         return array_reduce(
             $roles,
             function($carry, $item) {
-                $carry += $item->getPercent();
+                $carry += doubleval($item->getPercent());
                 return $carry;
             },
             0

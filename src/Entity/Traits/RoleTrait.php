@@ -8,20 +8,22 @@ use Symfony\Component\Validator\Constraints as Assert;
 trait RoleTrait
 {
     /**
-     * @ORM\Column(type="smallint", options={"unsigned": true})
+     * @ORM\Column(type="decimal", precision=5, scale=4)
      * @Assert\Range(
-     *     min=0,
-     *     max=100
+     *     min=0.00,
+     *     max=1.00,
+     *     minMessage="The minimal allowed value is 0.00%.",
+     *     maxMessage="The maximal allowed value is 100.00%."
      * )
      */
     private $percent;
 
-    public function getPercent(): ?int
+    public function getPercent()
     {
         return $this->percent;
     }
 
-    public function setPercent(int $percent): self
+    public function setPercent($percent): self
     {
         $this->percent = $percent;
 

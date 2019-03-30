@@ -32,10 +32,10 @@ class PercentValidator extends ConstraintValidator
                 return;
         }
 
-        if ($totalPercent > 100) {
+        if ($totalPercent > 1.00) {
             $this->context->buildViolation($constraint->message)
                 ->setParameter('{{ subject }}', $subject)
-                ->setParameter('{{ total }}', $totalPercent)
+                ->setParameter('{{ total }}', $totalPercent * 100)
                 ->atPath('percent')
                 ->addViolation()
             ;
