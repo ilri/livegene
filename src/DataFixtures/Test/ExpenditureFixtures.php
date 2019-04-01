@@ -16,8 +16,8 @@ class ExpenditureFixtures extends Fixture implements FixtureGroupInterface
         $expenditure->setName('Looney Tunes');
         $expenditure->setHomeProgram('ACME');
         $expenditure->setStartDate(new \DateTime('2019-03-01'));
-        $expenditure->setEndDate(new \DateTime('2019-06-30'));
-        $expenditure->setReportDate(new \DateTime('2019-07-01 12:00:00'));
+        $expenditure->setEndDate(new \DateTime('2019-12-31'));
+        $expenditure->setReportDate(new \DateTime('2019-11-01 12:00:00'));
         $expenditure->setTotalBudget(10000);
 
         $manager->persist($expenditure);

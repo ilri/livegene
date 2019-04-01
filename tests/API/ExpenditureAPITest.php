@@ -82,8 +82,8 @@ class ExpenditureAPITest extends WebTestCase
                 'name' => 'Looney Tunes',
                 'homeProgram' => 'ACME',
                 'startDate' => '2019-03-01T00:00:00+00:00',
-                'endDate' => '2019-06-30T00:00:00+00:00',
-                'reportDate' => '2019-07-01T12:00:00+00:00',
+                'endDate' => '2019-12-31T00:00:00+00:00',
+                'reportDate' => '2019-11-01T12:00:00+00:00',
                 'totalBudget' => 10000,
                 'amount' => null
             ]
