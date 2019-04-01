@@ -13,7 +13,7 @@ use Sonata\DoctrineORMAdminBundle\Filter\DateRangeFilter;
 use Symfony\Component\Form\Extension\Core\Type\{
     DateType,
     DateTimeType,
-    IntegerType
+    MoneyType
 };
 use Sonata\Form\Type\{
     DateRangePickerType,
@@ -34,8 +34,12 @@ class ExpenditureAdmin extends AbstractAdmin
             ->add('startDate')
             ->add('endDate')
             ->add('reportDate')
-            ->add('totalBudget')
-            ->add('amount')
+            ->add('totalBudget', 'currency' , [
+                'currency' => '$',
+            ])
+            ->add('amount', 'currency', [
+                'currency' => '$',
+            ])
             ->add('_action', 'actions', [
                 'actions' => [
                     'show' => [],
@@ -85,17 +89,17 @@ class ExpenditureAdmin extends AbstractAdmin
             ->add('reportDate', DateTimePickerType::class, [
                 'format' => DateTimeType::HTML5_FORMAT
             ])
-            ->add('totalBudget', IntegerType::class, [
+            ->add('totalBudget', MoneyType::class, [
                 'required' => false,
-                'attr' => [
-                    'min' => 0
-                ]
+                'currency' => 'USD',
+                'grouping' => true,
+                'scale' => 0,
             ])
-            ->add('amount', IntegerType::class, [
+            ->add('amount', MoneyType::class, [
                 'required' => false,
-                'attr' => [
-                    'min' => 0
-                ]
+                'currency' => 'USD',
+                'grouping' => true,
+                'scale' => 0,
             ])
         ;
     }
@@ -111,8 +115,12 @@ class ExpenditureAdmin extends AbstractAdmin
             ->add('startDate')
             ->add('endDate')
             ->add('reportDate')
-            ->add('totalBudget')
-            ->add('amount')
+            ->add('totalBudget', 'currency', [
+                'currency' => '$',
+            ])
+            ->add('amount', 'currency', [
+                'currency' => '$',
+            ])
         ;
     }
 }

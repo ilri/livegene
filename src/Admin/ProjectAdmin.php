@@ -12,7 +12,8 @@ use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\DoctrineORMAdminBundle\Filter\DateRangeFilter;
 use Symfony\Component\Form\Extension\Core\Type\{
     DateType,
-    PercentType
+    PercentType,
+    MoneyType
 };
 use Sonata\Form\Type\{
     DateRangePickerType,
@@ -60,7 +61,6 @@ class ProjectAdmin extends AbstractAdmin
             ])
             ->add('status')
             ->add('capacityDevelopment')
-            ->add('totalProjectValue')
         ;
     }
 
@@ -115,21 +115,21 @@ class ProjectAdmin extends AbstractAdmin
                     ])
                 ->end()
                 ->with('Project value', ['class' => 'col-md-4'])
-                    ->add('totalProjectValue', null, [
-                        'attr' => [
-                            'min' => 1
-                        ]
+                    ->add('totalProjectValue', MoneyType::class, [
+                        'currency' => 'USD',
+                        'grouping' => true,
+                        'scale' => 0,
                     ])
-                    ->add('totalIlriValue', null, [
+                    ->add('totalIlriValue', MoneyType::class, [
                         'label' => 'Total ILRI value',
-                        'attr' => [
-                            'min' => 1
-                        ]
+                        'currency' => 'USD',
+                        'grouping' => true,
+                        'scale' => 0,
                     ])
-                    ->add('totalLivegeneValue', null, [
-                        'attr' => [
-                            'min' => 1
-                        ]
+                    ->add('totalLivegeneValue', MoneyType::class, [
+                        'currency' => 'USD',
+                        'grouping' => true,
+                        'scale' => 0,
                     ])
                 ->end()
             ->end()
@@ -201,11 +201,16 @@ class ProjectAdmin extends AbstractAdmin
                 ->add('donor')
                 ->add('donorReference')
                 ->add('donorProjectName')
-                ->add('totalProjectValue')
-                ->add('totalIlriValue', null, [
-                    'label' => 'Total ILRI value'
+                ->add('totalProjectValue', 'currency', [
+                    'currency' => '$',
                 ])
-                ->add('totalLivegeneValue')
+                ->add('totalIlriValue', 'currency', [
+                    'label' => 'Total ILRI value',
+                    'currency' => '$',
+                ])
+                ->add('totalLivegeneValue', 'currency', [
+                    'currency' => '$',
+                ])
             ->end()
         ;
     }
