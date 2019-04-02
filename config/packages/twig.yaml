@@ -5,3 +5,4 @@ twig:
     form_themes:
         - '@SonataCore/Form/datepicker.html.twig'
         - '@SonataMedia/Form/media_widgets.html.twig'
+        - 'form/fields.html.twig'

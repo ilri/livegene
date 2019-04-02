@@ -65,6 +65,7 @@ class AdminServicesAvailabilityTest extends WebTestCase
             'sdg',
             'sdgrole',
             'samplingactivity',
+            'samplingdocumentation',
             'samplingdocumenttype',
             'staffmember',
             'staffrole',
@@ -74,5 +75,6 @@ class AdminServicesAvailabilityTest extends WebTestCase
             yield ["/admin/app/$service/create"];
         }
         yield["/admin/search"];
+        yield["/admin/app/samplingdocumentation/create_multiple"];
     }
 }

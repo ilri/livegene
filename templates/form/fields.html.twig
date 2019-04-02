@@ -1,0 +1,74 @@
+{% block multiple_file_widget %}
+<div id="dropzone" class="center-block">
+  <div class="text-center">
+    {{ block('form_widget_simple') }}
+    <p class="help-block">
+      You can drag'n'drop files.
+    </p>
+    <label for="{{ form.vars.id }}" class="btn btn-primary">Choose files</label>
+  </div>
+  <hr class="divider">
+  <div id="overview" class="center-block">
+    <p class="text-center help-block">
+      <span class="files-count">No</span> files selected
+    </p>
+    <ul class="list-group">
+    </ul>
+  </div>
+</div>
+
+<script>
+(function ($) {
+  var id = '{{ form.vars.id }}';
+  var fileinput = document.querySelector('#' + id);
+  $('#' + id).addClass('hidden-file-input');
+
+  var convertFilesizeToKb = function(size) {
+  	return Math.round(size / 1024) + 'kB';
+  }
+
+  var handleFiles = function(files) {
+  	$('#overview > .list-group').html('');
+  	var i, length = files.length;
+    $('.files-count').text(length);
+    for (i = 0; i < length; i++) {
+    	$('#overview > .list-group').append($(
+      	'<li class="list-group-item">'	+
+        	files[i].name +
+          '<span class="badge">' + convertFilesizeToKb(files[i].size) + '</span>' +
+          '<br>' +
+          '<span class="label label-info">' + files[i].type + '</span>' +
+        '</li>'
+      ));
+    }
+  }
+
+  fileinput.addEventListener('change', function(e) {
+  	handleFiles(this.files);
+  }, false);
+
+  $(document).on('dragenter dragover dragleave drop', function(e) {
+  	e.preventDefault();
+  });
+
+	$('#dropzone').on('dragenter dragover dragleave drop', function(e) {
+  	e.preventDefault();
+    e.stopPropagation();
+  });
+
+  $('#dropzone').on('dragenter dragover', function(e) {
+  	$(this).addClass('highlight');
+  });
+
+  $('#dropzone').on('dragleave drop', function(e) {
+  	$(this).removeClass('highlight');
+  });
+
+  document.querySelector('#dropzone').addEventListener('drop', function(e) {
+  	var dt = e.dataTransfer;
+  	var files = dt.files;
+    handleFiles(files);
+  }, false);
+})(jQuery);
+</script>
+{% endblock %}

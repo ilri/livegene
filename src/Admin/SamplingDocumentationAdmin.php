@@ -19,11 +19,33 @@ class SamplingDocumentationAdmin extends AbstractAdmin
 
     protected function configureRoutes(RouteCollection $collection)
     {
-        if ($this->isChild()) {
+        $collection->add('create_multiple');
+    }
+
+    public function configureActionButtons($action, $object = null)
+    {
+        if ($action == 'create_multiple' || $action == 'create') {
             return;
+        } else {
+            $list = parent::configureActionButtons($action, $object);
         }
 
-        $collection->clear();
+        $list['create_multiple']['template'] = 'SonataAdmin/CRUD/SamplingDocumentation/create_multiple_button.html.twig';
+
+        return $list;
+    }
+
+    public function getDashboardActions()
+    {
+        $actions = parent::getDashboardActions();
+
+        $actions['create_multiple'] = [
+            'label' => 'Add many',
+            'url' => $this->generateUrl('create_multiple'),
+            'icon' => 'files-o',
+        ];
+
+        return $actions;
     }
 
     protected function configureListFields(ListMapper $listMapper)

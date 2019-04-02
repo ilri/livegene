@@ -143,8 +143,6 @@ services:
         arguments: [~, App\Entity\SamplingActivity, App\Controller\Admin\SamplingActivityAdminController]
         tags:
             - { name: sonata.admin, manager_type: orm, label: 'Sampling Activities', show_mosaic_button: false }
-        calls:
-            - [ addChild, ['@admin.sampling_documentation'] ]
         public: true
 
     admin.sampling_document_type:
@@ -156,7 +154,7 @@ services:
 
     admin.sampling_documentation:
         class: App\Admin\SamplingDocumentationAdmin
-        arguments: [~, App\Entity\SamplingDocumentation, ~]
+        arguments: [~, App\Entity\SamplingDocumentation, App\Controller\Admin\SamplingDocumentationAdminController]
         tags:
             - { name: sonata.admin, manager_type: orm, label: 'Sampling Documentations', show_mosaic_button: false }
         public: true
@@ -174,3 +172,6 @@ services:
         tags:
             - { name: sonata.admin, manager_type: orm, label: 'Staff Roles', show_mosaic_button: false }
         public: true
+
+    Sonata\Doctrine\Model\ManagerInterface:
+        alias: sonata.media.manager.media

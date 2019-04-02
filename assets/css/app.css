@@ -1,3 +1,27 @@
 body {
     background-color: lightgray;
 }
+
+#dropzone {
+  width: 50%;
+  min-height: 12em;
+  border: 2px dashed blue;
+  border-radius: 0.5em;
+  background-color: #eee;
+}
+
+.hidden-file-input {
+  display: none !important;
+}
+
+#dropzone.highlight {
+  border-color: yellow;
+  background-color: red;
+}
+
+.divider {
+  height: 2px;
+  width: 90%;
+  background-color: maroon;
+}
+

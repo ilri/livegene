@@ -1,0 +1,48 @@
+{% extends '@SonataAdmin/CRUD/base_edit.html.twig' %}
+
+{% block title %}
+    Create multiple
+{% endblock %}
+
+{% block form %}
+    {% form_theme form '@SonataDoctrineORMAdmin/Form/form_admin_fields.html.twig' %}
+    {{ form_start(form) }}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="box box-primary">
+                        <div class="box-header">
+                            <h4 class="box-title">
+                                {{ admin.label }}
+                            </h4>
+                        </div>
+                        <div class="box-body">
+                            <div class="sonata-ba-collapsed-fields">
+                                {{ form_row(form.samplingActivity) }}
+                            </div>
+                            <div class="sonata-ba-collapsed-fields">
+                                {{ form_row(form.samplingDocumentType) }}
+                            </div>
+                            <div class="sonata-ba-collapsed-fields">
+                                {{ form_row(form.files) }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="sonata-ba-form-actions well well-small form-actions">
+                <button id="{{ form.save.vars.id }}"
+                        class="{{ form.save.vars.attr.class }}"
+                        type="submit"
+                        name="{{ form.save.vars.full_name }}">
+                    <i class="fa fa-save" aria-hidden="true"></i>
+                    <i class="fa fa-list" aria-hidden="true"></i>
+                    {{ form.save.vars.label }}
+                </button>
+                {% do form.save.setRendered %}
+            </div>
+        </div>
+    </div>
+    {{ form_end(form) }}
+{% endblock %}
