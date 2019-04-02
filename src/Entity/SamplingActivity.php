@@ -94,7 +94,7 @@ class SamplingActivity
     private $endDate;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\SamplingDocumentation", mappedBy="samplingActivity", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="App\Entity\SamplingDocumentation", mappedBy="samplingActivity", orphanRemoval=true, cascade={"persist"})
      * @Assert\Valid()
      */
     private $samplingDocumentations;
