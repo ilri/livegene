@@ -73,7 +73,7 @@ class SamplingActivity
     private $countries;
 
     /**
-     * @ORM\Column(type="string", length=200)
+     * @ORM\Column(type="string", length=100)
      * @Assert\NotBlank()
      * @Groups({"sampling"})
      */
