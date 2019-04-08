@@ -34,7 +34,6 @@
     },
     "require-dev": {
         "doctrine/doctrine-fixtures-bundle": "^3.1",
-        "easycorp/easy-deploy-bundle": "^1.0",
         "liip/functional-test-bundle": "~2.0@alpha",
         "sonata-project/easy-extends-bundle": "^2.5",
         "symfony/debug-pack": "*",
