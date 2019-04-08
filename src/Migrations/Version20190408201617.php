@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20190408194536 extends AbstractMigration
+final class Version20190408201617 extends AbstractMigration
 {
     public function getDescription() : string
     {
@@ -90,10 +90,10 @@ final class Version20190408194536 extends AbstractMigration
         $this->addSql('CREATE INDEX IDX_E91B73CF166D1F9C ON app_sdg_role (project_id)');
         $this->addSql('DROP INDEX project_description');
         $this->addSql('DROP INDEX IDX_E8649EF6166D1F9C');
-        $this->addSql('CREATE TEMPORARY TABLE __temp__app_sampling_activity AS SELECT id, project_id, description, start_date, end_date FROM app_sampling_activity');
+        $this->addSql('CREATE TEMPORARY TABLE __temp__app_sampling_activity AS SELECT id, project_id, start_date, end_date, description FROM app_sampling_activity');
         $this->addSql('DROP TABLE app_sampling_activity');
         $this->addSql('CREATE TABLE app_sampling_activity (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, project_id INTEGER NOT NULL, start_date DATE NOT NULL, end_date DATE NOT NULL, description VARCHAR(100) NOT NULL, CONSTRAINT FK_E8649EF6166D1F9C FOREIGN KEY (project_id) REFERENCES app_project (id) NOT DEFERRABLE INITIALLY IMMEDIATE)');
-        $this->addSql('INSERT INTO app_sampling_activity (id, project_id, description, start_date, end_date) SELECT id, project_id, description, start_date, end_date FROM __temp__app_sampling_activity');
+        $this->addSql('INSERT INTO app_sampling_activity (id, project_id, start_date, end_date, description) SELECT id, project_id, start_date, end_date, description FROM __temp__app_sampling_activity');
         $this->addSql('DROP TABLE __temp__app_sampling_activity');
         $this->addSql('CREATE UNIQUE INDEX project_description ON app_sampling_activity (project_id, description)');
         $this->addSql('CREATE INDEX IDX_E8649EF6166D1F9C ON app_sampling_activity (project_id)');
@@ -125,10 +125,10 @@ final class Version20190408194536 extends AbstractMigration
         $this->addSql('CREATE INDEX IDX_2A09F9E5F92F3E70 ON app_sampling_activity_country (country_id)');
         $this->addSql('CREATE INDEX IDX_2A09F9E5994540B8 ON app_sampling_activity_country (sampling_activity_id)');
         $this->addSql('DROP INDEX rev_6fb6b85cd06c77978d59fc1bcf67cbbf_idx');
-        $this->addSql('CREATE TEMPORARY TABLE __temp__app_sampling_activity_audit AS SELECT id, rev, project_id, description, start_date, end_date, revtype FROM app_sampling_activity_audit');
+        $this->addSql('CREATE TEMPORARY TABLE __temp__app_sampling_activity_audit AS SELECT id, rev, project_id, start_date, end_date, revtype, description FROM app_sampling_activity_audit');
         $this->addSql('DROP TABLE app_sampling_activity_audit');
         $this->addSql('CREATE TABLE app_sampling_activity_audit (id INTEGER NOT NULL, rev INTEGER NOT NULL, project_id INTEGER DEFAULT NULL, start_date DATE DEFAULT NULL, end_date DATE DEFAULT NULL, revtype VARCHAR(4) NOT NULL COLLATE BINARY, description VARCHAR(100) DEFAULT NULL, PRIMARY KEY(id, rev))');
-        $this->addSql('INSERT INTO app_sampling_activity_audit (id, rev, project_id, description, start_date, end_date, revtype) SELECT id, rev, project_id, description, start_date, end_date, revtype FROM __temp__app_sampling_activity_audit');
+        $this->addSql('INSERT INTO app_sampling_activity_audit (id, rev, project_id, start_date, end_date, revtype, description) SELECT id, rev, project_id, start_date, end_date, revtype, description FROM __temp__app_sampling_activity_audit');
         $this->addSql('DROP TABLE __temp__app_sampling_activity_audit');
         $this->addSql('CREATE INDEX rev_6fb6b85cd06c77978d59fc1bcf67cbbf_idx ON app_sampling_activity_audit (rev)');
         $this->addSql('DROP INDEX UNIQ_6EA62BC0C33F7837');
@@ -160,26 +160,26 @@ final class Version20190408194536 extends AbstractMigration
         $this->addSql('DROP TABLE __temp__media__gallery_media');
         $this->addSql('CREATE INDEX IDX_80D4C541EA9FDD75 ON media__gallery_media (media_id)');
         $this->addSql('CREATE INDEX IDX_80D4C5414E7AF8F ON media__gallery_media (gallery_id)');
-        $this->addSql('CREATE TEMPORARY TABLE __temp__media__media AS SELECT id, description, enabled, provider_status, width, height, content_size, cdn_is_flushable, cdn_flush_at, cdn_status, updated_at, created_at, name, provider_name, provider_reference, length, content_type, copyright, author_name, context, cdn_flush_identifier, provider_metadata FROM media__media');
+        $this->addSql('CREATE TEMPORARY TABLE __temp__media__media AS SELECT id, name, description, enabled, provider_name, provider_status, provider_reference, width, height, length, content_type, content_size, copyright, author_name, context, cdn_is_flushable, cdn_flush_identifier, cdn_flush_at, cdn_status, updated_at, created_at, provider_metadata FROM media__media');
         $this->addSql('DROP TABLE media__media');
-        $this->addSql('CREATE TABLE media__media (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, description CLOB DEFAULT NULL COLLATE BINARY, enabled BOOLEAN NOT NULL, provider_status INTEGER NOT NULL, width INTEGER DEFAULT NULL, height INTEGER DEFAULT NULL, content_size INTEGER DEFAULT NULL, cdn_is_flushable BOOLEAN DEFAULT NULL, cdn_flush_at DATETIME DEFAULT NULL, cdn_status INTEGER DEFAULT NULL, updated_at DATETIME NOT NULL, created_at DATETIME NOT NULL, name VARCHAR(255) NOT NULL COLLATE BINARY, provider_name VARCHAR(255) NOT NULL COLLATE BINARY, provider_reference VARCHAR(255) NOT NULL COLLATE BINARY, length NUMERIC(10, 0) DEFAULT NULL, content_type VARCHAR(255) DEFAULT NULL COLLATE BINARY, copyright VARCHAR(255) DEFAULT NULL COLLATE BINARY, author_name VARCHAR(255) DEFAULT NULL COLLATE BINARY, context VARCHAR(64) DEFAULT NULL COLLATE BINARY, cdn_flush_identifier VARCHAR(64) DEFAULT NULL COLLATE BINARY, provider_metadata CLOB DEFAULT NULL --(DC2Type:json)
+        $this->addSql('CREATE TABLE media__media (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, description CLOB DEFAULT NULL COLLATE BINARY, enabled BOOLEAN NOT NULL, provider_status INTEGER NOT NULL, width INTEGER DEFAULT NULL, height INTEGER DEFAULT NULL, content_size INTEGER DEFAULT NULL, cdn_is_flushable BOOLEAN DEFAULT NULL, cdn_flush_at DATETIME DEFAULT NULL, cdn_status INTEGER DEFAULT NULL, updated_at DATETIME NOT NULL, created_at DATETIME NOT NULL, name VARCHAR(255) NOT NULL, provider_name VARCHAR(255) NOT NULL, provider_reference VARCHAR(255) NOT NULL, length NUMERIC(10, 0) DEFAULT NULL, content_type VARCHAR(255) DEFAULT NULL, copyright VARCHAR(255) DEFAULT NULL, author_name VARCHAR(255) DEFAULT NULL, context VARCHAR(64) DEFAULT NULL, cdn_flush_identifier VARCHAR(64) DEFAULT NULL, provider_metadata CLOB DEFAULT NULL --(DC2Type:json)
         )');
-        $this->addSql('INSERT INTO media__media (id, description, enabled, provider_status, width, height, content_size, cdn_is_flushable, cdn_flush_at, cdn_status, updated_at, created_at, name, provider_name, provider_reference, length, content_type, copyright, author_name, context, cdn_flush_identifier, provider_metadata) SELECT id, description, enabled, provider_status, width, height, content_size, cdn_is_flushable, cdn_flush_at, cdn_status, updated_at, created_at, name, provider_name, provider_reference, length, content_type, copyright, author_name, context, cdn_flush_identifier, provider_metadata FROM __temp__media__media');
+        $this->addSql('INSERT INTO media__media (id, name, description, enabled, provider_name, provider_status, provider_reference, width, height, length, content_type, content_size, copyright, author_name, context, cdn_is_flushable, cdn_flush_identifier, cdn_flush_at, cdn_status, updated_at, created_at, provider_metadata) SELECT id, name, description, enabled, provider_name, provider_status, provider_reference, width, height, length, content_type, content_size, copyright, author_name, context, cdn_is_flushable, cdn_flush_identifier, cdn_flush_at, cdn_status, updated_at, created_at, provider_metadata FROM __temp__media__media');
         $this->addSql('DROP TABLE __temp__media__media');
         $this->addSql('DROP INDEX rev_7e85041618e08087eb9a0547f7c4b521_idx');
-        $this->addSql('CREATE TEMPORARY TABLE __temp__media__media_audit AS SELECT id, rev, name, description, enabled, provider_name, provider_status, provider_reference, provider_metadata, width, height, length, content_type, content_size, copyright, author_name, context, cdn_is_flushable, cdn_flush_identifier, cdn_flush_at, cdn_status, updated_at, created_at, revtype FROM media__media_audit');
+        $this->addSql('CREATE TEMPORARY TABLE __temp__media__media_audit AS SELECT id, rev, name, description, enabled, provider_name, provider_status, provider_reference, width, height, length, content_type, content_size, copyright, author_name, context, cdn_is_flushable, cdn_flush_identifier, cdn_flush_at, cdn_status, updated_at, created_at, revtype, provider_metadata FROM media__media_audit');
         $this->addSql('DROP TABLE media__media_audit');
-        $this->addSql('CREATE TABLE media__media_audit (id INTEGER NOT NULL, rev INTEGER NOT NULL, name VARCHAR(255) DEFAULT NULL COLLATE BINARY, description CLOB DEFAULT NULL COLLATE BINARY, enabled BOOLEAN DEFAULT NULL, provider_name VARCHAR(255) DEFAULT NULL COLLATE BINARY, provider_status INTEGER DEFAULT NULL, provider_reference VARCHAR(255) DEFAULT NULL COLLATE BINARY, width INTEGER DEFAULT NULL, height INTEGER DEFAULT NULL, length NUMERIC(10, 0) DEFAULT NULL, content_type VARCHAR(255) DEFAULT NULL COLLATE BINARY, content_size INTEGER DEFAULT NULL, copyright VARCHAR(255) DEFAULT NULL COLLATE BINARY, author_name VARCHAR(255) DEFAULT NULL COLLATE BINARY, context VARCHAR(64) DEFAULT NULL COLLATE BINARY, cdn_is_flushable BOOLEAN DEFAULT NULL, cdn_flush_identifier VARCHAR(64) DEFAULT NULL COLLATE BINARY, cdn_flush_at DATETIME DEFAULT NULL, cdn_status INTEGER DEFAULT NULL, updated_at DATETIME DEFAULT NULL, created_at DATETIME DEFAULT NULL, revtype VARCHAR(4) NOT NULL COLLATE BINARY, provider_metadata CLOB DEFAULT NULL --(DC2Type:json)
+        $this->addSql('CREATE TABLE media__media_audit (id INTEGER NOT NULL, rev INTEGER NOT NULL, description CLOB DEFAULT NULL COLLATE BINARY, enabled BOOLEAN DEFAULT NULL, provider_status INTEGER DEFAULT NULL, width INTEGER DEFAULT NULL, height INTEGER DEFAULT NULL, content_size INTEGER DEFAULT NULL, cdn_is_flushable BOOLEAN DEFAULT NULL, cdn_flush_at DATETIME DEFAULT NULL, cdn_status INTEGER DEFAULT NULL, updated_at DATETIME DEFAULT NULL, created_at DATETIME DEFAULT NULL, name VARCHAR(255) DEFAULT NULL, provider_name VARCHAR(255) DEFAULT NULL, provider_reference VARCHAR(255) DEFAULT NULL, length NUMERIC(10, 0) DEFAULT NULL, content_type VARCHAR(255) DEFAULT NULL, copyright VARCHAR(255) DEFAULT NULL, author_name VARCHAR(255) DEFAULT NULL, context VARCHAR(64) DEFAULT NULL, cdn_flush_identifier VARCHAR(64) DEFAULT NULL, revtype VARCHAR(4) NOT NULL, provider_metadata CLOB DEFAULT NULL --(DC2Type:json)
         , PRIMARY KEY(id, rev))');
-        $this->addSql('INSERT INTO media__media_audit (id, rev, name, description, enabled, provider_name, provider_status, provider_reference, provider_metadata, width, height, length, content_type, content_size, copyright, author_name, context, cdn_is_flushable, cdn_flush_identifier, cdn_flush_at, cdn_status, updated_at, created_at, revtype) SELECT id, rev, name, description, enabled, provider_name, provider_status, provider_reference, provider_metadata, width, height, length, content_type, content_size, copyright, author_name, context, cdn_is_flushable, cdn_flush_identifier, cdn_flush_at, cdn_status, updated_at, created_at, revtype FROM __temp__media__media_audit');
+        $this->addSql('INSERT INTO media__media_audit (id, rev, name, description, enabled, provider_name, provider_status, provider_reference, width, height, length, content_type, content_size, copyright, author_name, context, cdn_is_flushable, cdn_flush_identifier, cdn_flush_at, cdn_status, updated_at, created_at, revtype, provider_metadata) SELECT id, rev, name, description, enabled, provider_name, provider_status, provider_reference, width, height, length, content_type, content_size, copyright, author_name, context, cdn_is_flushable, cdn_flush_identifier, cdn_flush_at, cdn_status, updated_at, created_at, revtype, provider_metadata FROM __temp__media__media_audit');
         $this->addSql('DROP TABLE __temp__media__media_audit');
         $this->addSql('CREATE INDEX rev_7e85041618e08087eb9a0547f7c4b521_idx ON media__media_audit (rev)');
         $this->addSql('DROP INDEX rev_791eaf97b684af9208d1f1d958a5729e_idx');
-        $this->addSql('CREATE TEMPORARY TABLE __temp__fos_user_group_audit AS SELECT id, rev, name, roles, revtype FROM fos_user_group_audit');
+        $this->addSql('CREATE TEMPORARY TABLE __temp__fos_user_group_audit AS SELECT id, rev, name, revtype, roles FROM fos_user_group_audit');
         $this->addSql('DROP TABLE fos_user_group_audit');
-        $this->addSql('CREATE TABLE fos_user_group_audit (id INTEGER NOT NULL, rev INTEGER NOT NULL, name VARCHAR(180) DEFAULT NULL COLLATE BINARY, revtype VARCHAR(4) NOT NULL COLLATE BINARY, roles CLOB DEFAULT NULL --(DC2Type:array)
+        $this->addSql('CREATE TABLE fos_user_group_audit (id INTEGER NOT NULL, rev INTEGER NOT NULL, name VARCHAR(180) DEFAULT NULL, revtype VARCHAR(4) NOT NULL, roles CLOB DEFAULT NULL --(DC2Type:array)
         , PRIMARY KEY(id, rev))');
-        $this->addSql('INSERT INTO fos_user_group_audit (id, rev, name, roles, revtype) SELECT id, rev, name, roles, revtype FROM __temp__fos_user_group_audit');
+        $this->addSql('INSERT INTO fos_user_group_audit (id, rev, name, revtype, roles) SELECT id, rev, name, revtype, roles FROM __temp__fos_user_group_audit');
         $this->addSql('DROP TABLE __temp__fos_user_group_audit');
         $this->addSql('CREATE INDEX rev_791eaf97b684af9208d1f1d958a5729e_idx ON fos_user_group_audit (rev)');
         $this->addSql('DROP INDEX UNIQ_C560D761C05FB297');
@@ -188,7 +188,7 @@ final class Version20190408194536 extends AbstractMigration
         $this->addSql('CREATE TEMPORARY TABLE __temp__fos_user_user AS SELECT id, username, username_canonical, email, email_canonical, enabled, salt, password, last_login, confirmation_token, password_requested_at, roles, created_at, updated_at, date_of_birth, firstname, lastname, website, biography, gender, locale, timezone, phone, facebook_uid, facebook_name, twitter_uid, twitter_name, gplus_uid, gplus_name, token, two_step_code, facebook_data, twitter_data, gplus_data FROM fos_user_user');
         $this->addSql('DROP TABLE fos_user_user');
         $this->addSql('CREATE TABLE fos_user_user (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, username VARCHAR(180) NOT NULL COLLATE BINARY, username_canonical VARCHAR(180) NOT NULL COLLATE BINARY, email VARCHAR(180) NOT NULL COLLATE BINARY, email_canonical VARCHAR(180) NOT NULL COLLATE BINARY, enabled BOOLEAN NOT NULL, salt VARCHAR(255) DEFAULT NULL COLLATE BINARY, password VARCHAR(255) NOT NULL COLLATE BINARY, last_login DATETIME DEFAULT NULL, confirmation_token VARCHAR(180) DEFAULT NULL COLLATE BINARY, password_requested_at DATETIME DEFAULT NULL, roles CLOB NOT NULL COLLATE BINARY --(DC2Type:array)
-        , created_at DATETIME NOT NULL, updated_at DATETIME NOT NULL, date_of_birth DATETIME DEFAULT NULL, firstname VARCHAR(64) DEFAULT NULL COLLATE BINARY, lastname VARCHAR(64) DEFAULT NULL COLLATE BINARY, website VARCHAR(64) DEFAULT NULL COLLATE BINARY, biography VARCHAR(1000) DEFAULT NULL COLLATE BINARY, gender VARCHAR(1) DEFAULT NULL COLLATE BINARY, locale VARCHAR(8) DEFAULT NULL COLLATE BINARY, timezone VARCHAR(64) DEFAULT NULL COLLATE BINARY, phone VARCHAR(64) DEFAULT NULL COLLATE BINARY, facebook_uid VARCHAR(255) DEFAULT NULL COLLATE BINARY, facebook_name VARCHAR(255) DEFAULT NULL COLLATE BINARY, twitter_uid VARCHAR(255) DEFAULT NULL COLLATE BINARY, twitter_name VARCHAR(255) DEFAULT NULL COLLATE BINARY, gplus_uid VARCHAR(255) DEFAULT NULL COLLATE BINARY, gplus_name VARCHAR(255) DEFAULT NULL COLLATE BINARY, token VARCHAR(255) DEFAULT NULL COLLATE BINARY, two_step_code VARCHAR(255) DEFAULT NULL COLLATE BINARY, facebook_data CLOB DEFAULT NULL --(DC2Type:json)
+        , created_at DATETIME NOT NULL, updated_at DATETIME NOT NULL, date_of_birth DATETIME DEFAULT NULL, firstname VARCHAR(64) DEFAULT NULL, lastname VARCHAR(64) DEFAULT NULL, website VARCHAR(64) DEFAULT NULL, biography VARCHAR(1000) DEFAULT NULL, gender VARCHAR(1) DEFAULT NULL, locale VARCHAR(8) DEFAULT NULL, timezone VARCHAR(64) DEFAULT NULL, phone VARCHAR(64) DEFAULT NULL, facebook_uid VARCHAR(255) DEFAULT NULL, facebook_name VARCHAR(255) DEFAULT NULL, twitter_uid VARCHAR(255) DEFAULT NULL, twitter_name VARCHAR(255) DEFAULT NULL, gplus_uid VARCHAR(255) DEFAULT NULL, gplus_name VARCHAR(255) DEFAULT NULL, token VARCHAR(255) DEFAULT NULL, two_step_code VARCHAR(255) DEFAULT NULL, facebook_data CLOB DEFAULT NULL --(DC2Type:json)
         , twitter_data CLOB DEFAULT NULL --(DC2Type:json)
         , gplus_data CLOB DEFAULT NULL --(DC2Type:json)
         )');
@@ -207,14 +207,14 @@ final class Version20190408194536 extends AbstractMigration
         $this->addSql('CREATE INDEX IDX_B3C77447FE54D947 ON fos_user_user_group (group_id)');
         $this->addSql('CREATE INDEX IDX_B3C77447A76ED395 ON fos_user_user_group (user_id)');
         $this->addSql('DROP INDEX rev_782dc0f82f289145b1d57ca1c16ae709_idx');
-        $this->addSql('CREATE TEMPORARY TABLE __temp__fos_user_user_audit AS SELECT id, rev, username, username_canonical, email, email_canonical, enabled, salt, password, last_login, confirmation_token, password_requested_at, roles, created_at, updated_at, date_of_birth, firstname, lastname, website, biography, gender, locale, timezone, phone, facebook_uid, facebook_name, facebook_data, twitter_uid, twitter_name, twitter_data, gplus_uid, gplus_name, gplus_data, token, two_step_code, revtype FROM fos_user_user_audit');
+        $this->addSql('CREATE TEMPORARY TABLE __temp__fos_user_user_audit AS SELECT id, rev, username, username_canonical, email, email_canonical, enabled, salt, password, last_login, confirmation_token, password_requested_at, created_at, updated_at, date_of_birth, firstname, lastname, website, biography, gender, locale, timezone, phone, facebook_uid, facebook_name, twitter_uid, twitter_name, gplus_uid, gplus_name, token, two_step_code, revtype, roles, facebook_data, twitter_data, gplus_data FROM fos_user_user_audit');
         $this->addSql('DROP TABLE fos_user_user_audit');
-        $this->addSql('CREATE TABLE fos_user_user_audit (id INTEGER NOT NULL, rev INTEGER NOT NULL, username VARCHAR(180) DEFAULT NULL COLLATE BINARY, username_canonical VARCHAR(180) DEFAULT NULL COLLATE BINARY, email VARCHAR(180) DEFAULT NULL COLLATE BINARY, email_canonical VARCHAR(180) DEFAULT NULL COLLATE BINARY, enabled BOOLEAN DEFAULT NULL, salt VARCHAR(255) DEFAULT NULL COLLATE BINARY, password VARCHAR(255) DEFAULT NULL COLLATE BINARY, last_login DATETIME DEFAULT NULL, confirmation_token VARCHAR(180) DEFAULT NULL COLLATE BINARY, password_requested_at DATETIME DEFAULT NULL, created_at DATETIME DEFAULT NULL, updated_at DATETIME DEFAULT NULL, date_of_birth DATETIME DEFAULT NULL, firstname VARCHAR(64) DEFAULT NULL COLLATE BINARY, lastname VARCHAR(64) DEFAULT NULL COLLATE BINARY, website VARCHAR(64) DEFAULT NULL COLLATE BINARY, biography VARCHAR(1000) DEFAULT NULL COLLATE BINARY, gender VARCHAR(1) DEFAULT NULL COLLATE BINARY, locale VARCHAR(8) DEFAULT NULL COLLATE BINARY, timezone VARCHAR(64) DEFAULT NULL COLLATE BINARY, phone VARCHAR(64) DEFAULT NULL COLLATE BINARY, facebook_uid VARCHAR(255) DEFAULT NULL COLLATE BINARY, facebook_name VARCHAR(255) DEFAULT NULL COLLATE BINARY, twitter_uid VARCHAR(255) DEFAULT NULL COLLATE BINARY, twitter_name VARCHAR(255) DEFAULT NULL COLLATE BINARY, gplus_uid VARCHAR(255) DEFAULT NULL COLLATE BINARY, gplus_name VARCHAR(255) DEFAULT NULL COLLATE BINARY, token VARCHAR(255) DEFAULT NULL COLLATE BINARY, two_step_code VARCHAR(255) DEFAULT NULL COLLATE BINARY, revtype VARCHAR(4) NOT NULL COLLATE BINARY, roles CLOB DEFAULT NULL --(DC2Type:array)
+        $this->addSql('CREATE TABLE fos_user_user_audit (id INTEGER NOT NULL, rev INTEGER NOT NULL, enabled BOOLEAN DEFAULT NULL, last_login DATETIME DEFAULT NULL, password_requested_at DATETIME DEFAULT NULL, created_at DATETIME DEFAULT NULL, updated_at DATETIME DEFAULT NULL, date_of_birth DATETIME DEFAULT NULL, username VARCHAR(180) DEFAULT NULL, username_canonical VARCHAR(180) DEFAULT NULL, email VARCHAR(180) DEFAULT NULL, email_canonical VARCHAR(180) DEFAULT NULL, salt VARCHAR(255) DEFAULT NULL, password VARCHAR(255) DEFAULT NULL, confirmation_token VARCHAR(180) DEFAULT NULL, firstname VARCHAR(64) DEFAULT NULL, lastname VARCHAR(64) DEFAULT NULL, website VARCHAR(64) DEFAULT NULL, biography VARCHAR(1000) DEFAULT NULL, gender VARCHAR(1) DEFAULT NULL, locale VARCHAR(8) DEFAULT NULL, timezone VARCHAR(64) DEFAULT NULL, phone VARCHAR(64) DEFAULT NULL, facebook_uid VARCHAR(255) DEFAULT NULL, facebook_name VARCHAR(255) DEFAULT NULL, twitter_uid VARCHAR(255) DEFAULT NULL, twitter_name VARCHAR(255) DEFAULT NULL, gplus_uid VARCHAR(255) DEFAULT NULL, gplus_name VARCHAR(255) DEFAULT NULL, token VARCHAR(255) DEFAULT NULL, two_step_code VARCHAR(255) DEFAULT NULL, revtype VARCHAR(4) NOT NULL, roles CLOB DEFAULT NULL --(DC2Type:array)
         , facebook_data CLOB DEFAULT NULL --(DC2Type:json)
         , twitter_data CLOB DEFAULT NULL --(DC2Type:json)
         , gplus_data CLOB DEFAULT NULL --(DC2Type:json)
         , PRIMARY KEY(id, rev))');
-        $this->addSql('INSERT INTO fos_user_user_audit (id, rev, username, username_canonical, email, email_canonical, enabled, salt, password, last_login, confirmation_token, password_requested_at, roles, created_at, updated_at, date_of_birth, firstname, lastname, website, biography, gender, locale, timezone, phone, facebook_uid, facebook_name, facebook_data, twitter_uid, twitter_name, twitter_data, gplus_uid, gplus_name, gplus_data, token, two_step_code, revtype) SELECT id, rev, username, username_canonical, email, email_canonical, enabled, salt, password, last_login, confirmation_token, password_requested_at, roles, created_at, updated_at, date_of_birth, firstname, lastname, website, biography, gender, locale, timezone, phone, facebook_uid, facebook_name, facebook_data, twitter_uid, twitter_name, twitter_data, gplus_uid, gplus_name, gplus_data, token, two_step_code, revtype FROM __temp__fos_user_user_audit');
+        $this->addSql('INSERT INTO fos_user_user_audit (id, rev, username, username_canonical, email, email_canonical, enabled, salt, password, last_login, confirmation_token, password_requested_at, created_at, updated_at, date_of_birth, firstname, lastname, website, biography, gender, locale, timezone, phone, facebook_uid, facebook_name, twitter_uid, twitter_name, gplus_uid, gplus_name, token, two_step_code, revtype, roles, facebook_data, twitter_data, gplus_data) SELECT id, rev, username, username_canonical, email, email_canonical, enabled, salt, password, last_login, confirmation_token, password_requested_at, created_at, updated_at, date_of_birth, firstname, lastname, website, biography, gender, locale, timezone, phone, facebook_uid, facebook_name, twitter_uid, twitter_name, gplus_uid, gplus_name, token, two_step_code, revtype, roles, facebook_data, twitter_data, gplus_data FROM __temp__fos_user_user_audit');
         $this->addSql('DROP TABLE __temp__fos_user_user_audit');
         $this->addSql('CREATE INDEX rev_782dc0f82f289145b1d57ca1c16ae709_idx ON fos_user_user_audit (rev)');
     }
@@ -356,7 +356,9 @@ final class Version20190408194536 extends AbstractMigration
         $this->addSql('DROP INDEX rev_791eaf97b684af9208d1f1d958a5729e_idx');
         $this->addSql('CREATE TEMPORARY TABLE __temp__fos_user_group_audit AS SELECT id, rev, name, roles, revtype FROM fos_user_group_audit');
         $this->addSql('DROP TABLE fos_user_group_audit');
-        $this->addSql('CREATE TABLE fos_user_group_audit (id INTEGER NOT NULL, rev INTEGER NOT NULL, name VARCHAR(180) DEFAULT NULL, revtype VARCHAR(4) NOT NULL, roles CLOB DEFAULT \'NULL --(DC2Type:array)\' COLLATE BINARY --(DC2Type:array)
+        $this->addSql('CREATE TABLE fos_user_group_audit (id INTEGER NOT NULL, rev INTEGER NOT NULL, name CLOB DEFAULT NULL COLLATE BINARY --(DC2Type:array)
+        , roles CLOB DEFAULT \'NULL --(DC2Type:array)\' COLLATE BINARY --\' COLLATE BINARY --(DC2Type:array)
+        , revtype CLOB NOT NULL COLLATE BINARY --(DC2Type:array)
         , PRIMARY KEY(id, rev))');
         $this->addSql('INSERT INTO fos_user_group_audit (id, rev, name, roles, revtype) SELECT id, rev, name, roles, revtype FROM __temp__fos_user_group_audit');
         $this->addSql('DROP TABLE __temp__fos_user_group_audit');
@@ -367,9 +369,25 @@ final class Version20190408194536 extends AbstractMigration
         $this->addSql('CREATE TEMPORARY TABLE __temp__fos_user_user AS SELECT id, username, username_canonical, email, email_canonical, enabled, salt, password, last_login, confirmation_token, password_requested_at, roles, created_at, updated_at, date_of_birth, firstname, lastname, website, biography, gender, locale, timezone, phone, facebook_uid, facebook_name, facebook_data, twitter_uid, twitter_name, twitter_data, gplus_uid, gplus_name, gplus_data, token, two_step_code FROM fos_user_user');
         $this->addSql('DROP TABLE fos_user_user');
         $this->addSql('CREATE TABLE fos_user_user (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, username VARCHAR(180) NOT NULL, username_canonical VARCHAR(180) NOT NULL, email VARCHAR(180) NOT NULL, email_canonical VARCHAR(180) NOT NULL, enabled BOOLEAN NOT NULL, salt VARCHAR(255) DEFAULT NULL, password VARCHAR(255) NOT NULL, last_login DATETIME DEFAULT NULL, confirmation_token VARCHAR(180) DEFAULT NULL, password_requested_at DATETIME DEFAULT NULL, roles CLOB NOT NULL --(DC2Type:array)
-        , created_at DATETIME NOT NULL, updated_at DATETIME NOT NULL, date_of_birth DATETIME DEFAULT NULL, firstname VARCHAR(64) DEFAULT NULL, lastname VARCHAR(64) DEFAULT NULL, website VARCHAR(64) DEFAULT NULL, biography VARCHAR(1000) DEFAULT NULL, gender VARCHAR(1) DEFAULT NULL, locale VARCHAR(8) DEFAULT NULL, timezone VARCHAR(64) DEFAULT NULL, phone VARCHAR(64) DEFAULT NULL, facebook_uid VARCHAR(255) DEFAULT NULL, facebook_name VARCHAR(255) DEFAULT NULL, twitter_uid VARCHAR(255) DEFAULT NULL, twitter_name VARCHAR(255) DEFAULT NULL, gplus_uid VARCHAR(255) DEFAULT NULL, gplus_name VARCHAR(255) DEFAULT NULL, token VARCHAR(255) DEFAULT NULL, two_step_code VARCHAR(255) DEFAULT NULL, facebook_data CLOB DEFAULT \'NULL --(DC2Type:json)\' COLLATE BINARY --(DC2Type:json)
-        , twitter_data CLOB DEFAULT \'NULL --(DC2Type:json)\' COLLATE BINARY --(DC2Type:json)
-        , gplus_data CLOB DEFAULT \'NULL --(DC2Type:json)\' COLLATE BINARY --(DC2Type:json)
+        , created_at DATETIME NOT NULL, updated_at DATETIME NOT NULL, date_of_birth DATETIME DEFAULT NULL, firstname CLOB DEFAULT NULL COLLATE BINARY --(DC2Type:json)
+        , lastname CLOB DEFAULT NULL COLLATE BINARY --(DC2Type:json)
+        , website CLOB DEFAULT NULL COLLATE BINARY --(DC2Type:json)
+        , biography CLOB DEFAULT NULL COLLATE BINARY --(DC2Type:json)
+        , gender CLOB DEFAULT NULL COLLATE BINARY --(DC2Type:json)
+        , locale CLOB DEFAULT NULL COLLATE BINARY --(DC2Type:json)
+        , timezone CLOB DEFAULT NULL COLLATE BINARY --(DC2Type:json)
+        , phone CLOB DEFAULT NULL COLLATE BINARY --(DC2Type:json)
+        , facebook_uid CLOB DEFAULT NULL COLLATE BINARY --(DC2Type:json)
+        , facebook_name CLOB DEFAULT NULL COLLATE BINARY --(DC2Type:json)
+        , facebook_data CLOB DEFAULT \'NULL --(DC2Type:json)\' COLLATE BINARY --\' COLLATE BINARY --(DC2Type:json)
+        , twitter_uid CLOB DEFAULT NULL COLLATE BINARY --(DC2Type:json)
+        , twitter_name CLOB DEFAULT NULL COLLATE BINARY --(DC2Type:json)
+        , twitter_data CLOB DEFAULT \'NULL --(DC2Type:json)\' COLLATE BINARY --\' COLLATE BINARY --(DC2Type:json)
+        , gplus_uid CLOB DEFAULT NULL COLLATE BINARY --(DC2Type:json)
+        , gplus_name CLOB DEFAULT NULL COLLATE BINARY --(DC2Type:json)
+        , gplus_data CLOB DEFAULT \'NULL --(DC2Type:json)\' COLLATE BINARY --\' COLLATE BINARY --(DC2Type:json)
+        , token CLOB DEFAULT NULL COLLATE BINARY --(DC2Type:json)
+        , two_step_code CLOB DEFAULT NULL COLLATE BINARY --(DC2Type:json)
         )');
         $this->addSql('INSERT INTO fos_user_user (id, username, username_canonical, email, email_canonical, enabled, salt, password, last_login, confirmation_token, password_requested_at, roles, created_at, updated_at, date_of_birth, firstname, lastname, website, biography, gender, locale, timezone, phone, facebook_uid, facebook_name, facebook_data, twitter_uid, twitter_name, twitter_data, gplus_uid, gplus_name, gplus_data, token, two_step_code) SELECT id, username, username_canonical, email, email_canonical, enabled, salt, password, last_login, confirmation_token, password_requested_at, roles, created_at, updated_at, date_of_birth, firstname, lastname, website, biography, gender, locale, timezone, phone, facebook_uid, facebook_name, facebook_data, twitter_uid, twitter_name, twitter_data, gplus_uid, gplus_name, gplus_data, token, two_step_code FROM __temp__fos_user_user');
         $this->addSql('DROP TABLE __temp__fos_user_user');
@@ -379,10 +397,34 @@ final class Version20190408194536 extends AbstractMigration
         $this->addSql('DROP INDEX rev_782dc0f82f289145b1d57ca1c16ae709_idx');
         $this->addSql('CREATE TEMPORARY TABLE __temp__fos_user_user_audit AS SELECT id, rev, username, username_canonical, email, email_canonical, enabled, salt, password, last_login, confirmation_token, password_requested_at, roles, created_at, updated_at, date_of_birth, firstname, lastname, website, biography, gender, locale, timezone, phone, facebook_uid, facebook_name, facebook_data, twitter_uid, twitter_name, twitter_data, gplus_uid, gplus_name, gplus_data, token, two_step_code, revtype FROM fos_user_user_audit');
         $this->addSql('DROP TABLE fos_user_user_audit');
-        $this->addSql('CREATE TABLE fos_user_user_audit (id INTEGER NOT NULL, rev INTEGER NOT NULL, username VARCHAR(180) DEFAULT NULL, username_canonical VARCHAR(180) DEFAULT NULL, email VARCHAR(180) DEFAULT NULL, email_canonical VARCHAR(180) DEFAULT NULL, enabled BOOLEAN DEFAULT NULL, salt VARCHAR(255) DEFAULT NULL, password VARCHAR(255) DEFAULT NULL, last_login DATETIME DEFAULT NULL, confirmation_token VARCHAR(180) DEFAULT NULL, password_requested_at DATETIME DEFAULT NULL, created_at DATETIME DEFAULT NULL, updated_at DATETIME DEFAULT NULL, date_of_birth DATETIME DEFAULT NULL, firstname VARCHAR(64) DEFAULT NULL, lastname VARCHAR(64) DEFAULT NULL, website VARCHAR(64) DEFAULT NULL, biography VARCHAR(1000) DEFAULT NULL, gender VARCHAR(1) DEFAULT NULL, locale VARCHAR(8) DEFAULT NULL, timezone VARCHAR(64) DEFAULT NULL, phone VARCHAR(64) DEFAULT NULL, facebook_uid VARCHAR(255) DEFAULT NULL, facebook_name VARCHAR(255) DEFAULT NULL, twitter_uid VARCHAR(255) DEFAULT NULL, twitter_name VARCHAR(255) DEFAULT NULL, gplus_uid VARCHAR(255) DEFAULT NULL, gplus_name VARCHAR(255) DEFAULT NULL, token VARCHAR(255) DEFAULT NULL, two_step_code VARCHAR(255) DEFAULT NULL, revtype VARCHAR(4) NOT NULL, roles CLOB DEFAULT \'NULL --(DC2Type:array)\' COLLATE BINARY --(DC2Type:array)
-        , facebook_data CLOB DEFAULT \'NULL --(DC2Type:json)\' COLLATE BINARY --(DC2Type:json)
-        , twitter_data CLOB DEFAULT \'NULL --(DC2Type:json)\' COLLATE BINARY --(DC2Type:json)
-        , gplus_data CLOB DEFAULT \'NULL --(DC2Type:json)\' COLLATE BINARY --(DC2Type:json)
+        $this->addSql('CREATE TABLE fos_user_user_audit (id INTEGER NOT NULL, rev INTEGER NOT NULL, enabled BOOLEAN DEFAULT NULL, last_login DATETIME DEFAULT NULL, password_requested_at DATETIME DEFAULT NULL, created_at DATETIME DEFAULT NULL, updated_at DATETIME DEFAULT NULL, date_of_birth DATETIME DEFAULT NULL, username CLOB DEFAULT NULL COLLATE BINARY --(DC2Type:array)
+        , username_canonical CLOB DEFAULT NULL COLLATE BINARY --(DC2Type:array)
+        , email CLOB DEFAULT NULL COLLATE BINARY --(DC2Type:array)
+        , email_canonical CLOB DEFAULT NULL COLLATE BINARY --(DC2Type:array)
+        , salt CLOB DEFAULT NULL COLLATE BINARY --(DC2Type:array)
+        , password CLOB DEFAULT NULL COLLATE BINARY --(DC2Type:array)
+        , confirmation_token CLOB DEFAULT NULL COLLATE BINARY --(DC2Type:array)
+        , roles CLOB DEFAULT \'NULL --(DC2Type:array)\' COLLATE BINARY --\' COLLATE BINARY --(DC2Type:array)
+        , firstname CLOB DEFAULT NULL COLLATE BINARY --(DC2Type:array)
+        , lastname CLOB DEFAULT NULL COLLATE BINARY --(DC2Type:array)
+        , website CLOB DEFAULT NULL COLLATE BINARY --(DC2Type:array)
+        , biography CLOB DEFAULT NULL COLLATE BINARY --(DC2Type:array)
+        , gender CLOB DEFAULT NULL COLLATE BINARY --(DC2Type:array)
+        , locale CLOB DEFAULT NULL COLLATE BINARY --(DC2Type:array)
+        , timezone CLOB DEFAULT NULL COLLATE BINARY --(DC2Type:array)
+        , phone CLOB DEFAULT NULL COLLATE BINARY --(DC2Type:array)
+        , facebook_uid CLOB DEFAULT NULL COLLATE BINARY --(DC2Type:array)
+        , facebook_name CLOB DEFAULT NULL COLLATE BINARY --(DC2Type:array)
+        , facebook_data CLOB DEFAULT \'NULL --(DC2Type:json)\' COLLATE BINARY --\' COLLATE BINARY --(DC2Type:json)
+        , twitter_uid CLOB DEFAULT NULL COLLATE BINARY --(DC2Type:array)
+        , twitter_name CLOB DEFAULT NULL COLLATE BINARY --(DC2Type:array)
+        , twitter_data CLOB DEFAULT \'NULL --(DC2Type:json)\' COLLATE BINARY --\' COLLATE BINARY --(DC2Type:json)
+        , gplus_uid CLOB DEFAULT NULL COLLATE BINARY --(DC2Type:array)
+        , gplus_name CLOB DEFAULT NULL COLLATE BINARY --(DC2Type:array)
+        , gplus_data CLOB DEFAULT \'NULL --(DC2Type:json)\' COLLATE BINARY --\' COLLATE BINARY --(DC2Type:json)
+        , token CLOB DEFAULT NULL COLLATE BINARY --(DC2Type:array)
+        , two_step_code CLOB DEFAULT NULL COLLATE BINARY --(DC2Type:array)
+        , revtype CLOB NOT NULL COLLATE BINARY --(DC2Type:array)
         , PRIMARY KEY(id, rev))');
         $this->addSql('INSERT INTO fos_user_user_audit (id, rev, username, username_canonical, email, email_canonical, enabled, salt, password, last_login, confirmation_token, password_requested_at, roles, created_at, updated_at, date_of_birth, firstname, lastname, website, biography, gender, locale, timezone, phone, facebook_uid, facebook_name, facebook_data, twitter_uid, twitter_name, twitter_data, gplus_uid, gplus_name, gplus_data, token, two_step_code, revtype) SELECT id, rev, username, username_canonical, email, email_canonical, enabled, salt, password, last_login, confirmation_token, password_requested_at, roles, created_at, updated_at, date_of_birth, firstname, lastname, website, biography, gender, locale, timezone, phone, facebook_uid, facebook_name, facebook_data, twitter_uid, twitter_name, twitter_data, gplus_uid, gplus_name, gplus_data, token, two_step_code, revtype FROM __temp__fos_user_user_audit');
         $this->addSql('DROP TABLE __temp__fos_user_user_audit');
@@ -407,14 +449,33 @@ final class Version20190408194536 extends AbstractMigration
         $this->addSql('CREATE INDEX IDX_80D4C541EA9FDD75 ON media__gallery_media (media_id)');
         $this->addSql('CREATE TEMPORARY TABLE __temp__media__media AS SELECT id, name, description, enabled, provider_name, provider_status, provider_reference, provider_metadata, width, height, length, content_type, content_size, copyright, author_name, context, cdn_is_flushable, cdn_flush_identifier, cdn_flush_at, cdn_status, updated_at, created_at FROM media__media');
         $this->addSql('DROP TABLE media__media');
-        $this->addSql('CREATE TABLE media__media (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, name VARCHAR(255) NOT NULL, description CLOB DEFAULT NULL, enabled BOOLEAN NOT NULL, provider_name VARCHAR(255) NOT NULL, provider_status INTEGER NOT NULL, provider_reference VARCHAR(255) NOT NULL, width INTEGER DEFAULT NULL, height INTEGER DEFAULT NULL, length NUMERIC(10, 0) DEFAULT NULL, content_type VARCHAR(255) DEFAULT NULL, content_size INTEGER DEFAULT NULL, copyright VARCHAR(255) DEFAULT NULL, author_name VARCHAR(255) DEFAULT NULL, context VARCHAR(64) DEFAULT NULL, cdn_is_flushable BOOLEAN DEFAULT NULL, cdn_flush_identifier VARCHAR(64) DEFAULT NULL, cdn_flush_at DATETIME DEFAULT NULL, cdn_status INTEGER DEFAULT NULL, updated_at DATETIME NOT NULL, created_at DATETIME NOT NULL, provider_metadata CLOB DEFAULT \'NULL --(DC2Type:json)\' COLLATE BINARY --(DC2Type:json)
+        $this->addSql('CREATE TABLE media__media (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, description CLOB DEFAULT NULL, enabled BOOLEAN NOT NULL, provider_status INTEGER NOT NULL, width INTEGER DEFAULT NULL, height INTEGER DEFAULT NULL, content_size INTEGER DEFAULT NULL, cdn_is_flushable BOOLEAN DEFAULT NULL, cdn_flush_at DATETIME DEFAULT NULL, cdn_status INTEGER DEFAULT NULL, updated_at DATETIME NOT NULL, created_at DATETIME NOT NULL, name CLOB NOT NULL COLLATE BINARY --(DC2Type:json)
+        , provider_name CLOB NOT NULL COLLATE BINARY --(DC2Type:json)
+        , provider_reference CLOB NOT NULL COLLATE BINARY --(DC2Type:json)
+        , provider_metadata CLOB DEFAULT \'NULL --(DC2Type:json)\' COLLATE BINARY --\' COLLATE BINARY --(DC2Type:json)
+        , length CLOB DEFAULT NULL --(DC2Type:json)
+        , content_type CLOB DEFAULT NULL COLLATE BINARY --(DC2Type:json)
+        , copyright CLOB DEFAULT NULL COLLATE BINARY --(DC2Type:json)
+        , author_name CLOB DEFAULT NULL COLLATE BINARY --(DC2Type:json)
+        , context CLOB DEFAULT NULL COLLATE BINARY --(DC2Type:json)
+        , cdn_flush_identifier CLOB DEFAULT NULL COLLATE BINARY --(DC2Type:json)
         )');
         $this->addSql('INSERT INTO media__media (id, name, description, enabled, provider_name, provider_status, provider_reference, provider_metadata, width, height, length, content_type, content_size, copyright, author_name, context, cdn_is_flushable, cdn_flush_identifier, cdn_flush_at, cdn_status, updated_at, created_at) SELECT id, name, description, enabled, provider_name, provider_status, provider_reference, provider_metadata, width, height, length, content_type, content_size, copyright, author_name, context, cdn_is_flushable, cdn_flush_identifier, cdn_flush_at, cdn_status, updated_at, created_at FROM __temp__media__media');
         $this->addSql('DROP TABLE __temp__media__media');
         $this->addSql('DROP INDEX rev_7e85041618e08087eb9a0547f7c4b521_idx');
         $this->addSql('CREATE TEMPORARY TABLE __temp__media__media_audit AS SELECT id, rev, name, description, enabled, provider_name, provider_status, provider_reference, provider_metadata, width, height, length, content_type, content_size, copyright, author_name, context, cdn_is_flushable, cdn_flush_identifier, cdn_flush_at, cdn_status, updated_at, created_at, revtype FROM media__media_audit');
         $this->addSql('DROP TABLE media__media_audit');
-        $this->addSql('CREATE TABLE media__media_audit (id INTEGER NOT NULL, rev INTEGER NOT NULL, name VARCHAR(255) DEFAULT NULL, description CLOB DEFAULT NULL, enabled BOOLEAN DEFAULT NULL, provider_name VARCHAR(255) DEFAULT NULL, provider_status INTEGER DEFAULT NULL, provider_reference VARCHAR(255) DEFAULT NULL, width INTEGER DEFAULT NULL, height INTEGER DEFAULT NULL, length NUMERIC(10, 0) DEFAULT NULL, content_type VARCHAR(255) DEFAULT NULL, content_size INTEGER DEFAULT NULL, copyright VARCHAR(255) DEFAULT NULL, author_name VARCHAR(255) DEFAULT NULL, context VARCHAR(64) DEFAULT NULL, cdn_is_flushable BOOLEAN DEFAULT NULL, cdn_flush_identifier VARCHAR(64) DEFAULT NULL, cdn_flush_at DATETIME DEFAULT NULL, cdn_status INTEGER DEFAULT NULL, updated_at DATETIME DEFAULT NULL, created_at DATETIME DEFAULT NULL, revtype VARCHAR(4) NOT NULL, provider_metadata CLOB DEFAULT \'NULL --(DC2Type:json)\' COLLATE BINARY --(DC2Type:json)
+        $this->addSql('CREATE TABLE media__media_audit (id INTEGER NOT NULL, rev INTEGER NOT NULL, description CLOB DEFAULT NULL, enabled BOOLEAN DEFAULT NULL, provider_status INTEGER DEFAULT NULL, width INTEGER DEFAULT NULL, height INTEGER DEFAULT NULL, content_size INTEGER DEFAULT NULL, cdn_is_flushable BOOLEAN DEFAULT NULL, cdn_flush_at DATETIME DEFAULT NULL, cdn_status INTEGER DEFAULT NULL, updated_at DATETIME DEFAULT NULL, created_at DATETIME DEFAULT NULL, name CLOB DEFAULT NULL COLLATE BINARY --(DC2Type:json)
+        , provider_name CLOB DEFAULT NULL COLLATE BINARY --(DC2Type:json)
+        , provider_reference CLOB DEFAULT NULL COLLATE BINARY --(DC2Type:json)
+        , provider_metadata CLOB DEFAULT \'NULL --(DC2Type:json)\' COLLATE BINARY --\' COLLATE BINARY --(DC2Type:json)
+        , length CLOB DEFAULT NULL --(DC2Type:json)
+        , content_type CLOB DEFAULT NULL COLLATE BINARY --(DC2Type:json)
+        , copyright CLOB DEFAULT NULL COLLATE BINARY --(DC2Type:json)
+        , author_name CLOB DEFAULT NULL COLLATE BINARY --(DC2Type:json)
+        , context CLOB DEFAULT NULL COLLATE BINARY --(DC2Type:json)
+        , cdn_flush_identifier CLOB DEFAULT NULL COLLATE BINARY --(DC2Type:json)
+        , revtype CLOB NOT NULL COLLATE BINARY --(DC2Type:json)
         , PRIMARY KEY(id, rev))');
         $this->addSql('INSERT INTO media__media_audit (id, rev, name, description, enabled, provider_name, provider_status, provider_reference, provider_metadata, width, height, length, content_type, content_size, copyright, author_name, context, cdn_is_flushable, cdn_flush_identifier, cdn_flush_at, cdn_status, updated_at, created_at, revtype) SELECT id, rev, name, description, enabled, provider_name, provider_status, provider_reference, provider_metadata, width, height, length, content_type, content_size, copyright, author_name, context, cdn_is_flushable, cdn_flush_identifier, cdn_flush_at, cdn_status, updated_at, created_at, revtype FROM __temp__media__media_audit');
         $this->addSql('DROP TABLE __temp__media__media_audit');
