@@ -46,7 +46,7 @@ class SDG
     private $headline;
 
     /**
-     * @ORM\Column(type="string", length=189, unique=true)
+     * @ORM\Column(type="string", length=200)
      * @Assert\NotBlank()
      * @Groups({"read"})
      */
