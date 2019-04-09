@@ -20,6 +20,10 @@ class RequestListener
 
     public function onKernelRequest(GetResponseEvent $event)
     {
-        $this->doctrine->getConnection()->exec('PRAGMA foreign_keys = ON');
+        try {
+            $this->doctrine->getConnection()->exec('PRAGMA foreign_keys = ON');
+        } catch (\Exception $e) {
+            return;
+        }
     }
 }
