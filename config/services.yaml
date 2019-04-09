@@ -32,13 +32,6 @@ services:
     # sonata.admin.security.handler.voter:
         # class: App\Security\Handler\VoterSecurityHandler
         # arguments: ["@security.authorization_checker", ['ROLE_SUPER_ADMIN']]
-    app.event_listener.request_listener:
-        class: App\EventListener\RequestListener
-        arguments:
-            - '@doctrine'
-        tags:
-            - { name: kernel.event_listener, event: kernel.request }
-        public: true
 
     app.event_listener.pdoexception_listener:
         class: App\EventListener\ModelManagerExceptionResponseListener
