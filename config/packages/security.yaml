@@ -56,10 +56,11 @@ security:
         # Secured part of the site
         # This config requires being logged for the whole site and having the admin role for the admin part.
         # Change these rules to adapt them to your needs
-        - { path: ^/admin/, role: ROLE_SONATA_ADMIN }
+        - { path: ^/admin/, role: ROLE_SONATA_ADMIN}
         - { path: ^/media/, role: ROLE_USER }
         - { path: ^/api/, role: ROLE_USER }
-        - { path: ^/.*, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/.*, role: IS_AUTHENTICATED_ANONYMOUSLY, ip: 127.0.0.1, port: 8000, requires_channel: http }
+        - { path: ^/.*, role: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: https }
 
     encoders:
         FOS\UserBundle\Model\UserInterface: sha512
