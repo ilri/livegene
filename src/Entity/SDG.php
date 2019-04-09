@@ -46,7 +46,7 @@ class SDG
     private $headline;
 
     /**
-     * @ORM\Column(type="string", length=200)
+     * @ORM\Column(type="string", length=190, unique=true)
      * @Assert\NotBlank()
      * @Groups({"read"})
      */
@@ -60,7 +60,7 @@ class SDG
     private $color;
 
     /**
-     * @ORM\Column(type="string", length=255, unique=true)
+     * @ORM\Column(type="string", length=50, unique=true)
      * @Assert\NotBlank()
      * @Assert\Url()
      * @Groups({"read"})
@@ -68,7 +68,7 @@ class SDG
     private $link;
 
     /**
-     * @ORM\Column(type="string", length=255, unique=true)
+     * @ORM\Column(type="string", length=80, unique=true)
      * @Assert\NotBlank()
      * @Assert\Url()
      * @Groups({"read"})
