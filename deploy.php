@@ -4,7 +4,7 @@ namespace Deployer;
 require 'recipe/symfony4.php';
 
 // Project name
-set('application', 'my_project');
+set('application', 'www');
 
 // Other settings
 set('http_user', 'liveged');
@@ -25,7 +25,7 @@ add('writable_dirs', []);
 
 // Hosts
 
-host('project.com')
+host('ovh')
     ->set('deploy_path', '~/{{application}}');    
     
 // Tasks
