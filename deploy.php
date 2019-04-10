@@ -7,7 +7,9 @@ require 'recipe/symfony4.php';
 set('application', 'www');
 
 // Other settings
+set('env', ['APP_ENV'=>'prod']);
 set('http_user', 'liveged');
+set('writable_mode', 'chmod');
 
 // Project repository
 set('repository', 'git@github.com:cezar77/livegene_backend.git');
