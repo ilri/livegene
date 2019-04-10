@@ -55,9 +55,6 @@ DirectoryIndex index.php
 
     # Rewrite all other queries to the front controller.
     RewriteRule ^ %{ENV:BASE}/index.php [L]
-
-    RewriteCond %{SERVER_PORT} !^443$
-    RewriteRule .? https://%{HTTP_HOST}%{REQUEST_URI} [R,L]
 </IfModule>
 
 <IfModule !mod_rewrite.c>
