@@ -54,8 +54,6 @@ class UserVoter extends Voter
 
     private function canEdit(User $subject, User $user)
     {
-        var_dump($subject);
-        var_dump($user);
         return $user === $subject;
     }
 }
