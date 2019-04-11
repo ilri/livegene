@@ -8,7 +8,6 @@ use App\Application\Sonata\UserBundle\Entity\User;
 
 class UserVoter extends Voter
 {
-    // these strings are just invented: you can use anything
     const VIEW = 'ROLE_SONATA_USER_ADMIN_USER_VIEW';
     const EDIT = 'ROLE_SONATA_USER_ADMIN_USER_EDIT';
 
@@ -55,6 +54,8 @@ class UserVoter extends Voter
 
     private function canEdit(User $subject, User $user)
     {
+        var_dump($subject);
+        var_dump($user);
         return $user === $subject;
     }
 }
