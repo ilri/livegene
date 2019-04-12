@@ -33,10 +33,10 @@ services:
         class: App\Security\Handler\VoterSecurityHandler
         arguments: ["@security.authorization_checker", ['ROLE_SUPER_ADMIN']]
 
-    app.user.voter:
-        class: App\Security\Voter\UserVoter
-        tags:
-            - { name: security.voter }
+    #app.user.voter:
+    #    class: App\Security\Voter\UserVoter
+    #    tags:
+    #        - { name: security.voter }
 
     app.event_listener.pdoexception_listener:
         class: App\EventListener\ModelManagerExceptionResponseListener
