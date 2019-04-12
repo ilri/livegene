@@ -33,7 +33,7 @@ class VoterSecurityHandler implements SecurityHandlerInterface
      */
     public function isGranted(AdminInterface $admin, $attributes, $object = null)
     {
-        if (!is_array($attributes)) {
+        if (!\is_array($attributes)) {
             $attributes = array($attributes);
         }
 
@@ -41,9 +41,12 @@ class VoterSecurityHandler implements SecurityHandlerInterface
             $attributes[$pos] = sprintf($this->getBaseRole($admin), $attribute);
         }
 
+        $allRole = sprintf($this->getBaseRole($admin), 'ALL');
+
         try {
             return $this->authorizationChecker->isGranted($this->superAdminRoles)
                    || $this->authorizationChecker->isGranted($attributes, $object)
+                   || $this->authorizationChecker->isGranted([$allRole], $object)
             ;
         } catch (AuthenticationCredentialsNotFoundException $e) {
             return false;
