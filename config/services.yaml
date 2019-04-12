@@ -31,7 +31,9 @@ services:
 
     sonata.admin.security.handler.voter:
         class: App\Security\Handler\VoterSecurityHandler
-        arguments: ["@security.authorization_checker", ['ROLE_SUPER_ADMIN']]
+        arguments:
+            - '@security.authorization_checker'
+            - ['ROLE_SUPER_ADMIN']
 
     #app.user.voter:
     #    class: App\Security\Voter\UserVoter

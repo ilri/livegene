@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Security\Handler;
 
 use Sonata\AdminBundle\Admin\AdminInterface;
@@ -28,13 +30,10 @@ class VoterSecurityHandler implements SecurityHandlerInterface
         $this->superAdminRoles = $superAdminRoles;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function isGranted(AdminInterface $admin, $attributes, $object = null)
     {
         if (!\is_array($attributes)) {
-            $attributes = array($attributes);
+            $attributes = [$attributes];
         }
 
         foreach ($attributes as $pos => $attribute) {
@@ -45,42 +44,28 @@ class VoterSecurityHandler implements SecurityHandlerInterface
 
         try {
             return $this->authorizationChecker->isGranted($this->superAdminRoles)
-                   || $this->authorizationChecker->isGranted($attributes, $object)
-                   || $this->authorizationChecker->isGranted([$allRole], $object)
+                || $this->authorizationChecker->isGranted($attributes, $object)
+                || $this->authorizationChecker->isGranted([$allRole], $object)
             ;
         } catch (AuthenticationCredentialsNotFoundException $e) {
             return false;
-        } catch (\Exception $e) {
-            throw $e;
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getBaseRole(AdminInterface $admin)
     {
-        return 'ROLE_' . str_replace('.', '_', strtoupper($admin->getCode())) . '_%s';
+        return 'ROLE_'.str_replace('.', '_', strtoupper($admin->getCode())).'_%s';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function buildSecurityInformation(AdminInterface $admin)
     {
-        return array();
+        return [];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function createObjectSecurity(AdminInterface $admin, $object)
     {
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function deleteObjectSecurity(AdminInterface $admin, $object)
     {
     }
