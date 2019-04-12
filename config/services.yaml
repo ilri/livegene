@@ -29,9 +29,9 @@ services:
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
 
-    # sonata.admin.security.handler.voter:
-        # class: App\Security\Handler\VoterSecurityHandler
-        # arguments: ["@security.authorization_checker", ['ROLE_SUPER_ADMIN']]
+    sonata.admin.security.handler.voter:
+        class: App\Security\Handler\VoterSecurityHandler
+        arguments: ["@security.authorization_checker", ['ROLE_SUPER_ADMIN']]
 
     app.user.voter:
         class: App\Security\Voter\UserVoter
