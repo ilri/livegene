@@ -64,9 +64,8 @@ class SamplingDocumentationAdminController extends CRUDController
                     );
                     return $this->redirect($this->admin->generateUrl('list'));
                 } catch (ModelManagerException $e) {
-                        $this->handleModelManagerException($e);
-
-                        $isFormValid = false;
+                    $isFormValid = false;
+                    $this->handleModelManagerException($e);
                 }
             }
 
