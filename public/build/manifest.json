@@ -2,6 +2,8 @@
   "build/app.css": "/build/app.css",
   "build/app.js": "/build/app.js",
   "build/runtime.js": "/build/runtime.js",
+  "build/spa.css": "/build/spa.css",
+  "build/spa.js": "/build/spa.js",
   "build/images/ad.svg": "/build/images/ad.4fc7c4c1.svg",
   "build/images/ae.svg": "/build/images/ae.9fd1fcbf.svg",
   "build/images/af.svg": "/build/images/af.b040d017.svg",

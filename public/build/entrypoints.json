@@ -8,6 +8,15 @@
       "css": [
         "/build/app.css"
       ]
+    },
+    "spa": {
+      "js": [
+        "/build/runtime.js",
+        "/build/spa.js"
+      ],
+      "css": [
+        "/build/spa.css"
+      ]
     }
   }
 }
