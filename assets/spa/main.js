@@ -1,10 +1,11 @@
 import Vue from 'vue';
+import App from './App';
 
 import "bootstrap/dist/css/bootstrap.min.css";
 
-import DummyExample from './components/DummyExample';
+import router from './router';
 
 new Vue({
-  el: '#app',
-  components: { DummyExample }
-});
+  render: h => h(App),
+  router
+}).$mount('#app');
