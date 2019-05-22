@@ -12,6 +12,10 @@
 
 <script>
 export default {
-  name: 'App'
+  name: 'App',
+  created() {
+    this.$store.dispatch('getProjectsAction');
+    console.log(this.$store.state.projects);
+  }
 };
 </script>
