@@ -54,6 +54,10 @@ services:
         decorates: 'api_platform.jsonld.normalizer.item'
         arguments: [ '@App\Serializer\Normalizer\SamplingDocumentationNormalizer.inner' ]
 
+    app.custom_basic_authentication_entry_point:
+        class: App\Security\Service\CustomBasicAuthenticationEntryPoint
+        arguments: [ main ]
+
     # admin services
     admin.animal_species:
         class: App\Admin\AnimalSpeciesAdmin

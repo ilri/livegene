@@ -25,10 +25,11 @@ security:
             anonymous:          true
             switch_user:        true
         main:
-            pattern: ^/api/
+            pattern: /api
             context: user
             http_basic: ~
             provider: fos_userbundle
+            entry_point: app.custom_basic_authentication_entry_point
 
     role_hierarchy:
         ROLE_SONATA_ADMIN:
