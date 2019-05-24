@@ -20,23 +20,25 @@ export default {
   },
   actions: {
     async authenticate(context, credentials) {
-      let response = await Axios({
-        url: '/api',
-        method: 'get',
-        withCredentials: true,
-        auth: {
-          username: credentials.username,
-          password: credentials.password
-        },
-        headers: {
-          'X-Requested-With': 'XMLHttpRequest'
-        }
-      });
+      try {
+        let response = await Axios({
+          url: '/api',
+          method: 'get',
+          withCredentials: true,
+          auth: {
+            username: credentials.username,
+            password: credentials.password
+          },
+          headers: {
+            'X-Requested-With': 'XMLHttpRequest'
+          }
+        });
 
-      if (response.status == 200) {
-        context.commit('setAuthenticated');
-      } else {
-        if (response.status == 401) {
+        if (response.status == 200) {
+          context.commit('setAuthenticated');
+        }
+      } catch(err) {
+        if (err.response.status == 401) {
           throw new Error('Wrong credentials.');
         } else {
           throw new Error('Login failed. Please try later or contact the administrator.');
