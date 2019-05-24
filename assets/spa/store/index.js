@@ -1,21 +1,25 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import Axios from 'axios';
+
+import AuthModule from './auth';
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
+  strict: true,
+  modules: { auth: AuthModule },
   state: {
     projects: []
   },
   mutations: {
-    populateProjects(currentState, project) {
-      currenState.projects.push(project);
+    setProjects(currentState, projects) {
+      currenState.projects = projects;
     }
   },
   actions: {
     async getProjectsAction(context) {
-      (await Axios.get('/api/projects/')).data.forEach(p => context.commit('populateProjects', p));
+      // context.commit('setProjects',
+      // (await context.rootGetters.authenticatedAxios.get('/api/projects')).data);
     }
   }
 });
