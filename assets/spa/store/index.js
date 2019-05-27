@@ -12,14 +12,17 @@ export default new Vuex.Store({
     projects: []
   },
   mutations: {
-    setProjects(currentState, projects) {
-      currenState.projects = projects;
+    setProjects(state, projects) {
+      state.projects = projects;
     }
   },
   actions: {
     async getProjectsAction(context) {
-      // context.commit('setProjects',
-      // (await context.rootGetters.authenticatedAxios.get('/api/projects')).data);
+      let response = await context.rootGetters.authenticatedAxios.get('/api/projects');
+      context.commit(
+        'setProjects',
+        response.data['hydra:member']
+      );
     }
   }
 });

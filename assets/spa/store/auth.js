@@ -2,20 +2,38 @@ import Axios from 'axios';
 
 export default {
   state: {
-    authenticated: false
+    authenticated: false,
+    credentials: {
+      username: '',
+      password: ''
+    }
   },
   getters: {
     authenticatedAxios(state) {
       return Axios.create({
+        method: 'get',
+        auth: {
+          username: state.credentials.username,
+          password: state.credentials.password
+        },
+        headers: {
+          'X-Requested-With': 'XMLHttpRequest',
+          'Accept': 'application/ld+json'
+        }
       });
     }
   },
   mutations: {
-    setAuthenticated(state) {
+    setAuthenticated(state, credentials) {
       state.authenticated = true;
+      state.credentials = credentials;
     },
     clearAuthentication(state) {
       state.authenticated = false;
+      state.credentials = {
+        username: '',
+        password: ''
+      };
     }
   },
   actions: {
@@ -24,7 +42,6 @@ export default {
         let response = await Axios({
           url: '/api',
           method: 'get',
-          withCredentials: true,
           auth: {
             username: credentials.username,
             password: credentials.password
@@ -35,7 +52,7 @@ export default {
         });
 
         if (response.status == 200) {
-          context.commit('setAuthenticated');
+          context.commit('setAuthenticated', credentials);
         }
       } catch(err) {
         if (err.response.status == 401) {
