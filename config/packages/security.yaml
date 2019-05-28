@@ -25,7 +25,7 @@ security:
             anonymous:          true
             switch_user:        true
         main:
-            pattern: /api
+            pattern: ^/api
             context: user
             http_basic: ~
             provider: fos_userbundle

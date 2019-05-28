@@ -5,6 +5,7 @@
         "axios": "^0.18.0",
         "bootstrap": "^4.3.1",
         "core-js": "^3.1.2",
+        "d3": "^5.9.2",
         "eslint": "^5.16.0",
         "flag-icon-css": "^3.3.0",
         "regenerator-runtime": "^0.13.2",

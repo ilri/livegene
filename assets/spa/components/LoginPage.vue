@@ -1,5 +1,5 @@
 <template>
-  <div class="jumbotron">
+  <div class="jumbotron col-3 mx-auto my-2">
     <h2 class="text-center">Login</h2>
     <form v-on:submit.prevent="handleAuthentication">
       <div class="form-group">
