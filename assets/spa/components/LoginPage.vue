@@ -1,5 +1,5 @@
 <template>
-  <div class="jumbotron col-3 mx-auto my-2">
+  <b-col class="jumbotron mx-auto my-2" cols="10" sm="8" md="6" lg="3">
     <h2 class="text-center">Login</h2>
     <form v-on:submit.prevent="handleAuthentication">
       <div class="form-group">
@@ -28,7 +28,7 @@
         {{ error }}
       </div>
     </form>
-  </div>
+  </b-col>
 </template>
 
 <script>
