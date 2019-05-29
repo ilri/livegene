@@ -1,5 +1,6 @@
 <template>
   <div class="jumbotron">
+    <router-view></router-view>
     <h2>This is the protected realm.</h2>
     <h3>Projects</h3>
     <table>

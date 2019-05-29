@@ -10,7 +10,11 @@ Vue.use(VueRouter);
 
 const router = new VueRouter({
   routes: [
-    { path: '/', name: 'dashboard', component: ProjectsTimeline },
+    { path: '/', name: 'dashboard', component: HomePage,
+     children: [
+       { path: 'timeline', name: 'timeline', component: ProjectsTimeline }
+     ]
+    },
     { path: '/login', name: 'login', component: LoginPage },
     { path: '*', redirect: '/' }
   ]
