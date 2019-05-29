@@ -18,11 +18,7 @@ export default {
   computed: {
     ...mapState({ projects: state => state.projects })
   },
-  //async created() {
-  //  await this.$store.dispatch('getProjectsAction');
-  //},
   async mounted() {
-    await this.$store.dispatch('getProjectsAction');
     var data = this.projects.slice(0);
     data = data.sort(function(a, b) {
       return a.startDate > b.startDate;

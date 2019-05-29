@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-
+ 
 import HomePage from '../components/HomePage';
 import LoginPage from '../components/LoginPage';
 import ProjectsTimeline from '../components/ProjectsTimeline';
@@ -30,7 +30,7 @@ router.beforeEach((to, from, next) => {
   if (authRequired && !loggedIn) {
     return next({ 
       path: '/login', 
-      query: { returnUrl: to.path } 
+      // query: { returnUrl: to.path } 
     });
   }
 
