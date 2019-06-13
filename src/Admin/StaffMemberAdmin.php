@@ -76,7 +76,8 @@ class StaffMemberAdmin extends AbstractAdmin
                     ->add('totalRolesPercent', PercentType::class, [
                         'required' => false,
                         'disabled' => true,
-                        'type' => 'integer'
+                        'type' => 'fractional',
+                        'scale' => 2
                     ])
                 ->end()
             ;
