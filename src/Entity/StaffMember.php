@@ -201,7 +201,7 @@ class StaffMember
      *
      * @Groups({"read"})
      */
-    public function getTotalRolesPercent(): int
+    public function getTotalRolesPercent()
     {
         return array_reduce(
             $this->getStaffRoles()->toArray(),
