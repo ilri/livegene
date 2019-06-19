@@ -38,7 +38,7 @@ class StaffMember
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      * @ApiProperty(identifier=false)
-     * @Groups({"read"})
+     * @Groups({"read", "role"})
      */
     private $id;
 
@@ -46,7 +46,7 @@ class StaffMember
      * @ORM\Column(type="string", length=15, unique=true)
      * @Assert\NotBlank()
      * @ApiProperty(identifier=true)
-     * @Groups({"read"})
+     * @Groups({"read", "role"})
      */
     private $username;
 
@@ -54,14 +54,14 @@ class StaffMember
      * @ORM\Column(type="string", length=100, unique=true)
      * @Assert\NotBlank()
      * @Assert\Email(mode="strict")
-     * @Groups({"read"})
+     * @Groups({"read", "role"})
      */
     private $email;
 
     /**
      * @ORM\Column(type="string", length=30)
      * @Assert\NotBlank()
-     * @Groups({"read"})
+     * @Groups({"read", "role"})
      */
     private $homeProgram;
 

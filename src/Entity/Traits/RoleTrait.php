@@ -4,6 +4,7 @@ namespace App\Entity\Traits;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 trait RoleTrait
 {
@@ -15,6 +16,7 @@ trait RoleTrait
      *     minMessage="The minimal allowed value is 0.00%.",
      *     maxMessage="The maximal allowed value is 100.00%."
      * )
+     * @Groups({"role"})
      */
     private $percent;
 

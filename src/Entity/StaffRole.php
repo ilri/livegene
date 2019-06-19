@@ -7,12 +7,16 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Validator\Constraints as AppAssert;
+use Symfony\Component\Serializer\Annotation\Groups;
 use App\Entity\Traits\RoleTrait;
 
 /**
  * @ApiResource(
  *     collectionOperations={"get"={"method"="GET"}},
  *     itemOperations={"get"={"method"="GET"}},
+ *     attributes={
+ *         "normalization_context"={"groups"={"role"}},
+ *     }
  * )
  * @ORM\Entity(repositoryClass="App\Repository\StaffRoleRepository")
  * @ORM\Table(
@@ -30,6 +34,7 @@ class StaffRole
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     * @Groups({"role"})
      */
     private $id;
 
@@ -37,6 +42,7 @@ class StaffRole
      * @ORM\ManyToOne(targetEntity="App\Entity\Project", inversedBy="staffRoles")
      * @ORM\JoinColumn(nullable=false)
      * @Assert\NotBlank()
+     * @Groups({"role"})
      */
     private $project;
 
@@ -44,6 +50,7 @@ class StaffRole
      * @ORM\ManyToOne(targetEntity="App\Entity\StaffMember", inversedBy="staffRoles")
      * @ORM\JoinColumn(nullable=false)
      * @Assert\NotBlank()
+     * @Groups({"role"})
      */
     private $staffMember;
 

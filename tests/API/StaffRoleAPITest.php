@@ -79,8 +79,21 @@ class StaffRoleAPITest extends WebTestCase
             $data,
             [
                 'id' => 1,
-                'project' => '/api/projects/1',
-                'staffMember' => '/api/staff/coyote',
+                'project' => [
+                    'id' => 1,
+                    'ilriCode' => 'ACME001',
+                    'fullName' => 'Wile E. Coyote and the Road Runner',
+                    'shortName' => 'Looney Tunes',
+                    'team' => 'LiveGene',
+                ],
+                'staffMember' => [
+                    'id' => 1,
+                    'username' => 'coyote',
+                    'email' => 'coyote@example.com',
+                    'homeProgram' => 'Cartoon',
+                    'firstName' => 'Wile E.',
+                    'lastName' => 'Coyote',
+                ],
                 'percent' => '0.5',
             ]
         );

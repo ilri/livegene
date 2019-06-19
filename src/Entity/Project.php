@@ -32,35 +32,35 @@ class Project
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
-     * @Groups({"read"})
+     * @Groups({"read", "role"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=20, unique=true)
      * @Assert\NotBlank()
-     * @Groups({"read"})
+     * @Groups({"read", "role"})
      */
     private $ilriCode;
 
     /**
      * @ORM\Column(type="string", length=200)
      * @Assert\NotBlank()
-     * @Groups({"read"})
+     * @Groups({"read", "role"})
      */
     private $fullName;
 
     /**
      * @ORM\Column(type="string", length=50)
      * @Assert\NotBlank()
-     * @Groups({"read"})
+     * @Groups({"read", "role"})
      */
     private $shortName;
 
     /**
      * @ORM\Column(type="string", length=20)
      * @Assert\NotBlank()
-     * @Groups({"read"})
+     * @Groups({"read", "role"})
      */
     private $team;
 
