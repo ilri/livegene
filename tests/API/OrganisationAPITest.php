@@ -86,7 +86,6 @@ class OrganisationAPITest extends WebTestCase
                 'country' => [
                     'id' => 1,
                     'country' => 'GB',
-                    'countryRoles' => [],
                     'countryName' => 'United Kingdom'
                 ]
             ]

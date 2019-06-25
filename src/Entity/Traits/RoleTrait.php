@@ -16,7 +16,7 @@ trait RoleTrait
      *     minMessage="The minimal allowed value is 0.00%.",
      *     maxMessage="The maximal allowed value is 100.00%."
      * )
-     * @Groups({"role"})
+     * @Groups({"role", "read"})
      */
     private $percent;
 

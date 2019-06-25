@@ -207,7 +207,7 @@ class StaffMember
             $this->getStaffRoles()->toArray(),
             function($carry, $item) {
                 $carry += $item->getPercent();
-                return $carry;
+                return round($carry, 2);
             },
             0
         );
