@@ -73,13 +73,11 @@ class CountryAPITest extends WebTestCase
         );
         $data = json_decode($this->client->getResponse()->getContent(), true);
         $this->assertArrayHasKey('country', $data);
-        $this->assertArrayHasKey('countryRoles', $data);
         $this->assertSame(
             $data,
             [
                 'id' => 1,
                 'country' => 'GB',
-                'countryRoles' => [],
                 'countryName' => 'United Kingdom'
             ]
         );
