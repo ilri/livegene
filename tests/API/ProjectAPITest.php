@@ -103,7 +103,6 @@ class ProjectAPITest extends WebTestCase
                     'country' => [
                         'id' => 1,
                         'country' => 'GB',
-                        'countryRoles' => [],
                         'countryName' => 'United Kingdom'
                     ]
                 ],
@@ -114,6 +113,7 @@ class ProjectAPITest extends WebTestCase
                 'totalLivegeneValue' => 100000,
                 'status' => 0,
                 'capacityDevelopment' => 0,
+                'staffRoles' => [],
                 'totalCountryRolesPercent' => 0,
                 'totalSDGRolesPercent' => 0,
                 'isActive' => true

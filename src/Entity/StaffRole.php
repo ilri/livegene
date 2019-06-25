@@ -34,7 +34,7 @@ class StaffRole
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
-     * @Groups({"role"})
+     * @Groups({"role", "read"})
      */
     private $id;
 
@@ -50,7 +50,7 @@ class StaffRole
      * @ORM\ManyToOne(targetEntity="App\Entity\StaffMember", inversedBy="staffRoles")
      * @ORM\JoinColumn(nullable=false)
      * @Assert\NotBlank()
-     * @Groups({"role"})
+     * @Groups({"role", "read"})
      */
     private $staffMember;
 

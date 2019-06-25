@@ -173,6 +173,7 @@ class Project
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\StaffRole", mappedBy="project", cascade={"persist", "remove"})
+     * @Groups({"read"})
      */
     private $staffRoles;
 
