@@ -3,7 +3,7 @@ import VueRouter from 'vue-router';
  
 import HomePage from '../components/HomePage';
 import LoginPage from '../components/LoginPage';
-import ProjectsTimeline from '../components/ProjectsTimeline';
+import ProjectsTimeline from '../components/ProjectTimelines';
 import dataStore from '../store';
 
 Vue.use(VueRouter);

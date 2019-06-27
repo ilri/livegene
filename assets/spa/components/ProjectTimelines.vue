@@ -1,6 +1,6 @@
 <template>
   <div class="col">
-    <h2 class="bg-primary text-white text-center p-2">Projects Timeline</h2>
+    <h2 class="bg-primary text-white text-center p-2">Project Timelines</h2>
     <div class="row">
       <div class="col">
         <svg></svg>
