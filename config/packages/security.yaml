@@ -25,8 +25,9 @@ security:
             anonymous:          true
             switch_user:        true
         main:
-            pattern: ^/api
+            pattern: ^/
             context: user
+            anonymous: true
             http_basic: ~
             provider: fos_userbundle
             entry_point: app.custom_basic_authentication_entry_point
@@ -61,7 +62,7 @@ security:
         # Change these rules to adapt them to your needs
         - { path: ^/admin/, roles: ROLE_SONATA_ADMIN}
         - { path: ^/media/, roles: ROLE_USER }
-        - { path: ^/api/, roles: ROLE_USER }
+        - { path: ^/api, roles: ROLE_USER }
         - { path: ^/.*, roles: IS_AUTHENTICATED_ANONYMOUSLY, ip: 127.0.0.1, port: 8000, requires_channel: http }
         - { path: ^/.*, roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: https }
 
