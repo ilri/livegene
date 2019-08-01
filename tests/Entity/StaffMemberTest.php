@@ -11,12 +11,13 @@ use App\Entity\StaffRole;
 class StaffMemberTest extends TestCase
 {
     private static $email = 'Cezar.Pendarovski@ROSLIN.ed.ac.uk';
+    private static $username = 'Cpendaro';
     private static $staffMember;
 
     public static function setUpBeforeClass()
     {
         self::$staffMember = new StaffMember();
-        self::$staffMember->setUsername('Cpendaro');
+        self::$staffMember->setUsername(self::$username);
         self::$staffMember->setFirstName('Cezar');
         self::$staffMember->setLastName('Pendarovski');
         self::$staffMember->setHomeProgram('CTLGH');
