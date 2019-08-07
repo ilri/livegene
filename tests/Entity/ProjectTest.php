@@ -71,6 +71,71 @@ class ProjectTest extends TestCase
         );
     }
 
+    public function testProjectEndsSameYearIsActiveThisYear()
+    {
+        $this->project->setStartDate(
+            new Carbon('first day of January 2015')
+        );
+        $this->project->setEndDate(
+            new Carbon('last day of March 2019')
+        );
+        $this->assertTrue(
+            $this->project->getIsActiveThisYear()
+        );
+    }
+
+    public function testProjectStartsSameYearIsActiveThisYear()
+    {
+        $this->project->setStartDate(
+            new Carbon('last day of December 2019')
+        );
+        $this->project->setEndDate(
+            new Carbon('last Friday of June 2022')
+        );
+        $this->assertTrue(
+            $this->project->getIsActiveThisYear()
+        );
+    }
+
+    public function testActiveProjectIsActiveThisYear()
+    {
+        $this->project->setStartDate(
+            new Carbon('first day of April 2015')
+        );
+        $this->project->setEndDate(
+            new Carbon('last day of September 2020')
+        );
+        $this->assertTrue(
+            $this->project->getIsActiveThisYear()
+        );
+    }
+
+    public function testPastYearsProjectIsNotActiveThisYear()
+    {
+        $this->project->setStartDate(
+            new Carbon('first Monday of April 2015')
+        );
+        $this->project->setEndDate(
+            new Carbon('last Sunday of August 2018')
+        );
+        $this->assertFalse(
+            $this->project->getIsActiveThisYear()
+        );
+    }
+
+    public function testNextYearsProjectIsNotActiveThisYear()
+    {
+        $this->project->setStartDate(
+            new Carbon('first day of January 2020')
+        );
+        $this->project->setEndDate(
+            new Carbon('last Sunday of September 2023')
+        );
+        $this->assertFalse(
+            $this->project->getIsActiveThisYear()
+        );
+    }
+
     public function testTotalCountryRolesPercent()
     {
         $this->assertEquals(

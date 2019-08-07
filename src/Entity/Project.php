@@ -583,4 +583,11 @@ class Project
         $now = Carbon::now();
         return $this->endDate >= $now && $this->startDate <= $now;
     }
+
+    public function getIsActiveThisYear(): bool
+    {
+        $now = Carbon::now();
+        // @David: please put the business logic here and remove the next line
+        return false;
+    }
 }
