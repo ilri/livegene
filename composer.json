@@ -6,6 +6,7 @@
         "ext-ctype": "*",
         "ext-iconv": "*",
         "api-platform/api-pack": "^1.2",
+        "doctrine/doctrine-fixtures-bundle": "^3.2",
         "sensio/framework-extra-bundle": "^5.1",
         "simplethings/entity-audit-bundle": "^1.0",
         "sonata-project/admin-bundle": "^3.45",
@@ -34,7 +35,6 @@
         "symfony/yaml": "4.2.*"
     },
     "require-dev": {
-        "doctrine/doctrine-fixtures-bundle": "^3.1",
         "liip/functional-test-bundle": "~2.0@alpha",
         "sonata-project/easy-extends-bundle": "^2.5",
         "symfony/debug-pack": "*",
