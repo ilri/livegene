@@ -12,6 +12,7 @@ use Doctrine\Common\Collections\{
     ArrayCollection,
     Collection
 };
+use Carbon\Carbon;
 
 /**
  * @ApiResource(
@@ -579,7 +580,7 @@ class Project
      */
     public function getIsActive(): bool
     {
-        $now = new \DateTime('now');
+        $now = Carbon::now();
         return $this->endDate >= $now && $this->startDate <= $now;
     }
 }

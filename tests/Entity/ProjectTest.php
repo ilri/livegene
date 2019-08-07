@@ -3,11 +3,15 @@
 namespace App\Tests\Entity;
 
 use PHPUnit\Framework\TestCase;
-use Doctrine\Common\Persistence\ObjectManager;
-use Doctrine\Common\Persistence\ObjectRepository;
-use App\Entity\Project;
-use App\Entity\CountryRole;
-use App\Entity\SDGRole;
+use Carbon\ Carbon;
+use Doctrine\Common\Persistence\{
+    ObjectRepository,
+    ObjectManager
+};
+use App\Entity\{
+    Project,
+    CountryRole
+};
 
 class ProjectTest extends TestCase
 {
@@ -17,7 +21,8 @@ class ProjectTest extends TestCase
     public function setUp()
     {
         date_default_timezone_set('UTC');
-        $this->now = new \DateTimeImmutable('now');
+        $now = Carbon::create(2019, 8, 7, 12);
+        Carbon::setTestNow($now);
         $this->project = new Project();
 
         $projectRepository = $this->createMock(ObjectRepository::class);
@@ -33,8 +38,8 @@ class ProjectTest extends TestCase
 
     public function testCurrentProjectIsActive()
     {
-        $this->project->setStartDate(new \DateTime('yesterday'));
-        $this->project->setEndDate(new \DateTime('tomorrow'));
+        $this->project->setStartDate(new Carbon('yesterday'));
+        $this->project->setEndDate(new Carbon('tomorrow'));
         $this->assertTrue(
             $this->project->getIsActive()
         );
@@ -43,10 +48,10 @@ class ProjectTest extends TestCase
     public function testPastProjectIsNotActive()
     {
         $this->project->setStartDate(
-            $this->now->sub(new \DateInterval('P30D'))
+            Carbon::now()->sub('30 days')
         );
         $this->project->setEndDate(
-            $this->now->sub(new \DateInterval('P10D'))
+            Carbon::now()->sub('10 days')
         );
         $this->assertFalse(
             $this->project->getIsActive()
@@ -56,10 +61,10 @@ class ProjectTest extends TestCase
     public function testFutureProjectIsNotActive()
     {
         $this->project->setStartDate(
-            $this->now->add(new \DateInterval('P10D'))
+            Carbon::now()->add('10 days')
         );
         $this->project->setEndDate(
-            $this->now->add(new \DateInterval('P30D'))
+            Carbon::now()->add('30 days')
         );
         $this->assertFalse(
             $this->project->getIsActive()
