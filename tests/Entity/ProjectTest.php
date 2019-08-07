@@ -16,7 +16,8 @@ class ProjectTest extends TestCase
 
     public function setUp()
     {
-        $this->now = new \DateTime('now');
+        date_default_timezone_set('UTC');
+        $this->now = new \DateTimeImmutable('now');
         $this->project = new Project();
 
         $projectRepository = $this->createMock(ObjectRepository::class);
@@ -42,10 +43,10 @@ class ProjectTest extends TestCase
     public function testPastProjectIsNotActive()
     {
         $this->project->setStartDate(
-            $this->now->sub(new \DateInterval('P10D'))
+            $this->now->sub(new \DateInterval('P30D'))
         );
         $this->project->setEndDate(
-            $this->now->sub(new \DateInterval('P5D'))
+            $this->now->sub(new \DateInterval('P10D'))
         );
         $this->assertFalse(
             $this->project->getIsActive()
@@ -55,7 +56,7 @@ class ProjectTest extends TestCase
     public function testFutureProjectIsNotActive()
     {
         $this->project->setStartDate(
-            $this->now->add(new \DateInterval('P15D'))
+            $this->now->add(new \DateInterval('P10D'))
         );
         $this->project->setEndDate(
             $this->now->add(new \DateInterval('P30D'))

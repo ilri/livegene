@@ -579,7 +579,7 @@ class Project
      */
     public function getIsActive(): bool
     {
-        $now = new \DateTime();
+        $now = new \DateTime('now');
         return $this->endDate >= $now && $this->startDate <= $now;
     }
 }
