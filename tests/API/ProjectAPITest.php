@@ -120,7 +120,8 @@ class ProjectAPITest extends WebTestCase
                 'staffRoles' => [],
                 'totalCountryRolesPercent' => 0,
                 'totalSDGRolesPercent' => 0,
-                'isActive' => true
+                'isActive' => true,
+                'isActiveThisYear' => true
             ]
         );
     }
