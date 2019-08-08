@@ -20,6 +20,7 @@ class ProjectAPITest extends WebTestCase
         $this->fixtures = $this->loadFixtures([
             'App\DataFixtures\Test\UserFixtures',
             'App\DataFixtures\Test\ProjectFixtures',
+            'App\DataFixtures\Test\StaffRoleFixtures',
         ])->getReferenceRepository();
         $username = $this->fixtures->getReference('user')->getUsername();
         $credentials = [
@@ -93,7 +94,7 @@ class ProjectAPITest extends WebTestCase
                     'homeProgram' => 'Cartoon',
                     'firstName' => 'Wile E.',
                     'lastName' => 'Coyote',
-                    'totalRolesPercent' => 0
+                    'totalRolesPercent' => 0.5
                 ],
                 'startDate' => '2018-01-01T00:00:00+00:00',
                 'endDate' => '2019-12-31T00:00:00+00:00',
@@ -117,7 +118,21 @@ class ProjectAPITest extends WebTestCase
                 'totalLivegeneValue' => 100000,
                 'status' => 0,
                 'capacityDevelopment' => 0,
-                'staffRoles' => [],
+                'staffRoles' => [
+                    [
+                        'id' => 1,
+                        'staffMember' => [
+                            'id' => 1,
+                            'username' => 'coyote',
+                            'email' => 'coyote@example.com',
+                            'homeProgram' => 'Cartoon',
+                            'firstName' => 'Wile E.',
+                            'lastName' => 'Coyote',
+                            'totalRolesPercent' => 0.5
+                        ],
+                        'percent' => '0.5'
+                    ]
+                ],
                 'totalCountryRolesPercent' => 0,
                 'totalSDGRolesPercent' => 0,
                 'isActive' => true,
