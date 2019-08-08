@@ -3,6 +3,7 @@
 namespace App\Tests\API;
 
 use Liip\FunctionalTestBundle\Test\WebTestCase;
+use Carbon\Carbon;
 use Symfony\Component\HttpFoundation\Response;
 use App\DataFixtures\Test\UserFixtures;
 
@@ -13,6 +14,9 @@ class ProjectAPITest extends WebTestCase
 
     public function setUp()
     {
+        date_default_timezone_set('UTC');
+        $now = Carbon::create(2019, 8, 8, 9);
+        Carbon::setTestNow($now);
         $this->fixtures = $this->loadFixtures([
             'App\DataFixtures\Test\UserFixtures',
             'App\DataFixtures\Test\ProjectFixtures',
