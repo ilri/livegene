@@ -113,6 +113,9 @@
     "friendsofsymfony/user-bundle": {
         "version": "v2.1.2"
     },
+    "fzaninotto/faker": {
+        "version": "v1.8.0"
+    },
     "guzzlehttp/psr7": {
         "version": "1.5.2"
     },
@@ -166,6 +169,9 @@
             "version": "1.5",
             "ref": "f0436fc35fca88eada758311f8de43bfb61f1980"
         }
+    },
+    "nesbot/carbon": {
+        "version": "2.22.2"
     },
     "nikic/php-parser": {
         "version": "v4.2.0"

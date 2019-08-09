@@ -11,12 +11,13 @@ use App\Entity\StaffRole;
 class StaffMemberTest extends TestCase
 {
     private static $email = 'Cezar.Pendarovski@ROSLIN.ed.ac.uk';
+    private static $username = 'Cpendaro';
     private static $staffMember;
 
     public static function setUpBeforeClass()
     {
         self::$staffMember = new StaffMember();
-        self::$staffMember->setUsername('cpendaro');
+        self::$staffMember->setUsername(self::$username);
         self::$staffMember->setFirstName('Cezar');
         self::$staffMember->setLastName('Pendarovski');
         self::$staffMember->setHomeProgram('CTLGH');
@@ -34,6 +35,12 @@ class StaffMemberTest extends TestCase
         $objectManager->expects($this->any())
             ->method('getRepository')
             ->willReturn($staffMemberRepository);
+    }
+
+    public function testUsernameIsSavedInLowerCase()
+    {
+        $this->assertEquals(strtolower(self::$username), self::$staffMember->getUsername());
+        $this->assertNotEquals(self::$username, self::$staffMember->getUsername());
     }
 
     public function testEmailIsSavedInLowerCase()
