@@ -586,15 +586,15 @@ class Project
 
     public function getIsActiveThisYear(): bool
     {
-        $activeYearStartDate = Carbon::instance($this->startDate)->isCurrentYear();
-        $activeYearEndDate = Carbon::instance($this->endDate)->isCurrentYear();
-        if ($this->getIsActive() == true){
+        $isStartDateInYear = Carbon::instance($this->startDate)->isCurrentYear();
+        $isEndDateInYear = Carbon::instance($this->endDate)->isCurrentYear();
+        if ($this->getIsActive() == true) {
             return true;
-        }
-        else if ($this->startDate == $activeYearStartDate || $this->endDate == $activeYearEndDate){
+        } else if ($isStartDateInYear == true || $isEndDateInYear == true) {
             return true;
-        }
-        else
+        } else {
             return false;
+        }
+            
     }
 }
