@@ -586,8 +586,15 @@ class Project
 
     public function getIsActiveThisYear(): bool
     {
-        $now = Carbon::now();
-        // @David: please put the business logic here and remove the next line
-        return false;
+        $activeYearStartDate = Carbon::instance($this->startDate)->isCurrentYear();
+        $activeYearEndDate = Carbon::instance($this->endDate)->isCurrentYear();
+        if ($this->getIsActive() == true){
+            return true;
+        }
+        else if ($this->startDate == $activeYearStartDate || $this->endDate == $activeYearEndDate){
+            return true;
+        }
+        else
+            return false;
     }
 }
