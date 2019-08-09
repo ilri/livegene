@@ -588,10 +588,6 @@ class Project
     {
         $isStartDateInCurrentYear = Carbon::instance($this->startDate)->isCurrentYear();
         $isEndDateInCurrentYear = Carbon::instance($this->endDate)->isCurrentYear();
-        if ($this->getIsActive()||$isStartDateInCurrentYear || $isEndDateInCurrentYear) {
-            return true;
-        }  else {
-            return false;
-        }
+        return $this->getIsActive() || $isStartDateInCurrentYear || $isEndDateInCurrentYear;
     }
 }
