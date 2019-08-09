@@ -584,6 +584,9 @@ class Project
         return $this->endDate >= $now && $this->startDate <= $now;
     }
 
+    /**
+     * @Groups({"read"})
+     */
     public function getIsActiveThisYear(): bool
     {
         $isStartDateInCurrentYear = Carbon::instance($this->startDate)->isCurrentYear();
