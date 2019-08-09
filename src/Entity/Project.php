@@ -584,7 +584,6 @@ class Project
         return $this->endDate >= $now && $this->startDate <= $now;
     }
 
-
     /**
      * @Groups({"read"})
      */
