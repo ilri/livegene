@@ -31,5 +31,4 @@ trait RoleTrait
 
         return $this;
     }
-
 }

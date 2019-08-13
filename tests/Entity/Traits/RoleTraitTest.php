@@ -1,0 +1,20 @@
+<?php
+
+namespace App\Tests\Entity\Traits;
+
+use PHPUnit\Framework\TestCase;
+use App\Entity\Traits\RoleTrait;
+
+class RoleTraitTest extends TestCase
+{
+    public function testGetPercent()
+    {
+        $mock = $this->getMockForTrait(RoleTrait::class);
+
+        $mock->setPercent(0.0375);
+
+        var_dump($mock->getPercent());
+        $this->assertEquals('0.0375', $mock->getPercent());
+    }
+}
+
