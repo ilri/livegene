@@ -53,7 +53,7 @@ class StaffMemberTest extends TestCase
     {
         $this->assertEquals(
             0,
-            self::$staffMember->getTotalRolesPercent()
+            self::$staffMember->getTotalStaffRolesPercent()
         );
 
         $percent1 = 0.2500;
@@ -73,7 +73,7 @@ class StaffMemberTest extends TestCase
 
         $this->assertEquals(
             $totalPercent,
-            self::$staffMember->getTotalRolesPercent()
+            self::$staffMember->getTotalStaffRolesPercent()
         );
     }
 }
