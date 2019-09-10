@@ -56,9 +56,9 @@ class StaffMemberTest extends TestCase
             self::$staffMember->getTotalRolesPercent()
         );
 
-        $percent1 = 0.3000;
-        $percent2 = 0.2500;
-        $percent3 = 0.2000;
+        $percent1 = 0.2500;
+        $percent2 = 0.2750;
+        $percent3 = 0.4750;
         $staffRole1 = new StaffRole();
         $staffRole1->setPercent($percent1);
         $staffRole2 = new StaffRole();

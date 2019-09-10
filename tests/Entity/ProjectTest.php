@@ -143,9 +143,9 @@ class ProjectTest extends TestCase
             $this->project->getTotalCountryRolesPercent()
         );
 
-        $percent1 = 30;
-        $percent2 = 25;
-        $percent3 = 20;
+        $percent1 = 0.075;
+        $percent2 = 0.025;
+        $percent3 = 0.9;
         $countryRole1 = new CountryRole();
         $countryRole1->setPercent($percent1);
         $countryRole2 = new CountryRole();
