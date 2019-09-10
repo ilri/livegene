@@ -13,6 +13,7 @@ use Doctrine\Common\Collections\{
     Collection
 };
 use Carbon\Carbon;
+use App\Entity\Traits\PercentageTrait;
 
 /**
  * @ApiResource(
@@ -29,6 +30,7 @@ use Carbon\Carbon;
  */
 class Project
 {
+    use PercentageTrait;
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -552,27 +554,15 @@ class Project
      */
     public function getTotalCountryRolesPercent(): float
     {
-        return $this->calculateTotalPercent($this->getCountryRoles()->toArray());
+        return $this->calculateTotalRolesPercentage($this->getCountryRoles()->toArray());
     }
 
     /**
      * @Groups({"read"})
      */
-    public function getTotalSDGRolesPercent(): int
+    public function getTotalSDGRolesPercent(): float
     {
-        return $this->calculateTotalPercent($this->getSDGRoles()->toArray());
-    }
-
-    private function calculateTotalPercent(array $roles): float
-    {
-        return array_reduce(
-            $roles,
-            function($carry, $item) {
-                $carry += doubleval($item->getPercent());
-                return $carry;
-            },
-            0
-        );
+        return $this->calculateTotalRolesPercentage($this->getSDGRoles()->toArray());
     }
 
     /**

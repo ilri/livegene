@@ -15,6 +15,7 @@ use Doctrine\Common\Collections\{
     Collection
 };
 use App\Entity\Traits\PersonTrait;
+use App\Entity\Traits\PercentageTrait;
 
 /**
  * @ApiResource(
@@ -32,6 +33,7 @@ use App\Entity\Traits\PersonTrait;
 class StaffMember
 {
     use PersonTrait;
+    Use PercentageTrait;
 
     /**
      * @ORM\Id()
@@ -194,22 +196,10 @@ class StaffMember
     }
 
     /**
-     * Get the total percent sum for all staff roles.
-     * The function array_reduce accepts array as first argument.
-     * The collection staffRoles has to be therefore converted to array.
-     * In the callback function the sum is calculated.
-     *
      * @Groups({"read"})
      */
-    public function getTotalRolesPercent()
+    public function getTotalStaffRolesPercent(): float
     {
-        return array_reduce(
-            $this->getStaffRoles()->toArray(),
-            function($carry, $item) {
-                $carry += $item->getPercent();
-                return round($carry, 2);
-            },
-            0
-        );
+        return $this->calculateTotalRolesPercentage($this->getStaffRoles()->toArray());
     }
 }
