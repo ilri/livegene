@@ -12,7 +12,7 @@ set('http_user', 'liveged');
 set('writable_mode', 'chmod');
 
 // Project repository
-set('repository', 'git@github.com:cezar77/livegene_backend.git');
+set('repository', 'git@github.com:ilri/livegene.git');
 
 // [Optional] Allocate tty for git clone. Default value is false.
 set('git_tty', true); 
