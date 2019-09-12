@@ -192,8 +192,12 @@ class Project
 
     /**
      * @ORM\Column(type="text")
+     * @Assert\Length(
+     *     max = 1000,
+     *     maxMessage = "Please provide maximum {{ limit }} characters for the abstract"
+     * )
      */
-    private $abstract;
+    private $abstract = '';
 
     public function __construct()
     {
