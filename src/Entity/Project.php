@@ -190,6 +190,11 @@ class Project
      */
     private $sdgRoles;
 
+    /**
+     * @ORM\Column(type="text")
+     */
+    private $abstract;
+
     public function __construct()
     {
         $this->partnerships = new ArrayCollection();
@@ -592,5 +597,17 @@ class Project
         $isStartDateInCurrentYear = Carbon::instance($this->startDate)->isCurrentYear();
         $isEndDateInCurrentYear = Carbon::instance($this->endDate)->isCurrentYear();
         return $this->getIsActive() || $isStartDateInCurrentYear || $isEndDateInCurrentYear;
+    }
+
+    public function getAbstract(): ?string
+    {
+        return $this->abstract;
+    }
+
+    public function setAbstract(string $abstract): self
+    {
+        $this->abstract = $abstract;
+
+        return $this;
     }
 }
