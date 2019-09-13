@@ -94,7 +94,7 @@ class ProjectAPITest extends WebTestCase
                     'homeProgram' => 'Cartoon',
                     'firstName' => 'Wile E.',
                     'lastName' => 'Coyote',
-                    'totalRolesPercent' => 0.5
+                    'totalStaffRolesPercent' => 0.5
                 ],
                 'startDate' => '2018-01-01T00:00:00+00:00',
                 'endDate' => '2019-12-31T00:00:00+00:00',
@@ -128,7 +128,7 @@ class ProjectAPITest extends WebTestCase
                             'homeProgram' => 'Cartoon',
                             'firstName' => 'Wile E.',
                             'lastName' => 'Coyote',
-                            'totalRolesPercent' => 0.5
+                            'totalStaffRolesPercent' => 0.5
                         ],
                         'percent' => '0.5'
                     ]

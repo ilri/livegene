@@ -83,7 +83,7 @@ class StaffMemberAPITest extends WebTestCase
                 'homeProgram' => 'Cartoon',
                 'firstName' => 'Wile E.',
                 'lastName' => 'Coyote',
-                'totalRolesPercent' => 0
+                'totalStaffRolesPercent' => 0
             ]
         );
     }
