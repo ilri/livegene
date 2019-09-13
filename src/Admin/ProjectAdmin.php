@@ -13,7 +13,8 @@ use Sonata\DoctrineORMAdminBundle\Filter\DateRangeFilter;
 use Symfony\Component\Form\Extension\Core\Type\{
     DateType,
     PercentType,
-    MoneyType
+    MoneyType,
+    TextareaType
 };
 use Sonata\Form\Type\{
     DateRangePickerType,
@@ -133,6 +134,21 @@ class ProjectAdmin extends AbstractAdmin
                     ])
                 ->end()
             ->end()
+            ->tab('Proposal')
+                ->with('Proposal', ['class' => 'col-md-8'])
+                    ->add('proposalLink', null, [
+                        'required' => false,
+                        'empty_data' => '',
+                        'help' => 'Provide the link to the file with the full proposal.',
+                    ])
+                    ->add('abstract', TextareaType::class, [
+                        'required' => false,
+                        'empty_data' => '',
+                        'help' => 'Provide the text of the abstract of the proposal. Maximum 1000 characters are allowed.',
+                        'attr' => ['rows' => 20, 'cols' => 60],
+                    ])
+                ->end()
+            ->end()
         ;
 
         if ($this->subject->getId()) {
@@ -194,6 +210,7 @@ class ProjectAdmin extends AbstractAdmin
                 ->add('startDate')
                 ->add('endDate')
                 ->add('isActive', 'boolean')
+                ->add('isActiveThisYear','boolean')
                 ->add('status')
                 ->add('capacityDevelopment')
             ->end()
@@ -211,6 +228,10 @@ class ProjectAdmin extends AbstractAdmin
                 ->add('totalLivegeneValue', 'currency', [
                     'currency' => '$',
                 ])
+            ->end()
+            ->with('Proposal',['class' => 'col-md-6'])
+                ->add('proposalLink')
+                ->add('abstract')
             ->end()
         ;
     }

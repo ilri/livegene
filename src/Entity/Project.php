@@ -201,6 +201,14 @@ class Project
      */
     private $abstract = '';
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     * @Assert\Url(
+     *      checkDNS = "ANY"
+     * )
+     */
+    private $proposalLink = '';
+
     public function __construct()
     {
         $this->partnerships = new ArrayCollection();
@@ -601,6 +609,18 @@ class Project
     public function setAbstract(string $abstract): self
     {
         $this->abstract = $abstract;
+
+        return $this;
+    }
+
+    public function getProposalLink(): ?string
+    {
+        return $this->proposalLink;
+    }
+
+    public function setProposalLink(string $proposalLink): self
+    {
+        $this->proposalLink = $proposalLink;
 
         return $this;
     }
