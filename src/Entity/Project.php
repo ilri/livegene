@@ -195,8 +195,8 @@ class Project
     /**
      * @ORM\Column(type="text")
      * @Assert\Length(
-     *     max = 1000,
-     *     maxMessage = "Please provide maximum {{ limit }} characters for the abstract"
+     *     max=1000,
+     *     maxMessage="Please provide maximum {{ limit }} characters for the abstract"
      * )
      */
     private $abstract = '';
@@ -204,7 +204,7 @@ class Project
     /**
      * @ORM\Column(type="string", length=255)
      * @Assert\Url(
-     *      checkDNS = "ANY"
+     *      checkDNS="ANY"
      * )
      */
     private $proposalLink = '';
