@@ -195,11 +195,19 @@ class Project
     /**
      * @ORM\Column(type="text")
      * @Assert\Length(
-     *     max = 1000,
-     *     maxMessage = "Please provide maximum {{ limit }} characters for the abstract"
+     *     max=1000,
+     *     maxMessage="Please provide maximum {{ limit }} characters for the abstract"
      * )
      */
     private $abstract = '';
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     * @Assert\Url(
+     *      checkDNS="ANY"
+     * )
+     */
+    private $proposalLink = '';
 
     public function __construct()
     {
@@ -601,6 +609,18 @@ class Project
     public function setAbstract(string $abstract): self
     {
         $this->abstract = $abstract;
+
+        return $this;
+    }
+
+    public function getProposalLink(): ?string
+    {
+        return $this->proposalLink;
+    }
+
+    public function setProposalLink(string $proposalLink): self
+    {
+        $this->proposalLink = $proposalLink;
 
         return $this;
     }
