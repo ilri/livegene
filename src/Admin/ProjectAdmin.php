@@ -14,12 +14,14 @@ use Symfony\Component\Form\Extension\Core\Type\{
     DateType,
     PercentType,
     MoneyType,
-    TextareaType
+    TextareaType,
+    CollectionType as SymfonyCollectionType,
+    UrlType
 };
 use Sonata\Form\Type\{
     DateRangePickerType,
     DatePickerType,
-    CollectionType
+    CollectionType as SonataCollectionType
 };
 use Sonata\AdminBundle\Form\Type\ModelListType;
 
@@ -114,6 +116,12 @@ class ProjectAdmin extends AbstractAdmin
                         'required' => false,
                         'empty_data' => ''
                     ])
+                    ->add('donorReports', SymfonyCollectionType::class, [
+                        'allow_add' => true,
+                        'allow_delete' => true,
+                        'entry_type' => UrlType::class,
+                        'required' => false
+                    ])
                 ->end()
                 ->with('Project value', ['class' => 'col-md-4'])
                     ->add('totalProjectValue', MoneyType::class, [
@@ -164,7 +172,7 @@ class ProjectAdmin extends AbstractAdmin
                             'type' => 'fractional',
                             'scale' => 2
                         ])
-                        ->add('countryRoles', CollectionType::class, [
+                        ->add('countryRoles', SonataCollectionType::class, [
                             'label' => 'Country roles',
                             'by_reference' => false,
                         ], [
@@ -183,7 +191,7 @@ class ProjectAdmin extends AbstractAdmin
                             'type' => 'fractional',
                             'scale' => 2
                         ])
-                        ->add('sdgRoles', CollectionType::class, [
+                        ->add('sdgRoles', SonataCollectionType::class, [
                             'label' => 'SDG roles',
                             'by_reference' => false,
                         ], [
@@ -218,6 +226,7 @@ class ProjectAdmin extends AbstractAdmin
                 ->add('donor')
                 ->add('donorReference')
                 ->add('donorProjectName')
+                ->add('donorReports', 'array')
                 ->add('totalProjectValue', 'currency', [
                     'currency' => '$',
                 ])
