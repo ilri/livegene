@@ -209,6 +209,16 @@ class Project
      */
     private $proposalLink = '';
 
+    /**
+     * @ORM\Column(type="simple_array", nullable=true)
+     * @Assert\All(
+     *     @Assert\Url(
+     *         checkDNS="ANY"
+     *     )
+     * )
+     */
+    private $donorReports = [];
+
     public function __construct()
     {
         $this->partnerships = new ArrayCollection();
@@ -621,6 +631,18 @@ class Project
     public function setProposalLink(string $proposalLink): self
     {
         $this->proposalLink = $proposalLink;
+
+        return $this;
+    }
+
+    public function getDonorReports(): ?array
+    {
+        return $this->donorReports;
+    }
+
+    public function setDonorReports(?array $donorReports): self
+    {
+        $this->donorReports = $donorReports;
 
         return $this;
     }
