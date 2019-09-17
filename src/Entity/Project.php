@@ -212,6 +212,7 @@ class Project
     /**
      * @ORM\Column(type="simple_array", nullable=true)
      * @Assert\All(
+     *     @Assert\NotBlank(),
      *     @Assert\Url(
      *         checkDNS="ANY"
      *     )
