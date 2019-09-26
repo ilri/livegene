@@ -9,8 +9,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 use App\Validator\Constraints as AppAssert;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Doctrine\Common\Collections\{
-    ArrayCollection,
-    Collection
+	ArrayCollection,
+	Collection
 };
 use Carbon\Carbon;
 use App\Entity\Traits\PercentageTrait;
@@ -209,6 +209,11 @@ class Project
      */
     private $proposalLink = '';
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\AnimalSpeciesRole", mappedBy="project", orphanRemoval=true)
+     */
+    private $animalSpeciesRoles;
+
     public function __construct()
     {
         $this->partnerships = new ArrayCollection();
@@ -216,6 +221,7 @@ class Project
         $this->staffRoles = new ArrayCollection();
         $this->countryRoles = new ArrayCollection();
         $this->sdgRoles = new ArrayCollection();
+        $this->animalSpeciesRoles = new ArrayCollection();
     }
 
     public function __toString()
@@ -624,4 +630,44 @@ class Project
 
         return $this;
     }
+
+    /**
+     * @return Collection|AnimalSpeciesRole[]
+     */
+    public function getAnimalSpeciesRoles(): Collection
+    {
+        return $this->animalSpeciesRoles;
+    }
+
+    public function addAnimalSpeciesRole(AnimalSpeciesRole $animalSpeciesRole): self
+    {
+        if (!$this->animalSpeciesRoles->contains($animalSpeciesRole)) {
+            $this->animalSpeciesRoles[] = $animalSpeciesRole;
+            $animalSpeciesRole->setProject($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAnimalSpeciesRole(AnimalSpeciesRole $animalSpeciesRole): self
+    {
+        if ($this->animalSpeciesRoles->contains($animalSpeciesRole)) {
+            $this->animalSpeciesRoles->removeElement($animalSpeciesRole);
+            // set the owning side to null (unless already changed)
+            if ($animalSpeciesRole->getProject() === $this) {
+                $animalSpeciesRole->setProject(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @Groups({"read"})
+     */
+    public function getTotalAnimalSpeciesRolePercent(): float
+    {
+        return $this->calculateTotalRolesPercentage($this->getAnimalSpeciesRoles()->toArray());
+    }
+
 }
