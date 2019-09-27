@@ -24,11 +24,26 @@ security:
                 target:         sonata_user_admin_security_login
             anonymous:          true
             switch_user:        true
-        main:
-            pattern: ^/
-            context: user
-            http_basic: ~
+        api:
+            pattern: ^/api/
+            stateless: true
+            anonymous: true
             provider: fos_userbundle
+            guard:
+                authenticators:
+                    - lexik_jwt_authentication.jwt_token_authenticator
+        main:
+            #pattern: ^/
+            #context: user
+            #http_basic: ~
+            provider: fos_userbundle
+            anonymous: true
+            json_login:
+                check_path: /authentication_token
+                username_path: username
+                password_path: password
+                success_handler: lexik_jwt_authentication.handler.authentication_success
+                failure_handler: lexik_jwt_authentication.handler.authentication_failure
 
     role_hierarchy:
         ROLE_SONATA_ADMIN:
