@@ -665,7 +665,7 @@ class Project
     /**
      * @Groups({"read"})
      */
-    public function getTotalAnimalSpeciesRolePercent(): float
+    public function getTotalAnimalSpeciesRolesPercent(): float
     {
         return $this->calculateTotalRolesPercentage($this->getAnimalSpeciesRoles()->toArray());
     }
