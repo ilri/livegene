@@ -9,8 +9,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 use App\Validator\Constraints as AppAssert;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Doctrine\Common\Collections\{
-	ArrayCollection,
-	Collection
+    ArrayCollection,
+    Collection
 };
 use Carbon\Carbon;
 use App\Entity\Traits\PercentageTrait;
