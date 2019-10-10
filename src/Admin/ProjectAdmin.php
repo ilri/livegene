@@ -22,6 +22,7 @@ use Sonata\Form\Type\{
     CollectionType
 };
 use Sonata\AdminBundle\Form\Type\ModelListType;
+use FOS\CKEditorBundle\Form\Type\CKEditorType;
 
 class ProjectAdmin extends AbstractAdmin
 {
@@ -141,7 +142,7 @@ class ProjectAdmin extends AbstractAdmin
                         'empty_data' => '',
                         'help' => 'Provide the link to the file with the full proposal.',
                     ])
-                    ->add('abstract', TextareaType::class, [
+                    ->add('abstract', CKEditorType::class, [
                         'required' => false,
                         'empty_data' => '',
                         'help' => 'Provide the text of the abstract of the proposal. Maximum 1000 characters are allowed.',
@@ -231,7 +232,7 @@ class ProjectAdmin extends AbstractAdmin
             ->end()
             ->with('Proposal',['class' => 'col-md-6'])
                 ->add('proposalLink')
-                ->add('abstract')
+                ->add('abstract', 'html')
             ->end()
         ;
     }
