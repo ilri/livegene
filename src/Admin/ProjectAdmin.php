@@ -226,7 +226,9 @@ class ProjectAdmin extends AbstractAdmin
                 ->add('donor')
                 ->add('donorReference')
                 ->add('donorProjectName')
-                ->add('donorReports', 'array')
+                ->add('donorReports', 'array', [
+                    'template' => 'SonataAdmin/CRUD/Project/show_donor_reports.html.twig'
+                ])
                 ->add('totalProjectValue', 'currency', [
                     'currency' => '$',
                 ])
