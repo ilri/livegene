@@ -80,7 +80,7 @@ class AnimalSpeciesRoleAPITest extends WebTestCase
             [
                 'id' => 1,
                 'project' => '/api/projects/1',
-                'animalSpecies' => '/api/animal_species_roles/1',
+                'animalSpecies' => '/api/animal_species/1',
                 'percent' => '0.5',
             ]
         );

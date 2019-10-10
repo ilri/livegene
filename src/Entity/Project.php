@@ -193,6 +193,12 @@ class Project
     private $sdgRoles;
 
     /**
+     * @ORM\OneToMany(targetEntity="App\Entity\AnimalSpeciesRole", mappedBy="project", orphanRemoval=true)
+     * @Assert\Valid()
+     */
+    private $animalSpeciesRoles;
+
+    /**
      * @ORM\Column(type="text")
      * @Assert\Length(
      *     max=1000,
@@ -208,11 +214,6 @@ class Project
      * )
      */
     private $proposalLink = '';
-
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\AnimalSpeciesRole", mappedBy="project", orphanRemoval=true)
-     */
-    private $animalSpeciesRoles;
 
     public function __construct()
     {
@@ -573,65 +574,6 @@ class Project
     }
 
     /**
-     * @Groups({"read"})
-     */
-    public function getTotalCountryRolesPercent(): float
-    {
-        return $this->calculateTotalRolesPercentage($this->getCountryRoles()->toArray());
-    }
-
-    /**
-     * @Groups({"read"})
-     */
-    public function getTotalSDGRolesPercent(): float
-    {
-        return $this->calculateTotalRolesPercentage($this->getSDGRoles()->toArray());
-    }
-
-    /**
-     * @Groups({"read"})
-     */
-    public function getIsActive(): bool
-    {
-        $now = Carbon::now();
-        return $this->endDate >= $now && $this->startDate <= $now;
-    }
-
-    /**
-     * @Groups({"read"})
-     */
-    public function getIsActiveThisYear(): bool
-    {
-        $isStartDateInCurrentYear = Carbon::instance($this->startDate)->isCurrentYear();
-        $isEndDateInCurrentYear = Carbon::instance($this->endDate)->isCurrentYear();
-        return $this->getIsActive() || $isStartDateInCurrentYear || $isEndDateInCurrentYear;
-    }
-
-    public function getAbstract(): ?string
-    {
-        return $this->abstract;
-    }
-
-    public function setAbstract(string $abstract): self
-    {
-        $this->abstract = $abstract;
-
-        return $this;
-    }
-
-    public function getProposalLink(): ?string
-    {
-        return $this->proposalLink;
-    }
-
-    public function setProposalLink(string $proposalLink): self
-    {
-        $this->proposalLink = $proposalLink;
-
-        return $this;
-    }
-
-    /**
      * @return Collection|AnimalSpeciesRole[]
      */
     public function getAnimalSpeciesRoles(): Collection
@@ -662,6 +604,48 @@ class Project
         return $this;
     }
 
+    public function getAbstract(): ?string
+    {
+        return $this->abstract;
+    }
+
+    public function setAbstract(string $abstract): self
+    {
+        $this->abstract = $abstract;
+
+        return $this;
+    }
+
+    public function getProposalLink(): ?string
+    {
+        return $this->proposalLink;
+    }
+
+    public function setProposalLink(string $proposalLink): self
+    {
+        $this->proposalLink = $proposalLink;
+
+        return $this;
+    }
+
+    // virtual properties 
+
+    /**
+     * @Groups({"read"})
+     */
+    public function getTotalCountryRolesPercent(): float
+    {
+        return $this->calculateTotalRolesPercentage($this->getCountryRoles()->toArray());
+    }
+
+    /**
+     * @Groups({"read"})
+     */
+    public function getTotalSDGRolesPercent(): float
+    {
+        return $this->calculateTotalRolesPercentage($this->getSDGRoles()->toArray());
+    }
+
     /**
      * @Groups({"read"})
      */
@@ -670,4 +654,22 @@ class Project
         return $this->calculateTotalRolesPercentage($this->getAnimalSpeciesRoles()->toArray());
     }
 
+    /**
+     * @Groups({"read"})
+     */
+    public function getIsActive(): bool
+    {
+        $now = Carbon::now();
+        return $this->endDate >= $now && $this->startDate <= $now;
+    }
+
+    /**
+     * @Groups({"read"})
+     */
+    public function getIsActiveThisYear(): bool
+    {
+        $isStartDateInCurrentYear = Carbon::instance($this->startDate)->isCurrentYear();
+        $isEndDateInCurrentYear = Carbon::instance($this->endDate)->isCurrentYear();
+        return $this->getIsActive() || $isStartDateInCurrentYear || $isEndDateInCurrentYear;
+    }
 }

@@ -4,16 +4,21 @@ namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use App\Validator\Constraints as AppAssert;
+use App\Entity\Traits\RoleTrait;
 
 /**
- * @ApiResource()
+ * @ApiResource(
+ *     collectionOperations={"get"={"method"="GET"}},
+ *     itemOperations={"get"={"method"="GET"}}
+ * )
  * @ORM\Entity(repositoryClass="App\Repository\AnimalSpeciesRoleRepository")
  * @ORM\Table(
  *     name="app_animal_species_role",
  *     uniqueConstraints={@ORM\UniqueConstraint(name="project_animalspecies", columns={"project_id","animal_species_id"})}
  * )
- * @uniqueEntity({"project","animalspecies"})
+ * @UniqueEntity({"project","animalspecies"})
  * @AppAssert\Percent()
  */
 class AnimalSpeciesRole
@@ -41,7 +46,7 @@ class AnimalSpeciesRole
 
     public function getId(): ?int
     {
-	    return $this->project;
+        return $this->id;
     }
 
     public function getProject(): ?Project

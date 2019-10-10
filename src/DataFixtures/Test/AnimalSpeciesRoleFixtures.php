@@ -14,7 +14,7 @@ class AnimalSpeciesRoleFixtures extends Fixture implements DependentFixtureInter
     {
         $animalSpeciesRole = new AnimalSpeciesRole();
         $animalSpeciesRole->setProject($this->getReference('project'));
-        $animalSpeciesRole->setAnimalSpeciesRole($this->getReference('animalSpeciesRole'));
+        $animalSpeciesRole->setAnimalSpecies($this->getReference('animal'));
         $animalSpeciesRole->setPercent(0.5);
         $manager->persist($animalSpeciesRole);
 
