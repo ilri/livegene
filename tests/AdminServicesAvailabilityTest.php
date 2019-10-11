@@ -54,6 +54,7 @@ class AdminServicesAvailabilityTest extends WebTestCase
     {
         $adminServices = [
             'animalspecies',
+            'animalspeciesrole',
             'contact',
             'country',
             'countryrole',

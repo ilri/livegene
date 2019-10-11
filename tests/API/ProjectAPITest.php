@@ -135,6 +135,7 @@ class ProjectAPITest extends WebTestCase
                 ],
                 'totalCountryRolesPercent' => 0,
                 'totalSDGRolesPercent' => 0,
+                'totalAnimalSpeciesRolesPercent' => 0,
                 'isActive' => true,
                 'isActiveThisYear' => true
             ]
