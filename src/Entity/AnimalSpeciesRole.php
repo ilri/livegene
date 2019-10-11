@@ -18,7 +18,7 @@ use App\Entity\Traits\RoleTrait;
  *     name="app_animal_species_role",
  *     uniqueConstraints={@ORM\UniqueConstraint(name="project_animalspecies", columns={"project_id","animal_species_id"})}
  * )
- * @UniqueEntity({"project","animalspecies"})
+ * @UniqueEntity({"project","animalSpecies"})
  * @AppAssert\Percent()
  */
 class AnimalSpeciesRole
