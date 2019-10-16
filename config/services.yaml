@@ -7,6 +7,7 @@ parameters:
     locale: 'en'
     mailer_transport: gmail
     mailer_user: 'ilri.livegene@gmail.com'
+    spa_user: '%env(resolve:SPA_USER)%'
 
 services:
     # default configuration for services in *this* file
