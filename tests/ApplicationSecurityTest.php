@@ -65,6 +65,10 @@ class ApplicationSecurityTest extends WebTestCase
             'username' => $username,
             'password' => UserFixtures::PASSWORD
         ];
+        //$this->client->request('POST', '/authentication_token', [], [], [
+        //    'Content-Type' => 'application/json'
+        //], json_encode($credentials));
+        //$this->client->followRedirect();
         $this->client = $this->makeClient($credentials);
     }
 
