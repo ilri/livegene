@@ -3,12 +3,15 @@
 namespace App\Tests\API;
 
 use Liip\FunctionalTestBundle\Test\WebTestCase;
+use Liip\TestFixturesBundle\Test\FixturesTrait;
 use Symfony\Component\HttpFoundation\Response;
 use App\DataFixtures\Test\UserFixtures;
 use App\Entity\PartnershipType;
 
 class PartnershipTypeAPITest extends WebTestCase
 {
+    use FixturesTrait;
+
     private $fixtures = null;
     private $client;
 

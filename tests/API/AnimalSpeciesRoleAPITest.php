@@ -3,11 +3,14 @@
 namespace App\Tests\API;
 
 use Liip\FunctionalTestBundle\Test\WebTestCase;
+use Liip\TestFixturesBundle\Test\FixturesTrait;
 use Symfony\Component\HttpFoundation\Response;
 use App\DataFixtures\Test\UserFixtures;
 
 class AnimalSpeciesRoleAPITest extends WebTestCase
 {
+    use FixturesTrait;
+
     private $fixtures = null;
     private $client;
 

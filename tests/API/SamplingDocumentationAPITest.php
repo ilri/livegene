@@ -3,11 +3,14 @@
 namespace App\Tests\API;
 
 use Liip\FunctionalTestBundle\Test\WebTestCase;
+use Liip\TestFixturesBundle\Test\FixturesTrait;
 use Symfony\Component\HttpFoundation\Response;
 use App\DataFixtures\Test\UserFixtures;
 
 class SamplingDocumentationAPITest extends WebTestCase
 {
+    use FixturesTrait;
+
     private $entityManager;
     private $fixtures = null;
     private $client;
@@ -27,11 +30,13 @@ class SamplingDocumentationAPITest extends WebTestCase
         $this->client = $this->makeClient($credentials);
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         $media = $this->fixtures->getReference('documentation')->getDocument();
         $this->entityManager->remove($media);
         $this->entityManager->flush();
+
+        parent::tearDown();
     }
 
     public function testGetCollectionIsAvailable()

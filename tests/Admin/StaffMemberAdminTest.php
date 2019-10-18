@@ -3,11 +3,14 @@
 namespace App\Tests\Admin;
 
 use Liip\FunctionalTestBundle\Test\WebTestCase;
+use Liip\TestFixturesBundle\Test\FixturesTrait;
 use Symfony\Component\HttpFoundation\Response;
 use App\DataFixtures\Test\UserFixtures;
 
 class StaffMemberAdminTest extends WebTestCase
 {
+    use FixturesTrait;
+
     private $client;
     private $fixtures = null;
 
