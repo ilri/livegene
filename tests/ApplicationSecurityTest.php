@@ -3,6 +3,7 @@
 namespace App\Tests;
 
 use Liip\FunctionalTestBundle\Test\WebTestCase;
+use Liip\TestFixturesBundle\Test\FixturesTrait;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\DomCrawler\Crawler;
 use App\DataFixtures\Test\UserFixtures;
@@ -19,6 +20,8 @@ use App\DataFixtures\Test\UserFixtures;
  */
 class ApplicationSecurityTest extends WebTestCase
 {
+    use FixturesTrait;
+
     private $client;
     private $entityManager;
     private $fixtures = null;
@@ -34,11 +37,13 @@ class ApplicationSecurityTest extends WebTestCase
         ])->getReferenceRepository();
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         $media = $this->fixtures->getReference('media');
         $this->entityManager->remove($media);
         $this->entityManager->flush();
+
+        parent::tearDown();
     }
 
     /**
@@ -91,8 +96,6 @@ class ApplicationSecurityTest extends WebTestCase
      * Test that an anonymous user can access the admin login form.
      * If the user hits the route /admin they should be redirected to
      * the admin login form (/admin/login).
-     *
-     * @group legacy
      */
     public function testAdminLoginForm()
     {
@@ -113,8 +116,6 @@ class ApplicationSecurityTest extends WebTestCase
 
     /**
      * Test that ROLE_USER can not access the admin area.
-     *
-     * @group legacy
      */
     public function testUserCannotAccessAdminDashboard()
     {
@@ -129,8 +130,6 @@ class ApplicationSecurityTest extends WebTestCase
 
     /**
      * Test that ROLE_SONATA_ADMIN can access the admin area.
-     *
-     * @group legacy
      */
     public function testSonataAdminCanAccessAdminDashboard()
     {
@@ -146,8 +145,6 @@ class ApplicationSecurityTest extends WebTestCase
 
     /**
      * Test that ROLE_ADMIN can access the admin area.
-     *
-     * @group legacy
      */
     public function testAdminCanAccessAdminDashboard()
     {
@@ -169,8 +166,6 @@ class ApplicationSecurityTest extends WebTestCase
      * with at least one list item.
      * We check that the admin groups 'Media Library' and 'Users' are
      * present.
-     *
-     * @group legacy
      */
     public function testSuperAdminCanAccessAdminDashboard()
     {
@@ -203,8 +198,6 @@ class ApplicationSecurityTest extends WebTestCase
      * Test that ROLE_SUPER_ADMIN can access the admins routes for
      * SonataMediaBundle MediaAdmin
      *
-     * @group legacy
-     *
      * @dataProvider sonataMediaBundleMediaRoutes
      */
     public function testSuperAdminCanAccessSonataMediaMediaRoutes($route)
@@ -231,8 +224,6 @@ class ApplicationSecurityTest extends WebTestCase
     /**
      * Test that ROLE_SUPER_ADMIN can access the admins routes for
      * SonataMediaBundle GalleryAdmin
-     *
-     * @group legacy
      *
      * @dataProvider sonataMediaBundleGalleryRoutes
      */
@@ -261,8 +252,6 @@ class ApplicationSecurityTest extends WebTestCase
      * Test that ROLE_SUPER_ADMIN can access the admins routes for
      * SonataUserBundle UserAdmin
      *
-     * @group legacy
-     *
      * @dataProvider sonataUserBundleUserRoutes
      */
     public function testSuperAdminCanAccessSonataUserRoutes($route)
@@ -288,8 +277,6 @@ class ApplicationSecurityTest extends WebTestCase
     /**
      * Test that ROLE_SUPER_ADMIN can access the export routes for
      * the admins provided by SonataMediaBundle and SonataUserBundle
-     *
-     * @group legacy
      *
      * @dataProvider adminExportRoutes
      */
@@ -317,8 +304,6 @@ class ApplicationSecurityTest extends WebTestCase
     /**
      * Test that ROLE_SUPER_ADMIN has the right to impersonate other
      * users (ROLE_ALLOWED_TO_SWITCH).
-     *
-     * @group legacy
      */
     public function testSuperAdminCanImpersonateUser()
     {
@@ -338,8 +323,6 @@ class ApplicationSecurityTest extends WebTestCase
 
     /**
      * Test that an anonymous user can't access the API platform.
-     *
-     * @group legacy
      *
      * @dataProvider apiFormats
      */
@@ -361,12 +344,12 @@ class ApplicationSecurityTest extends WebTestCase
     /**
      * Test that ROLE_USER can access the API platform.
      *
-     * @group legacy
-     *
      * @dataProvider apiFormats
      */
     public function testUserCanAccessApiPlatform($format)
     {
+        $this->markTestSkipped('The test is obsolete due to authentication change with JWT. It must be completely refactored.');
+
         $username = $this->fixtures->getReference('user')->getUsername();
         $this->httpBasicLogIn($username);
         $this->client->request('GET', sprintf('/api/index.%s', $format));
@@ -392,8 +375,6 @@ class ApplicationSecurityTest extends WebTestCase
     /**
      * Test that an anonymous user can't access the routes provided by
      * SonataMediaBundle.
-     *
-     * @group legacy
      */
     public function testAnonymousCannotAccessMedia()
     {
@@ -425,11 +406,11 @@ class ApplicationSecurityTest extends WebTestCase
     /**
      * Test that ROLE_USER can access the routes provided by
      * SonataMediaBundle.
-     *
-     * @group legacy
      */
     public function testUserCanAccessMedia()
     {
+        $this->markTestSkipped('The test is obsolete due to authentication change with JWT. It must be completely refactored.');
+
         $galleryId = $this->fixtures->getReference('gallery')->getId();
         $mediaId = $this->fixtures->getReference('media')->getId();
         $username = $this->fixtures->getReference('user')->getUsername();

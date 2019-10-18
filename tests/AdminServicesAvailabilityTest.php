@@ -3,11 +3,13 @@
 namespace App\Tests;
 
 use Liip\FunctionalTestBundle\Test\WebTestCase;
-use Symfony\Component\HttpFoundation\Response;
+use Liip\TestFixturesBundle\Test\FixturesTrait;
 use App\DataFixtures\Test\UserFixtures;
 
 class AdminServicesAvailabilityTest extends WebTestCase
 {
+    use FixturesTrait;
+
     private $client;
     private $fixtures = null;
 
