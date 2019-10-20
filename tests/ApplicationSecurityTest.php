@@ -75,6 +75,26 @@ class ApplicationSecurityTest extends WebTestCase
 
     /**
      * Helper method.
+     * Get token for JWT authentication.
+     */
+    private function getJsonWebToken($username)
+    {
+        $credentials = [
+            '_username' => $username,
+            '_password' => UserFixtures::PASSWORD
+        ];
+        $this->client = $this->createClient();
+        $this->client->request('POST', '/authentication_token', [], [], [
+            'CONTENT_TYPE' => 'application/json'
+        ], json_encode($credentials));
+
+        $data = json_decode($this->client->getResponse()->getContent(), true);
+
+        $this->client->setServerParameter('HTTP_Authorization', sprintf('Bearer %s', $data['token']));
+    }
+
+    /**
+     * Helper method.
      * Check that the admin area is accessed.
      * It should prove that the title 'LiveGene' is displayed.
      * It should prove that the username of the user is displayed in
@@ -348,10 +368,8 @@ class ApplicationSecurityTest extends WebTestCase
      */
     public function testUserCanAccessApiPlatform($format)
     {
-        $this->markTestSkipped('The test is obsolete due to authentication change with JWT. It must be completely refactored.');
-
         $username = $this->fixtures->getReference('user')->getUsername();
-        $this->httpBasicLogIn($username);
+        $this->getJsonWebToken($username);
         $this->client->request('GET', sprintf('/api/index.%s', $format));
         $this->assertSame(
             Response::HTTP_OK,
@@ -409,12 +427,10 @@ class ApplicationSecurityTest extends WebTestCase
      */
     public function testUserCanAccessMedia()
     {
-        $this->markTestSkipped('The test is obsolete due to authentication change with JWT. It must be completely refactored.');
-
         $galleryId = $this->fixtures->getReference('gallery')->getId();
         $mediaId = $this->fixtures->getReference('media')->getId();
         $username = $this->fixtures->getReference('user')->getUsername();
-        $this->httpBasicLogIn($username);
+        $this->getJsonWebToken($username);
 
         $this->client->request('GET', '/media/gallery/');
         $this->assertSame(
@@ -422,20 +438,20 @@ class ApplicationSecurityTest extends WebTestCase
             $this->client->getResponse()->getStatusCode()
         );
 
-        $this->client->request('GET', sprintf('/media/gallery/view/%s/', $galleryId));
+        $this->client->request('GET', sprintf('/media/gallery/view/%s', $galleryId));
         $this->assertSame(
             Response::HTTP_OK,
             $this->client->getResponse()->getStatusCode()
         );
         
-        $this->client->request('GET', sprintf('/media/view/%s/', $mediaId));
+        $this->client->request('GET', sprintf('/media/view/%s', $mediaId));
         $this->assertSame(
             Response::HTTP_OK,
             $this->client->getResponse()->getStatusCode()
         );
         
         ob_start();
-        $this->client->request('GET', sprintf('/media/download/%s/', $mediaId));
+        $this->client->request('GET', sprintf('/media/download/%s', $mediaId));
         ob_end_clean();
         $this->assertSame(
             Response::HTTP_OK,
