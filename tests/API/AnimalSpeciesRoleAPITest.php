@@ -92,7 +92,7 @@ class AnimalSpeciesRoleAPITest extends ApiTestCase
     public function testPutIsNotAllowed()
     {
         $animalSpeciesRole = $this->getAnimalSpeciesRole();
-        $this->client->request('PUT', sprintf('/api/animal_species_roles/%', $animalSpeciesRole), [], [], [
+        $this->client->request('PUT', sprintf('/api/animal_species_roles/%s', $animalSpeciesRole), [], [], [
             'CONTENT_TYPE' => 'application/json',
         ]);
         $this->assertSame(
