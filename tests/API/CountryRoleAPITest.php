@@ -2,12 +2,11 @@
 
 namespace App\Tests\API;
 
-use Liip\FunctionalTestBundle\Test\WebTestCase;
 use Liip\TestFixturesBundle\Test\FixturesTrait;
 use Symfony\Component\HttpFoundation\Response;
 use App\DataFixtures\Test\UserFixtures;
 
-class CountryRoleAPITest extends WebTestCase
+class CountryRoleAPITest extends ApiTestCase
 {
     use FixturesTrait;
 
@@ -25,7 +24,8 @@ class CountryRoleAPITest extends WebTestCase
             'username' => $username,
             'password' => UserFixtures::PASSWORD
         ];
-        $this->client = $this->makeClient($credentials);
+
+        $this->client = $this->createAuthenticatedClient($credentials);
     }
 
     public function testGetCollectionIsAvailable()

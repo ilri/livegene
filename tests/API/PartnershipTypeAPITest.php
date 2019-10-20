@@ -2,13 +2,12 @@
 
 namespace App\Tests\API;
 
-use Liip\FunctionalTestBundle\Test\WebTestCase;
 use Liip\TestFixturesBundle\Test\FixturesTrait;
 use Symfony\Component\HttpFoundation\Response;
 use App\DataFixtures\Test\UserFixtures;
 use App\Entity\PartnershipType;
 
-class PartnershipTypeAPITest extends WebTestCase
+class PartnershipTypeAPITest extends ApiTestCase
 {
     use FixturesTrait;
 
@@ -26,7 +25,9 @@ class PartnershipTypeAPITest extends WebTestCase
             'username' => $username,
             'password' => UserFixtures::PASSWORD
         ];
-        $this->client = $this->makeClient($credentials);
+
+        $this->client = $this->createAuthenticatedClient($credentials);
+
         $this->em = self::$container->get('doctrine.orm.entity_manager');
     }
 

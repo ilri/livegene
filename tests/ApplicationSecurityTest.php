@@ -80,8 +80,8 @@ class ApplicationSecurityTest extends WebTestCase
     private function getJsonWebToken($username)
     {
         $credentials = [
-            '_username' => $username,
-            '_password' => UserFixtures::PASSWORD
+            'username' => $username,
+            'password' => UserFixtures::PASSWORD
         ];
         $this->client = $this->createClient();
         $this->client->request('POST', '/authentication_token', [], [], [

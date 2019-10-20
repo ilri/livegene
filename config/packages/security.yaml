@@ -40,8 +40,8 @@ security:
             anonymous: true
             json_login:
                 check_path: /authentication_token
-                username_path: _username
-                password_path: _password
+                username_path: username
+                password_path: password
                 success_handler: lexik_jwt_authentication.handler.authentication_success
                 failure_handler: lexik_jwt_authentication.handler.authentication_failure
 
