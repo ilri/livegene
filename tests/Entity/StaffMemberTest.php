@@ -11,12 +11,13 @@ use App\Entity\StaffRole;
 class StaffMemberTest extends TestCase
 {
     private static $email = 'Cezar.Pendarovski@ROSLIN.ed.ac.uk';
+    private static $username = 'Cpendaro';
     private static $staffMember;
 
     public static function setUpBeforeClass()
     {
         self::$staffMember = new StaffMember();
-        self::$staffMember->setUsername('cpendaro');
+        self::$staffMember->setUsername(self::$username);
         self::$staffMember->setFirstName('Cezar');
         self::$staffMember->setLastName('Pendarovski');
         self::$staffMember->setHomeProgram('CTLGH');
@@ -36,6 +37,12 @@ class StaffMemberTest extends TestCase
             ->willReturn($staffMemberRepository);
     }
 
+    public function testUsernameIsSavedInLowerCase()
+    {
+        $this->assertEquals(strtolower(self::$username), self::$staffMember->getUsername());
+        $this->assertNotEquals(self::$username, self::$staffMember->getUsername());
+    }
+
     public function testEmailIsSavedInLowerCase()
     {
         $this->assertEquals(strtolower(self::$email), self::$staffMember->getEmail());
@@ -46,12 +53,12 @@ class StaffMemberTest extends TestCase
     {
         $this->assertEquals(
             0,
-            self::$staffMember->getTotalRolesPercent()
+            self::$staffMember->getTotalStaffRolesPercent()
         );
 
-        $percent1 = 30;
-        $percent2 = 25;
-        $percent3 = 20;
+        $percent1 = 0.2500;
+        $percent2 = 0.2750;
+        $percent3 = 0.4750;
         $staffRole1 = new StaffRole();
         $staffRole1->setPercent($percent1);
         $staffRole2 = new StaffRole();
@@ -66,7 +73,7 @@ class StaffMemberTest extends TestCase
 
         $this->assertEquals(
             $totalPercent,
-            self::$staffMember->getTotalRolesPercent()
+            self::$staffMember->getTotalStaffRolesPercent()
         );
     }
 }

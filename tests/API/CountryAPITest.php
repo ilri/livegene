@@ -2,12 +2,14 @@
 
 namespace App\Tests\API;
 
-use Liip\FunctionalTestBundle\Test\WebTestCase;
+use Liip\TestFixturesBundle\Test\FixturesTrait;
 use Symfony\Component\HttpFoundation\Response;
 use App\DataFixtures\Test\UserFixtures;
 
-class CountryAPITest extends WebTestCase
+class CountryAPITest extends ApiTestCase
 {
+    use FixturesTrait;
+
     private $fixtures = null;
     private $client;
 
@@ -22,7 +24,8 @@ class CountryAPITest extends WebTestCase
             'username' => $username,
             'password' => UserFixtures::PASSWORD
         ];
-        $this->client = $this->makeClient($credentials);
+
+        $this->client = $this->createAuthenticatedClient($credentials);
     }
 
     public function testGetCollectionIsAvailable()
@@ -73,13 +76,11 @@ class CountryAPITest extends WebTestCase
         );
         $data = json_decode($this->client->getResponse()->getContent(), true);
         $this->assertArrayHasKey('country', $data);
-        $this->assertArrayHasKey('countryRoles', $data);
         $this->assertSame(
             $data,
             [
                 'id' => 1,
                 'country' => 'GB',
-                'countryRoles' => [],
                 'countryName' => 'United Kingdom'
             ]
         );

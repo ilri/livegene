@@ -2,12 +2,14 @@
 
 namespace App\Tests\API;
 
-use Liip\FunctionalTestBundle\Test\WebTestCase;
+use Liip\TestFixturesBundle\Test\FixturesTrait;
 use Symfony\Component\HttpFoundation\Response;
 use App\DataFixtures\Test\UserFixtures;
 
-class SamplingDocumentationAPITest extends WebTestCase
+class SamplingDocumentationAPITest extends ApiTestCase
 {
+    use FixturesTrait;
+
     private $entityManager;
     private $fixtures = null;
     private $client;
@@ -24,14 +26,17 @@ class SamplingDocumentationAPITest extends WebTestCase
             'username' => $username,
             'password' => UserFixtures::PASSWORD
         ];
-        $this->client = $this->makeClient($credentials);
+
+        $this->client = $this->createAuthenticatedClient($credentials);
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         $media = $this->fixtures->getReference('documentation')->getDocument();
         $this->entityManager->remove($media);
         $this->entityManager->flush();
+
+        parent::tearDown();
     }
 
     public function testGetCollectionIsAvailable()

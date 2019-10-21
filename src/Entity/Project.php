@@ -12,6 +12,8 @@ use Doctrine\Common\Collections\{
     ArrayCollection,
     Collection
 };
+use App\Entity\Traits\PercentageTrait;
+use Carbon\Carbon;
 
 /**
  * @ApiResource(
@@ -28,39 +30,40 @@ use Doctrine\Common\Collections\{
  */
 class Project
 {
+    use PercentageTrait;
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
-     * @Groups({"read"})
+     * @Groups({"read", "role"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=20, unique=true)
      * @Assert\NotBlank()
-     * @Groups({"read"})
+     * @Groups({"read", "role"})
      */
     private $ilriCode;
 
     /**
      * @ORM\Column(type="string", length=200)
      * @Assert\NotBlank()
-     * @Groups({"read"})
+     * @Groups({"read", "role"})
      */
     private $fullName;
 
     /**
      * @ORM\Column(type="string", length=50)
      * @Assert\NotBlank()
-     * @Groups({"read"})
+     * @Groups({"read", "role"})
      */
     private $shortName;
 
     /**
      * @ORM\Column(type="string", length=20)
      * @Assert\NotBlank()
-     * @Groups({"read"})
+     * @Groups({"read", "role"})
      */
     private $team;
 
@@ -173,6 +176,7 @@ class Project
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\StaffRole", mappedBy="project", cascade={"persist", "remove"})
+     * @Groups({"read"})
      */
     private $staffRoles;
 
@@ -188,6 +192,40 @@ class Project
      */
     private $sdgRoles;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\AnimalSpeciesRole", mappedBy="project", orphanRemoval=true)
+     * @Assert\Valid()
+     */
+    private $animalSpeciesRoles;
+
+    /**
+     * @ORM\Column(type="text")
+     * @Assert\Length(
+     *     max=1000,
+     *     maxMessage="Please provide maximum {{ limit }} characters for the abstract"
+     * )
+     */
+    private $abstract = '';
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     * @Assert\Url(
+     *      checkDNS="ANY"
+     * )
+     */
+    private $proposalLink = '';
+
+    /**
+     * @ORM\Column(type="simple_array", nullable=true)
+     * @Assert\All(
+     *     @Assert\NotBlank(),
+     *     @Assert\Url(
+     *         checkDNS="ANY"
+     *     )
+     * )
+     */
+    private $donorReports = [];
+
     public function __construct()
     {
         $this->partnerships = new ArrayCollection();
@@ -195,6 +233,7 @@ class Project
         $this->staffRoles = new ArrayCollection();
         $this->countryRoles = new ArrayCollection();
         $this->sdgRoles = new ArrayCollection();
+        $this->animalSpeciesRoles = new ArrayCollection();
     }
 
     public function __toString()
@@ -546,31 +585,96 @@ class Project
     }
 
     /**
+     * @return Collection|AnimalSpeciesRole[]
+     */
+    public function getAnimalSpeciesRoles(): Collection
+    {
+        return $this->animalSpeciesRoles;
+    }
+
+    public function addAnimalSpeciesRole(AnimalSpeciesRole $animalSpeciesRole): self
+    {
+        if (!$this->animalSpeciesRoles->contains($animalSpeciesRole)) {
+            $this->animalSpeciesRoles[] = $animalSpeciesRole;
+            $animalSpeciesRole->setProject($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAnimalSpeciesRole(AnimalSpeciesRole $animalSpeciesRole): self
+    {
+        if ($this->animalSpeciesRoles->contains($animalSpeciesRole)) {
+            $this->animalSpeciesRoles->removeElement($animalSpeciesRole);
+            // set the owning side to null (unless already changed)
+            if ($animalSpeciesRole->getProject() === $this) {
+                $animalSpeciesRole->setProject(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getAbstract(): ?string
+    {
+        return $this->abstract;
+    }
+
+    public function setAbstract(string $abstract): self
+    {
+        $this->abstract = $abstract;
+
+        return $this;
+    }
+
+    public function getProposalLink(): ?string
+    {
+        return $this->proposalLink;
+    }
+
+    public function setProposalLink(string $proposalLink): self
+    {
+        $this->proposalLink = $proposalLink;
+
+        return $this;
+    }
+
+    public function getDonorReports(): ?array
+    {
+        return $this->donorReports;
+    }
+
+    public function setDonorReports(?array $donorReports): self
+    {
+        $this->donorReports = $donorReports;
+
+        return $this;
+    }
+
+    // virtual properties 
+
+    /**
      * @Groups({"read"})
      */
     public function getTotalCountryRolesPercent(): float
     {
-        return $this->calculateTotalPercent($this->getCountryRoles()->toArray());
+        return $this->calculateTotalRolesPercentage($this->getCountryRoles()->toArray());
     }
 
     /**
      * @Groups({"read"})
      */
-    public function getTotalSDGRolesPercent(): int
+    public function getTotalSDGRolesPercent(): float
     {
-        return $this->calculateTotalPercent($this->getSDGRoles()->toArray());
+        return $this->calculateTotalRolesPercentage($this->getSDGRoles()->toArray());
     }
 
-    private function calculateTotalPercent(array $roles): float
+    /**
+     * @Groups({"read"})
+     */
+    public function getTotalAnimalSpeciesRolesPercent(): float
     {
-        return array_reduce(
-            $roles,
-            function($carry, $item) {
-                $carry += doubleval($item->getPercent());
-                return $carry;
-            },
-            0
-        );
+        return $this->calculateTotalRolesPercentage($this->getAnimalSpeciesRoles()->toArray());
     }
 
     /**
@@ -578,7 +682,17 @@ class Project
      */
     public function getIsActive(): bool
     {
-        $now = new \DateTime();
+        $now = Carbon::now();
         return $this->endDate >= $now && $this->startDate <= $now;
+    }
+
+    /**
+     * @Groups({"read"})
+     */
+    public function getIsActiveThisYear(): bool
+    {
+        $isStartDateInCurrentYear = Carbon::instance($this->startDate)->isCurrentYear();
+        $isEndDateInCurrentYear = Carbon::instance($this->endDate)->isCurrentYear();
+        return $this->getIsActive() || $isStartDateInCurrentYear || $isEndDateInCurrentYear;
     }
 }

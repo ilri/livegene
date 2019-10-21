@@ -54,9 +54,15 @@ class AnimalSpecies
      */
     private $samplingActivities;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\AnimalSpeciesRole", mappedBy="animalSpecies", orphanRemoval=true)
+     */
+    private $animalSpeciesRoles;
+
     public function __construct()
     {
         $this->samplingActivities = new ArrayCollection();
+        $this->animalSpeciesRoles = new ArrayCollection();
     }
 
     public function __toString()
@@ -116,6 +122,37 @@ class AnimalSpecies
         if ($this->samplingActivities->contains($samplingActivity)) {
             $this->samplingActivities->removeElement($samplingActivity);
             $samplingActivity->removeAnimalSpecies($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|AnimalSpeciesRole[]
+     */
+    public function getAnimalSpeciesRoles(): Collection
+    {
+        return $this->animalSpeciesRoles;
+    }
+
+    public function addAnimalSpeciesRole(AnimalSpeciesRole $animalSpeciesRole): self
+    {
+        if (!$this->animalSpeciesRoles->contains($animalSpeciesRole)) {
+            $this->animalSpeciesRoles[] = $animalSpeciesRole;
+            $animalSpeciesRole->setAnimalSpecies($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAnimalSpeciesRole(AnimalSpeciesRole $animalSpeciesRole): self
+    {
+        if ($this->animalSpeciesRoles->contains($animalSpeciesRole)) {
+            $this->animalSpeciesRoles->removeElement($animalSpeciesRole);
+            // set the owning side to null (unless already changed)
+            if ($animalSpeciesRole->getAnimalSpecies() === $this) {
+                $animalSpeciesRole->setAnimalSpecies(null);
+            }
         }
 
         return $this;

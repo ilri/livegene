@@ -15,6 +15,7 @@ use Doctrine\Common\Collections\{
     Collection
 };
 use App\Entity\Traits\PersonTrait;
+use App\Entity\Traits\PercentageTrait;
 
 /**
  * @ApiResource(
@@ -32,13 +33,14 @@ use App\Entity\Traits\PersonTrait;
 class StaffMember
 {
     use PersonTrait;
+    Use PercentageTrait;
 
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      * @ApiProperty(identifier=false)
-     * @Groups({"read"})
+     * @Groups({"read", "role"})
      */
     private $id;
 
@@ -46,7 +48,7 @@ class StaffMember
      * @ORM\Column(type="string", length=15, unique=true)
      * @Assert\NotBlank()
      * @ApiProperty(identifier=true)
-     * @Groups({"read"})
+     * @Groups({"read", "role"})
      */
     private $username;
 
@@ -54,14 +56,14 @@ class StaffMember
      * @ORM\Column(type="string", length=100, unique=true)
      * @Assert\NotBlank()
      * @Assert\Email(mode="strict")
-     * @Groups({"read"})
+     * @Groups({"read", "role"})
      */
     private $email;
 
     /**
      * @ORM\Column(type="string", length=30)
      * @Assert\NotBlank()
-     * @Groups({"read"})
+     * @Groups({"read", "role"})
      */
     private $homeProgram;
 
@@ -102,7 +104,7 @@ class StaffMember
 
     public function setUsername(string $username): self
     {
-        $this->username = $username;
+        $this->username = strtolower($username);
 
         return $this;
     }
@@ -194,22 +196,10 @@ class StaffMember
     }
 
     /**
-     * Get the total percent sum for all staff roles.
-     * The function array_reduce accepts array as first argument.
-     * The collection staffRoles has to be therefore converted to array.
-     * In the callback function the sum is calculated.
-     *
      * @Groups({"read"})
      */
-    public function getTotalRolesPercent(): int
+    public function getTotalStaffRolesPercent(): float
     {
-        return array_reduce(
-            $this->getStaffRoles()->toArray(),
-            function($carry, $item) {
-                $carry += $item->getPercent();
-                return $carry;
-            },
-            0
-        );
+        return $this->calculateTotalRolesPercentage($this->getStaffRoles()->toArray());
     }
 }

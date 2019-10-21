@@ -2,12 +2,14 @@
 
 namespace App\Tests\API;
 
-use Liip\FunctionalTestBundle\Test\WebTestCase;
+use Liip\TestFixturesBundle\Test\FixturesTrait;
 use Symfony\Component\HttpFoundation\Response;
 use App\DataFixtures\Test\UserFixtures;
 
-class StaffMemberAPITest extends WebTestCase
+class StaffMemberAPITest extends ApiTestCase
 {
+    use FixturesTrait;
+
     private $fixtures = null;
     private $client;
 
@@ -22,7 +24,8 @@ class StaffMemberAPITest extends WebTestCase
             'username' => $username,
             'password' => UserFixtures::PASSWORD
         ];
-        $this->client = $this->makeClient($credentials);
+
+        $this->client = $this->createAuthenticatedClient($credentials);
     }
 
     public function testGetCollectionIsAvailable()
@@ -83,7 +86,7 @@ class StaffMemberAPITest extends WebTestCase
                 'homeProgram' => 'Cartoon',
                 'firstName' => 'Wile E.',
                 'lastName' => 'Coyote',
-                'totalRolesPercent' => 0
+                'totalStaffRolesPercent' => 0
             ]
         );
     }

@@ -60,7 +60,6 @@ class Country
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\CountryRole", mappedBy="country", cascade={"persist", "remove"})
-     * @Groups({"read"})
      */
     private $countryRoles;
 

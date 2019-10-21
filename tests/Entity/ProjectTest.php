@@ -3,11 +3,15 @@
 namespace App\Tests\Entity;
 
 use PHPUnit\Framework\TestCase;
-use Doctrine\Common\Persistence\ObjectManager;
-use Doctrine\Common\Persistence\ObjectRepository;
-use App\Entity\Project;
-use App\Entity\CountryRole;
-use App\Entity\SDGRole;
+use Carbon\ Carbon;
+use Doctrine\Common\Persistence\{
+    ObjectRepository,
+    ObjectManager
+};
+use App\Entity\{
+    Project,
+    CountryRole
+};
 
 class ProjectTest extends TestCase
 {
@@ -16,7 +20,9 @@ class ProjectTest extends TestCase
 
     public function setUp()
     {
-        $this->now = new \DateTime('now');
+        date_default_timezone_set('UTC');
+        $now = Carbon::create(2019, 8, 7, 12);
+        Carbon::setTestNow($now);
         $this->project = new Project();
 
         $projectRepository = $this->createMock(ObjectRepository::class);
@@ -32,8 +38,8 @@ class ProjectTest extends TestCase
 
     public function testCurrentProjectIsActive()
     {
-        $this->project->setStartDate(new \DateTime('yesterday'));
-        $this->project->setEndDate(new \DateTime('tomorrow'));
+        $this->project->setStartDate(new Carbon('yesterday'));
+        $this->project->setEndDate(new Carbon('tomorrow'));
         $this->assertTrue(
             $this->project->getIsActive()
         );
@@ -42,10 +48,10 @@ class ProjectTest extends TestCase
     public function testPastProjectIsNotActive()
     {
         $this->project->setStartDate(
-            $this->now->sub(new \DateInterval('P10D'))
+            Carbon::now()->sub('30 days')
         );
         $this->project->setEndDate(
-            $this->now->sub(new \DateInterval('P5D'))
+            Carbon::now()->sub('10 days')
         );
         $this->assertFalse(
             $this->project->getIsActive()
@@ -55,13 +61,78 @@ class ProjectTest extends TestCase
     public function testFutureProjectIsNotActive()
     {
         $this->project->setStartDate(
-            $this->now->add(new \DateInterval('P15D'))
+            Carbon::now()->add('10 days')
         );
         $this->project->setEndDate(
-            $this->now->add(new \DateInterval('P30D'))
+            Carbon::now()->add('30 days')
         );
         $this->assertFalse(
             $this->project->getIsActive()
+        );
+    }
+
+    public function testProjectEndsSameYearIsActiveThisYear()
+    {
+        $this->project->setStartDate(
+            new Carbon('first day of January 2015')
+        );
+        $this->project->setEndDate(
+            new Carbon('last day of March 2019')
+        );
+        $this->assertTrue(
+            $this->project->getIsActiveThisYear()
+        );
+    }
+
+    public function testProjectStartsSameYearIsActiveThisYear()
+    {
+        $this->project->setStartDate(
+            new Carbon('last day of December 2019')
+        );
+        $this->project->setEndDate(
+            new Carbon('last Friday of June 2022')
+        );
+        $this->assertTrue(
+            $this->project->getIsActiveThisYear()
+        );
+    }
+
+    public function testActiveProjectIsActiveThisYear()
+    {
+        $this->project->setStartDate(
+            new Carbon('first day of April 2015')
+        );
+        $this->project->setEndDate(
+            new Carbon('last day of September 2020')
+        );
+        $this->assertTrue(
+            $this->project->getIsActiveThisYear()
+        );
+    }
+
+    public function testPastYearsProjectIsNotActiveThisYear()
+    {
+        $this->project->setStartDate(
+            new Carbon('first Monday of April 2015')
+        );
+        $this->project->setEndDate(
+            new Carbon('last Sunday of August 2018')
+        );
+        $this->assertFalse(
+            $this->project->getIsActiveThisYear()
+        );
+    }
+
+    public function testNextYearsProjectIsNotActiveThisYear()
+    {
+        $this->project->setStartDate(
+            new Carbon('first day of January 2020')
+        );
+        $this->project->setEndDate(
+            new Carbon('last Sunday of September 2023')
+        );
+        $this->assertFalse(
+            $this->project->getIsActiveThisYear()
         );
     }
 
@@ -72,9 +143,9 @@ class ProjectTest extends TestCase
             $this->project->getTotalCountryRolesPercent()
         );
 
-        $percent1 = 30;
-        $percent2 = 25;
-        $percent3 = 20;
+        $percent1 = 0.075;
+        $percent2 = 0.025;
+        $percent3 = 0.9;
         $countryRole1 = new CountryRole();
         $countryRole1->setPercent($percent1);
         $countryRole2 = new CountryRole();

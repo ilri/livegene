@@ -67,6 +67,13 @@ services:
             - { name: sonata.admin, manager_type: orm, label: 'Animal Species', show_mosiac_button: false }
         public: true
 
+    admin.animal_species_role:
+        class: App\Admin\AnimalSpeciesRoleAdmin
+        arguments: [~, App\Entity\AnimalSpeciesRole, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, label: 'Animal Species Roles', show_mosiac_button: false }
+        public: true
+
     admin.contact:
         class: App\Admin\ContactAdmin
         arguments: [~, App\Entity\Contact, ~]

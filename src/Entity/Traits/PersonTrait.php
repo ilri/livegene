@@ -11,14 +11,14 @@ trait PersonTrait
     /**
      * @ORM\Column(type="string", length=30)
      * @Assert\NotBlank()
-     * @Groups({"read"})
+     * @Groups({"read", "role"})
      */
     private $firstName;
 
     /**
      * @ORM\Column(type="string", length=50)
      * @Assert\NotBlank()
-     * @Groups({"read"})
+     * @Groups({"read", "role"})
      */
     private $lastName;
 

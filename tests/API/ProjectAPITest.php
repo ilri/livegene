@@ -2,27 +2,35 @@
 
 namespace App\Tests\API;
 
-use Liip\FunctionalTestBundle\Test\WebTestCase;
+use Liip\TestFixturesBundle\Test\FixturesTrait;
+use Carbon\Carbon;
 use Symfony\Component\HttpFoundation\Response;
 use App\DataFixtures\Test\UserFixtures;
 
-class ProjectAPITest extends WebTestCase
+class ProjectAPITest extends ApiTestCase
 {
+    use FixturesTrait;
+
     private $fixtures = null;
     private $client;
 
     public function setUp()
     {
+        date_default_timezone_set('UTC');
+        $now = Carbon::create(2019, 8, 8, 9);
+        Carbon::setTestNow($now);
         $this->fixtures = $this->loadFixtures([
             'App\DataFixtures\Test\UserFixtures',
             'App\DataFixtures\Test\ProjectFixtures',
+            'App\DataFixtures\Test\StaffRoleFixtures',
         ])->getReferenceRepository();
         $username = $this->fixtures->getReference('user')->getUsername();
         $credentials = [
             'username' => $username,
             'password' => UserFixtures::PASSWORD
         ];
-        $this->client = $this->makeClient($credentials);
+
+        $this->client = $this->createAuthenticatedClient($credentials);
     }
 
     public function testGetCollectionIsAvailable()
@@ -89,7 +97,7 @@ class ProjectAPITest extends WebTestCase
                     'homeProgram' => 'Cartoon',
                     'firstName' => 'Wile E.',
                     'lastName' => 'Coyote',
-                    'totalRolesPercent' => 0
+                    'totalStaffRolesPercent' => 0.5
                 ],
                 'startDate' => '2018-01-01T00:00:00+00:00',
                 'endDate' => '2019-12-31T00:00:00+00:00',
@@ -103,7 +111,6 @@ class ProjectAPITest extends WebTestCase
                     'country' => [
                         'id' => 1,
                         'country' => 'GB',
-                        'countryRoles' => [],
                         'countryName' => 'United Kingdom'
                     ]
                 ],
@@ -114,9 +121,26 @@ class ProjectAPITest extends WebTestCase
                 'totalLivegeneValue' => 100000,
                 'status' => 0,
                 'capacityDevelopment' => 0,
+                'staffRoles' => [
+                    [
+                        'id' => 1,
+                        'staffMember' => [
+                            'id' => 1,
+                            'username' => 'coyote',
+                            'email' => 'coyote@example.com',
+                            'homeProgram' => 'Cartoon',
+                            'firstName' => 'Wile E.',
+                            'lastName' => 'Coyote',
+                            'totalStaffRolesPercent' => 0.5
+                        ],
+                        'percent' => '0.5'
+                    ]
+                ],
                 'totalCountryRolesPercent' => 0,
                 'totalSDGRolesPercent' => 0,
-                'isActive' => true
+                'totalAnimalSpeciesRolesPercent' => 0,
+                'isActive' => true,
+                'isActiveThisYear' => true
             ]
         );
     }

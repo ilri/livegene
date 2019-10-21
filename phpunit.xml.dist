@@ -15,11 +15,18 @@
         <env name="DATABASE_URL" value="sqlite:///%kernel.project_dir%/var/test.db3" />
 
         <!-- ###+ nelmio/cors-bundle ### -->
-        <env name="CORS_ALLOW_ORIGIN" value="^https?://localhost\(:[0-9]+\)?$"/>
+	<env name="CORS_ALLOW_ORIGIN" value="^https?://localhost\(:[0-9]+\)?$"/>
+	<!--"^https?://localhost\(:[0-9]+\)?$"/ -->
         <!-- ###- nelmio/cors-bundle ### -->
 
         <!-- suppress deprecation notices -->
         <env name="SYMFONY_DEPRECATIONS_HELPER" value="weak" />
+
+        <!-- ###+ lexik/jwt-authentication-bundle ### -->
+        <env name="JWT_SECRET_KEY" value="%kernel.project_dir%/config/jwt/private.pem"/>
+        <env name="JWT_PUBLIC_KEY" value="%kernel.project_dir%/config/jwt/public.pem"/>
+        <env name="JWT_PASSPHRASE" value="c0a073316b0c1735501f5a512c39fa7b"/>
+        <!-- ###- lexik/jwt-authentication-bundle ### -->
     </php>
 
     <testsuites>

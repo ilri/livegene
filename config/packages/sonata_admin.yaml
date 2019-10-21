@@ -40,6 +40,7 @@ sonata_admin:
                     - admin.sampling_documentation
                     - admin.sampling_document_type
                     - admin.animal_species
+                    - admin.animal_species_role
         blocks:
             -
                 type: sonata.block.service.template
