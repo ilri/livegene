@@ -7,6 +7,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface;
 use App\Application\Sonata\UserBundle\Entity\User;
 use Symfony\Component\HttpFoundation\Cookie;
+use Carbon\Carbon;
 
 class HomeController extends AbstractController
 {
@@ -21,8 +22,19 @@ class HomeController extends AbstractController
 
         $token = $JWTManager->create($user);
 
+        $now = Carbon::now();
         $response = $this->render('home/index.html.twig');
-        $response->headers->setCookie(Cookie::create('jwt', $token));
+        $response->headers->setCookie(Cookie::create(
+            'jwt',
+            $token, // value
+            $now->addHour(), // expire
+            '/', // path
+            null, // domain
+            false, // secure
+            false, // httpOnly
+            false, // raw
+            Cookie::SAMESITE_STRICT // sameSite
+        ));
         return $response;
     }
 }
