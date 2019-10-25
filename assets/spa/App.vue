@@ -6,34 +6,29 @@
         <span class="h3 ml-3 my-0">LiveGene</span>
       </b-navbar-brand>
 
-      <b-navbar-toggle v-if="authenticated" target="nav-collapse"></b-navbar-toggle>
+      <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
-      <b-collapse v-if="authenticated" id="nav-collapse" is-nav>
+      <b-collapse id="nav-collapse" is-nav>
         <b-navbar-nav>
           <b-nav-item>
-            <router-link tag="button" v-bind:to="{ name: 'timeline' }" exact-active-class="active" class="btn btn-info">
+            <router-link tag="button" v-bind:to="{ name: 'timelines' }" exact-active-class="active" class="btn btn-info">
               Piechart
             </router-link>
           </b-nav-item>
           <b-nav-item>
-            <router-link tag="button" v-bind:to="{ name: 'dashboard' }" exact-active-class="active" class="btn btn-info">
+            <router-link tag="button" v-bind:to="{ name: 'timelines' }" exact-active-class="active" class="btn btn-info">
               Partners
             </router-link>
           </b-nav-item>
           <b-nav-item>
-            <router-link tag="button" v-bind:to="{ name: 'login' }" exact-active-class="active" class="btn btn-info">
+            <router-link tag="button" v-bind:to="{ name: 'timelines' }" exact-active-class="active" class="btn btn-info">
               Staff&nbsp;Roles
             </router-link>
           </b-nav-item>
           <b-nav-item>
-            <router-link tag="button" v-bind:to="{name: 'timeline'}" exact-active-class="active" class="btn btn-info">
+            <router-link tag="button" v-bind:to="{name: 'timelines'}" exact-active-class="active" class="btn btn-info">
               Timeline
             </router-link>
-          </b-nav-item>
-        </b-navbar-nav>
-        <b-navbar-nav class="ml-auto">
-          <b-nav-item>
-            <b-button variant="danger" v-on:click="logout">Logout</b-button>
           </b-nav-item>
         </b-navbar-nav>
       </b-collapse>
@@ -51,13 +46,14 @@ export default {
   name: 'App',
   computed: {
     ...mapState({
-      authenticated: state => state.auth.authenticated
+      authenticated: state => state.auth.authenticated,
+      projects: state => state.projects
     })
   },
-  methods: {
-    logout() {
-      window.location.reload();
-    }
+  created() {
+    this.$store.dispatch('getJWTAction');
+    //this.$store.dispatch('authenticate');
+    this.$store.dispatch('getProjectsAction');
   }
 };
 </script>

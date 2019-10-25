@@ -13,16 +13,24 @@ export default new Vuex.Store({
   },
   mutations: {
     setProjects(state, projects) {
-      state.projects = projects;
+      state.projects.push(...projects);
     }
   },
   actions: {
     async getProjectsAction(context) {
-      let response = await context.rootGetters.authenticatedAxios.get('/api/projects');
-      context.commit(
-        'setProjects',
-        response.data['hydra:member']
-      );
+      let url = '/api/projects';
+      while (url) {
+        let response = await context.rootGetters.authenticatedAxios.get(url);
+        context.commit(
+          'setProjects',
+          response.data['hydra:member']
+        );
+        if (response.data['hydra:view']) {
+            url = response.data['hydra:view']['hydra:next'];
+        } else {
+          url = null;
+        }
+      }
     }
   }
 });

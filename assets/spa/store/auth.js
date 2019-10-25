@@ -1,69 +1,60 @@
 import Axios from 'axios';
+import Cookies from 'js-cookie';
 
 export default {
   state: {
     authenticated: false,
-    credentials: {
-      username: '',
-      password: ''
-    }
+    jwt: null
   },
   getters: {
     authenticatedAxios(state) {
       return Axios.create({
         method: 'get',
-        auth: {
-          username: state.credentials.username,
-          password: state.credentials.password
-        },
         headers: {
           'X-Requested-With': 'XMLHttpRequest',
-          'Accept': 'application/ld+json'
+          'Accept': 'application/ld+json',
+          'Authorization': `Bearer ${state.jwt}`
         }
       });
     }
   },
   mutations: {
-    setAuthenticated(state, credentials) {
-      state.authenticated = true;
-      state.credentials = credentials;
+    setJWT(state, cookie) {
+      state.jwt = cookie;
     },
-    clearAuthentication(state) {
-      state.authenticated = false;
-      state.credentials = {
-        username: '',
-        password: ''
-      };
+    setAuthenticated(state) {
+      state.authenticated = true;
     }
   },
   actions: {
-    async authenticate(context, credentials) {
+    getJWTAction(context) {
+      context.commit(
+        'setJWT',
+        Cookies.get('jwt')
+      )
+    },
+    async authenticate(context, state) {
       try {
         let response = await Axios({
           url: '/api',
-          method: 'get',
-          auth: {
-            username: credentials.username,
-            password: credentials.password
-          },
+          method: 'post',
           headers: {
-            'X-Requested-With': 'XMLHttpRequest'
+            'X-Requested-With': 'XMLHttpRequest',
+            'Authorization': `Bearer ${state.jwt}`
           }
         });
 
         if (response.status == 200) {
-          context.commit('setAuthenticated', credentials);
+          context.commit('setAuthenticated');
         }
       } catch(err) {
         if (err.response.status == 401) {
-          throw new Error('Wrong credentials.');
+          console.log(err);
+          throw new Error('No JSON Web Token found.');
         } else {
           throw new Error('Login failed. Please try later or contact the administrator.');
         }
       }
-    },
-    logout(context) {
-      context.commit('clearAuthentication');
     }
   }
 };

@@ -42,9 +42,6 @@ import { mapState } from 'vuex';
 export default {
   computed: {
     ...mapState({ projects: state => state.projects })
-  },
-  created() {
-    this.$store.dispatch('getProjectsAction');
   }
 }
 </script>
