@@ -1,5 +1,5 @@
 <template>
-  <div class="col">
+  <div>
     <h2 class="bg-primary text-white text-center p-2">Project Timelines</h2>
     <div class="row">
       <div class="col">
