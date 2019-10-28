@@ -27,6 +27,8 @@
         "build": "encore production --progress"
     },
     "dependencies": {
-        "ckeditor": "^4.0.0"
+        "animate.css": "^3.7.2",
+        "ckeditor": "^4.0.0",
+        "popmotion": "^8.7.0"
     }
 }

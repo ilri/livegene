@@ -1,47 +1,11 @@
 <template>
-  <div class="jumbotron">
+  <div>
     <router-view></router-view>
-    <h2>This is the protected realm.</h2>
-    <h3>Projects</h3>
-    <table>
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>ILRI code</th>
-          <th>Full name</th>
-          <th>Short name</th>
-          <th>Team</th>
-          <th>Principal investigator</th>
-          <th>Start date</th>
-          <th>End date</th>
-          <th>Status</th>
-          <th>Capacity development</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="p in projects" v-bind:key="p.id">
-          <td>{{ p.id }}</td>
-          <td>{{ p.ilriCode }}</td>
-          <td>{{ p.fullName }}</td>
-          <td>{{ p.shortName }}</td>
-          <td>{{ p.team }}</td>
-          <td>{{ p.principalInvestigator.firstName }} {{ p.principalInvestigator.lastName }}</td>
-          <td>{{ p.startDate }}</td>
-          <td>{{ p.endDate }}</td>
-          <td>{{ p.status }}</td>
-          <td>{{ p.capacityDevelopment }}</td>
-        </tr>
-      </tbody>
-    </table>
+    <h2 class="bg-success text-dark text-center p-2">ILRI <strong class="text-white">Live</strong>stock <strong
+        class="text-white">Gene</strong>tics</h2>
+    <b-img center :src="require('../assets/logo.png')" alt="LiveGene"></b-img>
+    <footer class="mt-5">
+      <p class="text-center">&copy; International Livestock Reasearch Institute 2019</p>
+    </footer>
   </div>
 </template>
-
-<script>
-import { mapState } from 'vuex';
-
-export default {
-  computed: {
-    ...mapState({ projects: state => state.projects })
-  }
-}
-</script>

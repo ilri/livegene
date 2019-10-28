@@ -3,7 +3,9 @@ import BootstrapVue from 'bootstrap-vue';
 
 Vue.use(BootstrapVue);
 
-import "bootstrap/dist/css/bootstrap.min.css";
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'animate.css/animate.min.css';
+import 'popmotion/dist/popmotion.global.min';
 
 import App from './App';
 import router from './router';
