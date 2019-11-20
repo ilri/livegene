@@ -65,7 +65,6 @@
     },
     created() {
       this.$store.dispatch('getJWTAction');
-      //this.$store.dispatch('authenticate');
       this.$store.dispatch('getProjectsAction');
     }
   };

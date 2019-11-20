@@ -44,11 +44,11 @@ export default {
           }
         });
 
-        if (response.status == 200) {
+        if (response.status === 200) {
           context.commit('setAuthenticated');
         }
       } catch(err) {
-        if (err.response.status == 401) {
+        if (err.response.status === 401) {
           console.log(err);
           throw new Error('No JSON Web Token found.');
         } else {
