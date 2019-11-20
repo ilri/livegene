@@ -30,7 +30,12 @@ class SamplingDocumentationAdmin extends AbstractAdmin
             $list = parent::configureActionButtons($action, $object);
         }
 
-        $list['create_multiple']['template'] = 'SonataAdmin/CRUD/SamplingDocumentation/create_multiple_button.html.twig';
+        if (\in_array($action, ['tree', 'show', 'edit', 'delete', 'list', 'batch'], true)
+            && $this->hasAccess('create')
+            && $this->hasRoute('create')
+        ) {
+            $list['create_multiple']['template'] = 'SonataAdmin/CRUD/SamplingDocumentation/create_multiple_button.html.twig';
+        }
 
         return $list;
     }
@@ -39,11 +44,13 @@ class SamplingDocumentationAdmin extends AbstractAdmin
     {
         $actions = parent::getDashboardActions();
 
-        $actions['create_multiple'] = [
-            'label' => 'Add many',
-            'url' => $this->generateUrl('create_multiple'),
-            'icon' => 'files-o',
-        ];
+        if ($this->hasRoute('create') && $this->hasAccess('create')) {
+            $actions['create_multiple'] = [
+                'label' => 'Add many',
+                'url' => $this->generateUrl('create_multiple'),
+                'icon' => 'files-o',
+            ];
+        }
 
         return $actions;
     }
