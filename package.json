@@ -2,14 +2,18 @@
     "devDependencies": {
         "@fancyapps/fancybox": "^3.5.6",
         "@symfony/webpack-encore": "^0.22.0",
+        "animate.css": "^3.7.2",
         "axios": "^0.18.0",
         "bootstrap": "^4.3.1",
         "bootstrap-vue": "^2.0.0-rc.21",
+        "ckeditor": "^4.12.1",
         "core-js": "^3.1.2",
         "d3": "^5.9.2",
         "eslint": "^5.16.0",
         "flag-icon-css": "^3.3.0",
+        "jquery": "^3.4.1",
         "js-cookie": "^2.2.1",
+        "popmotion": "^8.7.1",
         "regenerator-runtime": "^0.13.2",
         "vue": "^2.6.10",
         "vue-loader": "15.0.11",
@@ -26,9 +30,5 @@
         "watch": "encore dev --watch",
         "build": "encore production --progress"
     },
-    "dependencies": {
-        "animate.css": "^3.7.2",
-        "ckeditor": "^4.0.0",
-        "popmotion": "^8.7.0"
-    }
+    "dependencies": {}
 }
