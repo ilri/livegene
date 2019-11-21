@@ -10,11 +10,26 @@ use App\Application\Sonata\MediaBundle\Entity\Media;
 
 /**
  * @ApiResource(
- *     collectionOperations={"get"={"method"="GET"}},
- *     itemOperations={"get"={"method"="GET"}},
- *     attributes={
- *         "normalization_context"={"groups"={"read"}},
- *     }
+ *     collectionOperations={
+ *         "get"={
+ *             "method"="GET",
+ *             "normalization_context"={
+ *                 "groups"={
+ *                     "sampling_documentation:collection:get"
+ *                 }
+ *             }
+ *         }
+ *     },
+ *     itemOperations={
+ *         "get"={
+ *             "method"="GET",
+ *             "normalization_context"={
+ *                 "groups"={
+ *                     "sampling_documentation:item:get"
+ *                 }
+ *             }
+ *         }
+ *     },
  * )
  * @ORM\Entity(repositoryClass="App\Repository\SamplingDocumentationRepository")
  * @ORM\Table(name="app_sampling_documentation")
@@ -25,7 +40,7 @@ class SamplingDocumentation
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
-     * @Groups({"read"})
+     * @Groups({"sampling_documentation:collection:get", "sampling_collection:item:get"})
      */
     private $id;
 
@@ -33,7 +48,7 @@ class SamplingDocumentation
      * @ORM\ManyToOne(targetEntity="App\Entity\SamplingActivity", inversedBy="samplingDocumentations")
      * @ORM\JoinColumn(nullable=false)
      * @Assert\NotBlank()
-     * @Groups({"read"})
+     * @Groups({"sampling_documentation:collection:get", "sampling_documentation:item:get"})
      */
     private $samplingActivity;
 
@@ -41,7 +56,7 @@ class SamplingDocumentation
      * @ORM\ManyToOne(targetEntity="App\Entity\SamplingDocumentType", inversedBy="samplingDocumentations")
      * @ORM\JoinColumn(nullable=false)
      * @Assert\NotBlank()
-     * @Groups({"read"})
+     * @Groups({"sampling_documentation:collection:get", "sampling_documentation:item:get"})
      */
     private $samplingDocumentType;
 
@@ -49,7 +64,7 @@ class SamplingDocumentation
      * @ORM\OneToOne(targetEntity="App\Application\Sonata\MediaBundle\Entity\Media", cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=false)
      * @Assert\NotBlank()
-     * @Groups({"read"})
+     * @Groups({"sampling_documentation:collection:get", "sampling_documentation:item:get"})
      */
     private $document;
 

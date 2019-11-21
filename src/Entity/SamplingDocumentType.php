@@ -14,8 +14,26 @@ use Doctrine\Common\Collections\{
 
 /**
  * @ApiResource(
- *     collectionOperations={"get"={"method"="GET"}},
- *     itemOperations={"get"={"method"="GET"}},
+ *     collectionOperations={
+ *         "get"={
+ *             "method"="GET",
+ *             "normalization_context"={
+ *                 "groups"={
+ *                     "sampling_document_type:collection:get"
+ *                 }
+ *             }
+ *         }
+ *     },
+ *     itemOperations={
+ *         "get"={
+ *             "method"="GET",
+ *             "normalization_context"={
+ *                 "groups"={
+ *                     "sampling_document_type:item:get"
+ *                 }
+ *             }
+ *         }
+ *     },
  *     attributes={
  *         "normalization_context"={"groups"={"read"}},
  *     }
@@ -30,21 +48,21 @@ class SamplingDocumentType
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
-     * @Groups({"read"})
+     * @Groups({"sampling_document_type:collection:get", "sampling_document_type:item:get"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=30, unique=true)
      * @Assert\NotBlank()
-     * @Groups({"read"})
+     * @Groups({"sampling_document_type:collection:get", "sampling_document_type:item:get"})
      */
     private $shortName;
 
     /**
      * @ORM\Column(type="string", length=100)
      * @Assert\NotBlank()
-     * @Groups({"read"})
+     * @Groups({"sampling_document_type:collection:get", "sampling_document_type:item:get"})
      */
     private $longName;
 

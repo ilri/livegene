@@ -14,11 +14,26 @@ use Doctrine\Common\Collections\{
 
 /**
  * @ApiResource(
- *     collectionOperations={"get"={"method"="GET"}},
- *     itemOperations={"get"={"method"="GET"}},
- *     attributes={
- *         "normalization_context"={"groups"={"read"}},
- *     }
+ *     collectionOperations={
+ *         "get"={
+ *             "method"="GET",
+ *             "normalization_context"={
+ *                 "groups"={
+ *                     "animal_species:collection:get"
+ *                 }
+ *             }
+ *         }
+ *     },
+ *     itemOperations={
+ *         "get"={
+ *             "method"="GET",
+ *             "normalization_context"={
+ *                 "groups"={
+ *                     "animal_species:item:get"
+ *                 }
+ *             }
+ *         }
+ *     },
  * )
  * @ORM\Entity(repositoryClass="App\Repository\AnimalSpeciesRepository")
  * @ORM\Table(name="app_animal_species")
@@ -31,21 +46,21 @@ class AnimalSpecies
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
-     * @Groups({"read", "sampling"})
+     * @Groups({"animal_species:collection:get", "animal_species:item:get", "sampling_activity:collection:get", "sampling_activity:item:get"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=30, unique=true)
      * @Assert\NotBlank()
-     * @Groups({"read", "sampling"})
+     * @Groups({"animal_species:collection:get", "animal_species:item:get", "sampling_activity:collection:get", "sampling_activity:item:get"})
      */
     private $commonName;
 
     /**
      * @ORM\Column(type="string", length=50, unique=true)
      * @Assert\NotBlank()
-     * @Groups({"read", "sampling"})
+     * @Groups({"animal_species:collection:get", "animal_species:item:get", "sampling_activity:collection:get", "sampling_activity:item:get"})
      */
     private $scientificName;
 

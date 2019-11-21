@@ -7,11 +7,30 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use App\Validator\Constraints as AppAssert;
 use App\Entity\Traits\RoleTrait;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ApiResource(
- *     collectionOperations={"get"={"method"="GET"}},
- *     itemOperations={"get"={"method"="GET"}}
+ *     collectionOperations={
+ *         "get"={
+ *             "method"="GET",
+ *             "normalization_context"={
+ *                 "groups"={
+ *                     "animal_species_role:collection:get"
+ *                 }
+ *             }
+ *         }
+ *     },
+ *     itemOperations={
+ *         "get"={
+ *             "method"="GET",
+ *             "normalization_context"={
+ *                 "groups"={
+ *                     "animal_species_role:item:get"
+ *                 }
+ *             }
+ *         }
+ *     },
  * )
  * @ORM\Entity(repositoryClass="App\Repository\AnimalSpeciesRoleRepository")
  * @ORM\Table(
@@ -29,18 +48,21 @@ class AnimalSpeciesRole
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     * @Groups({"animal_species_role:collection:get", "animal_species_role:item:get"})
      */
     private $id;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Project", inversedBy="animalSpeciesRoles")
      * @ORM\JoinColumn(nullable=false)
+     * @Groups({"animal_species_role:collection:get", "animal_species_role:item:get"})
      */
     private $project;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\AnimalSpecies", inversedBy="animalSpeciesRoles")
      * @ORM\JoinColumn(nullable=false)
+     * @Groups({"animal_species_role:collection:get", "animal_species_role:item:get"})
      */
     private $animalSpecies;
 

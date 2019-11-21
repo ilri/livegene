@@ -14,11 +14,29 @@ use Doctrine\Common\Collections\{
 
 /**
  * @ApiResource(
- *     collectionOperations={"get"={"method"="GET", "path"="/sdgs"}},
- *     itemOperations={"get"={"method"="GET", "path"="/sdgs/{id}", "requirements"={"id"="\d+"}}},
- *     attributes={
- *         "normalization_context"={"groups"={"read"}},
- *     }
+ *     collectionOperations={
+ *         "get"={
+ *             "method"="GET",
+ *             "path"="/sdgs",
+ *             "normalization_context"={
+ *                 "groups"={
+ *                     "sdg:collection:get"
+ *                 }
+ *             }
+ *         }
+ *     },
+ *     itemOperations={
+ *         "get"={
+ *             "method"="GET",
+ *             "path"="/sdgs/{id}",
+ *             "requirements"={"id"="\d+"},
+ *             "normalization_context"={
+ *                 "groups"={
+ *                     "sdg:item:get"
+ *                 }
+ *             }
+ *         }
+ *     },
  * )
  * @ORM\Entity(repositoryClass="App\Repository\SDGRepository")
  * @ORM\Table(name="app_sdg")
@@ -34,28 +52,28 @@ class SDG
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
-     * @Groups({"read"})
+     * @Groups({"sdg:collection:get", "sdg:item:get"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=50, unique=true)
      * @Assert\NotBlank()
-     * @Groups({"read"})
+     * @Groups({"sdg:collection:get", "sdg:item:get"})
      */
     private $headline;
 
     /**
      * @ORM\Column(type="string", length=190, unique=true)
      * @Assert\NotBlank()
-     * @Groups({"read"})
+     * @Groups({"sdg:collection:get", "sdg:item:get"})
      */
     private $fullName;
 
     /**
      * @ORM\Column(type="string", length=7, unique=true)
      * @Assert\NotBlank()
-     * @Groups({"read"})
+     * @Groups({"sdg:collection:get", "sdg:item:get"})
      */
     private $color;
 
@@ -63,7 +81,7 @@ class SDG
      * @ORM\Column(type="string", length=50, unique=true)
      * @Assert\NotBlank()
      * @Assert\Url()
-     * @Groups({"read"})
+     * @Groups({"sdg:collection:get", "sdg:item:get"})
      */
     private $link;
 
@@ -71,7 +89,7 @@ class SDG
      * @ORM\Column(type="string", length=80, unique=true)
      * @Assert\NotBlank()
      * @Assert\Url()
-     * @Groups({"read"})
+     * @Groups({"sdg:collection:get", "sdg:item:get"})
      */
     private $logoUrl;
 

@@ -19,11 +19,29 @@ use App\Entity\Traits\PercentageTrait;
 
 /**
  * @ApiResource(
- *     collectionOperations={"get"={"method"="GET", "path"="/staff"}},
- *     itemOperations={"get"={"method"="GET", "path"="/staff/{id}", "requirements"={"id"="[a-z]+"}}},
- *     attributes={
- *         "normalization_context"={"groups"={"read"}},
- *     }
+ *     collectionOperations={
+ *         "get"={
+ *             "method"="GET",
+ *             "path"="/staff",
+ *             "normalization_context"={
+ *                 "groups"={
+ *                     "staff_member:collection:get"
+ *                 }
+ *             }
+ *         }
+ *     },
+ *     itemOperations={
+ *         "get"={
+ *             "method"="GET",
+ *             "path"="/staff/{id}",
+ *             "requirements"={"id"="[a-z]+"},
+ *             "normalization_context"={
+ *                 "groups"={
+ *                     "staff_member:item:get"
+ *                 }
+ *             }
+ *         }
+ *     },
  * )
  * @ORM\Entity(repositoryClass="App\Repository\StaffMemberRepository")
  * @ORM\Table(name="app_staff_member")
@@ -40,7 +58,7 @@ class StaffMember
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      * @ApiProperty(identifier=false)
-     * @Groups({"read", "role"})
+     * @Groups({"staff_member:collection:get", "staff_member:item:get", "staff_role:collection:get", "staff_role:item:get", "project:collection:get", "project:item:get"})
      */
     private $id;
 
@@ -48,7 +66,7 @@ class StaffMember
      * @ORM\Column(type="string", length=15, unique=true)
      * @Assert\NotBlank()
      * @ApiProperty(identifier=true)
-     * @Groups({"read", "role"})
+     * @Groups({"staff_member:collection:get", "staff_member:item:get", "staff_role:collection:get", "staff_role:item:get", "project:collection:get", "project:item:get"})
      */
     private $username;
 
@@ -56,14 +74,14 @@ class StaffMember
      * @ORM\Column(type="string", length=100, unique=true)
      * @Assert\NotBlank()
      * @Assert\Email(mode="strict")
-     * @Groups({"read", "role"})
+     * @Groups({"staff_member:collection:get", "staff_member:item:get", "staff_role:collection:get", "staff_role:item:get", "project:collection:get", "project:item:get"})
      */
     private $email;
 
     /**
      * @ORM\Column(type="string", length=30)
      * @Assert\NotBlank()
-     * @Groups({"read", "role"})
+     * @Groups({"staff_member:collection:get", "staff_member:item:get", "staff_role:collection:get", "staff_role:item:get", "project:collection:get", "project:item:get"})
      */
     private $homeProgram;
 
@@ -196,7 +214,7 @@ class StaffMember
     }
 
     /**
-     * @Groups({"read"})
+     * @Groups({"staff_member:item:get", "project:collection:get", "project:item:get"})
      */
     public function getTotalStaffRolesPercent(): float
     {
