@@ -14,6 +14,9 @@ use Doctrine\Common\Collections\{
 
 /**
  * @ApiResource(
+ *     attributes={
+ *         "security"="is_granted('ROLE_API_USER')"
+ *     },
  *     collectionOperations={"get"={"method"="GET"}},
  *     itemOperations={"get"={"method"="GET"}},
  *     attributes={

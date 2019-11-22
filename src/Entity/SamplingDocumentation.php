@@ -10,6 +10,9 @@ use App\Application\Sonata\MediaBundle\Entity\Media;
 
 /**
  * @ApiResource(
+ *     attributes={
+ *         "security"="is_granted('ROLE_API_USER')"
+ *     },
  *     collectionOperations={
  *         "get"={
  *             "method"="GET",

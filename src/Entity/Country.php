@@ -18,6 +18,9 @@ use Symfony\Component\Intl\Intl;
 
 /**
  * @ApiResource(
+ *     attributes={
+ *         "security"="is_granted('ROLE_API_USER')"
+ *     },
  *     collectionOperations={
  *         "get"={
  *             "method"="GET",

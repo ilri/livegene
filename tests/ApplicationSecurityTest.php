@@ -336,7 +336,7 @@ class ApplicationSecurityTest extends WebTestCase
             $this->client->getResponse()->getStatusCode()
         );
         $this->assertSame(
-            3,
+            5,
             $crawler->filter('a[title="Impersonate User"]')->count()
         );
     }
@@ -368,7 +368,7 @@ class ApplicationSecurityTest extends WebTestCase
      */
     public function testUserCanAccessApiPlatform($format)
     {
-        $username = $this->fixtures->getReference('user')->getUsername();
+        $username = $this->fixtures->getReference('api_user')->getUsername();
         $this->getJsonWebToken($username);
         $this->client->request('GET', sprintf('/api/index.%s', $format));
         $this->assertSame(

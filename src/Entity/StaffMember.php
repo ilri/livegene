@@ -19,6 +19,9 @@ use App\Entity\Traits\PercentageTrait;
 
 /**
  * @ApiResource(
+ *     attributes={
+ *         "security"="is_granted('ROLE_API_USER')"
+ *     },
  *     collectionOperations={
  *         "get"={
  *             "method"="GET",

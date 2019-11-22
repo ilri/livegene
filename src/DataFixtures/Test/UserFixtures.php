@@ -14,6 +14,8 @@ class UserFixtures extends Fixture implements FixtureGroupInterface
     public function load(ObjectManager $manager)
     {
         $usernames = [
+            'spa_user',
+            'api_user',
             'user',
             'sonata_admin',
             'admin',

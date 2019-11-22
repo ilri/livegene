@@ -20,7 +20,7 @@ class PartnershipTypeAPITest extends ApiTestCase
             'App\DataFixtures\Test\UserFixtures',
             'App\DataFixtures\PartnershipTypeFixtures',
         ])->getReferenceRepository();
-        $username = $this->fixtures->getReference('user')->getUsername();
+        $username = $this->fixtures->getReference('api_user')->getUsername();
         $credentials = [
             'username' => $username,
             'password' => UserFixtures::PASSWORD

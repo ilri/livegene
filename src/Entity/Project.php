@@ -17,6 +17,9 @@ use Carbon\Carbon;
 
 /**
  * @ApiResource(
+ *     attributes={
+ *         "security"="is_granted('ROLE_SPA_USER')"
+ *     },
  *     collectionOperations={
  *         "get"={
  *             "method"="GET",
