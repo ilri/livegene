@@ -85,6 +85,8 @@
         .attr('width', width)
         .attr('height', height)
         .style('background-color', backgroundColor)
+        .style('display', 'block')
+        .attr('class', 'mx-auto')
       ;
 
       d3.select('svg')
