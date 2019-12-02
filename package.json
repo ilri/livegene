@@ -30,5 +30,7 @@
         "watch": "encore dev --watch",
         "build": "encore production --progress"
     },
-    "dependencies": {}
+    "dependencies": {
+        "d3-array": "^2.4.0"
+    }
 }

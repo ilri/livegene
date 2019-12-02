@@ -1,5 +1,12 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
+import { ascending } from 'd3';
+import { group } from 'd3-array';
+
+const d3 = Object.assign({}, {
+  ascending,
+  group
+});
 
 import AuthModule from './auth';
 
@@ -9,11 +16,16 @@ export default new Vuex.Store({
   strict: true,
   modules: { auth: AuthModule },
   state: {
-    projects: []
+    projects: [],
+    projectsGroupedByTeam: new Map()
   },
   mutations: {
     setProjects(state, projects) {
       state.projects.push(...projects);
+    },
+    sortAndGroupProjects(state) {
+      state.projects.sort((a, b) => d3.ascending(a.startDate, b.startDate));
+      state.projectsGroupedByTeam = d3.group(state.projects, d => d.team);
     }
   },
   actions: {
@@ -31,6 +43,7 @@ export default new Vuex.Store({
           url = null;
         }
       }
+      context.commit('sortAndGroupProjects');
     }
   }
 });
