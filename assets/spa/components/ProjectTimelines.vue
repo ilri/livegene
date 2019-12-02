@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h2 class="bg-primary text-white text-center p-2">Project Timelines</h2>
+    <h2 class="bg-info text-white text-center p-2">Project Timelines</h2>
     <div class="text-center">
       <svg id="viewport" :width="viewport.width" :height="viewport.height">
         <rect :x="margin.left" :y="margin.top" :width="chart.width" :height="chart.height"></rect>
@@ -227,14 +227,6 @@
           .delay(d => (this.xScale(d3.isoParse(d.startDate)) - this.xScale(this.xMin)) * 5 + 200)
           .text(d => d.shortName)
         ;
-
-        d3.select('.infobox rect')
-          .style('fill', '#eee')
-          .style('fill-opacity', 0.7)
-          .style('stroke', 'gray')
-          .style('stroke-opacity', 0.5)
-          .style('stroke-width', 2)
-        ;
       },
       showProjectDetails: function (d, i, n) {
         const that = d3.select(n[i])
@@ -269,7 +261,7 @@
           text1.node().getComputedTextLength(),
           text2.node().getComputedTextLength()
         ]);
-        d3.select('.infobox rect').attr('width', this.boxWidth);
+        d3.select('.infobox rect').attr('width', boxWidth);
       },
       hideProjectDetails: function (d, i, n) {
         d3.select('#viewport').select('text.caret-up')
@@ -284,8 +276,7 @@
       }
     },
     mounted () {
-      this.renderChart;
-      console.log('mounted');
+      this.renderChart();
     },
     watch: {
       data (val) {
@@ -361,8 +352,9 @@
   }
 
   .caret-up {
+    font-weight: 900;
+    font-family: 'FontAwesome';
     text-anchor: middle;
-    font-family: 'FontAwesome', sans-serif;
     alignment-baseline: middle;
     opacity: 0;
   }
