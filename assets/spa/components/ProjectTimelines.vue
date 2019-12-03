@@ -230,7 +230,7 @@
           .style('alignment-baseline', 'middle')
           .style('font-family', '"Open Sans", sans-serif')
           .style('font-weight', 800)
-          .style('fill', 'ivory')
+          .style('fill', 'azure')
           .style('mix-blend-mode', 'difference')
           .transition('timeline')
           .ease(d3.easeLinear)

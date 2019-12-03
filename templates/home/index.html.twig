@@ -3,7 +3,7 @@
 {% block title %}LiveGene Dashboard{% endblock %}
 
 {% block stylesheets %}
-    <link rel="stylesheet" href="{{ asset('build/spa.css') }}" />
+    {{  encore_entry_link_tags('spa') }}
 {% endblock %}
 
 {% block body %}
@@ -12,6 +12,5 @@
 {% endblock %}
 
 {% block javascripts %}
-    <script src="{{ asset('build/runtime.js') }}"></script>
-    <script src="{{ asset('build/spa.js') }}"></script>
+    {{  encore_entry_script_tags('spa') }}
 {% endblock %}
