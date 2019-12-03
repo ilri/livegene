@@ -86,6 +86,7 @@
         },
         moneyFormat: d3.format('$,.0f'),
         dateFormat: d3.timeFormat('%b %d, %Y'),
+        today: 0,
         todayOn: false
       }
     },
@@ -169,16 +170,12 @@
           .range([0, this.legendBox.width])
           .clamp(true)
         ;
-      },
-      today: function () {
-        return this.xScale(d3.isoParse(new Date()));
       }
     },
     methods: {
       renderChart: function () {
-        const svg = d3.select('#viewport');
-
         // Create chart area
+        const svg = d3.select('#viewport');
         const view = svg.select('g.view > g');
 
         // Create groups for all teams
@@ -237,14 +234,15 @@
         ;
       },
       showProjectDetails: function (d, i, n) {
+        const svg = d3.select('#viewport');
         const that = d3.select(n[i])
           .select('rect.project');
 
-        this.svg.select('text.caret-up')
+        svg.select('text.caret-up')
           .attr('x', this.legendScale(d.totalProjectValue))
           .style('opacity', 1)
         ;
-        this.svg.select('text.project-value')
+        svg.select('text.project-value')
           .attr('x', this.legendScale(d.totalProjectValue))
           .attr('y', this.spacing * 3)
           .style('text-anchor', 'middle')
@@ -272,15 +270,19 @@
         d3.select('.infobox rect').attr('width', boxWidth);
       },
       hideProjectDetails: function (d, i, n) {
-        this.svg.select('text.caret-up')
+        const svg = d3.select('#viewport');
+        svg.select('text.caret-up')
           .style('opacity', 0);
-        this.svg.select('text.project-value')
+        svg.select('text.project-value')
           .style('opacity', 0);
         d3.select(n[i]).select('rect')
           .style('fill', d => this.colorScale(d.totalProjectValue))
           .style('stroke', 'blueviolet')
         ;
         d3.select('.infobox').style('opacity', 0);
+      },
+      getToday: function () {
+        this.today = this.xScale(d3.isoParse(new Date()));
       },
       toggleActiveProjects: function () {
         const svg = d3.select('#viewport');
@@ -308,6 +310,7 @@
     watch: {
       data (val) {
         if (val) {
+          this.getToday();
           this.renderChart();
         }
       }
