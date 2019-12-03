@@ -306,8 +306,9 @@
         ;
         d3.select('.infobox').style('opacity', 0);
       },
-      getToday: function () {
-        this.today = this.xScale(d3.isoParse(new Date()));
+      getTodayPosition: function () {
+        let todayPosition = this.xScale(d3.isoParse(new Date()));
+        this.today =  Boolean(todayPosition) ? todayPosition : 0;
       },
       toggleActiveProjects: function () {
         const svg = d3.select('#viewport');
@@ -378,12 +379,13 @@
       }
     },
     mounted () {
+      this.getTodayPosition();
       this.renderChart();
     },
     watch: {
       data (val) {
         if (val) {
-          this.getToday();
+          this.getTodayPosition();
           this.renderChart();
         }
       }
