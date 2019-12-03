@@ -44,6 +44,10 @@
             <text class="project-value"></text>
           </g>
         </g>
+        <g class="today" :transform="`translate(${[today, margin.top]})`">
+          <line :y2="chart.height"></line>
+          <text :style="{ fontSize: barHeight + spacing }" @click="toggleActiveProjects">{{ '\uf274' }}</text>
+        </g>
       </svg>
     </div>
     <div>{{ chart }}</div>
@@ -81,7 +85,8 @@
           max: 10000000
         },
         moneyFormat: d3.format('$,.0f'),
-        dateFormat: d3.timeFormat('%b %d, %Y')
+        dateFormat: d3.timeFormat('%b %d, %Y'),
+        todayOn: false
       }
     },
     computed: {
@@ -164,6 +169,9 @@
           .range([0, this.legendBox.width])
           .clamp(true)
         ;
+      },
+      today: function () {
+        return this.xScale(d3.isoParse(new Date()));
       }
     },
     methods: {
@@ -232,11 +240,11 @@
         const that = d3.select(n[i])
           .select('rect.project');
 
-        d3.select('#viewport').select('text.caret-up')
+        this.svg.select('text.caret-up')
           .attr('x', this.legendScale(d.totalProjectValue))
           .style('opacity', 1)
         ;
-        d3.select('#viewport').select('text.project-value')
+        this.svg.select('text.project-value')
           .attr('x', this.legendScale(d.totalProjectValue))
           .attr('y', this.spacing * 3)
           .style('text-anchor', 'middle')
@@ -264,15 +272,34 @@
         d3.select('.infobox rect').attr('width', boxWidth);
       },
       hideProjectDetails: function (d, i, n) {
-        d3.select('#viewport').select('text.caret-up')
+        this.svg.select('text.caret-up')
           .style('opacity', 0);
-        d3.select('#viewport').select('text.project-value')
+        this.svg.select('text.project-value')
           .style('opacity', 0);
         d3.select(n[i]).select('rect')
           .style('fill', d => this.colorScale(d.totalProjectValue))
           .style('stroke', 'blueviolet')
         ;
         d3.select('.infobox').style('opacity', 0);
+      },
+      toggleActiveProjects: function () {
+        const svg = d3.select('#viewport');
+        this.todayOn = !this.todayOn;
+        if (this.todayOn) {
+          svg.select('g.today')
+            .style('stroke-opacity', 1)
+          ;
+          svg.selectAll('g.timeline')
+            .style(
+              'visibility',
+              d => d.isActive ? 'visible' : 'hidden'
+            );
+        } else {
+          svg.select('g.today')
+            .style('stroke-opacity', 0);
+          svg.selectAll('g.timeline')
+            .style('visibility', 'visible');
+        }
       }
     },
     mounted () {
@@ -357,5 +384,23 @@
     text-anchor: middle;
     alignment-baseline: middle;
     opacity: 0;
+  }
+
+  .today {
+    stroke-opacity: 0;
+  }
+
+  .today line {
+    stroke: darkred;
+    stroke-width: 2;
+  }
+
+  .today text {
+    font-family: 'FontAwesome';
+    font-weight: 900;
+    text-anchor: middle;
+    alignment-baseline: ideographic;
+    cursor: pointer;
+    fill: darkred;
   }
 </style>

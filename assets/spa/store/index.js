@@ -41,7 +41,8 @@ export default new Vuex.Store({
               'team',
               'startDate',
               'endDate',
-              'totalProjectValue'
+              'totalProjectValue',
+              'isActive'
             ]
           }}
         );
