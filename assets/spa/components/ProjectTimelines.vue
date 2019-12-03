@@ -49,12 +49,10 @@
           <text :style="{ fontSize: barHeight + spacing }" @click="toggleActiveProjects">{{ '\uf274' }}</text>
         </g>
       </svg>
-      <b-button variant="danger" size="sm" id="reset">
+      <b-button variant="danger" size="sm" id="reset" @click="resetChart">
         Reset
       </b-button>
     </div>
-    <div>{{ chart }}</div>
-    <div>{{ viewport }}</div>
   </div>
 </template>
 
@@ -376,6 +374,14 @@
           .duration(1000)
           .style('opacity', 1)
         ;
+      },
+      resetChart: function () {
+        const zoom = this.createZoom();
+        d3.select('#zoom')
+          .transition('resetting')
+          .duration(1000)
+          .call(zoom.transform, d3.zoomIdentity)
+        ;
       }
     },
     mounted () {
@@ -484,6 +490,6 @@
 
   #reset {
     position: absolute;
-    opacity: 1;
+    opacity: 0;
   }
 </style>
