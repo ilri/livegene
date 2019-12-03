@@ -32,7 +32,19 @@ export default new Vuex.Store({
     async getProjectsAction(context) {
       let url = '/api/projects';
       while (url) {
-        let response = await context.rootGetters.authenticatedAxios.get(url);
+        let response = await context.rootGetters.authenticatedAxios.get(
+          url,
+          { params: {
+            properties: [
+              'id',
+              'shortName',
+              'team',
+              'startDate',
+              'endDate',
+              'totalProjectValue'
+            ]
+          }}
+        );
         context.commit(
           'setProjects',
           response.data['hydra:member']
