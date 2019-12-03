@@ -230,6 +230,10 @@
           .attr('y', this.barHeight/2 + 1)
           .style('font-size', this.barHeight - 1)
           .style('alignment-baseline', 'middle')
+          .style('font-family', '"Open Sans", sans-serif')
+          .style('font-weight', 800)
+          .style('fill', 'ivory')
+          .style('mix-blend-mode', 'difference')
           .transition('timeline')
           .ease(d3.easeLinear)
           .delay(d => (this.xScale(d3.isoParse(d.startDate)) - this.xScale(this.xMin)) * 5 + 200)
@@ -328,6 +332,12 @@
         const newX = d3.event.transform.rescaleX(this.xScale);
         this.xAxis.scale(newX);
         d3.select('.x-axis').call(this.xAxis);
+        d3.select('.x-axis')
+          .selectAll('line')
+          .attr('stroke', 'lightgray')
+          .attr('opacity', '0.8')
+          .attr('shape-rendering', 'crispEdges')
+        ;
         const today = newX(d3.isoParse(new Date()));
 
         d3.selectAll('rect.project')
@@ -338,8 +348,8 @@
           .attr(
             'x',
             (d, i) => {
-              const newStart = newX(d3.isoParse(d.startDate));
-              const newEnd = newX(d3.isoParse(d.endDate));
+              let newStart = newX(d3.isoParse(d.startDate));
+              let newEnd = newX(d3.isoParse(d.endDate));
               if (newStart < this.margin.left && newEnd > this.margin.left) {
                 return this.labelPadding + this.margin.left;
               } else {
