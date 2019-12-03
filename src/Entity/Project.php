@@ -2,7 +2,11 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Annotation\{
+    ApiResource,
+    ApiFilter
+};
+use ApiPlatform\Core\Serializer\Filter\PropertyFilter;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -40,6 +44,9 @@ use Carbon\Carbon;
  *             }
  *         }
  *     },
+ * )
+ * @ApiFilter(
+ *     PropertyFilter::class
  * )
  * @ORM\Entity(repositoryClass="App\Repository\ProjectRepository")
  * @ORM\Table(name="app_project")
