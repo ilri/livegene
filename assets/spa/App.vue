@@ -35,8 +35,9 @@
             </router-link>
           </b-nav-item>
           <b-nav-item>
-            <router-link tag="button" v-bind:to="{name: 'timelines'}" exact-active-class="active" class="btn btn-info">
-              Timeline
+            <router-link tag="button" v-bind:to="{name: 'timelines'}" exact-active-class="active"
+                         class="btn btn-info">
+              Project Timelines
             </router-link>
           </b-nav-item>
         </b-navbar-nav>
