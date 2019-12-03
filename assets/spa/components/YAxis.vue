@@ -70,7 +70,7 @@
       this.transformText();
     },
     watch: {
-      chart (val) {
+      axis (val) {
         if (val) {
           this.renderAxis();
           this.transformText();

@@ -32,7 +32,9 @@
             'transform',
             `translate(0,${this.chart.height})`
           )
-          .raise();
+          .raise()
+        ;
+
         const gridlines = this.$el.getElementsByTagName('line');
         d3.selectAll(gridlines)
           .attr('stroke', 'lightgray')
@@ -45,7 +47,7 @@
       this.renderAxis();
     },
     watch: {
-      chart (val) {
+      axis (val) {
         if (val) {
           this.renderAxis();
         }
@@ -55,5 +57,4 @@
 </script>
 
 <style scoped>
-
 </style>

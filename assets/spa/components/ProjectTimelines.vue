@@ -3,7 +3,7 @@
     <h2 class="bg-info text-white text-center p-2">Project Timelines</h2>
     <div class="text-center">
       <svg id="viewport" :width="viewport.width" :height="viewport.height">
-        <rect :x="margin.left" :y="margin.top" :width="chart.width" :height="chart.height"></rect>
+        <rect id="zoom" :x="margin.left" :y="margin.top" :width="chart.width" :height="chart.height"></rect>
         <defs>
           <linearGradient id="legendGradient" x1="0" x2="1">
             <stop offset="0" :style="{ 'stop-color': colorScale(value.min), 'stop-opacity': 0.8 }"></stop>
@@ -49,6 +49,9 @@
           <text :style="{ fontSize: barHeight + spacing }" @click="toggleActiveProjects">{{ '\uf274' }}</text>
         </g>
       </svg>
+      <b-button variant="danger" size="sm" id="reset">
+        Reset
+      </b-button>
     </div>
     <div>{{ chart }}</div>
     <div>{{ viewport }}</div>
@@ -232,6 +235,24 @@
           .delay(d => (this.xScale(d3.isoParse(d.startDate)) - this.xScale(this.xMin)) * 5 + 200)
           .text(d => d.shortName)
         ;
+
+        // call zoom
+        const zoom = this.createZoom();
+        svg
+          .select('#zoom')
+          .call(zoom)
+        ;
+
+        // adjust reset button
+        const resetButton = document.querySelector('#reset');
+        resetButton.style.marginLeft = `${-resetButton.offsetWidth}px`;
+      },
+      createZoom: function () {
+        return d3.zoom()
+          .scaleExtent([1, 10])
+          .extent([[0, 0], [this.chart.width, this.chart.height]])
+          .on('zoom', this.updateChart)
+          ;
       },
       showProjectDetails: function (d, i, n) {
         const svg = d3.select('#viewport');
@@ -302,6 +323,48 @@
           svg.selectAll('g.timeline')
             .style('visibility', 'visible');
         }
+      },
+      updateChart: function () {
+        const newX = d3.event.transform.rescaleX(this.xScale);
+        this.xAxis.scale(newX);
+        d3.select('.x-axis').call(this.xAxis);
+        const today = newX(d3.isoParse(new Date()));
+
+        d3.selectAll('rect.project')
+          .attr('x', d => newX(d3.isoParse(d.startDate)))
+          .attr('width', d => newX(d3.isoParse(d.endDate)) - newX(d3.isoParse(d.startDate)))
+        ;
+        d3.selectAll('text.project-label')
+          .attr(
+            'x',
+            (d, i) => {
+              const newStart = newX(d3.isoParse(d.startDate));
+              const newEnd = newX(d3.isoParse(d.endDate));
+              if (newStart < this.margin.left && newEnd > this.margin.left) {
+                return this.labelPadding + this.margin.left;
+              } else {
+                return this.labelPadding + newStart;
+              }
+            }
+          )
+        ;
+
+        const todayGroup = d3.select('.today');
+        todayGroup.attr(
+          'transform',
+          `translate(${[today, this.margin.top]})`
+        );
+        if (today < this.margin.left || today > this.viewport.width - this.margin.right) {
+          todayGroup.attr('opacity', 0)
+        } else {
+          todayGroup.attr('opacity', 1)
+        }
+
+        d3.select('#reset')
+          .transition('displayResetButton')
+          .duration(1000)
+          .style('opacity', 1)
+        ;
       }
     },
     mounted () {
@@ -325,7 +388,7 @@
     background-color: azure;
   }
 
-  rect {
+  #zoom {
     fill: none;
     pointer-events: all;
   }
@@ -405,5 +468,10 @@
     alignment-baseline: ideographic;
     cursor: pointer;
     fill: darkred;
+  }
+
+  #reset {
+    position: absolute;
+    opacity: 1;
   }
 </style>
