@@ -99,15 +99,18 @@
       dataAsArray: function () {
         return [...this.data];
       },
+      baseWidth: function () {
+        return window.innerWidth <= 1024 ? 1024 : window.innerWidth - 2 * Math.round(window.innerWidth/10);
+      },
       chart: function () {
         return {
-          width: window.innerWidth <= 1024 ? 1024 : window.innerWidth - 2 * Math.round(window.innerWidth/10),
+          width: this.baseWidth - (this.margin.left + this.margin.right),
           height: this.projects.length * this.barHeight + this.data.size * this.spacing
         }
       },
       viewport: function () {
         return {
-          width: this.chart.width + this.margin.left + this.margin.right,
+          width: this.baseWidth,
           height: this.chart.height + this.margin.top + this.margin.bottom
         }
       },
