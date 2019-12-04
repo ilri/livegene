@@ -10,9 +10,9 @@
 </template>
 
 <script>
-  import { mapState } from 'vuex';
-  import { select, selectAll } from 'd3';
-  import { sankey, sankeyLinkHorizontal } from 'd3-sankey';
+  import {mapState} from 'vuex';
+  import {select, selectAll} from 'd3';
+  import {sankey, sankeyLinkHorizontal} from 'd3-sankey';
 
   const d3 = Object.assign({},
     {
@@ -25,7 +25,7 @@
 
   export default {
     name: "StaffRoles",
-    data () {
+    data() {
       return {
         // hold the teams extracted from projects
         teams: new Set(),
@@ -51,8 +51,8 @@
        * @returns {{width: *, height: *}}
        */
       viewport: function () {
-        let width = window.innerWidth <= 1024 ? 1024 : window.innerWidth - 2 * Math.round(window.innerWidth/10);
-        let height = width <= 1024 ? 768 : Math.round(width/1.6);
+        let width = window.innerWidth <= 1024 ? 1024 : window.innerWidth - 2 * Math.round(window.innerWidth / 10);
+        let height = width <= 1024 ? 768 : Math.round(width / 1.6);
         return {
           width: width,
           height: height
@@ -102,7 +102,7 @@
        * In the second step generate the links between projects and teams.
        */
       generateLinks: function () {
-        const calculateTotalPercentForProject = function(staffRoles) {
+        const calculateTotalPercentForProject = function (staffRoles) {
           return staffRoles.reduce((acc, cur) => acc + parseFloat(cur.percent) * 100, 0);
         };
 
@@ -123,6 +123,61 @@
         });
       },
       /**
+       * Helper function to highlight associated nodes and paths when hovering over a node.
+       */
+      highlightNodes: function (d) {
+        const labels = [];
+        labels.push(d.label);
+        if (d.type === 'person') {
+          d.sourceLinks.forEach(el => {
+            labels.push(el.target.label);
+            el.target.sourceLinks.forEach(el => labels.push(el.target.label));
+          });
+        } else if (d.type === 'project') {
+          d.sourceLinks.forEach(el => labels.push(el.target.label));
+          d.targetLinks.forEach(el => labels.push(el.source.label));
+        } else if (d.type === 'team') {
+          d.targetLinks.forEach(el => {
+            labels.push(el.source.label);
+            el.source.targetLinks.forEach(el => labels.push(el.source.label));
+          });
+        }
+        d3.selectAll('g.node')
+          .filter(x => !labels.includes(x.label))
+          .style('opacity', 0.1);
+        d3.selectAll('path')
+        //.style('opacity', x => labels.includes(x.source.label) && labels.includes(x.target.label) ? 0.7 : 0.1);
+          .style('opacity', x => {
+            if (x !== undefined) {
+              return labels.includes(x.source.label) && labels.includes(x.target.label) ? 0.7 : 0.1;
+            }
+            return 0.5;
+          })
+        ;
+      },
+      /**
+       * Helper function to reverse the effect of highlightNodes when leaving a node.
+       */
+      fade: function () {
+        d3.selectAll('g.node')
+          .style('opacity', 1)
+        ;
+        d3.selectAll('path')
+          .style('opacity', 0.5)
+        ;
+      },
+      /**
+       * Helper function to highlight a single path when hovering over it.
+       */
+      highlightPath: function (d, i, n) {
+        d3.selectAll('path')
+          .style('opacity', 0.1)
+        ;
+        d3.select(n[i])
+        .style('opacity', 0.7)
+        ;
+      },
+      /**
        * Render the sankey diagram
        */
       renderChart: function () {
@@ -130,17 +185,17 @@
         this.generateLinks();
         const chart = d3.select('#viewport > g');
         const sankey = d3.sankey()
-          .extent([[150, 10], [this.viewport.width-90, this.viewport.height-10]])
+          .extent([[150, 10], [this.viewport.width - 90, this.viewport.height - 10]])
           .iterations(10)
         ;
         const graph = sankey({
           nodes: this.nodes,
           links: this.links
         });
-        const formatName = function(person) {
+        const formatName = function (person) {
           return `${person.lastName.toUpperCase()}, ${person.firstName}`;
         };
-console.log(graph);
+
         chart.selectAll('path')
           .data(graph.links)
           .enter()
@@ -151,8 +206,8 @@ console.log(graph);
           .style('stroke-width', d => d.width)
           .style('stroke', 'black')
           .style('fill', 'none')
-          //.on('mouseenter', highlightPath)
-          //.on('mouseleave', fade)
+          .on('mouseenter', this.highlightPath)
+          .on('mouseleave', this.fade)
         ;
 
         chart.selectAll('g.node')
@@ -163,13 +218,13 @@ console.log(graph);
             'transform',
             d => `translate(${[d.x0, d.y0]})`
           )
-          .each(function(d, i) {
+          .each(function (d, i) {
             d3.select(this)
               .append('rect')
               .attr('width', d.x1 - d.x0)
               .attr('height', d.y1 - d.y0)
               .style('fill', () => {
-                switch(d.type) {
+                switch (d.type) {
                   case 'person':
                     return 'green';
                   case 'project':
@@ -182,65 +237,30 @@ console.log(graph);
             d3.select(this)
               .append("text")
               .attr('class', 'label')
-              .text(d => d.type == 'person' ? formatName(d.obj) : d.label );
+              .text(d => d.type === 'person' ? formatName(d.obj) : d.label);
           })
-          //.on('mouseenter', highlightNodes)
-          //.on('mouseleave', fade)
+          .on('mouseenter', this.highlightNodes)
+          .on('mouseleave', this.fade)
         ;
 
-        /**
         chart.selectAll('text.label')
-          .each(function(d, i) {
-            if (d.type == 'person') {
+          .each(function (d, i) {
+            if (d.type === 'person') {
               d3.select(this)
-                .attr('transform', `translate(${[-5, (d.y1 - d.y0)/2]})`)
+                .attr('transform', `translate(${[-5, (d.y1 - d.y0) / 2]})`)
                 .attr('text-anchor', 'end');
             } else {
               d3.select(this)
-                .attr('transform', `translate(${[d.x1 - d.x0 + 5, (d.y1 - d.y0)/2]})`);
+                .attr('transform', `translate(${[d.x1 - d.x0 + 5, (d.y1 - d.y0) / 2]})`);
             }
             d3.select(this)
               .attr('alignment-baseline', 'middle');
-          });
-
-        function highlightNodes(d) {
-          const labels = [];
-          labels.push(d.label);
-          if (d.type == 'person') {
-            d.sourceLinks.forEach(el => {
-              labels.push(el.target.label);
-              el.target.sourceLinks.forEach(el => labels.push(el.target.label));
-            });
-          } else if (d.type == 'project') {
-            d.sourceLinks.forEach(el => labels.push(el.target.label));
-            d.targetLinks.forEach(el => labels.push(el.source.label));
-          } else if (d.type == 'team') {
-            d.targetLinks.forEach(el => {
-              labels.push(el.source.label);
-              el.source.targetLinks.forEach(el => labels.push(el.source.label));
-            });
-          }
-          d3.selectAll('g.node')
-            .filter(x => !labels.includes(x.label))
-            .style('opacity', 0.1);
-          d3.selectAll('path')
-            .style('opacity', x => labels.includes(x.source.label) && labels.includes(x.target.label) ? 0.7 : 0.1);
-        }
-
-        function highlightPath(d) {
-          d3.selectAll('path')
-            .style('opacity', 0.1);
-          d3.select(this)
-            .style('opacity', 0.7);
-        }
-
-        function fade(d, i) {
-          d3.selectAll('g.node')
-            .style('opacity', 1);
-          d3.selectAll('path')
-            .style('opacity', 0.5);
-        }
-         */
+          })
+          .style('font-family', '"Open Sans Condensed", sans-serif')
+          .style('font-weight', 700)
+          .style('font-size', '0.7em')
+          .style('fill', 'darkblue')
+        ;
       }
     },
     mounted() {
@@ -249,7 +269,7 @@ console.log(graph);
       }
     },
     watch: {
-      projects (val) {
+      projects(val) {
         if (val) {
           if (this.loaded) {
             this.renderChart();
