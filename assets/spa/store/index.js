@@ -17,7 +17,8 @@ export default new Vuex.Store({
   modules: { auth: AuthModule },
   state: {
     projects: [],
-    projectsGroupedByTeam: new Map()
+    projectsGroupedByTeam: new Map(),
+    loaded: false
   },
   mutations: {
     setProjects(state, projects) {
@@ -26,6 +27,9 @@ export default new Vuex.Store({
     sortAndGroupProjects(state) {
       state.projects.sort((a, b) => d3.ascending(a.startDate, b.startDate));
       state.projectsGroupedByTeam = d3.group(state.projects, d => d.team);
+    },
+    setLoaded(state) {
+      state.loaded = true;
     }
   },
   actions: {
@@ -37,12 +41,16 @@ export default new Vuex.Store({
           { params: {
             properties: [
               'id',
+              'ilriCode',
+              'fullName',
               'shortName',
               'team',
               'startDate',
               'endDate',
               'totalProjectValue',
-              'isActive'
+              'staffRoles',
+              'isActive',
+              'isActiveThisYear'
             ]
           }}
         );
@@ -51,11 +59,12 @@ export default new Vuex.Store({
           response.data['hydra:member']
         );
         if (response.data['hydra:view']) {
-            url = response.data['hydra:view']['hydra:next'];
+          url = response.data['hydra:view']['hydra:next'];
         } else {
           url = null;
         }
       }
+      context.commit('setLoaded');
       context.commit('sortAndGroupProjects');
     }
   }
