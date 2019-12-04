@@ -34,7 +34,13 @@
         // hold all the nodes: staff, projects, teams
         nodes: [],
         // hold the links between staff and projects and between projects and teams
-        links: []
+        links: [],
+        // colours for the nodes
+        colours: {
+          'person': 'green',
+          'project': 'yellow',
+          'team': 'red'
+        }
       }
     },
     computed: {
@@ -174,7 +180,7 @@
           .style('opacity', 0.1)
         ;
         d3.select(n[i])
-        .style('opacity', 0.7)
+          .style('opacity', 0.7)
         ;
       },
       /**
@@ -183,6 +189,7 @@
       renderChart: function () {
         this.generateNodes();
         this.generateLinks();
+        const that = this;
         const chart = d3.select('#viewport > g');
         const sankey = d3.sankey()
           .extent([[150, 10], [this.viewport.width - 90, this.viewport.height - 10]])
@@ -218,21 +225,12 @@
             'transform',
             d => `translate(${[d.x0, d.y0]})`
           )
-          .each(function (d, i) {
+          .each(function (d, i, n) {
             d3.select(this)
               .append('rect')
               .attr('width', d.x1 - d.x0)
               .attr('height', d.y1 - d.y0)
-              .style('fill', () => {
-                switch (d.type) {
-                  case 'person':
-                    return 'green';
-                  case 'project':
-                    return 'yellow';
-                  case 'team':
-                    return 'red';
-                }
-              })
+              .style('fill', () => that.colours[d.type])
               .style('stroke', 'black')
             ;
             d3.select(this)
@@ -271,7 +269,7 @@
       }
     },
     watch: {
-      projects(val) {
+      projects (val) {
         if (val) {
           if (this.loaded) {
             this.renderChart();
