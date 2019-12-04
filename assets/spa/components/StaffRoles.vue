@@ -10,9 +10,9 @@
 </template>
 
 <script>
-  import {mapState} from 'vuex';
-  import {select, selectAll} from 'd3';
-  import {sankey, sankeyLinkHorizontal} from 'd3-sankey';
+  import { mapState } from 'vuex';
+  import { select, selectAll } from 'd3';
+  import { sankey, sankeyLinkHorizontal } from 'd3-sankey';
 
   const d3 = Object.assign({},
     {
@@ -233,11 +233,13 @@
                     return 'red';
                 }
               })
-              .style('stroke', 'black');
+              .style('stroke', 'black')
+            ;
             d3.select(this)
               .append("text")
               .attr('class', 'label')
-              .text(d => d.type === 'person' ? formatName(d.obj) : d.label);
+              .text(d => d.type === 'person' ? formatName(d.obj) : d.label)
+            ;
           })
           .on('mouseenter', this.highlightNodes)
           .on('mouseleave', this.fade)
