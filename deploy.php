@@ -24,6 +24,9 @@ add('shared_dirs', ['public/upload']);
 // Writable dirs by web server 
 add('writable_dirs', []);
 
+task('encore', function () {
+    run('yarn build');
+})->local();
 
 // Hosts
 
@@ -31,6 +34,12 @@ host('ovh')
     ->set('deploy_path', '~/{{application}}');    
     
 // Tasks
+task('upload', function () {
+    // this task should upload the built assets for production
+    // to be finished later
+    // upload(__DIR__.'/public/build/', '{{release_path}}/public/build/');
+    writeln('{{release_path}}');
+});
 
 task('build', function () {
     run('cd {{release_path}} && build');
