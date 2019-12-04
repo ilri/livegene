@@ -66,7 +66,7 @@ Encore
     const preset = babelConfig.presets.find(([name]) => name === '@babel/preset-env');
     if (preset !== undefined) {
       preset[1].useBuiltIns = 'usage';
-      preset[1].corejs = '3.1.2';
+      preset[1].corejs = { version: 3, proposals: true };
     }
   })
 
