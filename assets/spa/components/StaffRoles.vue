@@ -138,33 +138,34 @@
       /**
        * Helper function to highlight associated nodes and paths when hovering over a node.
        */
-      highlightNodes: function (d) {
+      highlightNodes: function (datum, index, nodes) {
         const labels = [];
-        labels.push(d.label);
-        if (d.type === 'person') {
-          d.sourceLinks.forEach(el => {
+        labels.push(datum.label);
+        if (datum.type === 'person') {
+          datum.sourceLinks.forEach(el => {
             labels.push(el.target.label);
             el.target.sourceLinks.forEach(el => labels.push(el.target.label));
           });
-        } else if (d.type === 'project') {
-          d.sourceLinks.forEach(el => labels.push(el.target.label));
-          d.targetLinks.forEach(el => labels.push(el.source.label));
-        } else if (d.type === 'team') {
-          d.targetLinks.forEach(el => {
+        } else if (datum.type === 'project') {
+          datum.sourceLinks.forEach(el => labels.push(el.target.label));
+          datum.targetLinks.forEach(el => labels.push(el.source.label));
+        } else if (datum.type === 'team') {
+          datum.targetLinks.forEach(el => {
             labels.push(el.source.label);
             el.source.targetLinks.forEach(el => labels.push(el.source.label));
           });
         }
         d3.selectAll('g.node')
-          .filter(x => !labels.includes(x.label))
+          .filter(d => !labels.includes(d.label))
           .style('opacity', 0.1)
         ;
         d3.selectAll('g.link > path')
-          .style('opacity', d1 => labels.includes(d1.source.label) && labels.includes(d1.target.label) ? 0.7 : 0.1);
+          .style('opacity', d => labels.includes(d.source.label) && labels.includes(d.target.label) ? 0.7 : 0.1)
         ;
         d3.selectAll('g.link-fte')
           .style('opacity', d => labels.includes(d.source.label) && labels.includes(d.target.label) ? 1 : 0)
         ;
+        d3.select(nodes[index]).select('.node-fte').style('opacity', 1);
       },
       /**
        * Helper function to reverse the effect of highlightNodes when leaving a node.
@@ -173,22 +174,31 @@
         d3.selectAll('g.node')
           .style('opacity', 1)
         ;
-        d3.selectAll('path')
+        d3.selectAll('g.link > path')
           .style('opacity', 0.5)
         ;
         d3.selectAll('g.link-fte')
+          .style('opacity', 0)
+        ;
+        d3.selectAll('text.node-fte')
           .style('opacity', 0)
         ;
       },
       /**
        * Helper function to highlight a single path when hovering over it.
        */
-      highlightPath: function (d, i, n) {
+      highlightPath: function (datum, index, nodes) {
         d3.selectAll('path')
           .style('opacity', 0.1)
         ;
-        d3.select(n[i])
+        d3.select(nodes[index])
           .style('opacity', 0.7)
+          .select(function () {
+            d3.select(this.parentNode)
+              .select('g.link-fte')
+              .style('opacity', 1)
+            ;
+          })
         ;
       },
       /**
@@ -197,7 +207,7 @@
       renderChart: function () {
         this.generateNodes();
         this.generateLinks();
-        const that = this;
+        const self = this;
         const chart = d3.select('#viewport > g');
         const sankey = d3.sankey()
           .extent([
@@ -214,6 +224,17 @@
           return `${person.lastName.toUpperCase()}, ${person.firstName}`;
         };
 
+        /**
+         * Create all link paths
+         * a group containing the path and the FTE indicator looks like:
+         * <g class="link">
+         *   <path></path>
+         *   <g class="link-fte">
+         *     <circle></circle>
+         *     <text></text>
+         *   </g>
+         * </g>
+         */
         chart.selectAll('g.link')
           .data(graph.links)
           .join('g')
@@ -227,6 +248,8 @@
               .style('stroke-width', d => d.width)
               .style('stroke', 'black')
               .style('fill', 'none')
+              .on('mouseenter', self.highlightPath)
+              .on('mouseleave', self.fade)
             ;
             // get the coordinates for the path box
             let pathBox = path.node().getBBox();
@@ -234,8 +257,6 @@
             let fte = d3.select(this)
               .append('g')
               .attr('class', 'link-fte')
-              .attr('data-source-label', d.source.label)
-              .attr('data-target-label', d.target.label)
               .attr(
                 'transform',
                 `translate(${[pathBox.x + pathBox.width / 2, pathBox.y + pathBox.height / 2]})`
@@ -259,6 +280,15 @@
           })
         ;
 
+        /**
+         * Create all nodes
+         * a group containing the node and the FTE indicator looks like:
+         * <g class="node">
+         *   <rect></rect>
+         *   <text class="label"></text>
+         *   <text class="node-fte"></text>
+         * </g>
+         */
         chart.selectAll('g.node')
           .data(graph.nodes)
           .join('g')
@@ -267,12 +297,12 @@
             'transform',
             d => `translate(${[d.x0, d.y0]})`
           )
-          .each(function (d, i, n) {
+          .each(function (data) {
             d3.select(this)
               .append('rect')
-              .attr('width', d.x1 - d.x0)
-              .attr('height', d.y1 - d.y0)
-              .style('fill', () => that.colours[d.type])
+              .attr('width', data.x1 - data.x0)
+              .attr('height', data.y1 - data.y0)
+              .style('fill', () => self.colours[data.type])
               .style('stroke', 'black')
             ;
             d3.select(this)
@@ -282,14 +312,15 @@
             ;
             d3.select(this)
               .append('text')
-              .attr('class', 'fte')
-              .text(d => d.type === 'person' ? +(parseFloat(d.obj.totalStaffRolesPercent) * 100).toPrecision(2) : '')
+              .attr('class', 'node-fte')
+              .text(d => d.value)
             ;
           })
           .on('mouseenter', this.highlightNodes)
           .on('mouseleave', this.fade)
         ;
 
+        // position the text labels of the nodes
         chart.selectAll('text.label')
           .each(function (d, i) {
             if (d.type === 'person') {
@@ -309,7 +340,8 @@
           .style('fill', 'darkblue')
         ;
 
-        chart.selectAll('text.fte')
+        // position the text for the node FTE values
+        chart.selectAll('text.node-fte')
           .each(function (d, i) {
             d3.select(this)
               .attr('transform', `translate(20,0)`)
@@ -319,6 +351,7 @@
           .style('font-weight', 800)
           .style('font-size', '0.6em')
           .style('fill', 'darkblue')
+          .style('opacity', 0)
         ;
       }
     },
