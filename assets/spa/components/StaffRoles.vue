@@ -157,15 +157,13 @@
         }
         d3.selectAll('g.node')
           .filter(x => !labels.includes(x.label))
-          .style('opacity', 0.1);
-        d3.selectAll('path')
-        //.style('opacity', x => labels.includes(x.source.label) && labels.includes(x.target.label) ? 0.7 : 0.1);
-          .style('opacity', x => {
-            if (x !== undefined) {
-              return labels.includes(x.source.label) && labels.includes(x.target.label) ? 0.7 : 0.1;
-            }
-            return 0.5;
-          })
+          .style('opacity', 0.1)
+        ;
+        d3.selectAll('g.link > path')
+          .style('opacity', d1 => labels.includes(d1.source.label) && labels.includes(d1.target.label) ? 0.7 : 0.1);
+        ;
+        d3.selectAll('g.link-fte')
+          .style('opacity', d => labels.includes(d.source.label) && labels.includes(d.target.label) ? 1 : 0)
         ;
       },
       /**
@@ -177,6 +175,9 @@
         ;
         d3.selectAll('path')
           .style('opacity', 0.5)
+        ;
+        d3.selectAll('g.link-fte')
+          .style('opacity', 0)
         ;
       },
       /**
@@ -213,18 +214,49 @@
           return `${person.lastName.toUpperCase()}, ${person.firstName}`;
         };
 
-        chart.selectAll('path')
+        chart.selectAll('g.link')
           .data(graph.links)
-          .enter()
-          .append('path')
-          .attr('id', d => `id-${d.index}`)
-          .attr('d', d3.sankeyLinkHorizontal())
-          .style('opacity', 0.5)
-          .style('stroke-width', d => d.width)
-          .style('stroke', 'black')
-          .style('fill', 'none')
-          .on('mouseenter', this.highlightPath)
-          .on('mouseleave', this.fade)
+          .join('g')
+          .attr('class', 'link')
+          .each(function (d, i, n) {
+            let path = d3.select(this)
+              .append('path')
+              .attr('id', d => `id-${d.index}`)
+              .attr('d', d3.sankeyLinkHorizontal())
+              .style('opacity', 0.5)
+              .style('stroke-width', d => d.width)
+              .style('stroke', 'black')
+              .style('fill', 'none')
+            ;
+            // get the coordinates for the path box
+            let pathBox = path.node().getBBox();
+            // create a group to hold the FTE for a link path
+            let fte = d3.select(this)
+              .append('g')
+              .attr('class', 'link-fte')
+              .attr('data-source-label', d.source.label)
+              .attr('data-target-label', d.target.label)
+              .attr(
+                'transform',
+                `translate(${[pathBox.x + pathBox.width / 2, pathBox.y + pathBox.height / 2]})`
+              )
+              .style('opacity', 0)
+            ;
+            fte.append('circle')
+              .attr('stroke', 'darkblue')
+              .attr('stroke-width', 1)
+              .attr('r', 12)
+              .attr('fill', 'yellow')
+            ;
+            fte.append('text')
+              .attr('text-anchor', 'middle')
+              .attr('alignment-baseline', 'middle')
+              .style('font-size', '10')
+              .style('font-weight', 700)
+              .style('font-family', '"Open Sans Condensed", sans-serif')
+              .text(d.value)
+            ;
+          })
         ;
 
         chart.selectAll('g.node')
