@@ -1,7 +1,7 @@
 <template>
   <div>
     <h2 class="bg-info text-white text-center p-2">Project Timelines</h2>
-    <div class="text-center">
+    <div class="text-center pb-5">
       <svg id="viewport" :width="viewport.width" :height="viewport.height">
         <rect id="zoom" :x="margin.left" :y="margin.top" :width="chart.width" :height="chart.height"></rect>
         <defs>

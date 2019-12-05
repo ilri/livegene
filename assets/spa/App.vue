@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="body">
     <b-navbar toggleable="md" type="dark" variant="dark">
       <b-navbar-brand>
         <router-link v-bind:to="{ name: 'dashboard' }" class="text-decoration-none">
@@ -50,6 +50,9 @@
         <router-view></router-view>
       </transition>
     </div>
+    <footer class="footer row align-items-center bg-info mx-0">
+      <div class="col-6 mx-auto text-center text-white">&copy; International Livestock Reasearch Institute 2019</div>
+    </footer>
   </div>
 </template>
 
@@ -70,3 +73,20 @@
     }
   };
 </script>
+
+<style>
+  html {
+    position: relative;
+    min-height: 100%;
+  }
+  .body {
+    margin-bottom: 3em;
+  }
+  .footer {
+    position: absolute;
+    margin-top: 2em;
+    bottom: 0;
+    width: 100%;
+    height: 3em; /* Set the fixed height of the footer here */
+  }
+</style>
