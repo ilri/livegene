@@ -234,9 +234,14 @@
               .style('stroke', 'black')
             ;
             d3.select(this)
-              .append("text")
+              .append('text')
               .attr('class', 'label')
               .text(d => d.type === 'person' ? formatName(d.obj) : d.label)
+            ;
+            d3.select(this)
+              .append('text')
+              .attr('class', 'fte')
+              .text(d => d.type === 'person' ? +(parseFloat(d.obj.totalStaffRolesPercent) * 100).toPrecision(2) : '')
             ;
           })
           .on('mouseenter', this.highlightNodes)
@@ -259,6 +264,18 @@
           .style('font-family', '"Open Sans Condensed", sans-serif')
           .style('font-weight', 700)
           .style('font-size', '0.7em')
+          .style('fill', 'darkblue')
+        ;
+
+        chart.selectAll('text.fte')
+          .each(function (d, i) {
+            d3.select(this)
+              .attr('transform', `translate(20,0)`)
+              .attr('alignment-baseline', 'ideographic')
+              .attr('text-anchor', 'end')
+          })
+          .style('font-weight', 800)
+          .style('font-size', '0.6em')
           .style('fill', 'darkblue')
         ;
       }
