@@ -24,7 +24,7 @@
   );
 
   export default {
-    name: "StaffRoles",
+    name: 'StaffRoles',
     data() {
       return {
         // hold the teams extracted from projects
@@ -40,6 +40,13 @@
           'person': 'green',
           'project': 'yellow',
           'team': 'red'
+        },
+        // margins for the diagram
+        margin: {
+          top: 10,
+          left: 150,
+          right: 90,
+          bottom: 10
         }
       }
     },
@@ -192,7 +199,10 @@
         const that = this;
         const chart = d3.select('#viewport > g');
         const sankey = d3.sankey()
-          .extent([[150, 10], [this.viewport.width - 90, this.viewport.height - 10]])
+          .extent([
+            [this.margin.left, this.margin.top],
+            [this.viewport.width - this.margin.right, this.viewport.height - this.margin.bottom]
+          ])
           .iterations(10)
         ;
         const graph = sankey({
