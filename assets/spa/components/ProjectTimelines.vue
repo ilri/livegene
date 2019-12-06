@@ -403,7 +403,7 @@
 </script>
 
 <style scoped>
-  svg {
+  svg#viewport {
     overflow: visible;
     border: thin solid lightgray;
     background-color: azure;

@@ -188,7 +188,7 @@
        * Helper function to highlight a single path when hovering over it.
        */
       highlightPath: function (datum, index, nodes) {
-        d3.selectAll('path')
+        d3.selectAll('g.link > path')
           .style('opacity', 0.1)
         ;
         d3.select(nodes[index])
@@ -214,7 +214,7 @@
             [this.margin.left, this.margin.top],
             [this.viewport.width - this.margin.right, this.viewport.height - this.margin.bottom]
           ])
-          .iterations(10)
+          .iterations(100)
         ;
         const graph = sankey({
           nodes: this.nodes,
@@ -373,7 +373,7 @@
 </script>
 
 <style scoped>
-  svg {
+  svg#viewport {
     overflow: visible;
     border: thin solid lightgray;
     background-color: azure;
