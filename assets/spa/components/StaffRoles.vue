@@ -23,6 +23,17 @@
     }
   );
 
+  /**
+   * Abbreviations:
+   *  - Array.prototype.findIndex()
+   *    > el = element
+   *  - Array.prototype.forEach()
+   *    > cur = currentValue
+   *    Note: exception is nested forEach, then parentEl and childEl are used instead
+   *  - Array.prototype.reduce()
+   *    > acc = accumulator
+   *    > cur = currentValue
+   */
   export default {
     name: 'StaffRoles',
     data() {
@@ -121,17 +132,17 @@
 
         this.activeProjects.forEach(parentEl => parentEl.staffRoles.forEach(
           childEl => this.links.push({
-            source: this.nodes.findIndex(x => x.label === childEl.staffMember.username),
-            target: this.nodes.findIndex(x => x.label === parentEl.ilriCode),
+            source: this.nodes.findIndex(el => el.label === childEl.staffMember.username),
+            target: this.nodes.findIndex(el => el.label === parentEl.ilriCode),
             value: +(parseFloat(childEl.percent) * 100).toPrecision(2)
           })
         ));
 
-        this.activeProjects.forEach(el => {
+        this.activeProjects.forEach(cur => {
           this.links.push({
-            source: this.nodes.findIndex(x => x.label === el.ilriCode),
-            target: this.nodes.findIndex(x => x.label === el.team),
-            value: calculateTotalPercentForProject(el.staffRoles)
+            source: this.nodes.findIndex(el => el.label === cur.ilriCode),
+            target: this.nodes.findIndex(el => el.label === cur.team),
+            value: calculateTotalPercentForProject(cur.staffRoles)
           })
         });
       },
@@ -139,32 +150,37 @@
        * Helper function to highlight associated nodes and paths when hovering over a node.
        */
       highlightNodes: function (datum, index, nodes) {
+        // calculate all nodes that have to be highlighted
         const labels = [];
         labels.push(datum.label);
         if (datum.type === 'person') {
-          datum.sourceLinks.forEach(el => {
-            labels.push(el.target.label);
-            el.target.sourceLinks.forEach(el => labels.push(el.target.label));
+          datum.sourceLinks.forEach(parentEl => {
+            labels.push(parentEl.target.label);
+            parentEl.target.sourceLinks.forEach(childEl => labels.push(childEl.target.label));
           });
         } else if (datum.type === 'project') {
-          datum.sourceLinks.forEach(el => labels.push(el.target.label));
-          datum.targetLinks.forEach(el => labels.push(el.source.label));
+          datum.sourceLinks.forEach(cur => labels.push(cur.target.label));
+          datum.targetLinks.forEach(cur => labels.push(cur.source.label));
         } else if (datum.type === 'team') {
-          datum.targetLinks.forEach(el => {
-            labels.push(el.source.label);
-            el.source.targetLinks.forEach(el => labels.push(el.source.label));
+          datum.targetLinks.forEach(parentEl => {
+            labels.push(parentEl.source.label);
+            parentEl.source.targetLinks.forEach(childEl => labels.push(childEl.source.label));
           });
         }
+        // highlight the nodes
         d3.selectAll('g.node')
           .filter(d => !labels.includes(d.label))
           .style('opacity', 0.1)
         ;
+        // highlight the associated link paths
         d3.selectAll('g.link > path')
           .style('opacity', d => labels.includes(d.source.label) && labels.includes(d.target.label) ? 0.7 : 0.1)
         ;
+        // highlight the FTE values for the link paths
         d3.selectAll('g.link-fte')
           .style('opacity', d => labels.includes(d.source.label) && labels.includes(d.target.label) ? 1 : 0)
         ;
+        // highlight the FTE value for the selected node
         d3.select(nodes[index]).select('.node-fte').style('opacity', 1);
       },
       /**
