@@ -33,6 +33,10 @@
    *  - Array.prototype.reduce()
    *    > acc = accumulator
    *    > cur = currentValue
+   *  - D3
+   *    > d = datum
+   *    > i = index
+   *    > n = nodes
    */
   export default {
     name: 'StaffRoles',
@@ -223,7 +227,6 @@
       renderChart: function () {
         this.generateNodes();
         this.generateLinks();
-        const self = this;
         const chart = d3.select('#viewport > g');
         const sankey = d3.sankey()
           .extent([
@@ -255,8 +258,8 @@
           .data(graph.links)
           .join('g')
           .attr('class', 'link')
-          .each(function (d, i, n) {
-            let path = d3.select(this)
+          .each((d, i, n) => {
+            let path = d3.select(n[i])
               .append('path')
               .attr('id', d => `id-${d.index}`)
               .attr('d', d3.sankeyLinkHorizontal())
@@ -264,13 +267,13 @@
               .style('stroke-width', d => d.width)
               .style('stroke', 'black')
               .style('fill', 'none')
-              .on('mouseenter', self.highlightPath)
-              .on('mouseleave', self.fade)
+              .on('mouseenter', this.highlightPath)
+              .on('mouseleave', this.fade)
             ;
             // get the coordinates for the path box
             let pathBox = path.node().getBBox();
             // create a group to hold the FTE for a link path
-            let fte = d3.select(this)
+            let fte = d3.select(n[i])
               .append('g')
               .attr('class', 'link-fte')
               .attr(
@@ -313,20 +316,20 @@
             'transform',
             d => `translate(${[d.x0, d.y0]})`
           )
-          .each(function (data) {
-            d3.select(this)
+          .each((d, i, n) => {
+            d3.select(n[i])
               .append('rect')
-              .attr('width', data.x1 - data.x0)
-              .attr('height', data.y1 - data.y0)
-              .style('fill', () => self.colours[data.type])
+              .attr('width', d.x1 - d.x0)
+              .attr('height', d.y1 - d.y0)
+              .style('fill', () => this.colours[d.type])
               .style('stroke', 'black')
             ;
-            d3.select(this)
+            d3.select(n[i])
               .append('text')
               .attr('class', 'label')
               .text(d => d.type === 'person' ? formatName(d.obj) : d.label)
             ;
-            d3.select(this)
+            d3.select(n[i])
               .append('text')
               .attr('class', 'node-fte')
               .text(d => d.value)
@@ -338,17 +341,20 @@
 
         // position the text labels of the nodes
         chart.selectAll('text.label')
-          .each(function (d, i) {
+          .each((d, i, n) => {
             if (d.type === 'person') {
-              d3.select(this)
+              d3.select(n[i])
                 .attr('transform', `translate(${[-5, (d.y1 - d.y0) / 2]})`)
-                .attr('text-anchor', 'end');
+                .attr('text-anchor', 'end')
+              ;
             } else {
-              d3.select(this)
-                .attr('transform', `translate(${[d.x1 - d.x0 + 5, (d.y1 - d.y0) / 2]})`);
+              d3.select(n[i])
+                .attr('transform', `translate(${[d.x1 - d.x0 + 5, (d.y1 - d.y0) / 2]})`)
+              ;
             }
-            d3.select(this)
-              .attr('alignment-baseline', 'middle');
+            d3.select(n[i])
+              .attr('alignment-baseline', 'middle')
+            ;
           })
           .style('font-family', '"Open Sans Condensed", sans-serif')
           .style('font-weight', 700)
@@ -358,11 +364,12 @@
 
         // position the text for the node FTE values
         chart.selectAll('text.node-fte')
-          .each(function (d, i) {
-            d3.select(this)
+          .each((d, i, n) => {
+            d3.select(n[i])
               .attr('transform', `translate(20,0)`)
               .attr('alignment-baseline', 'ideographic')
               .attr('text-anchor', 'end')
+            ;
           })
           .style('font-weight', 800)
           .style('font-size', '0.6em')
