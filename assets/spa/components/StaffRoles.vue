@@ -213,8 +213,8 @@
         ;
         d3.select(nodes[index])
           .style('opacity', 0.7)
-          .select(function () {
-            d3.select(this.parentNode)
+          .select((d, i, n) => {
+            d3.select(n[i].parentNode)
               .select('g.link-fte')
               .style('opacity', 1)
             ;
