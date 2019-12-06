@@ -92,28 +92,49 @@
       }
     },
     computed: {
+      /**
+       * Get the data from Vuex Store
+       */
       ...mapState({
         projects: state => state.projects,
         data: state => state.projectsGroupedByTeam
       }),
-      dataAsArray: function () {
-        return [...this.data];
-      },
+      /**
+       * Get the base width used to calculate the viewport and chart dimensions
+       *
+       * @returns {number}
+       */
       baseWidth: function () {
         return window.innerWidth <= 1024 ? 1024 : window.innerWidth - 2 * Math.round(window.innerWidth/10);
       },
-      chart: function () {
-        return {
-          width: this.baseWidth - (this.margin.left + this.margin.right),
-          height: this.projects.length * this.barHeight + this.data.size * this.spacing
-        }
-      },
+      /**
+       * Calculate the dimensions of the viewport
+       *
+       * @returns {{width: (default.computed.baseWidth|(function(): number)), height: *}}
+       */
       viewport: function () {
         return {
           width: this.baseWidth,
           height: this.chart.height + this.margin.top + this.margin.bottom
         }
       },
+      /**
+       * Calculate the dimensions of the chart
+       *
+       * @returns {{width: number, height: number}}
+       */
+      chart: function () {
+        return {
+          width: this.baseWidth - (this.margin.left + this.margin.right),
+          height: this.projects.length * this.barHeight + this.data.size * this.spacing
+        }
+      },
+      /**
+       * Get the begin of the x axis
+       * It is the calendar year of the earliest start date
+       *
+       * @returns {*}
+       */
       xMin: function () {
         return d3.min(
           this.projects,
@@ -122,6 +143,12 @@
           )
         );
       },
+      /**
+       * Get the end of the x axis
+       * It is the calendar year of the latest end date
+       *
+       * @returns {*}
+       */
       xMax: function () {
         return d3.max(
           this.projects,
@@ -130,18 +157,20 @@
           )
         );
       },
+      /**
+       * Create time scale for the x axis
+       *
+       * @returns {*}
+       */
       xScale: function () {
         return d3.scaleTime()
           .range([this.margin.left, this.margin.left + this.chart.width])
           .domain([this.xMin, this.xMax]);
       },
-      xAxis: function () {
-        return d3.axisBottom(this.xScale)
-          .ticks(10)
-          .tickSize(this.chart.height + this.tickBleed)
-          .tickPadding(this.labelPadding)
-          .tickSizeOuter(0);
-      },
+      /**
+       * Create ordinal scale for the y axis
+       * @returns {*}
+       */
       yScale: function () {
         const offsets = [0];
         this.data.forEach(function (d) {
@@ -154,20 +183,47 @@
               .reduce((acc, cur) => acc + cur, 0) * this.barHeight + i * this.spacing
           ))
           .domain([...this.data.keys()])
-        ;
+          ;
       },
+      /**
+       * Create bottom x axis
+       *
+       * @returns {*}
+       */
+      xAxis: function () {
+        return d3.axisBottom(this.xScale)
+          .ticks(10)
+          .tickSize(this.chart.height + this.tickBleed)
+          .tickPadding(this.labelPadding)
+          .tickSizeOuter(0);
+      },
+      /**
+       * Create left y axis
+       *
+       * @returns {*}
+       */
       yAxis: function () {
         return d3.axisLeft(this.yScale)
           .tickSizeInner(this.chart.width)
           .tickSizeOuter(0)
         ;
       },
+      /**
+       * Create sequential scale for the project values
+       *
+       * @returns {*}
+       */
       colorScale: function () {
         return d3
           .scaleSequential(d3.interpolateReds)
           .domain([this.value.min, this.value.max])
         ;
       },
+      /**
+       * Create linear scale for the legend
+       *
+       * @returns {*|[*, *]|null|[*, *]}
+       */
       legendScale: function () {
         return d3.scaleLinear()
           .domain([this.value.min, this.value.max])
@@ -189,7 +245,7 @@
           .attr('class', 'team')
           .attr(
             'transform',
-            (d, i) => `translate(${[0, this.margin.top + this.yScale(d[0])]})`
+            d => `translate(${[0, this.margin.top + this.yScale(d[0])]})`
           )
         ;
 
@@ -208,7 +264,6 @@
         timelines.append('rect')
           .attr('class', 'project')
           .attr('x', d => this.xScale(d3.isoParse(d.startDate)))
-          //.attr('y', (d,i) => i * barHeight + spacing/2)
           .style('fill', d => this.colorScale(d.totalProjectValue))
           .style('opacity', 0.8)
           .style('stroke', 'blueviolet')

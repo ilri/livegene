@@ -67,7 +67,7 @@
     },
     computed: {
       /**
-       * Get projects from Vuex Store
+       * Get the data from Vuex Store
        */
       ...mapState({
         projects: state => state.projects,
