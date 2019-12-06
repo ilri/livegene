@@ -364,15 +364,10 @@
 
         // position the text for the node FTE values
         chart.selectAll('text.node-fte')
-          .each((d, i, n) => {
-            d3.select(n[i])
-              .attr('transform', `translate(20,0)`)
-              .attr('alignment-baseline', 'ideographic')
-              .attr('text-anchor', 'end')
-            ;
-          })
+          .attr('transform', d => `translate(${Math.round((d.x1 - d.x0)/10)},0)`)
+          .attr('alignment-baseline', 'ideographic')
           .style('font-weight', 800)
-          .style('font-size', '0.6em')
+          .style('font-size', '0.7em')
           .style('fill', 'darkblue')
           .style('opacity', 0)
         ;
