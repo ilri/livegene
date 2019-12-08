@@ -20,13 +20,6 @@
         <g class="view" clip-path="url(#chart)">
           <g></g>
         </g>
-        <g class="infobox">
-          <rect width="80" height="40" rx="3" ry="3" x="0" :y="this.spacing * 3"></rect>
-          <text>
-            <tspan class="project-name" :x="spacing" :y="spacing * 6"></tspan>
-            <tspan class="project-dates" :x="spacing" :dy="spacing * 2.5"></tspan>
-          </text>
-        </g>
         <g class="legend">
           <text :transform="`translate(${[viewport.width/2, spacing * 2]})`">Total Project Value</text>
           <rect class="gradient-bar" :x="(viewport.width - legendBox.width) / 2" :y="spacing * 3"
@@ -52,6 +45,7 @@
       <b-button variant="danger" size="sm" id="reset" @click="resetChart">
         Reset
       </b-button>
+      <div class="infobox"></div>
     </div>
   </div>
 </template>
@@ -316,8 +310,6 @@
       },
       showProjectDetails: function (d, i, n) {
         const svg = d3.select('#viewport');
-        const that = d3.select(n[i])
-          .select('rect.project');
 
         svg.select('text.caret-up')
           .attr('x', this.legendScale(d.totalProjectValue))
@@ -332,23 +324,25 @@
           .text(this.moneyFormat(d.totalProjectValue))
         ;
 
-        that
+        d3.select(n[i])
+          .select('rect.project')
           .style('fill', 'yellow')
           .style('stroke', 'red')
         ;
-        d3.select('.infobox')
-          .style('opacity', 1)
-        ;
 
-        const text1 = d3.select('.infobox .project-name')
-          .text(d.shortName);
-        const text2 = d3.select('.infobox .project-dates')
-          .text(`${this.dateFormat(d3.isoParse(d.startDate))} - ${this.dateFormat(d3.isoParse(d.endDate))}`);
-        const boxWidth = this.spacing * 2 + d3.max([
-          text1.node().getComputedTextLength(),
-          text2.node().getComputedTextLength()
-        ]);
-        d3.select('.infobox rect').attr('width', boxWidth);
+        d3.select('div.infobox')
+          .style('display', 'block')
+          .style('top', `${d3.event.pageY}px`)
+          .style('left', `${d3.event.pageX}px`)
+          .html(
+            `<h6>${d.fullName}</h6>
+             <span>ILRI code: <strong>${d.ilriCode}</strong></span>
+             <br>
+             <span>Start: <strong>${this.dateFormat(d3.isoParse(d.startDate))}</strong></span>
+             <br>
+             <span>End: <strong>${this.dateFormat(d3.isoParse(d.endDate))}</strong></span>`
+          )
+        ;
       },
       hideProjectDetails: function (d, i, n) {
         const svg = d3.select('#viewport');
@@ -360,7 +354,7 @@
           .style('fill', d => this.colorScale(d.totalProjectValue))
           .style('stroke', 'blueviolet')
         ;
-        d3.select('.infobox').style('opacity', 0);
+        d3.select('div.infobox').style('display', 'none');
       },
       getTodayPosition: function () {
         let todayPosition = this.xScale(d3.isoParse(new Date()));
@@ -549,5 +543,21 @@
   #reset {
     position: absolute;
     opacity: 0;
+  }
+
+  div.infobox {
+    position: absolute;
+    padding: 0.2em;
+    pointer-events: none;
+    border: thin solid black;
+    width: 200px;
+    min-height: 100px;
+    background-color: #fcfcfc;
+    box-sizing: border-box;
+    font-size: 0.8em;
+    font-family: '"Open Sans Condensed"', sans-serif;
+    font-weight: 500;
+    opacity: 0.8;
+    display: none;
   }
 </style>

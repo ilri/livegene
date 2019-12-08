@@ -97,7 +97,7 @@ Encore
     {
       fonts: [
         { family: 'Open Sans', variants: ['800'] },
-        { family: 'Open Sans Condensed', variants: ['700'] }
+        { family: 'Open Sans Condensed', variants: ['500', '700'] }
       ]
     }
   ))
