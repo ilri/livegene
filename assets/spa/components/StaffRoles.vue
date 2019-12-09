@@ -23,21 +23,6 @@
     }
   );
 
-  /**
-   * Abbreviations:
-   *  - Array.prototype.findIndex()
-   *    > el = element
-   *  - Array.prototype.forEach()
-   *    > cur = currentValue
-   *    Note: exception is nested forEach, then parentEl and childEl are used instead
-   *  - Array.prototype.reduce()
-   *    > acc = accumulator
-   *    > cur = currentValue
-   *  - D3
-   *    > d = datum
-   *    > i = index
-   *    > n = nodes
-   */
   export default {
     name: 'StaffRoles',
     data() {

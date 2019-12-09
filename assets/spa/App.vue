@@ -17,9 +17,9 @@
                     appear-active-class="animated fadeIn">
         <b-navbar-nav>
           <b-nav-item>
-            <router-link tag="button" v-bind:to="{ name: 'dashboard' }" exact-active-class="active"
+            <router-link tag="button" v-bind:to="{ name: 'awarded_budget' }" exact-active-class="active"
                          class="btn btn-info">
-              Piechart
+              Awarded Budget
             </router-link>
           </b-nav-item>
           <b-nav-item>
@@ -29,7 +29,7 @@
             </router-link>
           </b-nav-item>
           <b-nav-item>
-            <router-link tag="button" v-bind:to="{ name: 'staffroles' }" exact-active-class="active"
+            <router-link tag="button" v-bind:to="{ name: 'staff_roles' }" exact-active-class="active"
                          class="btn btn-info">
               Staff&nbsp;Roles
             </router-link>
@@ -57,6 +57,23 @@
 </template>
 
 <script>
+  /**
+   * Abbreviations:
+   *  - Array.prototype.filter()
+   *    > el = element
+   *  - Array.prototype.findIndex()
+   *    > el = element
+   *  - Array.prototype.forEach()
+   *    > cur = currentValue
+   *    Note: exception is nested forEach, then parentEl and childEl are used instead
+   *  - Array.prototype.reduce()
+   *    > acc = accumulator
+   *    > cur = currentValue
+   *  - D3
+   *    > d = datum
+   *    > i = index
+   *    > n = nodes
+   */
   import {mapState} from 'vuex';
 
   export default {
@@ -88,5 +105,8 @@
     bottom: 0;
     width: 100%;
     height: 3em; /* Set the fixed height of the footer here */
+  }
+  .btn {
+    width: 12em;
   }
 </style>
