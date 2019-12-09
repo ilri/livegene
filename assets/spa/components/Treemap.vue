@@ -38,16 +38,16 @@
         const simpleHierarchy = {
           id: 'root',
           name: 'Root level',
-          children: [data.map((cur, i) => {
+          children: data.map((cur, i) => {
             return {
               id: i+1,
               name: cur[0],
-              //value: cur[1].map(cur => cur.totalProjectValue).reduce((acc, cur) => acc + cur)
-              children: cur[1].map(cur => {
-                return {id: cur.id, name: cur.shortName, value: cur.totalProjectValue}
-              })
-            }
-          })]
+              value: cur[1].map(cur => cur.totalProjectValue).reduce((acc, cur) => acc + cur)
+              //children: cur[1].map(cur => {
+              //  return {id: cur.id, name: cur.shortName, value: cur.totalProjectValue}
+              //})
+            };
+          })
         };
         const root = d3.hierarchy(simpleHierarchy)
           .sum(d => d.value)
@@ -66,6 +66,9 @@
           .attr("y", d => d.y0)
           .attr("width", d => d.x1 - d.x0)
           .attr("height", d => d.y1 - d.y0)
+          .style('fill', 'lightblue')
+          .style('stroke', 'azure')
+          .style('stroke-width', 2)
         ;
 
       }
