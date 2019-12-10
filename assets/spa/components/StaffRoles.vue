@@ -10,7 +10,6 @@
 </template>
 
 <script>
-  import { mapState } from 'vuex';
   import { select, selectAll } from 'd3';
   import { sankey, sankeyLinkHorizontal } from 'd3-sankey';
   import { sankeyDiagramMixin } from "../mixins/sankeyDiagramMixin";
@@ -29,19 +28,12 @@
     mixins: [sankeyDiagramMixin],
     data() {
       return {
-        // hold the teams extracted from projects
-        teams: new Set(),
         // hold the staff objects (staffObjects)
         staff: new Set(),
-        // hold all the nodes: staff, projects, teams
-        nodes: [],
-        // hold the links between staff and projects and between projects and teams
-        links: [],
         // colours for the nodes
         colours: {
           'person': 'green',
           'project': 'yellow',
-          'team': 'red'
         },
         // margins for the diagram
         margin: {
@@ -53,26 +45,6 @@
       }
     },
     computed: {
-      /**
-       * Get the data from Vuex Store
-       */
-      ...mapState({
-        projects: state => state.projects,
-        loaded: state => state.loaded
-      }),
-      /**
-       * Calculate the dimensions used to set width and height of the SVG element.
-       *
-       * @returns {{width: *, height: *}}
-       */
-      viewport: function () {
-        let width = window.innerWidth <= 1024 ? 1024 : window.innerWidth - 2 * Math.round(window.innerWidth / 10);
-        let height = width <= 1024 ? 768 : Math.round(width / 1.6);
-        return {
-          width: width,
-          height: height
-        }
-      },
       /**
        * Filter the projects to get only projects that are active this year and have any staff roles assigned.
        *
@@ -355,20 +327,6 @@
           .style('fill', 'darkblue')
           .style('opacity', 0)
         ;
-      }
-    },
-    mounted() {
-      if (this.loaded) {
-        this.renderChart();
-      }
-    },
-    watch: {
-      projects (val) {
-        if (val) {
-          if (this.loaded) {
-            this.renderChart();
-          }
-        }
       }
     }
   }

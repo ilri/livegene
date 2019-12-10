@@ -10,7 +10,6 @@
 </template>
 
 <script>
-  import { mapState } from 'vuex';
   import { select, selectAll } from 'd3';
   import { sankey, sankeyLinkHorizontal } from 'd3-sankey';
   import { sankeyDiagramMixin } from "../mixins/sankeyDiagramMixin";
@@ -30,10 +29,7 @@
     data() {
       return {
         donors: new Set(),
-        teams: new Set(),
         principalInvestigators: new Set(),
-        nodes: [],
-        links: [],
         margin: {
           top: 10,
           left: 100,
@@ -41,33 +37,12 @@
           bottom: 10
         },
         colours: {
-          donor: 'yellow',
-          team: 'green',
-          pi: 'red'
+          donor: 'green',
+          pi: 'yellow'
         }
       }
     },
     computed: {
-      /**
-       * Get the data from Vuex Store
-       */
-      ...mapState({
-        projects: state => state.projects,
-        loaded: state => state.loaded
-      }),
-      /**
-       * Calculate the dimensions used to set width and height of the SVG element.
-       *
-       * @returns {{width: *, height: *}}
-       */
-      viewport: function () {
-        let width = window.innerWidth <= 1024 ? 1024 : window.innerWidth - 2 * Math.round(window.innerWidth / 10);
-        let height = width <= 1024 ? 768 : Math.round(width / 1.6);
-        return {
-          width: width,
-          height: height
-        }
-      },
       /**
        * Filter the projects to get only projects that are currently active.
        *
@@ -78,7 +53,7 @@
       }
     },
     methods: {
-      drawChart: function () {
+      renderChart: function () {
         this.activeProjects.forEach(cur => {
           this.donors.add(JSON.stringify(cur.donor));
           this.teams.add(cur.team);
@@ -218,26 +193,13 @@
           })
         ;
       }
-    },
-    mounted() {
-      if (this.loaded) {
-        this.drawChart();
-      }
-    },
-    watch: {
-      projects (val) {
-        if (val) {
-          if (this.loaded) {
-            this.drawChart();
-          }
-        }
-      }
     }
   }
 </script>
 
 <style scoped>
   svg#viewport {
+    overflow: visible;
     border: thin solid lightgray;
     background-color: azure;
   }
