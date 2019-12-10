@@ -10,7 +10,7 @@
 </template>
 
 <script>
-  import { select, selectAll } from 'd3';
+  import { select, selectAll, format } from 'd3';
   import { sankey, sankeyLinkHorizontal } from 'd3-sankey';
   import { sankeyDiagramMixin } from "../mixins/sankeyDiagramMixin";
 
@@ -18,6 +18,7 @@
     {
       select,
       selectAll,
+      format,
       sankey,
       sankeyLinkHorizontal
     }
@@ -39,7 +40,8 @@
         colours: {
           donor: 'green',
           pi: 'yellow'
-        }
+        },
+        moneyFormat: d3.format('$,.0f'),
       }
     },
     computed: {
@@ -158,15 +160,9 @@
               .style('fill', this.colours[d.type])
               .style('stroke', 'black')
             ;
-            d3.select(n[i])
+            let text = d3.select(n[i])
               .append('text')
               .attr('class', 'label')
-              .text(() => {
-                if (d.type === 'pi') {
-                  return this.formatName(d.obj);
-                }
-                return d.label
-              })
               .attr(
                 'transform',
                 () => {
@@ -187,8 +183,27 @@
               .attr('alignment-baseline', 'middle')
               .style('font-family', '"Open Sans Condensed", sans-serif')
               .style('font-weight', 700)
-              .style('font-size', '0.7em')
+              .style('font-size', 12)
               .style('fill', 'darkblue')
+            ;
+            text
+              .append('tspan')
+              .attr('class', 'label')
+              .attr('x', 0)
+              .attr('dx', 0)
+              .text(() => {
+                if (d.type === 'pi') {
+                  return this.formatName(d.obj);
+                }
+                return d.label;
+              })
+            ;
+            text.append('tspan')
+              .attr('class', 'value')
+              .attr('x', 0)
+              .attr('dx', 0)
+              .attr('dy', 16)
+              .text(this.moneyFormat(d.value))
             ;
           })
         ;
