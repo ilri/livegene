@@ -10,9 +10,9 @@
 </template>
 
 <script>
-  import { select, selectAll, format } from 'd3';
-  import { sankey, sankeyLinkHorizontal } from 'd3-sankey';
-  import { sankeyDiagramMixin } from "../mixins/sankeyDiagramMixin";
+  import {select, selectAll, format} from 'd3';
+  import {sankey, sankeyLinkHorizontal} from 'd3-sankey';
+  import {sankeyDiagramMixin} from "../mixins/sankeyDiagramMixin";
 
   const d3 = Object.assign({},
     {
@@ -55,7 +55,10 @@
       }
     },
     methods: {
-      renderChart: function () {
+      /**
+       * Generate nodes
+       */
+      generateNodes: function () {
         this.activeProjects.forEach(cur => {
           this.donors.add(JSON.stringify(cur.donor));
           this.teams.add(cur.team);
@@ -80,6 +83,11 @@
             obj: JSON.parse(cur)
           });
         });
+      },
+      /**
+       * Generate links
+       */
+      generateLinks: function () {
         this.activeProjects.forEach(cur => {
           this.links.push({
             source: this.nodes.findIndex(el => el.label === cur.donor.shortName),
@@ -94,7 +102,46 @@
             ilriCode: cur.ilriCode
           });
         });
-
+      },
+      highlightNodes: function (datum, index, nodes) {
+        // calculate all nodes that have to be highlighted
+        const labels = [];
+        labels.push(datum.label);
+        if (datum.type === 'donor') {
+          datum.sourceLinks.forEach(parentEl => {
+            labels.push(parentEl.target.label);
+            parentEl.target.sourceLinks.forEach(childEl => labels.push(childEl.target.label));
+          });
+        } else if (datum.type === 'team') {
+          datum.sourceLinks.forEach(cur => labels.push(cur.target.label));
+          datum.targetLinks.forEach(cur => labels.push(cur.source.label));
+        } else if (datum.type === 'pi') {
+          datum.targetLinks.forEach(parentEl => {
+            labels.push(parentEl.source.label);
+            parentEl.source.targetLinks.forEach(childEl => labels.push(childEl.source.label));
+          });
+        }
+        // highlight the nodes
+        d3.selectAll('g.node')
+          .filter(d => !labels.includes(d.label))
+          .style('opacity', 0.1)
+        ;
+        // highlight the associated link paths
+        d3.selectAll('g.link > path')
+          .style('opacity', d => labels.includes(d.source.label) && labels.includes(d.target.label) ? 0.7 : 0.1)
+        ;
+      },
+      fade: function () {
+        d3.selectAll('g.node')
+          .style('opacity', 1)
+        ;
+        d3.selectAll('g.link > path')
+          .style('opacity', 0.5)
+        ;
+      },
+      renderChart: function () {
+        this.generateNodes();
+        this.generateLinks();
         const chart = d3.select('#viewport > g');
         const sankey = d3.sankey()
           .extent([
@@ -206,6 +253,8 @@
               .text(this.moneyFormat(d.value))
             ;
           })
+          .on('mouseenter', this.highlightNodes)
+          .on('mouseleave', this.fade)
         ;
       }
     }
