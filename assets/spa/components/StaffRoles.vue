@@ -13,6 +13,7 @@
   import { mapState } from 'vuex';
   import { select, selectAll } from 'd3';
   import { sankey, sankeyLinkHorizontal } from 'd3-sankey';
+  import { sankeyDiagramMixin } from "../mixins/sankeyDiagramMixin";
 
   const d3 = Object.assign({},
     {
@@ -25,6 +26,7 @@
 
   export default {
     name: 'StaffRoles',
+    mixins: [sankeyDiagramMixin],
     data() {
       return {
         // hold the teams extracted from projects
@@ -205,17 +207,6 @@
             ;
           })
         ;
-      },
-      /**
-       * Format person's name like "SURNAME, Name"
-       *
-       * @param {Object} person
-       * @param {string} person.lastName
-       * @param {string} person.firstName
-       * @returns {string}
-       */
-      formatName: function (person) {
-        return `${person.lastName.toUpperCase()}, ${person.firstName}`;
       },
       /**
        * Render the sankey diagram

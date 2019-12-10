@@ -13,6 +13,7 @@
   import { mapState } from 'vuex';
   import { select, selectAll } from 'd3';
   import { sankey, sankeyLinkHorizontal } from 'd3-sankey';
+  import { sankeyDiagramMixin } from "../mixins/sankeyDiagramMixin";
 
   const d3 = Object.assign({},
     {
@@ -25,6 +26,7 @@
 
   export default {
     name: 'AwardedBudget',
+    mixins: [sankeyDiagramMixin],
     data() {
       return {
         donors: new Set(),
@@ -186,7 +188,7 @@
               .attr('class', 'label')
               .text(() => {
                 if (d.type === 'pi') {
-                  return `${d.obj.lastName}, ${d.obj.firstName}`;
+                  return this.formatName(d.obj);
                 }
                 return d.label
               })
