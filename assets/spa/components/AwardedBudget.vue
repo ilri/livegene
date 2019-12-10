@@ -34,8 +34,8 @@
         links: [],
         margin: {
           top: 10,
-          left: 150,
-          right: 90,
+          left: 100,
+          right: 100,
           bottom: 10
         },
         colours: {
@@ -67,7 +67,7 @@
         }
       },
       /**
-       * Filter the projects to get only projects that are active this year.
+       * Filter the projects to get only projects that are currently active.
        *
        * @returns {T[]}
        */
@@ -78,13 +78,13 @@
     methods: {
       drawChart: function () {
         this.activeProjects.forEach(cur => {
-          this.donors.add(cur.donor.shortName);
+          this.donors.add(JSON.stringify(cur.donor));
           this.teams.add(cur.team);
-          this.principalInvestigators.add(cur.principalInvestigator.username);
+          this.principalInvestigators.add(JSON.stringify(cur.principalInvestigator));
         });
         [...this.donors].forEach(cur => {
           this.nodes.push({
-            label: cur,
+            label: JSON.parse(cur).shortName,
             type: 'donor'
           });
         });
@@ -96,7 +96,7 @@
         });
         [...this.principalInvestigators].forEach(cur => {
           this.nodes.push({
-            label: cur,
+            label: JSON.parse(cur).username,
             type: 'pi'
           });
         });
@@ -105,16 +105,16 @@
             source: this.nodes.findIndex(el => el.label === cur.donor.shortName),
             target: this.nodes.findIndex(el => el.label === cur.team),
             value: cur.totalProjectValue,
-            code: cur.ilriCode
+            ilriCode: cur.ilriCode
           });
           this.links.push({
             source: this.nodes.findIndex(el => el.label === cur.team),
             target: this.nodes.findIndex(el => el.label === cur.principalInvestigator.username),
             value: cur.totalProjectValue,
-            code: cur.ilriCode
+            ilriCode: cur.ilriCode
           });
         });
-        console.log(this.links);
+
         const chart = d3.select('#viewport > g');
         const sankey = d3.sankey()
           .extent([
@@ -131,14 +131,39 @@
           .data(graph.links)
           .join('g')
           .attr('class', 'link')
-          .append('path')
-          .attr('id', d => `id-${d.index}`)
-          .attr('d', d3.sankeyLinkHorizontal())
-          .style('opacity', 0.5)
-          .style('stroke-width', d => d.width)
-          .style('stroke', 'black')
-          .style('fill', 'none')
+          .each((d, i, n) => {
+            let path = d3.select(n[i])
+              .append('path')
+              .attr('id', d => `id-${d.index}`)
+              .attr('d', d3.sankeyLinkHorizontal())
+              .style('opacity', 0.5)
+              .style('stroke-width', d => d.width)
+              .style('stroke', 'black')
+              .style('fill', 'none')
+            ;
+
+            let pathBox = path.node().getBBox();
+            let projectDetails = d3.select(n[i])
+              .append('g')
+              .attr('class', 'project-details')
+              .attr(
+                'transform',
+                `translate(${[pathBox.x + pathBox.width / 2, pathBox.y + pathBox.height / 2]})`
+              )
+              .style('opacity', 0)
+            ;
+
+            projectDetails.append('text')
+              .attr('text-anchor', 'middle')
+              .attr('alignment-baseline', 'middle')
+              .style('font-size', '10')
+              .style('font-weight', 700)
+              .style('font-family', '"Open Sans Condensed", sans-serif')
+              .text(`${d.ilriCode} (\$${d.value})`)
+            ;
+          })
         ;
+
         chart.selectAll('g.node')
           .data(graph.nodes)
           .join('g')
@@ -147,16 +172,38 @@
             'transform',
             d => `translate(${[d.x0, d.y0]})`
           )
-          .append('rect')
-          .attr('width', d => d.x1 - d.x0)
-          .attr('height', d => d.y1 - d.y0)
-          .style('fill', d => this.colours[d.type])
-          .style('stroke', 'black')
+          .each((d, i, n) => {
+            d3.select(n[i])
+              .append('rect')
+              .attr('width', d.x1 - d.x0)
+              .attr('height', d.y1 - d.y0)
+              .style('fill', this.colours[d.type])
+              .style('stroke', 'black')
+            ;
+            d3.select(n[i])
+              .append('text')
+              .attr('class', 'label')
+              .text(d.label)
+              .attr('transform', `translate(${[-5, (d.y1 - d.y0) / 2]})`)
+              .attr('text-anchor', 'end')
+            ;
+          })
         ;
       }
     },
     mounted() {
-      this.drawChart();
+      if (this.loaded) {
+        this.drawChart();
+      }
+    },
+    watch: {
+      projects (val) {
+        if (val) {
+          if (this.loaded) {
+            this.drawChart();
+          }
+        }
+      }
     }
   }
 </script>
