@@ -78,7 +78,7 @@
        */
       activeProjects: function () {
         return this.projects.filter(el => el.isActiveThisYear && el.staffRoles.length);
-      }
+      },
     },
     methods: {
       /**
@@ -207,6 +207,17 @@
         ;
       },
       /**
+       * Format person's name like "SURNAME, Name"
+       *
+       * @param {Object} person
+       * @param {string} person.lastName
+       * @param {string} person.firstName
+       * @returns {string}
+       */
+      formatName: function (person) {
+        return `${person.lastName.toUpperCase()}, ${person.firstName}`;
+      },
+      /**
        * Render the sankey diagram
        */
       renderChart: function () {
@@ -224,9 +235,6 @@
           nodes: this.nodes,
           links: this.links
         });
-        const formatName = function (person) {
-          return `${person.lastName.toUpperCase()}, ${person.firstName}`;
-        };
 
         /**
          * Create all link paths
@@ -312,7 +320,7 @@
             d3.select(n[i])
               .append('text')
               .attr('class', 'label')
-              .text(d => d.type === 'person' ? formatName(d.obj) : d.label)
+              .text(d => d.type === 'person' ? this.formatName(d.obj) : d.label)
             ;
             d3.select(n[i])
               .append('text')
