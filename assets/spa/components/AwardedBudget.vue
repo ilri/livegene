@@ -97,7 +97,8 @@
         [...this.principalInvestigators].forEach(cur => {
           this.nodes.push({
             label: JSON.parse(cur).username,
-            type: 'pi'
+            type: 'pi',
+            obj: JSON.parse(cur)
           });
         });
         this.activeProjects.forEach(cur => {
@@ -183,9 +184,34 @@
             d3.select(n[i])
               .append('text')
               .attr('class', 'label')
-              .text(d.label)
-              .attr('transform', `translate(${[-5, (d.y1 - d.y0) / 2]})`)
-              .attr('text-anchor', 'end')
+              .text(() => {
+                if (d.type === 'pi') {
+                  return `${d.obj.lastName}, ${d.obj.firstName}`;
+                }
+                return d.label
+              })
+              .attr(
+                'transform',
+                () => {
+                  if (d.type === 'donor') {
+                    return `translate(${[-5, (d.y1 - d.y0) / 2]})`;
+                  }
+                  return `translate(${[d.x1 - d.x0 + 5, (d.y1 - d.y0) / 2]})`;
+                }
+              )
+              .attr(
+                'text-anchor',
+                () => {
+                  if (d.type === 'donor') {
+                    return 'end';
+                  }
+                }
+              )
+              .attr('alignment-baseline', 'middle')
+              .style('font-family', '"Open Sans Condensed", sans-serif')
+              .style('font-weight', 700)
+              .style('font-size', '0.7em')
+              .style('fill', 'darkblue')
             ;
           })
         ;
