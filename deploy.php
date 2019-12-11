@@ -27,6 +27,7 @@ add('writable_dirs', []);
 task('encore', function () {
     run('yarn build');
 })->local();
+before('deploy:prepare', 'encore');
 
 // Hosts
 
@@ -34,16 +35,15 @@ host('ovh')
     ->set('deploy_path', '~/{{application}}');    
     
 // Tasks
-task('upload', function () {
-    // this task should upload the built assets for production
-    // to be finished later
-    // upload(__DIR__.'/public/build/', '{{release_path}}/public/build/');
-    writeln('{{release_path}}');
-});
-
 task('build', function () {
     run('cd {{release_path}} && build');
 });
+
+task('upload_assets', function () {
+    // this task should upload the built assets for production
+    upload(__DIR__.'/public/build/', '{{release_path}}/public/build/');
+});
+after('deploy:update_code', 'upload_assets');
 
 // [Optional] if deploy fails automatically unlock.
 after('deploy:failed', 'deploy:unlock');
