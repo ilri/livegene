@@ -49,6 +49,14 @@ after('deploy:update_code', 'upload_assets');
 after('deploy:failed', 'deploy:unlock');
 
 // Migrate database before symlink new release.
+desc('Migrate database');
+task('database:migrate', function () {
+    $options = '--allow-no-migration -vvv';
+    if (get('migrations_config') !== '') {
+        $options = sprintf('%s --configuration={{release_path}}/{{migrations_config}}', $options);
+    }
+    run(sprintf('{{bin/console}} doctrine:migrations:migrate %s', $options));
+});
 
 before('deploy:symlink', 'database:migrate');
 
