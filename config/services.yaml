@@ -7,6 +7,7 @@ parameters:
     locale: 'en'
     mailer_transport: gmail
     mailer_user: 'ilri.livegene@gmail.com'
+    spa_user: '%env(resolve:SPA_USER)%'
 
 services:
     # default configuration for services in *this* file
@@ -53,6 +54,10 @@ services:
     'App\Serializer\Normalizer\SamplingDocumentationNormalizer':
         decorates: 'api_platform.jsonld.normalizer.item'
         arguments: [ '@App\Serializer\Normalizer\SamplingDocumentationNormalizer.inner' ]
+
+    app.custom_basic_authentication_entry_point:
+        class: App\Security\Service\CustomBasicAuthenticationEntryPoint
+        arguments: [ main ]
 
     # admin services
     admin.animal_species:

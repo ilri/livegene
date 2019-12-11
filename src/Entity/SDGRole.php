@@ -11,6 +11,9 @@ use App\Entity\Traits\RoleTrait;
 
 /**
  * @ApiResource(
+ *     attributes={
+ *         "security"="is_granted('ROLE_API_USER')"
+ *     },
  *     collectionOperations={"get"={"method"="GET", "path"="/sdg_roles"}},
  *     itemOperations={"get"={"method"="GET", "path"="/sdg_roles/{id}", "requirements"={"id"="\d+"}}},
  * )

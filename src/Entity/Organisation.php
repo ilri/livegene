@@ -14,11 +14,29 @@ use Doctrine\Common\Collections\{
 
 /**
  * @ApiResource(
- *     collectionOperations={"get"={"method"="GET"}},
- *     itemOperations={"get"={"method"="GET"}},
  *     attributes={
- *         "normalization_context"={"groups"={"read"}},
- *     }
+ *         "security"="is_granted('ROLE_API_USER')"
+ *     },
+ *     collectionOperations={
+ *         "get"={
+ *             "method"="GET",
+ *             "normalization_context"={
+ *                 "groups"={
+ *                     "organisation:collection:get"
+ *                 }
+ *             }
+ *         }
+ *     },
+ *     itemOperations={
+ *         "get"={
+ *             "method"="GET",
+ *             "normalization_context"={
+ *                 "groups"={
+ *                     "organisation:item:get"
+ *                 }
+ *             }
+ *         }
+ *     },
  * )
  * @ORM\Entity(repositoryClass="App\Repository\OrganisationRepository")
  * @ORM\Table(name="app_organisation")
@@ -30,40 +48,40 @@ class Organisation
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
-     * @Groups({"read"})
+     * @Groups({"organisation:collection:get", "organisation:item:get", "project:collection:get", "project:item:get"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=20)
-     * @Groups({"read"})
+     * @Groups({"organisation:collection:get", "organisation:item:get", "project:collection:get", "project:item:get"})
      */
     private $shortName = '';
 
     /**
      * @ORM\Column(type="string", length=200)
      * @Assert\NotBlank()
-     * @Groups({"read"})
+     * @Groups({"organisation:collection:get", "organisation:item:get", "project:collection:get", "project:item:get"})
      */
     private $fullName;
 
     /**
      * @ORM\Column(type="string", length=200)
-     * @Groups({"read"})
+     * @Groups({"organisation:collection:get", "organisation:item:get", "project:collection:get", "project:item:get"})
      */
     private $localName = '';
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Assert\Url()
-     * @Groups({"read"})
+     * @Groups({"organisation:collection:get", "organisation:item:get", "project:collection:get", "project:item:get"})
      */
     private $link = '';
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Assert\Url()
-     * @Groups({"read"})
+     * @Groups({"organisation:collection:get", "organisation:item:get", "project:collection:get", "project:item:get"})
      */
     private $logoUrl = '';
 
@@ -71,7 +89,7 @@ class Organisation
      * @ORM\ManyToOne(targetEntity="App\Entity\Country", inversedBy="organisations")
      * @ORM\JoinColumn(nullable=false)
      * @Assert\NotBlank()
-     * @Groups({"read"})
+     * @Groups({"organisation:collection:get", "organisation:item:get", "project:collection:get", "project:item:get"})
      */
     private $country;
 

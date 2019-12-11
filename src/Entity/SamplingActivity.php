@@ -15,11 +15,29 @@ use Doctrine\Common\Collections\{
 
 /**
  * @ApiResource(
- *     collectionOperations={"get"={"method"="GET"}},
- *     itemOperations={"get"={"method"="GET"}},
  *     attributes={
- *         "normalization_context"={"groups"={"sampling"}},
- *     }
+ *         "security"="is_granted('ROLE_API_USER')"
+ *     },
+ *     collectionOperations={
+ *         "get"={
+ *             "method"="GET",
+ *             "normalization_context"={
+ *                 "groups"={
+ *                     "sampling_activity:collection:get"
+ *                 }
+ *             }
+ *         }
+ *     },
+ *     itemOperations={
+ *         "get"={
+ *             "method"="GET",
+ *             "normalization_context"={
+ *                 "groups"={
+ *                     "sampling_activity:item:get"
+ *                 }
+ *             }
+ *         }
+ *     },
  * )
  * @ORM\Entity(repositoryClass="App\Repository\SamplingActivityRepository")
  * @ORM\Table(
@@ -36,7 +54,7 @@ class SamplingActivity
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
-     * @Groups({"sampling"})
+     * @Groups({"sampling_activity:collection:get", "sampling_activity:item:get"})
      */
     private $id;
 
@@ -44,7 +62,7 @@ class SamplingActivity
      * @ORM\ManyToOne(targetEntity="App\Entity\Project", inversedBy="samplingActivities")
      * @ORM\JoinColumn(nullable=false)
      * @Assert\NotBlank()
-     * @Groups({"sampling"})
+     * @Groups({"sampling_activity:collection:get", "sampling_activity:item:get"})
      */
     private $project;
 
@@ -52,7 +70,7 @@ class SamplingActivity
      * @ORM\ManyToMany(targetEntity="App\Entity\Organisation", inversedBy="samplingActivities")
      * @ORM\JoinTable(name="app_sampling_activity_organisation")
      * @Assert\Count(min=1)
-     * @Groups({"sampling"})
+     * @Groups({"sampling_activity:collection:get", "sampling_activity:item:get"})
      */
     private $samplingPartners;
 
@@ -60,7 +78,7 @@ class SamplingActivity
      * @ORM\ManyToMany(targetEntity="App\Entity\AnimalSpecies", inversedBy="samplingActivities")
      * @ORM\JoinTable(name="app_sampling_activity_animal_species")
      * @Assert\Count(min=1)
-     * @Groups({"sampling"})
+     * @Groups({"sampling_activity:collection:get", "sampling_activity:item:get"})
      */
     private $animalSpecies;
 
@@ -68,28 +86,28 @@ class SamplingActivity
      * @ORM\ManyToMany(targetEntity="App\Entity\Country", inversedBy="samplingActivities")
      * @ORM\JoinTable(name="app_sampling_activity_country")
      * @Assert\Count(min=1)
-     * @Groups({"sampling"})
+     * @Groups({"sampling_activity:collection:get", "sampling_activity:item:get"})
      */
     private $countries;
 
     /**
      * @ORM\Column(type="string", length=100)
      * @Assert\NotBlank()
-     * @Groups({"sampling"})
+     * @Groups({"sampling_activity:collection:get", "sampling_activity:item:get"})
      */
     private $description;
 
     /**
      * @ORM\Column(type="date")
      * @Assert\NotBlank()
-     * @Groups({"sampling"})
+     * @Groups({"sampling_activity:collection:get", "sampling_activity:item:get"})
      */
     private $startDate;
 
     /**
      * @ORM\Column(type="date")
      * @Assert\NotBlank()
-     * @Groups({"sampling"})
+     * @Groups({"sampling_activity:collection:get", "sampling_activity:item:get"})
      */
     private $endDate;
 

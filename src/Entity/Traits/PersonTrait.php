@@ -11,14 +11,24 @@ trait PersonTrait
     /**
      * @ORM\Column(type="string", length=30)
      * @Assert\NotBlank()
-     * @Groups({"read", "role"})
+     * @Groups({
+     *     "staff_member:collection:get", "staff_member:item:get",
+     *     "staff_role:collection:get", "staff_role:item:get",
+     *     "project:collection:get", "project:item:get",
+     *     "contact:collection:get", "contact:item:get",
+     * })
      */
     private $firstName;
 
     /**
      * @ORM\Column(type="string", length=50)
      * @Assert\NotBlank()
-     * @Groups({"read", "role"})
+     * @Groups({
+     *     "staff_member:collection:get", "staff_member:item:get",
+     *     "staff_role:collection:get", "staff_role:item:get",
+     *     "project:collection:get", "project:item:get",
+     *     "contact:collection:get", "contact:item:get",
+     * })
      */
     private $lastName;
 

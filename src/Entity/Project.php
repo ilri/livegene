@@ -2,7 +2,11 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Annotation\{
+    ApiResource,
+    ApiFilter
+};
+use ApiPlatform\Core\Serializer\Filter\PropertyFilter;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -17,11 +21,32 @@ use Carbon\Carbon;
 
 /**
  * @ApiResource(
- *     collectionOperations={"get"={"method"="GET"}},
- *     itemOperations={"get"={"method"="GET"}},
  *     attributes={
- *         "normalization_context"={"groups"={"read"}},
- *     }
+ *         "security"="is_granted('ROLE_SPA_USER')"
+ *     },
+ *     collectionOperations={
+ *         "get"={
+ *             "method"="GET",
+ *             "normalization_context"={
+ *                 "groups"={
+ *                     "project:collection:get"
+ *                 }
+ *             }
+ *         }
+ *     },
+ *     itemOperations={
+ *         "get"={
+ *             "method"="GET",
+ *             "normalization_context"={
+ *                 "groups"={
+ *                     "project:item:get"
+ *                 }
+ *             }
+ *         }
+ *     },
+ * )
+ * @ApiFilter(
+ *     PropertyFilter::class
  * )
  * @ORM\Entity(repositoryClass="App\Repository\ProjectRepository")
  * @ORM\Table(name="app_project")
@@ -35,35 +60,35 @@ class Project
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
-     * @Groups({"read", "role"})
+     * @Groups({"project:collection:get", "project:item:get", "staff_role:collection:get", "staff_role:item:get"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=20, unique=true)
      * @Assert\NotBlank()
-     * @Groups({"read", "role"})
+     * @Groups({"project:collection:get", "project:item:get", "staff_role:collection:get", "staff_role:item:get"})
      */
     private $ilriCode;
 
     /**
      * @ORM\Column(type="string", length=200)
      * @Assert\NotBlank()
-     * @Groups({"read", "role"})
+     * @Groups({"project:collection:get", "project:item:get", "staff_role:collection:get", "staff_role:item:get"})
      */
     private $fullName;
 
     /**
      * @ORM\Column(type="string", length=50)
      * @Assert\NotBlank()
-     * @Groups({"read", "role"})
+     * @Groups({"project:collection:get", "project:item:get", "staff_role:collection:get", "staff_role:item:get"})
      */
     private $shortName;
 
     /**
      * @ORM\Column(type="string", length=20)
      * @Assert\NotBlank()
-     * @Groups({"read", "role"})
+     * @Groups({"project:collection:get", "project:item:get", "staff_role:collection:get", "staff_role:item:get"})
      */
     private $team;
 
@@ -71,21 +96,21 @@ class Project
      * @ORM\ManyToOne(targetEntity="App\Entity\StaffMember", inversedBy="projects")
      * @ORM\JoinColumn(nullable=false)
      * @Assert\NotBlank()
-     * @Groups({"read"})
+     * @Groups({"project:collection:get", "project:item:get"})
      */
     private $principalInvestigator;
 
     /**
      * @ORM\Column(type="date")
      * @Assert\NotBlank()
-     * @Groups({"read"})
+     * @Groups({"project:collection:get", "project:item:get"})
      */
     private $startDate;
 
     /**
      * @ORM\Column(type="date")
      * @Assert\NotBlank()
-     * @Groups({"read"})
+     * @Groups({"project:collection:get", "project:item:get"})
      */
     private $endDate;
 
@@ -93,19 +118,19 @@ class Project
      * @ORM\ManyToOne(targetEntity="App\Entity\Organisation", inversedBy="projects")
      * @ORM\JoinColumn(nullable=false)
      * @Assert\NotBlank()
-     * @Groups({"read"})
+     * @Groups({"project:collection:get", "project:item:get"})
      */
     private $donor;
 
     /**
      * @ORM\Column(type="string", length=50)
-     * @Groups({"read"})
+     * @Groups({"project:collection:get", "project:item:get"})
      */
     private $donorReference = '';
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"read"})
+     * @Groups({"project:collection:get", "project:item:get"})
      */
     private $donorProjectName = '';
 
@@ -114,7 +139,7 @@ class Project
      * @Assert\Range(
      *     min=1
      * )
-     * @Groups({"read"})
+     * @Groups({"project:collection:get", "project:item:get"})
      */
     private $totalProjectValue;
 
@@ -127,7 +152,7 @@ class Project
      * @Assert\Range(
      *     min=1
      * )
-     * @Groups({"read"})
+     * @Groups({"project:collection:get", "project:item:get"})
      */
     private $totalIlriValue;
 
@@ -140,7 +165,7 @@ class Project
      * @Assert\Range(
      *     min=1
      * )
-     * @Groups({"read"})
+     * @Groups({"project:collection:get", "project:item:get"})
      */
     private $totalLivegeneValue;
 
@@ -150,7 +175,7 @@ class Project
      *     min=0,
      *     max=100
      * )
-     * @Groups({"read"})
+     * @Groups({"project:collection:get", "project:item:get"})
      */
     private $status;
 
@@ -160,7 +185,7 @@ class Project
      *    min=0,
      *    max=100
      * )
-     * @Groups({"read"})
+     * @Groups({"project:collection:get", "project:item:get"})
      */
     private $capacityDevelopment;
 
@@ -176,7 +201,7 @@ class Project
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\StaffRole", mappedBy="project", cascade={"persist", "remove"})
-     * @Groups({"read"})
+     * @Groups({"project:collection:get", "project:item:get"})
      */
     private $staffRoles;
 
@@ -654,7 +679,7 @@ class Project
     // virtual properties 
 
     /**
-     * @Groups({"read"})
+     * @Groups({"project:collection:get", "project:item:get"})
      */
     public function getTotalCountryRolesPercent(): float
     {
@@ -662,7 +687,7 @@ class Project
     }
 
     /**
-     * @Groups({"read"})
+     * @Groups({"project:collection:get", "project:item:get"})
      */
     public function getTotalSDGRolesPercent(): float
     {
@@ -670,7 +695,7 @@ class Project
     }
 
     /**
-     * @Groups({"read"})
+     * @Groups({"project:collection:get", "project:item:get"})
      */
     public function getTotalAnimalSpeciesRolesPercent(): float
     {
@@ -678,7 +703,7 @@ class Project
     }
 
     /**
-     * @Groups({"read"})
+     * @Groups({"project:collection:get", "project:item:get"})
      */
     public function getIsActive(): bool
     {
@@ -687,7 +712,7 @@ class Project
     }
 
     /**
-     * @Groups({"read"})
+     * @Groups({"project:collection:get", "project:item:get"})
      */
     public function getIsActiveThisYear(): bool
     {

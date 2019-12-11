@@ -14,11 +14,29 @@ use App\Entity\Traits\PersonTrait;
 
 /**
  * @ApiResource(
- *     collectionOperations={"get"={"method"="GET"}},
- *     itemOperations={"get"={"method"="GET"}},
  *     attributes={
- *         "normalization_context"={"groups"={"read"}},
- *     }
+ *         "security"="is_granted('ROLE_API_USER')"
+ *     },
+ *     collectionOperations={
+ *         "get"={
+ *             "method"="GET",
+ *             "normalization_context"={
+ *                 "groups"={
+ *                     "contact:collection:get"
+ *                 }
+ *             }
+ *         }
+ *     },
+ *     itemOperations={
+ *         "get"={
+ *             "method"="GET",
+ *             "normalization_context"={
+ *                 "groups"={
+ *                     "contact:item:get"
+ *                 }
+ *             }
+ *         }
+ *     },
  * )
  * @ORM\Entity(repositoryClass="App\Repository\ContactRepository")
  * @ORM\Table(name="app_contact")
@@ -31,13 +49,13 @@ class Contact
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
-     * @Groups({"read"})
+     * @Groups({"contact:collection:get", "contact:item:get"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=20)
-     * @Groups({"read"})
+     * @Groups({"contact:collection:get", "contact:item:get"})
      */
     private $title;
 

@@ -12,11 +12,29 @@ use App\Entity\Traits\RoleTrait;
 
 /**
  * @ApiResource(
- *     collectionOperations={"get"={"method"="GET"}},
- *     itemOperations={"get"={"method"="GET"}},
  *     attributes={
- *         "normalization_context"={"groups"={"role"}},
- *     }
+ *         "security"="is_granted('ROLE_API_USER')"
+ *     },
+ *     collectionOperations={
+ *         "get"={
+ *             "method"="GET",
+ *             "normalization_context"={
+ *                 "groups"={
+ *                     "staff_role:collection:get"
+ *                 }
+ *             }
+ *         }
+ *     },
+ *     itemOperations={
+ *         "get"={
+ *             "method"="GET",
+ *             "normalization_context"={
+ *                 "groups"={
+ *                     "staff_role:item:get"
+ *                 }
+ *             }
+ *         }
+ *     },
  * )
  * @ORM\Entity(repositoryClass="App\Repository\StaffRoleRepository")
  * @ORM\Table(
@@ -34,7 +52,7 @@ class StaffRole
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
-     * @Groups({"role", "read"})
+     * @Groups({"staff_role:collection:get", "staff_role:item:get", "project:collection:get", "project:item:get"})
      */
     private $id;
 
@@ -42,7 +60,7 @@ class StaffRole
      * @ORM\ManyToOne(targetEntity="App\Entity\Project", inversedBy="staffRoles")
      * @ORM\JoinColumn(nullable=false)
      * @Assert\NotBlank()
-     * @Groups({"role"})
+     * @Groups({"staff_role:collection:get", "staff_role:item:get"})
      */
     private $project;
 
@@ -50,7 +68,7 @@ class StaffRole
      * @ORM\ManyToOne(targetEntity="App\Entity\StaffMember", inversedBy="staffRoles")
      * @ORM\JoinColumn(nullable=false)
      * @Assert\NotBlank()
-     * @Groups({"role", "read"})
+     * @Groups({"staff_role:collection:get", "staff_role:item:get", "project:collection:get", "project:item:get"})
      */
     private $staffMember;
 

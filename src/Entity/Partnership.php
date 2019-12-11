@@ -5,6 +5,7 @@ namespace App\Entity;
 use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Validator\Constraints as AppAssert;
 use Doctrine\Common\Collections\{
@@ -14,8 +15,29 @@ use Doctrine\Common\Collections\{
 
 /**
  * @ApiResource(
- *     collectionOperations={"get"={"method"="GET"}},
- *     itemOperations={"get"={"method"="GET"}},
+ *     attributes={
+ *         "security"="is_granted('ROLE_API_USER')"
+ *     },
+ *     collectionOperations={
+ *         "get"={
+ *             "method"="GET",
+ *             "normalization_context"={
+ *                 "groups"={
+ *                     "partnership:collection:get"
+ *                 }
+ *             }
+ *         }
+ *     },
+ *     itemOperations={
+ *         "get"={
+ *             "method"="GET",
+ *             "normalization_context"={
+ *                 "groups"={
+ *                     "partnership:item:get"
+ *                 }
+ *             }
+ *         }
+ *     },
  * )
  * @ORM\Entity(repositoryClass="App\Repository\PartnershipRepository")
  * @ORM\Table(
@@ -32,6 +54,7 @@ class Partnership
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     * @Groups({"partnership:collection:get", "partnership:item:get"})
      */
     private $id;
 
@@ -39,6 +62,7 @@ class Partnership
      * @ORM\ManyToOne(targetEntity="App\Entity\Project", inversedBy="partnerships")
      * @ORM\JoinColumn(nullable=false)
      * @Assert\NotBlank()
+     * @Groups({"partnership:collection:get", "partnership:item:get"})
      */
     private $project;
 
@@ -46,22 +70,26 @@ class Partnership
      * @ORM\ManyToOne(targetEntity="App\Entity\Organisation", inversedBy="partnerships")
      * @ORM\JoinColumn(nullable=false)
      * @Assert\NotBlank()
+     * @Groups({"partnership:collection:get", "partnership:item:get"})
      */
     private $partner;
 
     /**
      * @ORM\Column(type="date", nullable=true)
+     * @Groups({"partnership:collection:get", "partnership:item:get"})
      */
     private $startDate;
 
     /**
      * @ORM\Column(type="date", nullable=true)
+     * @Groups({"partnership:collection:get", "partnership:item:get"})
      */
     private $endDate;
 
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Contact", inversedBy="partnerships")
      * @ORM\JoinTable(name="app_partnership_contact")
+     * @Groups({"partnership:collection:get", "partnership:item:get"})
      */
     private $contacts;
 
@@ -69,6 +97,7 @@ class Partnership
      * @ORM\ManyToOne(targetEntity="App\Entity\PartnershipType", inversedBy="partnerships")
      * @ORM\JoinColumn(nullable=false)
      * @Assert\NotBlank()
+     * @Groups({"partnership:collection:get", "partnership:item:get"})
      */
     private $partnershipType;
 

@@ -18,11 +18,29 @@ use Symfony\Component\Intl\Intl;
 
 /**
  * @ApiResource(
- *     collectionOperations={"get"={"method"="GET"}},
- *     itemOperations={"get"={"method"="GET"}},
  *     attributes={
- *         "normalization_context"={"groups"={"read"}},
- *     }
+ *         "security"="is_granted('ROLE_API_USER')"
+ *     },
+ *     collectionOperations={
+ *         "get"={
+ *             "method"="GET",
+ *             "normalization_context"={
+ *                 "groups"={
+ *                     "country:collection:get"
+ *                 }
+ *             }
+ *         }
+ *     },
+ *     itemOperations={
+ *         "get"={
+ *             "method"="GET",
+ *             "normalization_context"={
+ *                 "groups"={
+ *                     "country:item:get"
+ *                 }
+ *             }
+ *         }
+ *     },
  * )
  * @ORM\Entity(repositoryClass="App\Repository\CountryRepository")
  * @ORM\Table(name="app_country")
@@ -35,7 +53,12 @@ class Country
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      * @ApiProperty(identifier=false)
-     * @Groups({"read", "sampling"})
+     * @Groups({
+     *     "country:collection:get", "country:item:get",
+     *     "organisation:collection:get", "organisation:item:get",
+     *     "project:collection:get", "project:item:get",
+     *     "sampling_activity:collection:get", "sampling_activity:item:get",
+     * })
      */
     private $id;
 
@@ -44,7 +67,12 @@ class Country
      * @Assert\NotBlank()
      * @Assert\Country()
      * @ApiProperty(identifier=true)
-     * @Groups({"read", "sampling"})
+     * @Groups({
+     *     "country:collection:get", "country:item:get",
+     *     "organisation:collection:get", "organisation:item:get",
+     *     "project:collection:get", "project:item:get",
+     *     "sampling_activity:collection:get", "sampling_activity:item:get"
+     * })
      */
     private $country;
 
@@ -93,7 +121,12 @@ class Country
     }
 
     /**
-     * @Groups({"read", "sampling"})
+     * @Groups({
+     *     "country:collection:get", "country:item:get",
+     *     "organisation:collection:get", "organisation:item:get",
+     *     "project:collection:get", "project:item:get",
+     *     "sampling_activity:collection:get", "sampling_activity:item:get"
+     * })
      */
     public function getCountryName()
     {

@@ -21,7 +21,7 @@ class SamplingDocumentationAPITest extends ApiTestCase
             'App\DataFixtures\Test\UserFixtures',
             'App\DataFixtures\Test\SamplingDocumentationFixtures',
         ])->getReferenceRepository();
-        $username = $this->fixtures->getReference('user')->getUsername();
+        $username = $this->fixtures->getReference('api_user')->getUsername();
         $credentials = [
             'username' => $username,
             'password' => UserFixtures::PASSWORD
