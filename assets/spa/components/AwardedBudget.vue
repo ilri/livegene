@@ -93,32 +93,43 @@
             source: this.nodes.findIndex(el => el.label === cur.donor.shortName),
             target: this.nodes.findIndex(el => el.label === cur.team),
             value: cur.totalProjectValue,
-            ilriCode: cur.ilriCode
+            project: cur
           });
           this.links.push({
             source: this.nodes.findIndex(el => el.label === cur.team),
             target: this.nodes.findIndex(el => el.label === cur.principalInvestigator.username),
             value: cur.totalProjectValue,
-            ilriCode: cur.ilriCode
+            project: cur
           });
         });
       },
-      highlightNodes: function (datum, index, nodes) {
+      highlightNodes: function (datum) {
         // calculate all nodes that have to be highlighted
         const labels = [];
+        const projectCodes = [];
         labels.push(datum.label);
         if (datum.type === 'donor') {
-          datum.sourceLinks.forEach(parentEl => {
-            labels.push(parentEl.target.label);
-            parentEl.target.sourceLinks.forEach(childEl => labels.push(childEl.target.label));
+          datum.sourceLinks.forEach(cur => {
+            labels.push(cur.target.label);
+            labels.push(cur.project.principalInvestigator.username);
+            projectCodes.push(cur.project.ilriCode);
+            //parentEl.target.sourceLinks.forEach(childEl => labels.push(childEl.target.label));
           });
         } else if (datum.type === 'team') {
-          datum.sourceLinks.forEach(cur => labels.push(cur.target.label));
-          datum.targetLinks.forEach(cur => labels.push(cur.source.label));
+          datum.sourceLinks.forEach(cur => {
+            labels.push(cur.target.label);
+            projectCodes.push(cur.project.ilriCode);
+          });
+          datum.targetLinks.forEach(cur => {
+            labels.push(cur.source.label);
+            projectCodes.push(cur.project.ilriCode);
+          });
         } else if (datum.type === 'pi') {
-          datum.targetLinks.forEach(parentEl => {
-            labels.push(parentEl.source.label);
-            parentEl.source.targetLinks.forEach(childEl => labels.push(childEl.source.label));
+          datum.targetLinks.forEach(cur => {
+            labels.push(cur.source.label);
+            labels.push(cur.project.donor.shortName);
+            projectCodes.push(cur.project.ilriCode);
+            //parentEl.source.targetLinks.forEach(childEl => labels.push(childEl.source.label));
           });
         }
         // highlight the nodes
@@ -128,7 +139,11 @@
         ;
         // highlight the associated link paths
         d3.selectAll('g.link > path')
-          .style('opacity', d => labels.includes(d.source.label) && labels.includes(d.target.label) ? 0.7 : 0.1)
+          .style('opacity', d => projectCodes.includes(d.project.ilriCode) ? 0.7 : 0.1)
+        ;
+
+        d3.selectAll('g.project-details')
+          .style('opacity', d => projectCodes.includes(d.project.ilriCode) ? 1 : 0)
         ;
       },
       fade: function () {
@@ -137,6 +152,9 @@
         ;
         d3.selectAll('g.link > path')
           .style('opacity', 0.5)
+        ;
+        d3.selectAll('g.project-details')
+          .style('opacity', 0)
         ;
       },
       renderChart: function () {
@@ -177,6 +195,7 @@
                 'transform',
                 `translate(${[pathBox.x + pathBox.width / 2, pathBox.y + pathBox.height / 2]})`
               )
+              .style('fill', 'orangered')
               .style('opacity', 0)
             ;
 
@@ -186,7 +205,7 @@
               .style('font-size', '10')
               .style('font-weight', 700)
               .style('font-family', '"Open Sans Condensed", sans-serif')
-              .text(`${d.ilriCode} (\$${d.value})`)
+              .text(`${d.project.ilriCode} (${this.moneyFormat(d.value)})`)
             ;
           })
         ;
