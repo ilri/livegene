@@ -2,6 +2,27 @@
   <div>
     <h2 class="bg-success text-dark text-center p-2">ILRI <strong class="text-white">Live</strong>stock <strong
         class="text-white">Gene</strong>tics</h2>
-    <b-img center :src="require('../assets/logo.png')" alt="LiveGene"></b-img>
+    <div class="text-center">
+
+      <a href="https://www.ilri.org">
+        <b-img :src="require('../assets/ilri-logo.jpg')" alt="LiveGene"></b-img>
+      </a>
+    </div>
+    <div class="text-center">
+      <p>Proudly crafted in
+        <b-img :src="require('../assets/africa.svg')" alt="Africa" class="africa"></b-img>
+      </p>
+      <p class="flaticon">Icons made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a
+          href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></p>
+    </div>
   </div>
 </template>
+
+<style scoped>
+  .africa {
+    width: 10em;
+  }
+  .flaticon {
+    font-size: 0.5em;
+  }
+</style>

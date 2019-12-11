@@ -51,7 +51,7 @@
       </transition>
     </div>
     <footer class="footer row align-items-center bg-info mx-0">
-      <div class="col-6 mx-auto text-center text-white">&copy; International Livestock Reasearch Institute 2019</div>
+      <div class="col-6 mx-auto text-center text-white">&copy; 2019 International Livestock Reasearch Institute</div>
     </footer>
   </div>
 </template>
