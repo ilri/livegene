@@ -142,8 +142,22 @@
           .style('opacity', d => projectCodes.includes(d.project.ilriCode) ? 0.7 : 0.1)
         ;
 
-        d3.selectAll('g.project-details')
-          .style('opacity', d => projectCodes.includes(d.project.ilriCode) ? 1 : 0)
+        //d3.selectAll('g.project-details')
+        //  .style('opacity', d => projectCodes.includes(d.project.ilriCode) ? 1 : 0)
+        //;
+      },
+      highlightPath: function (datum) {
+        d3.selectAll('g.link')
+          .each((d, i, n) => {
+            d3.select(n[i])
+              .select('path')
+              .style('opacity', d => datum.project.ilriCode === d.project.ilriCode ? 0.7 : 0.1)
+            ;
+            d3.select(n[i])
+              .select('.project-details')
+              .style('opacity', d => datum.project.ilriCode === d.project.ilriCode ? 1 : 0)
+            ;
+          })
         ;
       },
       fade: function () {
@@ -185,6 +199,8 @@
               .style('stroke-width', d => d.width)
               .style('stroke', 'black')
               .style('fill', 'none')
+              .on('mouseenter', this.highlightPath)
+              .on('mouseleave', this.fade)
             ;
 
             let pathBox = path.node().getBBox();
