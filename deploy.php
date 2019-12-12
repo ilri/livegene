@@ -45,6 +45,11 @@ task('livegene:upload_assets', function () {
 });
 after('deploy:update_code', 'livegene:upload_assets');
 
+desc('Migrate database');
+task('database:migrate', function () {
+    run('{{bin/console}} doctrine:migrations:up-to-date');
+});
+
 // [Optional] if deploy fails automatically unlock.
 after('deploy:failed', 'deploy:unlock');
 
