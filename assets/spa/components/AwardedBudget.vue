@@ -66,8 +66,9 @@
         });
         [...this.donors].forEach(cur => {
           this.nodes.push({
-            label: JSON.parse(cur).shortName,
-            type: 'donor'
+            label: JSON.parse(cur).fullName,
+            type: 'donor',
+            obj: JSON.parse(cur)
           });
         });
         [...this.teams].forEach(cur => {
@@ -90,7 +91,7 @@
       generateLinks: function () {
         this.activeProjects.forEach(cur => {
           this.links.push({
-            source: this.nodes.findIndex(el => el.label === cur.donor.shortName),
+            source: this.nodes.findIndex(el => el.label === cur.donor.fullName),
             target: this.nodes.findIndex(el => el.label === cur.team),
             value: cur.totalProjectValue,
             project: cur
@@ -127,7 +128,7 @@
         } else if (datum.type === 'pi') {
           datum.targetLinks.forEach(cur => {
             labels.push(cur.source.label);
-            labels.push(cur.project.donor.shortName);
+            labels.push(cur.project.donor.fullName);
             projectCodes.push(cur.project.ilriCode);
             //parentEl.source.targetLinks.forEach(childEl => labels.push(childEl.source.label));
           });
@@ -276,6 +277,8 @@
               .text(() => {
                 if (d.type === 'pi') {
                   return this.formatName(d.obj);
+                } else if (d.type === 'donor') {
+                  return d.obj.shortName;
                 }
                 return d.label;
               })
