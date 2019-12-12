@@ -97,7 +97,7 @@
           childEl => this.links.push({
             source: this.nodes.findIndex(el => el.label === childEl.staffMember.username),
             target: this.nodes.findIndex(el => el.label === parentEl.ilriCode),
-            value: +(parseFloat(childEl.percent) * 100).toPrecision(2)
+            value: parseFloat(childEl.percent) * 100
           })
         ));
 
