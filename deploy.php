@@ -24,10 +24,10 @@ add('shared_dirs', ['public/upload']);
 // Writable dirs by web server 
 add('writable_dirs', []);
 
-task('encore', function () {
+task('livegene:build_assets', function () {
     run('yarn build');
 })->local();
-before('deploy:prepare', 'encore');
+before('deploy:prepare', 'livegene:build_assets');
 
 // Hosts
 
@@ -39,24 +39,14 @@ task('build', function () {
     run('cd {{release_path}} && build');
 });
 
-task('upload_assets', function () {
+task('livegene:upload_assets', function () {
     // this task should upload the built assets for production
     upload(__DIR__.'/public/build/', '{{release_path}}/public/build/');
 });
-after('deploy:update_code', 'upload_assets');
+after('deploy:update_code', 'livegene:upload_assets');
 
 // [Optional] if deploy fails automatically unlock.
 after('deploy:failed', 'deploy:unlock');
-
-// Migrate database before symlink new release.
-desc('Migrate database');
-task('database:migrate', function () {
-    $options = '--allow-no-migration -vvv';
-    if (get('migrations_config') !== '') {
-        $options = sprintf('%s --configuration={{release_path}}/{{migrations_config}}', $options);
-    }
-    run(sprintf('{{bin/console}} doctrine:migrations:migrate %s', $options));
-});
 
 before('deploy:symlink', 'database:migrate');
 
