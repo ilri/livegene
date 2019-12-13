@@ -9,6 +9,7 @@ use Sonata\AdminBundle\Datagrid\{
 };
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Show\ShowMapper;
+use Sonata\DoctrineORMAdminBundle\Datagrid\ProxyQuery;
 use Sonata\DoctrineORMAdminBundle\Filter\DateRangeFilter;
 use Symfony\Component\Form\Extension\Core\Type\{
     DateType,
@@ -183,7 +184,6 @@ class ProjectAdmin extends AbstractAdmin
                     ->end()
                     ->with('SDG roles', [
                         'class' => 'col-md-6'
-                    ], [
                     ])
                         ->add('totalSDGRolesPercent', PercentType::class, [
                             'label' => 'Total SDG roles percent',
