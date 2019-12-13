@@ -47,7 +47,10 @@ after('deploy:update_code', 'livegene:upload_assets');
 
 desc('Migrate database');
 task('database:migrate', function () {
-    run('{{bin/console}} doctrine:migrations:up-to-date');
+    // There are issues with the database migrations
+    // we skip them here and run them separately on the server
+    writeln('Skipping database migrations!');
+    writeln('You have to run the database migrations on the server if necessary.');
 });
 
 // [Optional] if deploy fails automatically unlock.
