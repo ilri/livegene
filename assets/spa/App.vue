@@ -34,6 +34,12 @@
               Project Timelines
             </router-link>
           </b-nav-item>
+          <b-nav-item>
+            <router-link tag="button" v-bind:to="{name: 'worldmap'}" exact-active-class="active"
+                         class="btn btn-info">
+              World Map
+            </router-link>
+          </b-nav-item>
         </b-navbar-nav>
         </transition>
       </b-collapse>
