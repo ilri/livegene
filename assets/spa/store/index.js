@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
+import Axios from 'axios';
 import { ascending } from 'd3';
 import { group } from 'd3-array';
 
@@ -18,7 +19,8 @@ export default new Vuex.Store({
   state: {
     projects: [],
     projectsGroupedByTeam: new Map(),
-    loaded: false
+    loaded: false,
+    worldCountries: {}
   },
   mutations: {
     setProjects(state, projects) {
@@ -30,6 +32,9 @@ export default new Vuex.Store({
     },
     setLoaded(state) {
       state.loaded = true;
+    },
+    setWorldCountries(state, data) {
+      state.worldCountries = data;
     }
   },
   actions: {
@@ -68,6 +73,11 @@ export default new Vuex.Store({
       }
       context.commit('setLoaded');
       context.commit('sortAndGroupProjects');
+    },
+    async getWorldCountriesAction(context) {
+      const topojsonFile = '/static/world-countries.json';
+      let response = await Axios.get(topojsonFile);
+      context.commit('setWorldCountries', response.data);
     }
   }
 });

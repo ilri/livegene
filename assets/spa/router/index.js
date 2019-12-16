@@ -5,7 +5,7 @@ import HomePage from '../components/HomePage';
 import AwardedBudget from "../components/AwardedBudget";
 import StaffRoles from "../components/StaffRoles";
 import ProjectTimelines from '../components/ProjectTimelines';
-import Worldmap from "../components/Worldmap";
+import Worldmap from "../components/WorldMap";
 
 Vue.use(VueRouter);
 

@@ -87,6 +87,7 @@
     created() {
       this.$store.dispatch('getJWTAction');
       this.$store.dispatch('getProjectsAction');
+      this.$store.dispatch('getWorldCountriesAction');
     }
   };
 </script>
