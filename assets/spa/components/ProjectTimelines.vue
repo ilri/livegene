@@ -306,7 +306,7 @@
           .scaleExtent([1, 10])
           .extent([[0, 0], [this.chart.width, this.chart.height]])
           .on('zoom', this.updateChart)
-          ;
+        ;
       },
       showProjectDetails: function (d, i, n) {
         const svg = d3.select('#viewport');

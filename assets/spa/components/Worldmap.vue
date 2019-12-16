@@ -52,8 +52,14 @@
 
         const map = {};
 
+        const zoomBehaviour = d3.zoom()
+          .translateExtent([[0,0],[this.width, this.height]])
+          .scaleExtent([1, 30])
+          .on('zoom', () => svg.attr('transform', d3.event.transform))
+        ;
+
         d3.json('/static/world-countries.json')
-          .then(function (data) {
+          .then(data => {
             map.topology = data.objects['countries1'];
             map.features = topojson.feature(data, map.topology).features;
             map.merged = topojson.merge(data, map.topology.geometries);
@@ -65,7 +71,7 @@
               .datum({
                 type: 'Sphere'
               })
-              .style('fill', 'royalblue')
+              .style('fill', 'aqua')
               .attr('d', geoPath)
             ;
 
@@ -95,6 +101,15 @@
               .style('stroke', 'white')
               .style('stroke-width', .5)
               .attr('d', geoPath)
+            ;
+
+            // zoom rect
+            const rect = svg.append('rect')
+              .style('fill', 'none')
+              .attr('pointer-events', 'all')
+              .attr('width', 1280)
+              .attr('height', 820)
+              .call(zoomBehaviour)
             ;
           })
         ;
