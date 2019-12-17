@@ -7179,6 +7179,11 @@ vendors@^1.0.0:
   resolved "https://registry.yarnpkg.com/vendors/-/vendors-1.0.3.tgz#a6467781abd366217c050f8202e7e50cc9eef8c0"
   integrity sha512-fOi47nsJP5Wqefa43kyWSg80qF+Q3XA6MUkgi7Hp1HQaKDQW4cQrK2D0P7mmbFtsV1N89am55Yru/nyEwRubcw==
 
+versor@^0.0.4:
+  version "0.0.4"
+  resolved "https://registry.yarnpkg.com/versor/-/versor-0.0.4.tgz#2589e52bd317d670baa4ce33809a64b535a1fcb0"
+  integrity sha512-XuQlSNcGYzIX25DK6tUfblQNJPBCmMUDrk74F1PHm4ELdK8gDHXPcE5/unNmW0azHlOLQyWoEeCNvGpGnkvZPg==
+
 vm-browserify@^1.0.1:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/vm-browserify/-/vm-browserify-1.1.0.tgz#bd76d6a23323e2ca8ffa12028dc04559c75f9019"
