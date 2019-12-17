@@ -27,7 +27,8 @@
     data() {
       return {
         width: 1280,
-        height: 820
+        height: 820,
+        axisTilt: -23.44
       }
     },
     computed: {
@@ -35,22 +36,24 @@
         projects: state => state.projects,
         loaded: state => state.loaded,
         worldCountries: state => state.worldCountries
-      })
+      }),
+      projection: function () {
+        return d3.geoOrthographic()
+          .scale(400)
+          .clipAngle(90)
+          .rotate([0, 0, this.axisTilt])
+          .translate([this.width / 2, this.height / 2])
+        ;
+      },
+      geoPath: function () {
+        return d3.geoPath()
+          .projection(this.projection)
+          ;
+      }
     },
     methods: {
       renderChart: function () {
         const svg = d3.select('svg#viewport > g');
-
-        const projection = d3.geoOrthographic()
-          .scale(400)
-          .clipAngle(90)
-          .rotate([0, 0, -23.44])
-          .translate([this.width / 2, this.height / 2])
-        ;
-
-        const geoPath = d3.geoPath()
-          .projection(projection)
-        ;
 
         const map = {};
 
@@ -73,7 +76,7 @@
           })
           .style('fill', 'lavender')
           .style('fill-opacity', 0.2)
-          .attr('d', geoPath)
+          .attr('d', this.geoPath)
         ;
 
         // Graticules
@@ -83,18 +86,18 @@
           .style('fill', 'none')
           .style('stroke', 'lightgreen')
           .style('stroke-width', .5)
-          .attr('d', geoPath)
+          .attr('d', this.geoPath)
         ;
 
         svg.append('path')
           .attr('class', 'tropics capricorn')
           .datum(d3.geoCircle().center([0, 90]).radius(66.56))
-          .attr('d', geoPath)
+          .attr('d', this.geoPath)
         ;
         svg.append('path')
           .attr('class', 'tropics cancer')
           .datum(d3.geoCircle().center([0, -90]).radius(66.56))
-          .attr('d', geoPath)
+          .attr('d', this.geoPath)
         ;
         svg.selectAll('path.tropics')
           .style('fill', 'aqua')
@@ -108,12 +111,12 @@
         svg.append('path')
           .attr('class', 'polar arctic')
           .datum(d3.geoCircle().center([0, 90]).radius(23.44))
-          .attr('d', geoPath)
+          .attr('d', this.geoPath)
         ;
         svg.append('path')
           .attr('class', 'polar antarctic')
           .datum(d3.geoCircle().center([0, -90]).radius(23.44))
-          .attr('d', geoPath)
+          .attr('d', this.geoPath)
         ;
         svg.selectAll('path.polar')
           .style('fill', 'blue')
@@ -128,28 +131,28 @@
         svg.append('path')
           .attr('class', 'hemisphere greenwich')
           .datum(d3.geoCircle().center([-90, 0]))
-          .attr('d', geoPath)
+          .attr('d', this.geoPath)
           .style('stroke', 'red')
         ;
         // Equator (northern hemisphere)
         svg.append('path')
           .attr('class', 'hemisphere equator')
           .datum(d3.geoCircle().center([0, 90]))
-          .attr('d', geoPath)
+          .attr('d', this.geoPath)
           .style('stroke', 'blue')
         ;
         svg.selectAll('path.hemisphere')
           .style('fill', 'none')
           .style('stroke-width', 1)
         ;
-
+/**
         // Land
         svg.append('path')
           .attr('class', 'continents')
           .datum(map.merged)
           .style('fill', 'dimgray')
           .style('fill-opacity', 0.8)
-          .attr('d', geoPath)
+          .attr('d', this.geoPath)
         ;
 
         // Borders
@@ -159,7 +162,20 @@
           .style('fill', 'none')
           .style('stroke', 'white')
           .style('stroke-width', .5)
-          .attr('d', geoPath)
+          .attr('d', this.geoPath)
+        ;
+*/
+        // Countries
+        svg.selectAll('path.country')
+          .data(map.features)
+          .enter()
+          .append('path')
+          .attr('class', 'country')
+          .style('fill', 'dimgray')
+          .style('fill-opacity', 0.8)
+          .style('stroke-width', 0.5)
+          .style('stroke', 'white')
+          .attr('d', this.geoPath)
         ;
 
         // Outline
@@ -171,7 +187,7 @@
           .style('fill', 'none')
           .style('stroke-width', 2)
           .style('stroke', 'black')
-          .attr('d', geoPath)
+          .attr('d', this.geoPath)
         ;
 
         // zoom rect
