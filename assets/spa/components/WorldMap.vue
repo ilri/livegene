@@ -44,6 +44,7 @@
         const projection = d3.geoOrthographic()
           .scale(400)
           .clipAngle(90)
+          .rotate([0, 0, -23.44])
           .translate([this.width / 2, this.height / 2])
         ;
 
@@ -121,6 +122,25 @@
           .style('stroke-dasharray', '4 2 1 2')
           .style('stroke', 'mediumblue')
           .style('stroke-opacity', 0.5)
+        ;
+
+        // Greenwich meridian (western hemisphere)
+        svg.append('path')
+          .attr('class', 'hemisphere greenwich')
+          .datum(d3.geoCircle().center([-90, 0]))
+          .attr('d', geoPath)
+          .style('stroke', 'red')
+        ;
+        // Equator (northern hemisphere)
+        svg.append('path')
+          .attr('class', 'hemisphere equator')
+          .datum(d3.geoCircle().center([0, 90]))
+          .attr('d', geoPath)
+          .style('stroke', 'blue')
+        ;
+        svg.selectAll('path.hemisphere')
+          .style('fill', 'none')
+          .style('stroke-width', 1)
         ;
 
         // Land
