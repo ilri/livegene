@@ -64,13 +64,14 @@
         map.merged = topojson.merge(this.worldCountries, map.topology.geometries);
         map.mesh = topojson.mesh(this.worldCountries, map.topology);
 
-        // Globe (oceans)
+        // Background (oceans)
         svg.append('path')
           .attr('class', 'background')
           .datum({
             type: 'Sphere'
           })
-          .style('fill', 'aqua')
+          .style('fill', 'lavender')
+          .style('fill-opacity', 0.2)
           .attr('d', geoPath)
         ;
 
@@ -84,11 +85,50 @@
           .attr('d', geoPath)
         ;
 
+        svg.append('path')
+          .attr('class', 'tropics capricorn')
+          .datum(d3.geoCircle().center([0, 90]).radius(66.56))
+          .attr('d', geoPath)
+        ;
+        svg.append('path')
+          .attr('class', 'tropics cancer')
+          .datum(d3.geoCircle().center([0, -90]).radius(66.56))
+          .attr('d', geoPath)
+        ;
+        svg.selectAll('path.tropics')
+          .style('fill', 'aqua')
+          .style('fill-opacity', 0.2)
+          .style('stroke-width', 1)
+          .style('stroke-dasharray', '4 2 1 2')
+          .style('stroke', 'purple')
+          .style('stroke-opacity', 0.5)
+        ;
+
+        svg.append('path')
+          .attr('class', 'polar arctic')
+          .datum(d3.geoCircle().center([0, 90]).radius(23.44))
+          .attr('d', geoPath)
+        ;
+        svg.append('path')
+          .attr('class', 'polar antarctic')
+          .datum(d3.geoCircle().center([0, -90]).radius(23.44))
+          .attr('d', geoPath)
+        ;
+        svg.selectAll('path.polar')
+          .style('fill', 'blue')
+          .style('fill-opacity', 0.2)
+          .style('stroke-width', 1)
+          .style('stroke-dasharray', '4 2 1 2')
+          .style('stroke', 'mediumblue')
+          .style('stroke-opacity', 0.5)
+        ;
+
         // Land
         svg.append('path')
           .attr('class', 'continents')
           .datum(map.merged)
-          .style('fill', '#345434')
+          .style('fill', 'dimgray')
+          .style('fill-opacity', 0.8)
           .attr('d', geoPath)
         ;
 
@@ -99,6 +139,18 @@
           .style('fill', 'none')
           .style('stroke', 'white')
           .style('stroke-width', .5)
+          .attr('d', geoPath)
+        ;
+
+        // Outline
+        svg.append('path')
+          .attr('class', 'outline')
+          .datum({
+            type: 'Sphere'
+          })
+          .style('fill', 'none')
+          .style('stroke-width', 2)
+          .style('stroke', 'black')
           .attr('d', geoPath)
         ;
 
