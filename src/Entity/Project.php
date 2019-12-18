@@ -3,21 +3,21 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\{
-    ApiResource,
-    ApiFilter
+    ApiFilter,
+    ApiResource
 };
 use ApiPlatform\Core\Serializer\Filter\PropertyFilter;
-use Doctrine\ORM\Mapping as ORM;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-use Symfony\Component\Validator\Constraints as Assert;
+use App\Entity\Traits\PercentageTrait;
 use App\Validator\Constraints as AppAssert;
-use Symfony\Component\Serializer\Annotation\Groups;
+use Carbon\Carbon;
 use Doctrine\Common\Collections\{
     ArrayCollection,
     Collection
 };
-use App\Entity\Traits\PercentageTrait;
-use Carbon\Carbon;
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ApiResource(
@@ -208,6 +208,7 @@ class Project
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\CountryRole", mappedBy="project", orphanRemoval=true, cascade={"persist", "remove"})
      * @Assert\Valid()
+     * @Groups({"project:collection:get", "project:item:get"})
      */
     private $countryRoles;
 

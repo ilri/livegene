@@ -3,11 +3,12 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
+use App\Entity\Traits\RoleTrait;
+use App\Validator\Constraints as AppAssert;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
-use App\Validator\Constraints as AppAssert;
-use App\Entity\Traits\RoleTrait;
 
 /**
  * @ApiResource(
@@ -33,6 +34,7 @@ class CountryRole
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     * @Groups({"project:collection:get", "project:item:get"})
      */
     private $id;
 
@@ -47,6 +49,7 @@ class CountryRole
      * @ORM\ManyToOne(targetEntity="App\Entity\Country", inversedBy="countryRoles")
      * @ORM\JoinColumn(nullable=false)
      * @Assert\NotBlank()
+     * @Groups({"project:collection:get", "project:item:get"})
      */
     private $country;
 
