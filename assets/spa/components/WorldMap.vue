@@ -39,7 +39,7 @@
       }),
       projection: function () {
         return d3.geoOrthographic()
-          .scale(400)
+          .scale(this.width/Math.PI)
           .clipAngle(90)
           .rotate([0, 0, this.axisTilt])
           .translate([this.width / 2, this.height / 2])
