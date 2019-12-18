@@ -13,6 +13,7 @@
   import {mapState} from 'vuex';
   import * as d3 from 'd3';
   import {feature, merge, mesh} from 'topojson-client';
+  import versor from 'versor';
 
   const topojson = Object.assign({},
     {
@@ -28,7 +29,8 @@
       return {
         width: 1280,
         height: 820,
-        axisTilt: -23.44
+        axisTilt: -23.44,
+        state: {}
       }
     },
     computed: {
@@ -37,6 +39,12 @@
         loaded: state => state.loaded,
         worldCountries: state => state.worldCountries
       }),
+      svg: function () {
+        return d3.select('svg#viewport > g');
+      },
+      countries: function () {
+        return topojson.feature(this.worldCountries, this.worldCountries.objects['countries1']).features;
+      },
       projection: function () {
         return d3.geoOrthographic()
           .scale(this.width/Math.PI)
@@ -45,31 +53,55 @@
           .translate([this.width / 2, this.height / 2])
         ;
       },
+      scale: function () {
+        return this.projection.scale();
+      },
       geoPath: function () {
         return d3.geoPath()
           .projection(this.projection)
           ;
+      },
+      zoom: function () {
+        return d3.zoom()
+          .scaleExtent([1, 3])
+          .on('start', this.zoomStart)
+          .on('zoom', this.zooming)
+        ;
       }
     },
     methods: {
+      zoomStart: function () {
+        const globe = this.svg.node();
+        const mouse = this.projection.invert(d3.mouse(globe));
+        this.state.v0 = versor.cartesian(mouse);
+        this.state.r0 = this.projection.rotate();
+        this.state.q0 = versor(this.state.r0);
+      },
+      zooming: function () {
+        const globe = this.svg.node();
+        this.projection.rotate(this.state.r0);
+        const mouse = this.projection.invert(d3.mouse(globe));
+        const v1 = versor.cartesian(mouse);
+        const mouseDelta = versor.delta(this.state.v0, v1);
+        const q1 = versor.multiply(this.state.q0, mouseDelta);
+        this.projection.rotate(versor.rotation(q1));
+        this.projection.scale(this.scale * d3.event.transform.k);
+        this.render();
+      },
+      render: function () {
+        this.svg.selectAll('path.background').attr('d', this.geoPath);
+        this.svg.selectAll('path.graticule').attr('d', this.geoPath);
+        this.svg.selectAll('path.tropics').attr('d', this.geoPath);
+        this.svg.selectAll('path.polar').attr('d', this.geoPath);
+        this.svg.selectAll('path.hemisphere').attr('d', this.geoPath);
+        this.svg.selectAll('path.country').attr('d', this.geoPath);
+        this.svg.selectAll('path.outline').attr('d', this.geoPath);
+      },
       renderChart: function () {
-        const svg = d3.select('svg#viewport > g');
-
-        const map = {};
-
-        const zoomBehaviour = d3.zoom()
-          .translateExtent([[0, 0], [this.width, this.height]])
-          .scaleExtent([1, 30])
-          .on('zoom', () => svg.attr('transform', d3.event.transform))
-        ;
-
-        map.topology = this.worldCountries.objects['countries1'];
-        map.features = topojson.feature(this.worldCountries, map.topology).features;
-        map.merged = topojson.merge(this.worldCountries, map.topology.geometries);
-        map.mesh = topojson.mesh(this.worldCountries, map.topology);
+        this.svg.call(this.zoom);
 
         // Background (oceans)
-        svg.append('path')
+        this.svg.append('path')
           .attr('class', 'background')
           .datum({
             type: 'Sphere'
@@ -80,7 +112,7 @@
         ;
 
         // Graticules
-        svg.append('path')
+        this.svg.append('path')
           .attr('class', 'graticule')
           .datum(d3.geoGraticule10())
           .style('fill', 'none')
@@ -89,17 +121,17 @@
           .attr('d', this.geoPath)
         ;
 
-        svg.append('path')
+        this.svg.append('path')
           .attr('class', 'tropics capricorn')
           .datum(d3.geoCircle().center([0, 90]).radius(66.56))
           .attr('d', this.geoPath)
         ;
-        svg.append('path')
+        this.svg.append('path')
           .attr('class', 'tropics cancer')
           .datum(d3.geoCircle().center([0, -90]).radius(66.56))
           .attr('d', this.geoPath)
         ;
-        svg.selectAll('path.tropics')
+        this.svg.selectAll('path.tropics')
           .style('fill', 'aqua')
           .style('fill-opacity', 0.2)
           .style('stroke-width', 1)
@@ -108,17 +140,17 @@
           .style('stroke-opacity', 0.5)
         ;
 
-        svg.append('path')
+        this.svg.append('path')
           .attr('class', 'polar arctic')
           .datum(d3.geoCircle().center([0, 90]).radius(23.44))
           .attr('d', this.geoPath)
         ;
-        svg.append('path')
+        this.svg.append('path')
           .attr('class', 'polar antarctic')
           .datum(d3.geoCircle().center([0, -90]).radius(23.44))
           .attr('d', this.geoPath)
         ;
-        svg.selectAll('path.polar')
+        this.svg.selectAll('path.polar')
           .style('fill', 'blue')
           .style('fill-opacity', 0.2)
           .style('stroke-width', 1)
@@ -128,46 +160,27 @@
         ;
 
         // Greenwich meridian (western hemisphere)
-        svg.append('path')
+        this.svg.append('path')
           .attr('class', 'hemisphere greenwich')
           .datum(d3.geoCircle().center([-90, 0]))
           .attr('d', this.geoPath)
           .style('stroke', 'red')
         ;
         // Equator (northern hemisphere)
-        svg.append('path')
+        this.svg.append('path')
           .attr('class', 'hemisphere equator')
           .datum(d3.geoCircle().center([0, 90]))
           .attr('d', this.geoPath)
           .style('stroke', 'blue')
         ;
-        svg.selectAll('path.hemisphere')
+        this.svg.selectAll('path.hemisphere')
           .style('fill', 'none')
           .style('stroke-width', 1)
         ;
-/**
-        // Land
-        svg.append('path')
-          .attr('class', 'continents')
-          .datum(map.merged)
-          .style('fill', 'dimgray')
-          .style('fill-opacity', 0.8)
-          .attr('d', this.geoPath)
-        ;
 
-        // Borders
-        svg.append('path')
-          .attr('class', 'borders')
-          .datum(map.mesh)
-          .style('fill', 'none')
-          .style('stroke', 'white')
-          .style('stroke-width', .5)
-          .attr('d', this.geoPath)
-        ;
-*/
         // Countries
-        svg.selectAll('path.country')
-          .data(map.features)
+        this.svg.selectAll('path.country')
+          .data(this.countries)
           .enter()
           .append('path')
           .attr('class', 'country')
@@ -179,7 +192,7 @@
         ;
 
         // Outline
-        svg.append('path')
+        this.svg.append('path')
           .attr('class', 'outline')
           .datum({
             type: 'Sphere'
@@ -188,15 +201,6 @@
           .style('stroke-width', 2)
           .style('stroke', 'black')
           .attr('d', this.geoPath)
-        ;
-
-        // zoom rect
-        const rect = svg.append('rect')
-          .style('fill', 'none')
-          .attr('pointer-events', 'all')
-          .attr('width', 1280)
-          .attr('height', 820)
-          .call(zoomBehaviour)
         ;
       }
     },
