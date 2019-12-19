@@ -56,6 +56,7 @@ export default new Vuex.Store({
               'donor',
               'totalProjectValue',
               'staffRoles',
+              'countryRoles',
               'isActive',
               'isActiveThisYear'
             ]

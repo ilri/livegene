@@ -1,11 +1,41 @@
 <template>
   <div>
     <h2 class="bg-info text-white text-center p-2">World map</h2>
-    <div class="text-center pb-5">
-      <svg id="viewport" :width="width" :height="height">
-        <g></g>
-      </svg>
-    </div>
+    <b-row align-h="center" class="text-center pb-5 content">
+      <b-col cols="2">
+        <b-card title="Projects">
+          <b-card-text>
+            <ul class="teams" v-for="(team, index) in projectsGroupedByTeam" :key="index">
+              <li class="team">
+                <input :id="index" type="checkbox" name="projects">
+                <label :for="index" class="handle"></label>
+                <span>{{ team[0] }}</span>
+                <ul class="projects" v-for="project in team[1]" :key="project.ilriCode">
+                  <li class="project">{{ project.shortName }}</li>
+                </ul>
+              </li>
+            </ul>
+          </b-card-text>
+        </b-card>
+      </b-col>
+      <b-col cols="8">
+        <svg id="viewport" :width="viewport.width" :height="viewport.height">
+          <g></g>
+        </svg>
+      </b-col>
+      <b-col cols="2">
+        <b-card title="Donor(s)">
+          <b-card-text>
+            coming soon ...
+          </b-card-text>
+        </b-card>
+        <b-card title="Partners">
+          <b-card-text>
+            coming soon ...
+          </b-card-text>
+        </b-card>
+      </b-col>
+    </b-row>
   </div>
 </template>
 
@@ -27,8 +57,6 @@
     name: 'WorldMap',
     data() {
       return {
-        width: 1280,
-        height: 820,
         axisTilt: -23.44,
         state: {}
       }
@@ -36,9 +64,19 @@
     computed: {
       ...mapState({
         projects: state => state.projects,
+        projectsGroupedByTeam: state => state.projectsGroupedByTeam,
         loaded: state => state.loaded,
         worldCountries: state => state.worldCountries
       }),
+      viewport: function () {
+        let width = window.innerWidth <= 1024 ? 1024 : window.innerWidth - 2 * Math.round(window.innerWidth / 5);
+        let height = width <= 1024 ? 768 : Math.round(width / 1.6);
+        let padding = 20;
+        return {
+          width: width,
+          height: height + padding
+        }
+      },
       svg: function () {
         return d3.select('svg#viewport > g');
       },
@@ -47,10 +85,10 @@
       },
       projection: function () {
         return d3.geoOrthographic()
-          .scale(this.width/Math.PI)
+          .scale(this.viewport.width/Math.PI)
           .clipAngle(90)
           .rotate([0, 0, this.axisTilt])
-          .translate([this.width / 2, this.height / 2])
+          .translate([this.viewport.width / 2, this.viewport.height / 2])
         ;
       },
       scale: function () {
@@ -222,5 +260,58 @@
 <style scoped>
   svg {
     border: thin solid lightgray;
+  }
+  .content {
+    margin: 0;
+  }
+  label {
+    margin-bottom: 0;
+  }
+  .teams, .projects {
+    list-style-type: none;
+  }
+  .team > span, .project {
+    cursor: pointer;
+  }
+  .teams {
+    text-align: left;
+    padding: 0;
+    margin-bottom: 0.5rem;
+  }
+  .team input {
+    display: none;
+  }
+  .team input + label::before {
+    content: '\f196';
+    font-family: 'FontAwesome';
+  }
+  .team input:checked + label::before {
+    content: '\f147';
+    font-family: 'FontAwesome';
+  }
+  .projects {
+    padding-left: 1em;
+    display: none;
+  }
+  .team > input:checked ~ .projects {
+    display: block;
+  }
+  .team > span {
+    font-weight: 800;
+    font-family: 'Open Sans', sans-serif;
+  }
+  .project {
+    font-size: 0.9em;
+    font-weight: 500;
+    font-style: italic;
+    font-family: 'Open Sans', sans-serif;;
+  }
+  .project::before {
+    content: '\f141';
+    font-family: 'FontAwesome';
+    font-size: 0.9em;
+    margin-left: -1em;
+    margin-right: 0.5em;
+    cursor: default;
   }
 </style>

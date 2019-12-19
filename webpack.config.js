@@ -96,7 +96,7 @@ Encore
   .addPlugin(new GoogleFontsPlugin(
     {
       fonts: [
-        { family: 'Open Sans', variants: ['800'] },
+        { family: 'Open Sans', variants: ['500i', '800'] },
         { family: 'Open Sans Condensed', variants: ['500', '700'] }
       ]
     }
