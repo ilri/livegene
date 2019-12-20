@@ -9,9 +9,9 @@
               <li class="team">
                 <input :id="index" type="checkbox" name="projects">
                 <label :for="index" class="handle"></label>
-                <span>{{ team[0] }}</span>
+                <span @click="selectTeam(team)">{{ team[0] }}</span>
                 <ul class="projects" v-for="project in team[1]" :key="project.ilriCode">
-                  <li class="project">{{ project.shortName }}</li>
+                  <li @click="selectProject(project)" class="project">{{ project.shortName }}</li>
                 </ul>
               </li>
             </ul>
@@ -26,7 +26,12 @@
       <b-col cols="2">
         <b-card title="Donor(s)">
           <b-card-text>
-            coming soon ...
+            <figure class="figure" v-for="(donor, index) in donors" :key="index">
+              <b-img thumbnail fluid-grow class="figure-img donor-logo"
+                     v-b-popover.hover.top="" :title="donor.fullName"
+                     :src="donor.logoUrl" :alt="donor.shortName">
+              </b-img>
+            </figure>
           </b-card-text>
         </b-card>
         <b-card title="Partners">
@@ -58,7 +63,13 @@
     data() {
       return {
         axisTilt: -23.44,
-        state: {}
+        state: {},
+        selected: {
+          type: null,
+          name: ''
+        },
+        donors: [],
+        partners: []
       }
     },
     computed: {
@@ -240,6 +251,17 @@
           .style('stroke', 'black')
           .attr('d', this.geoPath)
         ;
+      },
+      selectTeam: function (team) {
+        this.selected.type = 'team';
+        this.selected.name = team[0];
+        const donors = new Set();
+        team[1].forEach(el => donors.add(JSON.stringify(el.donor)));
+        this.donors = [];
+        donors.forEach(value => this.donors.push(JSON.parse(value)));
+      },
+      selectProject: function (project) {
+        console.log(project.id);
       }
     },
     mounted() {
@@ -313,5 +335,10 @@
     margin-left: -1em;
     margin-right: 0.5em;
     cursor: default;
+  }
+  .donor-logo {
+    width: 4rem;
+    height: 4rem;
+    object-fit: contain;
   }
 </style>
