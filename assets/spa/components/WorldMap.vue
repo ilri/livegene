@@ -276,13 +276,19 @@
         donors.forEach(cur => this.donors.push(JSON.parse(cur)));
         const partnership_types = new Set();
         this.partnerships = [];
+        const countries = new Set();
         team[1].forEach(cur => {
           cur.partnerships.forEach(cur => {
             partnership_types.add(cur.partnershipType.description);
             this.partnerships.push(cur);
-          })
+          });
+          cur.countryRoles.forEach(cur => countries.add(cur.country.country));
         });
         this.partnership_types = Array.from(partnership_types);
+        const countryCodes = Array.from(countries);
+        d3.selectAll('path.country')
+          .style('fill', d => countryCodes.indexOf(d.properties['Alpha-2']) === -1 ? 'dimgray' : 'indianred')
+        ;
       },
       selectProject: function (project) {
         this.selected.type = 'project';
@@ -294,6 +300,12 @@
         this.partnerships.push(...project.partnerships);
         project.partnerships.forEach(cur => partnership_types.add(cur.partnershipType.description));
         this.partnership_types = Array.from(partnership_types);
+        const countries = new Set();
+        project.countryRoles.forEach(cur => countries.add(cur.country.country));
+        const countryCodes = Array.from(countries);
+        d3.selectAll('path.country')
+          .style('fill', d => countryCodes.indexOf(d.properties['Alpha-2']) === -1 ? 'dimgray' : 'indianred')
+        ;
       }
     },
     mounted() {
