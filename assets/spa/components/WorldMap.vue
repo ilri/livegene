@@ -9,9 +9,15 @@
               <li class="team">
                 <input :id="index" type="checkbox" name="projects">
                 <label :for="index" class="handle"></label>
-                <span @click="selectTeam(team)">{{ team[0] }}</span>
+                <span @click="selectTeam(team)"
+                      :class="{ selected: selected.type === 'team' && selected.name === team[0] }">
+                  {{ team[0] }}
+                </span>
                 <ul class="projects" v-for="project in team[1]" :key="project.ilriCode">
-                  <li @click="selectProject(project)" class="project">{{ project.shortName }}</li>
+                  <li @click="selectProject(project)"
+                      :class="{ project: true, selected: selected.type === 'project' && selected.name === project.ilriCode }">
+                    {{ project.shortName }}
+                  </li>
                 </ul>
               </li>
             </ul>
@@ -65,7 +71,7 @@
         axisTilt: -23.44,
         state: {},
         selected: {
-          type: null,
+          type: '',
           name: ''
         },
         donors: [],
@@ -261,7 +267,10 @@
         donors.forEach(value => this.donors.push(JSON.parse(value)));
       },
       selectProject: function (project) {
-        console.log(project.id);
+        this.selected.type = 'project';
+        this.selected.name = project.ilriCode;
+        this.donors = [];
+        this.donors.push(project.donor);
       }
     },
     mounted() {
@@ -340,5 +349,11 @@
     width: 4rem;
     height: 4rem;
     object-fit: contain;
+  }
+  .selected {
+    display: inline-block;
+    background-color: rgba(255, 160, 122, 0.5);
+    padding: 0.2em;
+    border-radius: 0.1em;
   }
 </style>
