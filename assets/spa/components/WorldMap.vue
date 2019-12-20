@@ -30,9 +30,9 @@
         </svg>
       </b-col>
       <b-col cols="2">
-        <b-card title="Donor(s)">
-          <b-card-text>
-            <figure class="figure" v-for="(donor, index) in donors" :key="index">
+        <b-card no-body header="Donors">
+          <b-card-text class="mt-2">
+            <figure class="figure col-6" v-for="(donor, index) in donors" :key="index">
               <b-img thumbnail fluid-grow class="figure-img donor-logo"
                      v-b-popover.hover.top="" :title="donor.fullName"
                      :src="donor.logoUrl" :alt="donor.shortName">
@@ -40,15 +40,15 @@
             </figure>
           </b-card-text>
         </b-card>
-        <b-card title="Partners">
+        <b-card no-body header="Partners">
           <b-card-text>
-            <b-list-group v-for="partnership_type in partnership_types" :key="partnership_type">
+            <b-list-group class="mb-2" v-for="partnership_type in partnership_types" :key="partnership_type">
               <b-list-group-item>{{ partnership_type }}</b-list-group-item>
             </b-list-group>
-            <figure class="figure col-6" v-for="partnership in partnerships" :key="partnership.id">
+            <figure class="figure col-6" v-for="partner in partners" :key="JSON.parse(partner).id">
               <b-img thumbnail fluid-grow class="figure-img donor-logo"
-                     v-b-popover.hover.top="" :title="partnership.partner.fullName"
-                     :src="partnership.partner.logoUrl" :alt="partnership.partner.shortName">
+                     v-b-popover.hover.top="" :title="JSON.parse(partner).fullName"
+                     :src="JSON.parse(partner).logoUrl" :alt="JSON.parse(partner).shortName">
               </b-img>
             </figure>
           </b-card-text>
@@ -84,7 +84,8 @@
         },
         donors: [],
         partnerships: [],
-        partnership_types: []
+        partners: new Set(),
+        partnership_types: new Set()
       }
     },
     computed: {
@@ -270,21 +271,18 @@
       selectTeam: function (team) {
         this.selected.type = 'team';
         this.selected.name = team[0];
+
         const donors = new Set();
         team[1].forEach(cur => donors.add(JSON.stringify(cur.donor)));
         this.donors = [];
         donors.forEach(cur => this.donors.push(JSON.parse(cur)));
-        const partnership_types = new Set();
-        this.partnerships = [];
+
+        this.extractPartners(team[1]);
+
         const countries = new Set();
         team[1].forEach(cur => {
-          cur.partnerships.forEach(cur => {
-            partnership_types.add(cur.partnershipType.description);
-            this.partnerships.push(cur);
-          });
           cur.countryRoles.forEach(cur => countries.add(cur.country.country));
         });
-        this.partnership_types = Array.from(partnership_types);
         const countryCodes = Array.from(countries);
         d3.selectAll('path.country')
           .style('fill', d => countryCodes.indexOf(d.properties['Alpha-2']) === -1 ? 'dimgray' : 'indianred')
@@ -293,19 +291,35 @@
       selectProject: function (project) {
         this.selected.type = 'project';
         this.selected.name = project.ilriCode;
+
         this.donors = [];
         this.donors.push(project.donor);
-        const partnership_types = new Set();
-        this.partnerships = [];
-        this.partnerships.push(...project.partnerships);
-        project.partnerships.forEach(cur => partnership_types.add(cur.partnershipType.description));
-        this.partnership_types = Array.from(partnership_types);
+
+        this.extractPartners(project);
+
         const countries = new Set();
         project.countryRoles.forEach(cur => countries.add(cur.country.country));
         const countryCodes = Array.from(countries);
         d3.selectAll('path.country')
           .style('fill', d => countryCodes.indexOf(d.properties['Alpha-2']) === -1 ? 'dimgray' : 'indianred')
         ;
+      },
+      extractPartners: function (projects) {
+        this.partnerships = [];
+        this.partners.clear();
+        this.partnership_types.clear();
+
+        if (!Array.isArray(projects)) {
+          projects = [projects];
+        }
+
+        projects.forEach(cur => {
+          this.partnerships.push(...cur.partnerships);
+          cur.partnerships.forEach(cur => {
+            this.partners.add(JSON.stringify(cur.partner));
+            this.partnership_types.add(cur.partnershipType.description);
+          });
+        });
       }
     },
     mounted() {
