@@ -42,13 +42,18 @@
         </b-card>
         <b-card no-body header="Partners">
           <b-card-text>
-            <b-list-group class="mb-2" v-for="partnership_type in partnership_types" :key="partnership_type">
-              <b-list-group-item>{{ partnership_type }}</b-list-group-item>
+            <b-list-group class="mb-2" v-for="partnershipType in partnershipTypes" :key="JSON.parse(partnershipType).id">
+              <b-list-group-item @mouseover="highlightPartners(partnershipType)"
+                                 @mouseout="unhighlightPartners"
+                                 :class="{ 'highlight-partnership-type': JSON.parse(partnershipType).id === selectedPartnershipType.id }">
+                {{ JSON.parse(partnershipType).description }}
+              </b-list-group-item>
             </b-list-group>
             <figure class="figure col-6" v-for="partner in partners" :key="JSON.parse(partner).id">
               <b-img thumbnail fluid-grow class="figure-img donor-logo"
                      v-b-popover.hover.top="" :title="JSON.parse(partner).fullName"
-                     :src="JSON.parse(partner).logoUrl" :alt="JSON.parse(partner).shortName">
+                     :src="JSON.parse(partner).logoUrl" :alt="JSON.parse(partner).shortName"
+                     :class="{ 'highlight-partner': selectedPartners.includes(partner) }">
               </b-img>
             </figure>
           </b-card-text>
@@ -85,7 +90,9 @@
         donors: [],
         partnerships: [],
         partners: new Set(),
-        partnership_types: new Set()
+        partnershipTypes: new Set(),
+        selectedPartnershipType: {},
+        selectedPartners: []
       }
     },
     computed: {
@@ -278,15 +285,7 @@
         donors.forEach(cur => this.donors.push(JSON.parse(cur)));
 
         this.extractPartners(team[1]);
-
-        const countries = new Set();
-        team[1].forEach(cur => {
-          cur.countryRoles.forEach(cur => countries.add(cur.country.country));
-        });
-        const countryCodes = Array.from(countries);
-        d3.selectAll('path.country')
-          .style('fill', d => countryCodes.indexOf(d.properties['Alpha-2']) === -1 ? 'dimgray' : 'indianred')
-        ;
+        this.highlightCountryPaths(team[1]);
       },
       selectProject: function (project) {
         this.selected.type = 'project';
@@ -296,18 +295,12 @@
         this.donors.push(project.donor);
 
         this.extractPartners(project);
-
-        const countries = new Set();
-        project.countryRoles.forEach(cur => countries.add(cur.country.country));
-        const countryCodes = Array.from(countries);
-        d3.selectAll('path.country')
-          .style('fill', d => countryCodes.indexOf(d.properties['Alpha-2']) === -1 ? 'dimgray' : 'indianred')
-        ;
+        this.highlightCountryPaths(project);
       },
       extractPartners: function (projects) {
         this.partnerships = [];
         this.partners.clear();
-        this.partnership_types.clear();
+        this.partnershipTypes.clear();
 
         if (!Array.isArray(projects)) {
           projects = [projects];
@@ -317,9 +310,34 @@
           this.partnerships.push(...cur.partnerships);
           cur.partnerships.forEach(cur => {
             this.partners.add(JSON.stringify(cur.partner));
-            this.partnership_types.add(cur.partnershipType.description);
+            this.partnershipTypes.add(JSON.stringify(cur.partnershipType));
           });
         });
+      },
+      highlightPartners: function (partnershipType) {
+        this.selectedPartnershipType = JSON.parse(partnershipType);
+        this.selectedPartners = [];
+        this.partnerships
+          .filter(el => el.partnershipType.id === this.selectedPartnershipType.id)
+          .forEach(cur => this.selectedPartners.push(JSON.stringify(cur.partner)))
+        ;
+      },
+      unhighlightPartners: function () {
+        this.selectedPartnershipType = {};
+        this.selectedPartners = [];
+      },
+      highlightCountryPaths: function (projects) {
+        const countryCodes = new Set();
+
+        if (!Array.isArray(projects)) {
+          projects = [projects];
+        }
+
+        projects.forEach(cur => cur.countryRoles.forEach(cur => countryCodes.add(cur.country.country)));
+
+        d3.selectAll('path.country')
+          .style('fill', d => countryCodes.has(d.properties['Alpha-2']) ? 'indianred' : 'dimgray')
+        ;
       }
     },
     mounted() {
@@ -404,5 +422,15 @@
     background-color: rgba(255, 160, 122, 0.5);
     padding: 0.2em;
     border-radius: 0.1em;
+  }
+  .highlight-partnership-type {
+    background-color: indianred;
+    font-weight: 700;
+  }
+  .highlight-partner {
+    box-shadow: 0.4em 0.4em 0.4em indianred;
+    border-style: solid;
+    border-color: indianred;
+    border-width: 2px;
   }
 </style>
