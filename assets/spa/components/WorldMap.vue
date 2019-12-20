@@ -42,7 +42,15 @@
         </b-card>
         <b-card title="Partners">
           <b-card-text>
-            coming soon ...
+            <b-list-group v-for="partnership_type in partnership_types" :key="partnership_type">
+              <b-list-group-item>{{ partnership_type }}</b-list-group-item>
+            </b-list-group>
+            <figure class="figure col-6" v-for="partnership in partnerships" :key="partnership.id">
+              <b-img thumbnail fluid-grow class="figure-img donor-logo"
+                     v-b-popover.hover.top="" :title="partnership.partner.fullName"
+                     :src="partnership.partner.logoUrl" :alt="partnership.partner.shortName">
+              </b-img>
+            </figure>
           </b-card-text>
         </b-card>
       </b-col>
@@ -75,7 +83,8 @@
           name: ''
         },
         donors: [],
-        partners: []
+        partnerships: [],
+        partnership_types: []
       }
     },
     computed: {
@@ -86,11 +95,11 @@
         worldCountries: state => state.worldCountries
       }),
       viewport: function () {
-        let width = window.innerWidth <= 1024 ? 1024 : window.innerWidth - 2 * Math.round(window.innerWidth / 5);
+        let width = window.innerWidth <= 1024 ? 1024 : window.innerWidth - Math.round(window.innerWidth / 3);
         let height = width <= 1024 ? 768 : Math.round(width / 1.6);
         let padding = 20;
         return {
-          width: width,
+          width: width - padding,
           height: height + padding
         }
       },
@@ -262,15 +271,29 @@
         this.selected.type = 'team';
         this.selected.name = team[0];
         const donors = new Set();
-        team[1].forEach(el => donors.add(JSON.stringify(el.donor)));
+        team[1].forEach(cur => donors.add(JSON.stringify(cur.donor)));
         this.donors = [];
-        donors.forEach(value => this.donors.push(JSON.parse(value)));
+        donors.forEach(cur => this.donors.push(JSON.parse(cur)));
+        const partnership_types = new Set();
+        this.partnerships = [];
+        team[1].forEach(cur => {
+          cur.partnerships.forEach(cur => {
+            partnership_types.add(cur.partnershipType.description);
+            this.partnerships.push(cur);
+          })
+        });
+        this.partnership_types = Array.from(partnership_types);
       },
       selectProject: function (project) {
         this.selected.type = 'project';
         this.selected.name = project.ilriCode;
         this.donors = [];
         this.donors.push(project.donor);
+        const partnership_types = new Set();
+        this.partnerships = [];
+        this.partnerships.push(...project.partnerships);
+        project.partnerships.forEach(cur => partnership_types.add(cur.partnershipType.description));
+        this.partnership_types = Array.from(partnership_types);
       }
     },
     mounted() {
