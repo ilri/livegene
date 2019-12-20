@@ -191,6 +191,7 @@ class Project
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Partnership", mappedBy="project")
+     * @Groups({"project:collection:get", "project:item:get"})
      */
     private $partnerships;
 

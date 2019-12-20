@@ -3,15 +3,15 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
-use Doctrine\ORM\Mapping as ORM;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-use Symfony\Component\Serializer\Annotation\Groups;
-use Symfony\Component\Validator\Constraints as Assert;
 use App\Validator\Constraints as AppAssert;
 use Doctrine\Common\Collections\{
     ArrayCollection,
     Collection
 };
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ApiResource(
@@ -55,6 +55,7 @@ class Partnership
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      * @Groups({"partnership:collection:get", "partnership:item:get"})
+     * @Groups({"project:collection:get", "project:item:get"})
      */
     private $id;
 
@@ -71,6 +72,7 @@ class Partnership
      * @ORM\JoinColumn(nullable=false)
      * @Assert\NotBlank()
      * @Groups({"partnership:collection:get", "partnership:item:get"})
+     * @Groups({"project:collection:get", "project:item:get"})
      */
     private $partner;
 
@@ -98,6 +100,7 @@ class Partnership
      * @ORM\JoinColumn(nullable=false)
      * @Assert\NotBlank()
      * @Groups({"partnership:collection:get", "partnership:item:get"})
+     * @Groups({"project:collection:get", "project:item:get"})
      */
     private $partnershipType;
 
