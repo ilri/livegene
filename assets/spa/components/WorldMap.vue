@@ -5,7 +5,7 @@
       <b-col cols="2">
         <b-card title="Projects">
           <b-card-text>
-            <ul :class="{ teams: true, busy: rotating }" v-for="(team, index) in projectsGroupedByTeam" :key="index">
+            <ul :class="{ teams: true, busy: rotating }" v-for="(team, index) in projectsGroupedByTeam" :key="`team${index}`">
               <li class="team">
                 <input :id="index" type="checkbox" name="projects">
                 <label :for="index" class="handle"></label>
@@ -32,7 +32,7 @@
       <b-col cols="2">
         <b-card no-body header="Donors">
           <b-card-text class="mt-2">
-            <figure class="figure col-6" v-for="(donor, index) in donors" :key="index">
+            <figure class="figure col-6" v-for="(donor, index) in donors" :key="`donor${index}`">
               <b-img thumbnail fluid-grow class="figure-img donor-logo"
                      v-b-popover.hover.top="" :title="donor.fullName"
                      :src="donor.logoUrl" :alt="donor.shortName">
@@ -42,14 +42,16 @@
         </b-card>
         <b-card no-body header="Partners">
           <b-card-text>
-            <b-list-group class="mb-2" v-for="partnershipType in partnershipTypes" :key="JSON.parse(partnershipType).id">
+            <b-list-group class="mb-2" v-for="partnershipType in partnershipTypes"
+                          :key="`partnershipType${JSON.parse(partnershipType).id}`">
               <b-list-group-item @mouseover="highlightPartners(partnershipType)"
                                  @mouseout="unhighlightPartners"
                                  :class="{ 'highlight-partnership-type': JSON.parse(partnershipType).id === selectedPartnershipType.id }">
                 {{ JSON.parse(partnershipType).description }}
               </b-list-group-item>
             </b-list-group>
-            <figure class="figure col-6" v-for="partner in partners" :key="JSON.parse(partner).id">
+            <figure class="figure col-6" v-for="partner in partners"
+                    :key="`partner${JSON.parse(partner).id}`">
               <b-img thumbnail fluid-grow class="figure-img donor-logo"
                      v-b-popover.hover.top="" :title="JSON.parse(partner).fullName"
                      :src="JSON.parse(partner).logoUrl" :alt="JSON.parse(partner).shortName"
