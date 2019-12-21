@@ -5,7 +5,7 @@
       <b-col cols="2">
         <b-card title="Projects">
           <b-card-text>
-            <ul class="teams" v-for="(team, index) in projectsGroupedByTeam" :key="index">
+            <ul :class="{ teams: true, busy: rotating }" v-for="(team, index) in projectsGroupedByTeam" :key="index">
               <li class="team">
                 <input :id="index" type="checkbox" name="projects">
                 <label :for="index" class="handle"></label>
@@ -26,7 +26,7 @@
       </b-col>
       <b-col cols="8">
         <svg id="viewport" :width="viewport.width" :height="viewport.height">
-          <g></g>
+          <g :class="{ busy: rotating }"></g>
         </svg>
       </b-col>
       <b-col cols="2">
@@ -92,7 +92,8 @@
         partners: new Set(),
         partnershipTypes: new Set(),
         selectedPartnershipType: {},
-        selectedPartners: []
+        selectedPartners: [],
+        rotating: false
       }
     },
     computed: {
@@ -335,9 +336,53 @@
 
         projects.forEach(cur => cur.countryRoles.forEach(cur => countryCodes.add(cur.country.country)));
 
+        const rotationDuration = this.rotateToView(countryCodes);
+
         d3.selectAll('path.country')
+          .transition('highlightCountryPaths')
+          .duration(rotationDuration)
           .style('fill', d => countryCodes.has(d.properties['Alpha-2']) ? 'indianred' : 'dimgray')
         ;
+      },
+      rotateToView: function (countryCodes) {
+        let lambda, phi, gamma, start, counter;
+
+        if (countryCodes.size > 0) {
+          const merged = topojson.merge(
+            this.worldCountries,
+            this.worldCountries.objects['countries1'].geometries.filter(el => countryCodes.has(el.properties['Alpha-2']))
+          );
+
+          const rotate = d3.geoRotation(this.projection.rotate());
+          const centroid = d3.geoCentroid(merged);
+          const rotation = rotate(centroid);
+
+          lambda = rotation[0] > 0 ? 360 - rotation[0] : -rotation[0];
+        } else {
+          lambda = 360 - this.projection.rotate()[0];
+        }
+
+        phi = 0;
+        gamma = this.axisTilt;
+        start = this.projection.rotate()[0];
+        counter = 0;
+
+        this.rotating = true;
+        const interval = d3.interval(
+          () => {
+            if (counter >= lambda) {
+              interval.stop();
+              this.rotating = false;
+              return;
+            }
+            counter++;
+            this.projection.rotate([start++, phi, gamma]);
+            this.render();
+          },
+          5
+        );
+
+        return lambda * 10;
       }
     },
     mounted() {
@@ -432,5 +477,9 @@
     border-style: solid;
     border-color: indianred;
     border-width: 2px;
+  }
+  .busy {
+    pointer-events: none;
+    cursor: wait;
   }
 </style>
