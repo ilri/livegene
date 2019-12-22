@@ -5,7 +5,7 @@
     <div class="text-center">
 
       <a href="https://www.ilri.org">
-        <b-img :src="require('../assets/ilri-logo.jpg')" alt="LiveGene"></b-img>
+        <b-img :src="require('../assets/ilri-logo.jpg')" fluid alt="LiveGene"></b-img>
       </a>
     </div>
     <div class="text-center">
