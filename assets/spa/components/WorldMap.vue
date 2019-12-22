@@ -33,8 +33,8 @@
         <b-card no-body header="Donors">
           <b-card-text class="mt-2">
             <figure class="figure col-6" v-for="(donor, index) in donors" :key="`donor${index}`">
-              <b-img thumbnail fluid-grow class="figure-img donor-logo"
-                     v-b-popover.hover.top="" :title="donor.fullName"
+              <b-img thumbnail fluid-grow class="figure-img organisation-logo"
+                     v-b-popover.hover.top.v-info="" :title="donor.fullName"
                      :src="donor.logoUrl" :alt="donor.shortName">
               </b-img>
             </figure>
@@ -52,8 +52,8 @@
             </b-list-group>
             <figure class="figure col-6" v-for="partner in partners"
                     :key="`partner${JSON.parse(partner).id}`">
-              <b-img thumbnail fluid-grow class="figure-img donor-logo"
-                     v-b-popover.hover.top="" :title="JSON.parse(partner).fullName"
+              <b-img thumbnail fluid-grow class="figure-img organisation-logo"
+                     v-b-popover.hover.top.v-info="" :title="JSON.parse(partner).fullName"
                      :src="JSON.parse(partner).logoUrl" :alt="JSON.parse(partner).shortName"
                      :class="{ 'highlight-partner': selectedPartners.includes(partner) }">
               </b-img>
@@ -68,14 +68,13 @@
 <script>
   import {mapState} from 'vuex';
   import * as d3 from 'd3';
-  import {feature, merge, mesh} from 'topojson-client';
+  import {feature, merge} from 'topojson-client';
   import versor from 'versor';
 
   const topojson = Object.assign({},
     {
       feature,
-      merge,
-      mesh
+      merge
     })
   ;
 
@@ -106,8 +105,8 @@
         worldCountries: state => state.worldCountries
       }),
       viewport: function () {
-        let width = window.innerWidth <= 1024 ? 1024 : window.innerWidth - Math.round(window.innerWidth / 3);
-        let height = width <= 1024 ? 768 : Math.round(width / 1.6);
+        let width = window.innerWidth - Math.round(window.innerWidth / 3);
+        let height = Math.round(width / 1.6);
         let padding = 20;
         return {
           width: width - padding,
@@ -460,7 +459,7 @@
     margin-right: 0.5em;
     cursor: default;
   }
-  .donor-logo {
+  .organisation-logo {
     width: 4rem;
     height: 4rem;
     object-fit: contain;
