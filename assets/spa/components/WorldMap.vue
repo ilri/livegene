@@ -2,7 +2,7 @@
   <div>
     <h2 class="bg-info text-white text-center p-2">World map</h2>
     <b-row align-h="center" class="text-center pb-5 content">
-      <b-col cols="2">
+      <b-col cols="6" sm="6" md="6" lg="2" order="2" order-lg="1">
         <b-card title="Projects">
           <b-card-text>
             <ul :class="{ teams: true, busy: rotating }" v-for="(team, index) in projectsGroupedByTeam" :key="`team${index}`">
@@ -24,15 +24,17 @@
           </b-card-text>
         </b-card>
       </b-col>
-      <b-col cols="8">
-        <svg id="viewport" :width="viewport.width" :height="viewport.height">
+      <b-col cols="12" sm="12" md="12" lg="8" order="1" order-lg="2">
+        <svg id="viewport" :width="viewport.width" :height="viewport.height"
+             :viewBox="`0 0 ${viewport.width} ${viewport.height}`"
+             preserveAspectRatio="xMinYMin meet">
           <g :class="{ busy: rotating }"></g>
         </svg>
       </b-col>
-      <b-col cols="2">
+      <b-col cols="6" sm="6" md="6" lg="2" order="2" order-lg="3">
         <b-card no-body header="Donors">
           <b-card-text class="mt-2">
-            <figure class="figure col-6" v-for="(donor, index) in donors" :key="`donor${index}`">
+            <figure class="figure col-12 col-xl-6" v-for="(donor, index) in donors" :key="`donor${index}`">
               <b-img thumbnail fluid-grow class="figure-img organisation-logo"
                      v-b-popover.hover.top.v-info="" :title="donor.fullName"
                      :src="donor.logoUrl" :alt="donor.shortName">
@@ -50,7 +52,7 @@
                 {{ JSON.parse(partnershipType).description }}
               </b-list-group-item>
             </b-list-group>
-            <figure class="figure col-6" v-for="partner in partners"
+            <figure class="figure col-12 col-xl-6" v-for="partner in partners"
                     :key="`partner${JSON.parse(partner).id}`">
               <b-img thumbnail fluid-grow class="figure-img organisation-logo"
                      v-b-popover.hover.top.v-info="" :title="JSON.parse(partner).fullName"
@@ -105,7 +107,7 @@
         worldCountries: state => state.worldCountries
       }),
       viewport: function () {
-        let width = window.innerWidth - Math.round(window.innerWidth / 3);
+        let width = window.innerWidth >= 992 ? window.innerWidth - Math.round(window.innerWidth / 3) : window.innerWidth;
         let height = Math.round(width / 1.6);
         let padding = 20;
         return {
@@ -460,7 +462,6 @@
     cursor: default;
   }
   .organisation-logo {
-    width: 4rem;
     height: 4rem;
     object-fit: contain;
   }
