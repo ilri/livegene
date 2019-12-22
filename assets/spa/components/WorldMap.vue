@@ -259,7 +259,7 @@
           .enter()
           .append('path')
           .attr('class', 'country')
-          .style('fill', 'dimgray')
+          .style('fill', 'darkgray')
           .style('fill-opacity', 0.8)
           .style('stroke-width', 0.5)
           .style('stroke', 'white')
@@ -343,7 +343,7 @@
         d3.selectAll('path.country')
           .transition('highlightCountryPaths')
           .duration(rotationDuration)
-          .style('fill', d => countryCodes.has(d.properties['Alpha-2']) ? 'indianred' : 'dimgray')
+          .style('fill', d => countryCodes.has(d.properties['Alpha-2']) ? 'chartreuse' : 'darkgray')
         ;
       },
       rotateToView: function (countryCodes) {
@@ -359,14 +359,15 @@
           const centroid = d3.geoCentroid(merged);
           const rotation = rotate(centroid);
 
-          lambda = rotation[0] > 0 ? 360 - rotation[0] : -rotation[0];
+          lambda = rotation[0] > 0 ? 360 - Math.round(rotation[0]) : -Math.round(rotation[0]);
         } else {
-          lambda = 360 - this.projection.rotate()[0];
+          lambda = 360 - Math.round(this.projection.rotate()[0]);
         }
 
+        lambda = lambda >= 360 ? lambda - 360 : lambda;
         phi = 0;
         gamma = this.axisTilt;
-        start = this.projection.rotate()[0];
+        start = Math.round(this.projection.rotate()[0]);
         counter = 0;
 
         this.rotating = true;
@@ -384,7 +385,7 @@
           5
         );
 
-        return lambda * 10;
+        return lambda * 50;
       }
     },
     mounted() {
