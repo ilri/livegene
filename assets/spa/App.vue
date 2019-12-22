@@ -1,6 +1,6 @@
 <template>
   <div class="body">
-    <b-navbar toggleable="md" type="dark" variant="dark">
+    <b-navbar toggleable="xl" type="dark" variant="dark">
       <b-navbar-brand>
         <router-link v-bind:to="{ name: 'dashboard' }" class="text-decoration-none">
         <b-media>
@@ -51,7 +51,7 @@
       </transition>
     </div>
     <footer class="footer row align-items-center bg-info mx-0">
-      <div class="col-6 mx-auto text-center text-white">&copy; 2019 International Livestock Reasearch Institute</div>
+      <div class="col-12 mx-auto text-center text-white">&copy; 2019 International Livestock Reasearch Institute</div>
     </footer>
   </div>
 </template>
