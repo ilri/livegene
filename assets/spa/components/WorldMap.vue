@@ -1,7 +1,10 @@
 <template>
   <div>
     <h2 class="bg-info text-white text-center p-2">World map</h2>
-    <b-row align-h="center" class="text-center pb-5 content">
+    <b-row align-h="center" align-v="center" class="content" v-show="!loaded">
+        <b-spinner label="Loading..." class="mt-5"></b-spinner>
+    </b-row>
+    <b-row align-h="center" class="text-center pb-5 content" v-show="loaded">
       <b-col cols="6" sm="6" md="6" lg="2" order="2" order-lg="1">
         <b-card title="Projects">
           <b-card-text>
@@ -490,12 +493,12 @@
       }
     },
     mounted() {
-      if (this.worldCountries.objects) {
+      if (this.loaded) {
         this.renderChart();
       }
     },
     watch: {
-      worldCountries(val) {
+      loaded(val) {
         if (val) {
           this.renderChart();
         }
