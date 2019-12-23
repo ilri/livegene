@@ -84,28 +84,46 @@
     name: 'WorldMap',
     data() {
       return {
-        axisTilt: -23.44,
+        // https://en.wikipedia.org/wiki/Axial_tilt
+        axialTIlt: -23.44,
+        // hold values needed for zooming
         state: {},
+        // hold the selected team or project
         selected: {
           type: '',
           name: ''
         },
+        // hold the donors for the selected team or project
         donors: [],
+        // hold the partnerships for the selected team or project
         partnerships: [],
+        // hold the partners for the selected team or project - no duplicates
         partners: new Set(),
+        // hold the partnership types for the selected team or project - no duplicates
         partnershipTypes: new Set(),
+        // hold the selected partnership type
         selectedPartnershipType: {},
+        // hold the partners for the selected partnership type
         selectedPartners: [],
+        // is the globe rotating
         rotating: false
       }
     },
     computed: {
+      /**
+       * Get the data from Vuex Store
+       */
       ...mapState({
         projects: state => state.projects,
         projectsGroupedByTeam: state => state.projectsGroupedByTeam,
         loaded: state => state.loaded,
         worldCountries: state => state.worldCountries
       }),
+      /**
+       * Calculate the dimensions used to set width and height of the SVG element.
+       *
+       * @returns {{width: number, height: number}}
+       */
       viewport: function () {
         let width = window.innerWidth >= 992 ? window.innerWidth - Math.round(window.innerWidth / 3) : window.innerWidth;
         let height = Math.round(width / 1.6);
@@ -115,28 +133,58 @@
           height: height + padding
         }
       },
+      /**
+       * Select the group in the SVG holding the globe and all associated paths.
+       *
+       * @returns {Selection}
+       */
       svg: function () {
         return d3.select('svg#viewport > g');
       },
+      /**
+       * Get the countries from the topojson file.
+       *
+       * @returns {*}
+       */
       countries: function () {
         return topojson.feature(this.worldCountries, this.worldCountries.objects['countries1']).features;
       },
+      /**
+       * We use orthographic projection for the Earth globe.
+       *
+       * @returns {*}
+       */
       projection: function () {
         return d3.geoOrthographic()
           .scale(this.viewport.width/Math.PI)
           .clipAngle(90)
-          .rotate([0, 0, this.axisTilt])
+          .rotate([0, 0, this.axialTIlt])
           .translate([this.viewport.width / 2, this.viewport.height / 2])
         ;
       },
+      /**
+       * Get the scale for the projection.
+       *
+       * @returns {*}
+       */
       scale: function () {
         return this.projection.scale();
       },
+      /**
+       * Get the geo path for the projection.
+       *
+       * @returns {*|e}
+       */
       geoPath: function () {
         return d3.geoPath()
           .projection(this.projection)
-          ;
+        ;
       },
+      /**
+       * Zoom the globe.
+       *
+       * @returns {*}
+       */
       zoom: function () {
         return d3.zoom()
           .scaleExtent([1, 3])
@@ -146,6 +194,9 @@
       }
     },
     methods: {
+      /**
+       * This method is fired when zoom is started.
+       */
       zoomStart: function () {
         const globe = this.svg.node();
         const mouse = this.projection.invert(d3.mouse(globe));
@@ -153,6 +204,9 @@
         this.state.r0 = this.projection.rotate();
         this.state.q0 = versor(this.state.r0);
       },
+      /**
+       * This method is processed for the actual zooming.
+       */
       zooming: function () {
         const globe = this.svg.node();
         this.projection.rotate(this.state.r0);
@@ -164,6 +218,9 @@
         this.projection.scale(this.scale * d3.event.transform.k);
         this.render();
       },
+      /**
+       * This method is needed whenever the globe changes position (like rotating) or is zoomed.
+       */
       render: function () {
         this.svg.selectAll('path.background').attr('d', this.geoPath);
         this.svg.selectAll('path.graticule').attr('d', this.geoPath);
@@ -173,6 +230,9 @@
         this.svg.selectAll('path.country').attr('d', this.geoPath);
         this.svg.selectAll('path.outline').attr('d', this.geoPath);
       },
+      /**
+       * This is the main method rendering the chart.
+       */
       renderChart: function () {
         this.svg.call(this.zoom);
 
@@ -279,6 +339,11 @@
           .attr('d', this.geoPath)
         ;
       },
+      /**
+       * Select team.
+       *
+       * @param {Array} team
+       */
       selectTeam: function (team) {
         this.selected.type = 'team';
         this.selected.name = team[0];
@@ -291,6 +356,11 @@
         this.extractPartners(team[1]);
         this.highlightCountryPaths(team[1]);
       },
+      /**
+       * Select project.
+       *
+       * @param {Object} project
+       */
       selectProject: function (project) {
         this.selected.type = 'project';
         this.selected.name = project.ilriCode;
@@ -301,6 +371,13 @@
         this.extractPartners(project);
         this.highlightCountryPaths(project);
       },
+      /**
+       * Get the partners and the partnership types for a team or project.
+       * No duplicates are stored in case the same partner is present more than once.
+       * The partnership types are stored only once too.
+       *
+       * @param {Array|Object} projects
+       */
       extractPartners: function (projects) {
         this.partnerships = [];
         this.partners.clear();
@@ -318,6 +395,11 @@
           });
         });
       },
+      /**
+       * Highlight the partners for the selected partnership type.
+       *
+       * @param {Object} partnershipType
+       */
       highlightPartners: function (partnershipType) {
         this.selectedPartnershipType = JSON.parse(partnershipType);
         this.selectedPartners = [];
@@ -326,10 +408,19 @@
           .forEach(cur => this.selectedPartners.push(JSON.stringify(cur.partner)))
         ;
       },
+      /**
+       * Reverse the highlighting.
+       */
       unhighlightPartners: function () {
         this.selectedPartnershipType = {};
         this.selectedPartners = [];
       },
+      /**
+       * Highglight the countries for the selected team or project.
+       * Use transition - the colour slowly fades in and out.
+       *
+       * @param {Array|Object} projects
+       */
       highlightCountryPaths: function (projects) {
         const countryCodes = new Set();
 
@@ -347,6 +438,15 @@
           .style('fill', d => countryCodes.has(d.properties['Alpha-2']) ? 'chartreuse' : 'darkgray')
         ;
       },
+      /**
+       * Rotate the globe to match the center of gravity of the highlighted countries on the x axis (equator).
+       * First merge the countries paths, then retrieve the centroid.
+       * Calculate the number of degrees the globe needs to rotate. The globe rotates only eastwards.
+       * The rotation is done in a time interval, thus it creates a visual effect.
+       *
+       * @param {Set} countryCodes
+       * @returns {number}
+       */
       rotateToView: function (countryCodes) {
         let lambda, phi, gamma, start, counter;
 
@@ -367,7 +467,7 @@
 
         lambda = lambda >= 360 ? lambda - 360 : lambda;
         phi = 0;
-        gamma = this.axisTilt;
+        gamma = this.axialTIlt;
         start = Math.round(this.projection.rotate()[0]);
         counter = 0;
 
