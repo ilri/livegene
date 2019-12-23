@@ -1,11 +1,14 @@
 <template>
   <div>
     <h2 class="bg-info text-white text-center p-2">Staff Roles</h2>
-    <div class="text-center pb-5">
+    <b-row align-h="center" align-v="center" class="content" v-show="!loaded">
+      <b-spinner label="Loading..." class="mt-5"></b-spinner>
+    </b-row>
+    <b-row align-h="center" class="text-center pb-5 content" v-show="loaded">
       <svg id="viewport" :width="viewport.width" :height="viewport.height">
         <g></g>
       </svg>
-    </div>
+    </b-row>
   </div>
 </template>
 
@@ -337,5 +340,9 @@
     overflow: visible;
     border: thin solid lightgray;
     background-color: azure;
+  }
+
+  .content {
+    margin: 0;
   }
 </style>

@@ -28,8 +28,8 @@ export const sankeyDiagramMixin = {
      * @returns {{width: *, height: *}}
      */
     viewport: function () {
-      let width = window.innerWidth <= 1024 ? 1024 : window.innerWidth - 2 * Math.round(window.innerWidth / 10);
-      let height = width <= 1024 ? 768 : Math.round(width / 1.6);
+      let width = window.innerWidth >= 992 ? window.innerWidth - 2 * Math.round(window.innerWidth / 10) : window.innerWidth;
+      let height = window.innerWidth < 992 ? width * 2 : Math.round(width / 1.6);
       return {
         width: width,
         height: height
@@ -55,11 +55,9 @@ export const sankeyDiagramMixin = {
     }
   },
   watch: {
-    projects (val) {
-      if (val) {
-        if (this.loaded) {
-          this.renderChart();
-        }
+    loaded (val) {
+    if (val) {
+      this.renderChart();
       }
     }
   }
