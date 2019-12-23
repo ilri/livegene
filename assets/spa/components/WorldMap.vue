@@ -508,48 +508,60 @@
 </script>
 
 <style scoped>
-  svg {
-    border: thin solid lightgray;
-  }
   .content {
     margin: 0;
   }
+
+  svg {
+    border: thin solid lightgray;
+  }
+
   label {
     margin-bottom: 0;
   }
+
   .teams, .projects {
     list-style-type: none;
   }
+
   .team > span, .project {
     cursor: pointer;
   }
+
   .teams {
     text-align: left;
     padding: 0;
     margin-bottom: 0.5rem;
   }
+
   .team input {
     display: none;
   }
+
   .team input + label::before {
     content: '\f196';
     font-family: 'FontAwesome';
   }
+
   .team input:checked + label::before {
     content: '\f147';
     font-family: 'FontAwesome';
   }
+
   .projects {
     padding-left: 1em;
     display: none;
   }
+
   .team > input:checked ~ .projects {
     display: block;
   }
+
   .team > span {
     font-weight: 800;
     font-family: 'Open Sans', sans-serif;
   }
+
   .project {
     font-size: 0.9em;
     font-weight: 500;
@@ -564,26 +576,31 @@
     margin-right: 0.5em;
     cursor: default;
   }
+
   .organisation-logo {
     height: 4rem;
     object-fit: contain;
   }
+
   .selected {
     display: inline-block;
     background-color: rgba(255, 160, 122, 0.5);
     padding: 0.2em;
     border-radius: 0.1em;
   }
+
   .highlight-partnership-type {
     background-color: indianred;
     font-weight: 700;
   }
+
   .highlight-partner {
     box-shadow: 0.4em 0.4em 0.4em indianred;
     border-style: solid;
     border-color: indianred;
     border-width: 2px;
   }
+
   .busy {
     pointer-events: none;
     cursor: wait;

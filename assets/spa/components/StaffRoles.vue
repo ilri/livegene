@@ -336,13 +336,13 @@
 </script>
 
 <style scoped>
+  .content {
+    margin: 0;
+  }
+
   svg#viewport {
     overflow: visible;
     border: thin solid lightgray;
     background-color: azure;
-  }
-
-  .content {
-    margin: 0;
   }
 </style>
