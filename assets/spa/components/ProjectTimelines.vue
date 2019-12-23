@@ -1,7 +1,10 @@
 <template>
   <div>
     <h2 class="bg-info text-white text-center p-2">Project Timelines</h2>
-    <div class="text-center pb-5">
+    <b-row align-h="center" align-v="center" class="content" v-show="!loaded">
+      <b-spinner label="Loading..." class="mt-5"></b-spinner>
+    </b-row>
+    <b-row align-h="center" class="text-center pb-5 content" v-show="loaded">
       <svg id="viewport" :width="viewport.width" :height="viewport.height">
         <rect id="zoom" :x="margin.left" :y="margin.top" :width="chart.width" :height="chart.height"></rect>
         <defs>
@@ -46,7 +49,7 @@
         Reset
       </b-button>
       <div class="infobox"></div>
-    </div>
+    </b-row>
   </div>
 </template>
 
@@ -71,10 +74,6 @@
         },
         tickBleed: 10,
         labelPadding: 5,
-        legendBox: {
-          width: 500,
-          height: 20
-        },
         value: {
           min: 100000,
           max: 10000000
@@ -91,7 +90,8 @@
        */
       ...mapState({
         projects: state => state.projects,
-        data: state => state.projectsGroupedByTeam
+        data: state => state.projectsGroupedByTeam,
+        loaded: state => state.loaded
       }),
       /**
        * Get the base width used to calculate the viewport and chart dimensions
@@ -99,7 +99,7 @@
        * @returns {number}
        */
       baseWidth: function () {
-        return window.innerWidth <= 1024 ? 1024 : window.innerWidth - 2 * Math.round(window.innerWidth/10);
+        return window.innerWidth >= 992 ? window.innerWidth - 2 * Math.round(window.innerWidth/10) : window.innerWidth;
       },
       /**
        * Calculate the dimensions of the viewport
@@ -212,6 +212,17 @@
           .scaleSequential(d3.interpolateReds)
           .domain([this.value.min, this.value.max])
         ;
+      },
+      /**
+       * Calculate the dimensions of the legend box
+       *
+       * @returns {{width: number, height: number}}
+       */
+      legendBox: function () {
+        return {
+          width: this.baseWidth >= 794 ? 500 : 300,
+          height: 20
+        }
       },
       /**
        * Create linear scale for the legend
@@ -437,11 +448,13 @@
       }
     },
     mounted () {
-      this.getTodayPosition();
-      this.renderChart();
+      if (this.loaded) {
+        this.getTodayPosition();
+        this.renderChart();
+      }
     },
     watch: {
-      data (val) {
+      loaded (val) {
         if (val) {
           this.getTodayPosition();
           this.renderChart();
@@ -452,6 +465,10 @@
 </script>
 
 <style scoped>
+  .content {
+    margin: 0;
+  }
+  
   svg#viewport {
     overflow: visible;
     border: thin solid lightgray;
