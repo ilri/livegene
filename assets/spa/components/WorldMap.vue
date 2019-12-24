@@ -1,8 +1,13 @@
 <template>
   <div>
     <h2 class="bg-info text-white text-center p-2">World map</h2>
-    <b-row align-h="center" align-v="center" class="content" v-show="!loaded">
+    <b-row align-h="center" align-v="center" class="content" v-show="!loaded && !error">
         <b-spinner label="Loading..." class="mt-5"></b-spinner>
+    </b-row>
+    <b-row align-h="center" align-v="center" class="content" v-show="!loaded && error">
+      <b-alert variant="danger" show>
+        Error message: <strong>{{ errorStatusText }}</strong>
+      </b-alert>
     </b-row>
     <b-row align-h="center" class="text-center pb-5 content" v-show="loaded">
       <b-col cols="6" sm="6" md="6" lg="2" order="2" order-lg="1">
@@ -120,7 +125,9 @@
         projects: state => state.projects,
         projectsGroupedByTeam: state => state.projectsGroupedByTeam,
         loaded: state => state.loaded,
-        worldCountries: state => state.worldCountries
+        worldCountries: state => state.worldCountries,
+        error: state => state.error,
+        errorStatusText: state => state.errorStatusText
       }),
       /**
        * Calculate the dimensions used to set width and height of the SVG element.

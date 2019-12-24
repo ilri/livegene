@@ -20,7 +20,9 @@ export const sankeyDiagramMixin = {
      */
     ...mapState({
       projects: state => state.projects,
-      loaded: state => state.loaded
+      loaded: state => state.loaded,
+      error: state => state.error,
+      errorStatusText: state => state.errorStatusText
     }),
     /**
      * Calculate the dimensions used to set width and height of the SVG element.
@@ -56,8 +58,8 @@ export const sankeyDiagramMixin = {
   },
   watch: {
     loaded (val) {
-    if (val) {
-      this.renderChart();
+      if (val) {
+        this.renderChart();
       }
     }
   }
