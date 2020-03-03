@@ -28,3 +28,8 @@ yarn-error.log
 ###> PHPStorm ###
 .idea
 ###< PHPStorm ###
+
+###> Nightwach.js ###
+assets/spa/tests/e2e/reports
+selenium-server.log
+###< Nightwatch.js ###
