@@ -2,7 +2,7 @@
   <div>
     <h2 class="bg-info text-white text-center p-2">World map</h2>
     <b-row align-h="center" align-v="center" class="content" v-show="!loaded && !error">
-        <b-spinner label="Loading..." class="mt-5"></b-spinner>
+      <b-spinner label="Loading..." class="mt-5"></b-spinner>
     </b-row>
     <b-row align-h="center" align-v="center" class="content" v-show="!loaded && error">
       <b-alert variant="danger" show>

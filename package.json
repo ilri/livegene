@@ -55,7 +55,9 @@
     },
     "dependencies": {},
     "jest": {
-        "testMatch": ["**/assets/spa/tests/unit/**/*.spec.js"],
+        "testMatch": [
+            "**/assets/spa/tests/unit/**/*.spec.js"
+        ],
         "transform": {
             "^.+\\.js$": "babel-jest",
             "^.+\\.vue$": "vue-jest",
