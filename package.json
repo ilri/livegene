@@ -79,5 +79,11 @@
             "html"
         ],
         "coverageDirectory": "assets/spa/tests/unit/coverage"
-    }
+    },
+    "browserslist": [
+        "> 0.5%",
+        "last 2 versions",
+        "Firefox ESR",
+        "not dead"
+    ]
 }
