@@ -63,6 +63,7 @@ Encore
    * BABEL CONFIG
    */
   .configureBabel((babelConfig) => {
+    babelConfig.plugins.push('@babel/plugin-transform-runtime');
     const preset = babelConfig.presets.find(([name]) => name === '@babel/preset-env');
     if (preset !== undefined) {
       preset[1].useBuiltIns = 'usage';
