@@ -46,7 +46,7 @@
 <script>
 import { select, selectAll, format } from 'd3';
 import { sankey, sankeyLinkHorizontal } from 'd3-sankey';
-import { sankeyDiagramMixin } from '../mixins/sankeyDiagramMixin';
+import sankeyDiagramMixin from '../mixins/sankeyDiagramMixin';
 
 const d3 = {
   select,

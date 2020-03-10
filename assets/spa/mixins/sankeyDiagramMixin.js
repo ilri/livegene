@@ -1,6 +1,6 @@
 import { mapState } from 'vuex';
 
-export const sankeyDiagramMixin = {
+export default {
   data() {
     return {
       // hold the teams extracted from projects
