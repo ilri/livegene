@@ -61,7 +61,7 @@
         "build": "encore production --progress",
         "test:unit": "jest assets/spa",
         "test:e2e": "nightwatch --config assets/spa/tests/e2e/nightwatch.conf.js --env chrome",
-        "lint": "eslint assets/spa --ext .js,.vue, --fix"
+        "lint": "eslint assets/spa --ext .js,.vue,"
     },
     "dependencies": {},
     "jest": {
