@@ -179,15 +179,15 @@ export default {
       //  .style('opacity', d => projectCodes.includes(d.project.ilriCode) ? 1 : 0)
       // ;
     },
-    highlightPath(datum) {
+    highlightPath(path) {
       d3.selectAll('g.link')
         .each((d, i, n) => {
           d3.select(n[i])
             .select('path')
-            .style('opacity', (d) => (datum.project.ilriCode === d.project.ilriCode ? 0.7 : 0.1));
+            .style('opacity', (datum) => (path.project.ilriCode === datum.project.ilriCode ? 0.7 : 0.1));
           d3.select(n[i])
             .select('.project-details')
-            .style('opacity', (d) => (datum.project.ilriCode === d.project.ilriCode ? 1 : 0));
+            .style('opacity', (datum) => (path.project.ilriCode === datum.project.ilriCode ? 1 : 0));
         });
     },
     fade() {
@@ -202,13 +202,13 @@ export default {
       this.generateNodes();
       this.generateLinks();
       const chart = d3.select('#viewport > g');
-      const sankey = d3.sankey()
+      const sankeyDiagram = d3.sankey()
         .extent([
           [this.margin.left, this.margin.top],
           [this.viewport.width - this.margin.right, this.viewport.height - this.margin.bottom],
         ])
         .iterations(100);
-      const graph = sankey({
+      const graph = sankeyDiagram({
         nodes: this.nodes,
         links: this.links,
       });
@@ -219,10 +219,10 @@ export default {
         .each((d, i, n) => {
           const path = d3.select(n[i])
             .append('path')
-            .attr('id', (d) => `id-${d.index}`)
+            .attr('id', (datum) => `id-${datum.index}`)
             .attr('d', d3.sankeyLinkHorizontal())
             .style('opacity', 0.5)
-            .style('stroke-width', (d) => d.width)
+            .style('stroke-width', (datum) => datum.width)
             .style('stroke', 'black')
             .style('fill', 'none')
             .on('mouseenter', this.highlightPath)
@@ -274,11 +274,13 @@ export default {
             )
             .attr(
               'text-anchor',
+              /* eslint-disable consistent-return */
               () => {
                 if (d.type === 'donor') {
                   return 'end';
                 }
               },
+              /* eslint-enable consistent-return */
             )
             .attr('alignment-baseline', 'middle')
             .style('font-family', '"Open Sans Condensed", sans-serif')
