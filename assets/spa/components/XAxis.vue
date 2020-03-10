@@ -7,11 +7,20 @@ import * as d3 from 'd3';
 
 export default {
   name: 'XAxis',
-  props: [
-    'axis',
-    'margin',
-    'chart',
-  ],
+  props: {
+    axis: {
+      type: Object,
+      required: true,
+    },
+    margin: {
+      type: Object,
+      required: true,
+    },
+    chart: {
+      type: Object,
+      required: true,
+    },
+  },
   data() {
     return {
       stroke: 'blue',

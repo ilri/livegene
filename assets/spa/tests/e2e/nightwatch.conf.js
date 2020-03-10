@@ -1,3 +1,4 @@
+/* eslint-disable global-require */
 module.exports = {
   src_folders: ['assets/spa/tests/e2e/specs'],
   output_folder: 'assets/spa/tests/e2e/reports',

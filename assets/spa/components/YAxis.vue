@@ -7,14 +7,34 @@ import * as d3 from 'd3';
 
 export default {
   name: 'YAxis',
-  props: [
-    'axis',
-    'margin',
-    'chart',
-    'barHeight',
-    'spacing',
-    'data',
-  ],
+  props: {
+    axis: {
+      type: Object,
+      required: true,
+    },
+    margin: {
+      type: Object,
+      required: true,
+    },
+    chart: {
+      type: Object,
+      required: true,
+    },
+    barHeight: {
+      type: Number,
+      required: true,
+      default: 12,
+    },
+    spacing: {
+      type: Number,
+      required: true,
+      default: 6,
+    },
+    data: {
+      type: Object,
+      required: true,
+    },
+  },
   data() {
     return {
       stroke: 'blue',
