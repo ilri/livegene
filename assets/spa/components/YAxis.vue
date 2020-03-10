@@ -79,7 +79,7 @@ export default {
       d3.selectAll(textNodes)
         .attr(
           'transform',
-          (d) => `translate(0,${this.data.get(d).length * this.barHeight / 2 + this.spacing / 2})`,
+          (d) => `translate(0,${(this.data.get(d).length * this.barHeight) / 2 + this.spacing / 2})`,
         )
         .style('font-weight', 700)
         .on('mouseenter', (d) => {
