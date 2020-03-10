@@ -69,7 +69,10 @@
                   class="projects"
                 >
                   <li
-                    :class="{ project: true, selected: selected.type === 'project' && selected.name === project.ilriCode }"
+                    :class="{
+                      project: true,
+                      selected: selected.type === 'project' && selected.name === project.ilriCode
+                    }"
                     @click="selectProject(project)"
                   >
                     {{ project.shortName }}
@@ -139,7 +142,9 @@
               class="mb-2"
             >
               <b-list-group-item
-                :class="{ 'highlight-partnership-type': JSON.parse(partnershipType).id === selectedPartnershipType.id }"
+                :class="{
+                  'highlight-partnership-type': isPartnershipTypeSelected(partnershipType)
+                }"
                 @mouseover="highlightPartners(partnershipType)"
                 @mouseout="unhighlightPartners"
               >
@@ -210,8 +215,8 @@ export default {
   },
   computed: {
     /**
-       * Get the data from Vuex Store
-       */
+     * Get the data from Vuex Store
+     */
     ...mapState({
       projects: (state) => state.projects,
       projectsGroupedByTeam: (state) => state.projectsGroupedByTeam,
@@ -221,10 +226,10 @@ export default {
       errorStatusText: (state) => state.errorStatusText,
     }),
     /**
-       * Calculate the dimensions used to set width and height of the SVG element.
-       *
-       * @returns {{width: number, height: number}}
-       */
+     * Calculate the dimensions used to set width and height of the SVG element.
+     *
+     * @returns {{width: number, height: number}}
+     */
     viewport() {
       const width = window.innerWidth >= 992
         ? window.innerWidth - Math.round(window.innerWidth / 3)
@@ -237,26 +242,26 @@ export default {
       };
     },
     /**
-       * Select the group in the SVG holding the globe and all associated paths.
-       *
-       * @returns {Selection}
-       */
+     * Select the group in the SVG holding the globe and all associated paths.
+     *
+     * @returns {Selection}
+     */
     svg() {
       return d3.select('svg#viewport > g');
     },
     /**
-       * Get the countries from the topojson file.
-       *
-       * @returns {*}
-       */
+     * Get the countries from the topojson file.
+     *
+     * @returns {*}
+     */
     countries() {
       return topojson.feature(this.worldCountries, this.worldCountries.objects.countries1).features;
     },
     /**
-       * We use orthographic projection for the Earth globe.
-       *
-       * @returns {*}
-       */
+     * We use orthographic projection for the Earth globe.
+     *
+     * @returns {*}
+     */
     projection() {
       return d3.geoOrthographic()
         .scale(this.viewport.width / Math.PI)
@@ -265,27 +270,27 @@ export default {
         .translate([this.viewport.width / 2, this.viewport.height / 2]);
     },
     /**
-       * Get the scale for the projection.
-       *
-       * @returns {*}
-       */
+     * Get the scale for the projection.
+     *
+     * @returns {*}
+     */
     scale() {
       return this.projection.scale();
     },
     /**
-       * Get the geo path for the projection.
-       *
-       * @returns {*|e}
-       */
+     * Get the geo path for the projection.
+     *
+     * @returns {*|e}
+     */
     geoPath() {
       return d3.geoPath()
         .projection(this.projection);
     },
     /**
-       * Zoom the globe.
-       *
-       * @returns {*}
-       */
+     * Zoom the globe.
+     *
+     * @returns {*}
+     */
     zoom() {
       return d3.zoom()
         .scaleExtent([1, 3])
@@ -307,8 +312,8 @@ export default {
   },
   methods: {
     /**
-       * This method is fired when zoom is started.
-       */
+     * This method is fired when zoom is started.
+     */
     zoomStart() {
       const globe = this.svg.node();
       const mouse = this.projection.invert(d3.mouse(globe));
@@ -317,8 +322,8 @@ export default {
       this.state.q0 = versor(this.state.r0);
     },
     /**
-       * This method is processed for the actual zooming.
-       */
+     * This method is processed for the actual zooming.
+     */
     zooming() {
       const globe = this.svg.node();
       this.projection.rotate(this.state.r0);
@@ -331,8 +336,8 @@ export default {
       this.render();
     },
     /**
-       * This method is needed whenever the globe changes position (like rotating) or is zoomed.
-       */
+     * This method is needed whenever the globe changes position (like rotating) or is zoomed.
+     */
     render() {
       this.svg.selectAll('path.background').attr('d', this.geoPath);
       this.svg.selectAll('path.graticule').attr('d', this.geoPath);
@@ -343,8 +348,8 @@ export default {
       this.svg.selectAll('path.outline').attr('d', this.geoPath);
     },
     /**
-       * This is the main method rendering the chart.
-       */
+     * This is the main method rendering the chart.
+     */
     renderChart() {
       this.svg.call(this.zoom);
 
@@ -442,13 +447,13 @@ export default {
         .attr('d', this.geoPath);
     },
     /**
-       * Select team.
-       *
-       * @param {Array} team
-       */
+     * Select team.
+     *
+     * @param {Array} team
+     */
     selectTeam(team) {
       this.selected.type = 'team';
-      this.selected.name = team[0];
+      [this.selected.name] = team;
 
       const donors = new Set();
       team[1].forEach((cur) => donors.add(JSON.stringify(cur.donor)));
@@ -459,10 +464,10 @@ export default {
       this.highlightCountryPaths(team[1]);
     },
     /**
-       * Select project.
-       *
-       * @param {Object} project
-       */
+     * Select project.
+     *
+     * @param {Object} project
+     */
     selectProject(project) {
       this.selected.type = 'project';
       this.selected.name = project.ilriCode;
@@ -474,34 +479,36 @@ export default {
       this.highlightCountryPaths(project);
     },
     /**
-       * Get the partners and the partnership types for a team or project.
-       * No duplicates are stored in case the same partner is present more than once.
-       * The partnership types are stored only once too.
-       *
-       * @param {Array|Object} projects
-       */
+     * Get the partners and the partnership types for a team or project.
+     * No duplicates are stored in case the same partner is present more than once.
+     * The partnership types are stored only once too.
+     *
+     * @param {Array|Object} projects
+     */
     extractPartners(projects) {
       this.partnerships = [];
       this.partners.clear();
       this.partnershipTypes.clear();
 
+      /* eslint-disable no-param-reassign */
       if (!Array.isArray(projects)) {
         projects = [projects];
       }
+      /* eslint-enable no-param-reassign */
 
-      projects.forEach((cur) => {
-        this.partnerships.push(...cur.partnerships);
-        cur.partnerships.forEach((cur) => {
-          this.partners.add(JSON.stringify(cur.partner));
-          this.partnershipTypes.add(JSON.stringify(cur.partnershipType));
+      projects.forEach((parentEl) => {
+        this.partnerships.push(...parentEl.partnerships);
+        parentEl.partnerships.forEach((childEl) => {
+          this.partners.add(JSON.stringify(childEl.partner));
+          this.partnershipTypes.add(JSON.stringify(childEl.partnershipType));
         });
       });
     },
     /**
-       * Highlight the partners for the selected partnership type.
-       *
-       * @param {Object} partnershipType
-       */
+     * Highlight the partners for the selected partnership type.
+     *
+     * @param {Object} partnershipType
+     */
     highlightPartners(partnershipType) {
       this.selectedPartnershipType = JSON.parse(partnershipType);
       this.selectedPartners = [];
@@ -510,26 +517,41 @@ export default {
         .forEach((cur) => this.selectedPartners.push(JSON.stringify(cur.partner)));
     },
     /**
-       * Reverse the highlighting.
-       */
+     * Reverse the highlighting.
+     */
     unhighlightPartners() {
       this.selectedPartnershipType = {};
       this.selectedPartners = [];
     },
     /**
-       * Highglight the countries for the selected team or project.
-       * Use transition - the colour slowly fades in and out.
-       *
-       * @param {Array|Object} projects
-       */
+     * Check if the partnership type is selected.
+     *
+     * @param {Object} partnershipType
+     * @returns {boolean}
+     */
+    isPartnershipTypeSelected(partnershipType) {
+      return JSON.parse(partnershipType).id === this.selectedPartnershipType.id;
+    },
+    /**
+     * Highlight the countries for the selected team or project.
+     * Use transition - the colour slowly fades in and out.
+     *
+     * @param {Array|Object} projects
+     */
     highlightCountryPaths(projects) {
       const countryCodes = new Set();
 
+      /* eslint-disable no-param-reassign */
       if (!Array.isArray(projects)) {
         projects = [projects];
       }
+      /* eslint-enable no-param-reassign */
 
-      projects.forEach((cur) => cur.countryRoles.forEach((cur) => countryCodes.add(cur.country.country)));
+      projects.forEach(
+        (parentEl) => parentEl.countryRoles.forEach(
+          (childEl) => countryCodes.add(childEl.country.country),
+        ),
+      );
 
       const rotationDuration = this.rotateToView(countryCodes);
 
@@ -539,16 +561,16 @@ export default {
         .style('fill', (d) => (countryCodes.has(d.properties['Alpha-2']) ? 'chartreuse' : 'darkgray'));
     },
     /**
-       * Rotate the globe to match the center of gravity of the highlighted countries on the x axis
-       * (equator).
-       * First merge the countries paths, then retrieve the centroid.
-       * Calculate the number of degrees the globe needs to rotate.
-       * The globe rotates only eastwards.
-       * The rotation is done in a time interval, thus it creates a visual effect.
-       *
-       * @param {Set} countryCodes
-       * @returns {number}
-       */
+     * Rotate the globe to match the center of gravity of the highlighted countries on the x axis
+     * (equator).
+     * First merge the countries paths, then retrieve the centroid.
+     * Calculate the number of degrees the globe needs to rotate.
+     * The globe rotates only eastwards.
+     * The rotation is done in a time interval, thus it creates a visual effect.
+     *
+     * @param {Set} countryCodes
+     * @returns {number}
+     */
     rotateToView(countryCodes) {
       let lambda; let phi; let gamma; let start; let
         counter;
