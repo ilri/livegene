@@ -7,17 +7,17 @@ module.exports = {
     host: '127.0.0.1',
     port: 4444,
     cli_args: {
-      'WebDriver.chrome.driver': require('chromedriver').path
-    }
+      'WebDriver.chrome.driver': require('chromedriver').path,
+    },
   },
   test_settings: {
     chrome: {
       desiredCapabilities: {
         browserName: 'chrome',
         chromeOptions: {
-          w3c: false
-        }
-      }
-    }
-  }
+          w3c: false,
+        },
+      },
+    },
+  },
 };

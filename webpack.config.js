@@ -4,7 +4,7 @@ var GoogleFontsPlugin = require('@beyonk/google-fonts-webpack-plugin');
 Encore.configureRuntimeEnvironment(process.env.NODE_ENV || 'dev');
 
 Encore
-// directory where compiled assets will be stored
+  // directory where compiled assets will be stored
   .setOutputPath('public/build/')
   // public path used by the web server to access the output path
   .setPublicPath('/build')
@@ -91,16 +91,29 @@ Encore
       test: /\.json$/i,
       include: [require('path').resolve(__dirname, 'node_modules/ckeditor')],
       loader: 'raw-loader',
-      type: 'javascript/auto'
-    }
+      type: 'javascript/auto',
+    },
+  )
+  .addLoader(
+    {
+      enforce: 'pre',
+      test: /\.(js|vue)$/,
+      loader: 'eslint-loader',
+      exclude: /node_modules/,
+      options: {
+        fix: true,
+        emitError: false,
+        emitWarning: true,
+      },
+    },
   )
   .addPlugin(new GoogleFontsPlugin(
     {
       fonts: [
         { family: 'Open Sans', variants: ['500i', '800'] },
         { family: 'Open Sans Condensed', variants: ['500', '700'] }
-      ]
-    }
+      ],
+    },
   ))
 ;
 

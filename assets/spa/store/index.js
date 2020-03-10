@@ -1,28 +1,28 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 import Axios from 'axios';
-import {ascending} from 'd3';
-import {group} from 'd3-array';
-
-const d3 = Object.assign({}, {
-  ascending,
-  group
-});
+import { ascending } from 'd3';
+import { group } from 'd3-array';
 
 import AuthModule from './auth';
+
+const d3 = {
+  ascending,
+  group,
+};
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
   strict: true,
-  modules: {auth: AuthModule},
+  modules: { auth: AuthModule },
   state: {
     projects: [],
     projectsGroupedByTeam: new Map(),
     loaded: false,
     worldCountries: {},
     error: false,
-    errorStatusText: ''
+    errorStatusText: '',
   },
   mutations: {
     setUrl(state, url) {
@@ -33,7 +33,7 @@ export default new Vuex.Store({
     },
     sortAndGroupProjects(state) {
       state.projects.sort((a, b) => d3.ascending(a.startDate, b.startDate));
-      state.projectsGroupedByTeam = d3.group(state.projects, d => d.team);
+      state.projectsGroupedByTeam = d3.group(state.projects, (d) => d.team);
     },
     setLoaded(state) {
       state.loaded = true;
@@ -44,7 +44,7 @@ export default new Vuex.Store({
     setError(state, statusText) {
       state.error = true;
       state.errorStatusText = statusText;
-    }
+    },
   },
   actions: {
     async getProjectsAction(context) {
@@ -52,7 +52,7 @@ export default new Vuex.Store({
 
       try {
         while (url) {
-          let response = await context.rootGetters.authenticatedAxios.get(
+          const response = await context.rootGetters.authenticatedAxios.get(
             url,
             {
               params: {
@@ -71,14 +71,14 @@ export default new Vuex.Store({
                   'staffRoles',
                   'countryRoles',
                   'isActive',
-                  'isActiveThisYear'
-                ]
-              }
-            }
+                  'isActiveThisYear',
+                ],
+              },
+            },
           );
           context.commit(
             'setProjects',
-            response.data['hydra:member']
+            response.data['hydra:member'],
           );
           if (response.data['hydra:view']) {
             url = response.data['hydra:view']['hydra:next'];
@@ -97,8 +97,8 @@ export default new Vuex.Store({
     },
     async getWorldCountriesAction(context) {
       const topojsonFile = '/static/world-countries.json';
-      let response = await Axios.get(topojsonFile);
+      const response = await Axios.get(topojsonFile);
       context.commit('setWorldCountries', response.data);
-    }
-  }
+    },
+  },
 });
