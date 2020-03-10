@@ -78,29 +78,31 @@ export default {
   },
   computed: {
     /**
-       * Filter the projects to get only projects that are active this year
-       * and have any staff roles assigned.
-       *
-       * @returns {T[]}
-       */
+     * Filter the projects to get only projects that are active this year
+     * and have any staff roles assigned.
+     *
+     * @returns {T[]}
+     */
     activeProjects() {
       return this.projects.filter((el) => el.isActiveThisYear && el.staffRoles.length);
     },
   },
   methods: {
     /**
-       * Iterate through the active projects and generate the nodes.
-       * In the first step the staff roles and the teams are extracted.
-       * The nodes for the projects are generated (type 'project').
-       * In the second step the nodes for the teams are generated (type 'team').
-       * In the third step the nodes for the staff are generated (type 'person').
-       */
+     * Iterate through the active projects and generate the nodes.
+     * In the first step the staff roles and the teams are extracted.
+     * The nodes for the projects are generated (type 'project').
+     * In the second step the nodes for the teams are generated (type 'team').
+     * In the third step the nodes for the staff are generated (type 'person').
+     */
     generateNodes() {
-      this.activeProjects.forEach((cur) => {
-        this.teams.add(cur.team);
-        cur.staffRoles.forEach((cur) => this.staff.add(JSON.stringify(cur.staffMember)));
+      this.activeProjects.forEach((parentEl) => {
+        this.teams.add(parentEl.team);
+        parentEl.staffRoles.forEach(
+          (childEl) => this.staff.add(JSON.stringify(childEl.staffMember)),
+        );
         this.nodes.push({
-          label: cur.ilriCode,
+          label: parentEl.ilriCode,
           type: 'project',
         });
       });
@@ -117,15 +119,20 @@ export default {
       }));
     },
     /**
-       * Iterate through the active projects and generate the links.
-       * In the first step generate the links between staff and projects.
-       * In the second step generate the links between projects and teams.
-       */
+     * Calculate total staff roles percent for a project.
+     *
+     * @params {Array} staffRoles
+     * @returns {Array}
+     */
+    calculateTotalPercentForProject(staffRoles) {
+      return staffRoles.reduce((acc, cur) => acc + parseFloat(cur.percent) * 100, 0);
+    },
+    /**
+     * Iterate through the active projects and generate the links.
+     * In the first step generate the links between staff and projects.
+     * In the second step generate the links between projects and teams.
+     */
     generateLinks() {
-      const calculateTotalPercentForProject = function (staffRoles) {
-        return staffRoles.reduce((acc, cur) => acc + parseFloat(cur.percent) * 100, 0);
-      };
-
       this.activeProjects.forEach((parentEl) => parentEl.staffRoles.forEach(
         (childEl) => this.links.push({
           source: this.nodes.findIndex((el) => el.label === childEl.staffMember.username),
@@ -138,13 +145,13 @@ export default {
         this.links.push({
           source: this.nodes.findIndex((el) => el.label === cur.ilriCode),
           target: this.nodes.findIndex((el) => el.label === cur.team),
-          value: calculateTotalPercentForProject(cur.staffRoles),
+          value: this.calculateTotalPercentForProject(cur.staffRoles),
         });
       });
     },
     /**
-       * Helper function to highlight associated nodes and paths when hovering over a node.
-       */
+     * Helper function to highlight associated nodes and paths when hovering over a node.
+     */
     highlightNodes(datum, index, nodes) {
       // calculate all nodes that have to be highlighted
       const labels = [];
@@ -180,8 +187,8 @@ export default {
       d3.select(nodes[index]).select('.node-fte').style('opacity', 1);
     },
     /**
-       * Helper function to reverse the effect of highlightNodes when leaving a node.
-       */
+     * Helper function to reverse the effect of highlightNodes when leaving a node.
+     */
     fade() {
       d3.selectAll('g.node')
         .style('opacity', 1);
@@ -193,8 +200,8 @@ export default {
         .style('opacity', 0);
     },
     /**
-       * Helper function to highlight a single path when hovering over it.
-       */
+     * Helper function to highlight a single path when hovering over it.
+     */
     highlightPath(datum, index, nodes) {
       d3.selectAll('g.link > path')
         .style('opacity', 0.1);
@@ -207,34 +214,34 @@ export default {
         });
     },
     /**
-       * Render the sankey diagram
-       */
+     * Render the sankey diagram
+     */
     renderChart() {
       this.generateNodes();
       this.generateLinks();
       const chart = d3.select('#viewport > g');
-      const sankey = d3.sankey()
+      const sankeyDiagram = d3.sankey()
         .extent([
           [this.margin.left, this.margin.top],
           [this.viewport.width - this.margin.right, this.viewport.height - this.margin.bottom],
         ])
         .iterations(100);
-      const graph = sankey({
+      const graph = sankeyDiagram({
         nodes: this.nodes,
         links: this.links,
       });
 
       /**
-         * Create all link paths
-         * a group containing the path and the FTE indicator looks like:
-         * <g class="link">
-         *   <path></path>
-         *   <g class="link-fte">
-         *     <circle></circle>
-         *     <text></text>
-         *   </g>
-         * </g>
-         */
+       * Create all link paths
+       * a group containing the path and the FTE indicator looks like:
+       * <g class="link">
+       *   <path></path>
+       *   <g class="link-fte">
+       *     <circle></circle>
+       *     <text></text>
+       *   </g>
+       * </g>
+       */
       chart.selectAll('g.link')
         .data(graph.links)
         .join('g')
@@ -242,10 +249,10 @@ export default {
         .each((d, i, n) => {
           const path = d3.select(n[i])
             .append('path')
-            .attr('id', (d) => `id-${d.index}`)
+            .attr('id', (datum) => `id-${datum.index}`)
             .attr('d', d3.sankeyLinkHorizontal())
             .style('opacity', 0.5)
-            .style('stroke-width', (d) => d.width)
+            .style('stroke-width', (datum) => datum.width)
             .style('stroke', 'black')
             .style('fill', 'none')
             .on('mouseenter', this.highlightPath)
@@ -278,14 +285,14 @@ export default {
       ;
 
       /**
-         * Create all nodes
-         * a group containing the node and the FTE indicator looks like:
-         * <g class="node">
-         *   <rect></rect>
-         *   <text class="label"></text>
-         *   <text class="node-fte"></text>
-         * </g>
-         */
+       * Create all nodes
+       * a group containing the node and the FTE indicator looks like:
+       * <g class="node">
+       *   <rect></rect>
+       *   <text class="label"></text>
+       *   <text class="node-fte"></text>
+       * </g>
+       */
       chart.selectAll('g.node')
         .data(graph.nodes)
         .join('g')
@@ -304,11 +311,11 @@ export default {
           d3.select(n[i])
             .append('text')
             .attr('class', 'label')
-            .text((d) => (d.type === 'person' ? this.formatName(d.obj) : d.label));
+            .text((datum) => (datum.type === 'person' ? this.formatName(datum.obj) : datum.label));
           d3.select(n[i])
             .append('text')
             .attr('class', 'node-fte')
-            .text((d) => d.value);
+            .text((datum) => datum.value);
         })
         .on('mouseenter', this.highlightNodes)
         .on('mouseleave', this.fade)
