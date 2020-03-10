@@ -78,18 +78,18 @@ export default {
   },
   computed: {
     /**
-       * Filter the projects to get only projects that are currently active.
-       *
-       * @returns {T[]}
-       */
+     * Filter the projects to get only projects that are currently active.
+     *
+     * @returns {T[]}
+     */
     activeProjects() {
       return this.projects.filter((el) => el.isActive);
     },
   },
   methods: {
     /**
-       * Generate nodes
-       */
+     * Generate nodes
+     */
     generateNodes() {
       this.activeProjects.forEach((cur) => {
         this.donors.add(JSON.stringify(cur.donor));
@@ -118,8 +118,8 @@ export default {
       });
     },
     /**
-       * Generate links
-       */
+     * Generate links
+     */
     generateLinks() {
       this.activeProjects.forEach((cur) => {
         this.links.push({
