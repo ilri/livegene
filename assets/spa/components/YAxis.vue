@@ -9,7 +9,7 @@ export default {
   name: 'YAxis',
   props: {
     axis: {
-      type: Object,
+      type: Function,
       required: true,
     },
     margin: {
@@ -31,7 +31,7 @@ export default {
       default: 6,
     },
     data: {
-      type: Object,
+      type: Map,
       required: true,
     },
   },

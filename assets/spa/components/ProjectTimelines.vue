@@ -130,7 +130,7 @@
           </text>
           <g
             class="value-indicator"
-            :transform="transformValueIndicator"
+            :transform="transformValueIndicator()"
           >
             <text class="caret-up">{{ '\uf0d8' }}</text>
             <text class="project-value" />

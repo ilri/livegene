@@ -9,7 +9,7 @@ export default {
   name: 'XAxis',
   props: {
     axis: {
-      type: Object,
+      type: Function,
       required: true,
     },
     margin: {
