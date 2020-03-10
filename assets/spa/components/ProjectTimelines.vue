@@ -130,7 +130,7 @@
           </text>
           <g
             class="value-indicator"
-            :transform="`translate(${[(viewport.width - legendBox.width)/2, spacing * 3 + legendBox.height]})`"
+            :transform="transformValueIndicator"
           >
             <text class="caret-up">{{ '\uf0d8' }}</text>
             <text class="project-value" />
@@ -193,8 +193,8 @@ export default {
   },
   computed: {
     /**
-       * Get the data from Vuex Store
-       */
+     * Get the data from Vuex Store
+     */
     ...mapState({
       projects: (state) => state.projects,
       data: (state) => state.projectsGroupedByTeam,
@@ -203,20 +203,20 @@ export default {
       errorStatusText: (state) => state.errorStatusText,
     }),
     /**
-       * Get the base width used to calculate the viewport and chart dimensions
-       *
-       * @returns {number}
-       */
+     * Get the base width used to calculate the viewport and chart dimensions
+     *
+     * @returns {number}
+     */
     baseWidth() {
       return window.innerWidth >= 992
         ? window.innerWidth - 2 * Math.round(window.innerWidth / 10)
         : window.innerWidth;
     },
     /**
-       * Calculate the dimensions of the viewport
-       *
-       * @returns {{width: (default.computed.baseWidth|(function(): number)), height: *}}
-       */
+     * Calculate the dimensions of the viewport
+     *
+     * @returns {{width: (default.computed.baseWidth|(function(): number)), height: *}}
+     */
     viewport() {
       return {
         width: this.baseWidth,
@@ -224,10 +224,10 @@ export default {
       };
     },
     /**
-       * Calculate the dimensions of the chart
-       *
-       * @returns {{width: number, height: number}}
-       */
+     * Calculate the dimensions of the chart
+     *
+     * @returns {{width: number, height: number}}
+     */
     chart() {
       return {
         width: this.baseWidth - (this.margin.left + this.margin.right),
@@ -235,11 +235,11 @@ export default {
       };
     },
     /**
-       * Get the begin of the x axis
-       * It is the calendar year of the earliest start date
-       *
-       * @returns {*}
-       */
+     * Get the begin of the x axis
+     * It is the calendar year of the earliest start date
+     *
+     * @returns {*}
+     */
     xMin() {
       return d3.min(
         this.projects,
@@ -249,11 +249,11 @@ export default {
       );
     },
     /**
-       * Get the end of the x axis
-       * It is the calendar year of the latest end date
-       *
-       * @returns {*}
-       */
+     * Get the end of the x axis
+     * It is the calendar year of the latest end date
+     *
+     * @returns {*}
+     */
     xMax() {
       return d3.max(
         this.projects,
@@ -263,23 +263,24 @@ export default {
       );
     },
     /**
-       * Create time scale for the x axis
-       *
-       * @returns {*}
-       */
+     * Create time scale for the x axis
+     *
+     * @returns {*}
+     */
     xScale() {
       return d3.scaleTime()
         .range([this.margin.left, this.margin.left + this.chart.width])
         .domain([this.xMin, this.xMax]);
     },
     /**
-       * Create ordinal scale for the y axis
-       * @returns {*}
-       */
+     * Create ordinal scale for the y axis
+     *
+     * @returns {*}
+     */
     yScale() {
       const offsets = [0];
-      this.data.forEach(function (d) {
-        this.push(d.length);
+      this.data.forEach(function generateOffsets(cur) {
+        this.push(cur.length);
       }, offsets);
 
       return d3.scaleOrdinal()
@@ -290,10 +291,10 @@ export default {
         .domain([...this.data.keys()]);
     },
     /**
-       * Create bottom x axis
-       *
-       * @returns {*}
-       */
+     * Create bottom x axis
+     *
+     * @returns {*}
+     */
     xAxis() {
       return d3.axisBottom(this.xScale)
         .ticks(10)
@@ -302,30 +303,30 @@ export default {
         .tickSizeOuter(0);
     },
     /**
-       * Create left y axis
-       *
-       * @returns {*}
-       */
+     * Create left y axis
+     *
+     * @returns {*}
+     */
     yAxis() {
       return d3.axisLeft(this.yScale)
         .tickSizeInner(this.chart.width)
         .tickSizeOuter(0);
     },
     /**
-       * Create sequential scale for the project values
-       *
-       * @returns {*}
-       */
+     * Create sequential scale for the project values
+     *
+     * @returns {*}
+     */
     colorScale() {
       return d3
         .scaleSequential(d3.interpolateReds)
         .domain([this.value.min, this.value.max]);
     },
     /**
-       * Calculate the dimensions of the legend box
-       *
-       * @returns {{width: number, height: number}}
-       */
+     * Calculate the dimensions of the legend box
+     *
+     * @returns {{width: number, height: number}}
+     */
     legendBox() {
       return {
         width: this.baseWidth >= 794 ? 500 : 300,
@@ -333,10 +334,10 @@ export default {
       };
     },
     /**
-       * Create linear scale for the legend
-       *
-       * @returns {*|[*, *]|null|[*, *]}
-       */
+     * Create linear scale for the legend
+     *
+     * @returns {*|[*, *]|null|[*, *]}
+     */
     legendScale() {
       return d3.scaleLinear()
         .domain([this.value.min, this.value.max])
@@ -394,7 +395,9 @@ export default {
         .transition('timeline')
         .ease(d3.easeLinear)
         .delay((d) => (this.xScale(d3.isoParse(d.startDate)) - this.xScale(this.xMin)) * 5)
-        .duration((d) => (this.xScale(d3.isoParse(d.endDate)) - this.xScale(d3.isoParse(d.startDate))) * 5)
+        .duration(
+          (d) => (this.xScale(d3.isoParse(d.endDate)) - this.xScale(d3.isoParse(d.startDate))) * 5,
+        )
         .attr(
           'width',
           (d) => this.xScale(d3.isoParse(d.endDate)) - this.xScale(d3.isoParse(d.startDate)),
@@ -472,13 +475,18 @@ export default {
       svg.select('text.project-value')
         .style('opacity', 0);
       d3.select(n[i]).select('rect')
-        .style('fill', (d) => this.colorScale(d.totalProjectValue))
+        .style('fill', (datum) => this.colorScale(datum.totalProjectValue))
         .style('stroke', 'blueviolet');
       d3.select('div.infobox').style('display', 'none');
     },
     getTodayPosition() {
       const todayPosition = this.xScale(d3.isoParse(new Date()));
       this.today = todayPosition || 0;
+    },
+    transformValueIndicator() {
+      const x = (this.viewport.width - this.legendBox.width) / 2;
+      const y = this.spacing * 3 + this.legendBox.height;
+      return `translate(${[x, y]})`;
     },
     toggleActiveProjects() {
       const svg = d3.select('#viewport');
