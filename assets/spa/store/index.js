@@ -52,6 +52,7 @@ export default new Vuex.Store({
 
       try {
         while (url) {
+          /* eslint-disable no-await-in-loop */
           const response = await context.rootGetters.authenticatedAxios.get(
             url,
             {
@@ -76,6 +77,7 @@ export default new Vuex.Store({
               },
             },
           );
+          /* eslint-enable no-await-in-loop */
           context.commit(
             'setProjects',
             response.data['hydra:member'],
