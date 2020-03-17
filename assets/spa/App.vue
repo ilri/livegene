@@ -1,63 +1,105 @@
 <template>
   <div class="body">
-    <b-navbar toggleable="xl" type="dark" variant="dark">
+    <b-navbar
+      toggleable="xl"
+      type="dark"
+      variant="dark"
+    >
       <b-navbar-brand>
-        <router-link v-bind:to="{ name: 'dashboard' }" class="text-decoration-none">
-        <b-media>
-          <b-img :src="require('./assets/logo.png')" alt="logo" height="35"></b-img>
-          <span class="h3 ml-3 my-0 text-white">LiveGene</span>
-        </b-media>
+        <router-link
+          :to="{ name: 'dashboard' }"
+          class="text-decoration-none"
+        >
+          <b-media>
+            <b-img
+              :src="require('./assets/logo.png')"
+              alt="logo"
+              height="35"
+            />
+            <span class="h3 ml-3 my-0 text-white">LiveGene</span>
+          </b-media>
         </router-link>
       </b-navbar-brand>
 
-      <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
+      <b-navbar-toggle target="nav-collapse" />
 
-      <b-collapse id="nav-collapse" is-nav>
-        <transition enter-active-class="animated fadeIn" leave-active-class="animated fadeOut" mode="out-in" appear
-                    appear-active-class="animated fadeIn">
-        <b-navbar-nav>
-          <b-nav-item>
-            <router-link tag="button" v-bind:to="{ name: 'awarded_budget' }" exact-active-class="active"
-                         class="btn btn-info">
-              Awarded Budget
-            </router-link>
-          </b-nav-item>
-          <b-nav-item>
-            <router-link tag="button" v-bind:to="{ name: 'staff_roles' }" exact-active-class="active"
-                         class="btn btn-info">
-              Staff&nbsp;Roles
-            </router-link>
-          </b-nav-item>
-          <b-nav-item>
-            <router-link tag="button" v-bind:to="{name: 'timelines'}" exact-active-class="active"
-                         class="btn btn-info">
-              Project Timelines
-            </router-link>
-          </b-nav-item>
-          <b-nav-item>
-            <router-link tag="button" v-bind:to="{name: 'worldmap'}" exact-active-class="active"
-                         class="btn btn-info">
-              World Map
-            </router-link>
-          </b-nav-item>
-        </b-navbar-nav>
+      <b-collapse
+        id="nav-collapse"
+        is-nav
+      >
+        <transition
+          enter-active-class="animated fadeIn"
+          leave-active-class="animated fadeOut"
+          mode="out-in"
+          appear
+          appear-active-class="animated fadeIn"
+        >
+          <b-navbar-nav>
+            <b-nav-item>
+              <router-link
+                tag="button"
+                :to="{ name: 'awarded_budget' }"
+                exact-active-class="active"
+                class="btn btn-info"
+              >
+                Awarded Budget
+              </router-link>
+            </b-nav-item>
+            <b-nav-item>
+              <router-link
+                tag="button"
+                :to="{ name: 'staff_roles' }"
+                exact-active-class="active"
+                class="btn btn-info"
+              >
+                Staff&nbsp;Roles
+              </router-link>
+            </b-nav-item>
+            <b-nav-item>
+              <router-link
+                tag="button"
+                :to="{name: 'timelines'}"
+                exact-active-class="active"
+                class="btn btn-info"
+              >
+                Project Timelines
+              </router-link>
+            </b-nav-item>
+            <b-nav-item>
+              <router-link
+                tag="button"
+                :to="{name: 'worldmap'}"
+                exact-active-class="active"
+                class="btn btn-info"
+              >
+                World Map
+              </router-link>
+            </b-nav-item>
+          </b-navbar-nav>
         </transition>
       </b-collapse>
     </b-navbar>
     <div class="container-fluid p-0">
-      <transition enter-active-class="animated fadeIn" leave-active-class="animated fadeOut" mode="out-in" appear
-                  appear-active-class="animated fadeIn">
-        <router-view></router-view>
+      <transition
+        enter-active-class="animated fadeIn"
+        leave-active-class="animated fadeOut"
+        mode="out-in"
+        appear
+        appear-active-class="animated fadeIn"
+      >
+        <router-view />
       </transition>
     </div>
     <footer class="footer row align-items-center bg-info mx-0">
-      <div class="col-12 mx-auto text-center text-white">&copy; 2019 International Livestock Reasearch Institute</div>
+      <div class="col-12 mx-auto text-center text-white">
+        &copy; 2019 International Livestock Reasearch Institute
+      </div>
     </footer>
   </div>
 </template>
 
 <script>
-  /**
+/**
    * Abbreviations:
    *  - Array.prototype.filter()
    *    > el = element
@@ -74,22 +116,22 @@
    *    > i = index
    *    > n = nodes
    */
-  import {mapState} from 'vuex';
+import { mapState } from 'vuex';
 
-  export default {
-    name: 'App',
-    computed: {
-      ...mapState({
-        authenticated: state => state.auth.authenticated,
-        projects: state => state.projects
-      })
-    },
-    created() {
-      this.$store.dispatch('getJWTAction');
-      this.$store.dispatch('getProjectsAction');
-      this.$store.dispatch('getWorldCountriesAction');
-    }
-  };
+export default {
+  name: 'App',
+  computed: {
+    ...mapState({
+      authenticated: (state) => state.auth.authenticated,
+      projects: (state) => state.projects,
+    }),
+  },
+  created() {
+    this.$store.dispatch('getJWTAction');
+    this.$store.dispatch('getProjectsAction');
+    this.$store.dispatch('getWorldCountriesAction');
+  },
+};
 </script>
 
 <style>

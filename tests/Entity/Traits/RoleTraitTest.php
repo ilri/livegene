@@ -13,7 +13,6 @@ class RoleTraitTest extends TestCase
 
         $mock->setPercent(0.0375);
 
-        var_dump($mock->getPercent());
         $this->assertEquals('0.0375', $mock->getPercent());
     }
 }

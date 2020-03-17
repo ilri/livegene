@@ -121,6 +121,7 @@ class ProjectAPITest extends ApiTestCase
                 'totalLivegeneValue' => 100000,
                 'status' => 0,
                 'capacityDevelopment' => 0,
+                'partnerships' => [],
                 'staffRoles' => [
                     [
                         'id' => 1,
@@ -136,6 +137,7 @@ class ProjectAPITest extends ApiTestCase
                         'percent' => '0.5'
                     ]
                 ],
+                'countryRoles' => [],
                 'totalCountryRolesPercent' => 0,
                 'totalSDGRolesPercent' => 0,
                 'totalAnimalSpeciesRolesPercent' => 0,

@@ -1,6 +1,6 @@
 import { mapState } from 'vuex';
 
-export const sankeyDiagramMixin = {
+export default {
   data() {
     return {
       // hold the teams extracted from projects
@@ -10,33 +10,35 @@ export const sankeyDiagramMixin = {
       // hold the links between staff and projects and between projects and teams
       links: [],
       colours: {
-        team: 'red'
-      }
-    }
+        team: 'red',
+      },
+    };
   },
   computed: {
     /**
      * Get the data from Vuex Store
      */
     ...mapState({
-      projects: state => state.projects,
-      loaded: state => state.loaded,
-      error: state => state.error,
-      errorStatusText: state => state.errorStatusText
+      projects: (state) => state.projects,
+      loaded: (state) => state.loaded,
+      error: (state) => state.error,
+      errorStatusText: (state) => state.errorStatusText,
     }),
     /**
      * Calculate the dimensions used to set width and height of the SVG element.
      *
      * @returns {{width: *, height: *}}
      */
-    viewport: function () {
-      let width = window.innerWidth >= 992 ? window.innerWidth - 2 * Math.round(window.innerWidth / 10) : window.innerWidth;
-      let height = window.innerWidth < 992 ? width * 2 : Math.round(width / 1.6);
+    viewport() {
+      const width = window.innerWidth >= 992
+        ? window.innerWidth - 2 * Math.round(window.innerWidth / 10)
+        : window.innerWidth;
+      const height = window.innerWidth < 992 ? width * 2 : Math.round(width / 1.6);
       return {
-        width: width,
-        height: height
-      }
-    }
+        width,
+        height,
+      };
+    },
   },
   methods: {
     /**
@@ -47,9 +49,9 @@ export const sankeyDiagramMixin = {
      * @param {string} person.firstName
      * @returns {string}
      */
-    formatName: function (person) {
+    formatName(person) {
       return `${person.lastName.toUpperCase()}, ${person.firstName}`;
-    }
+    },
   },
   mounted() {
     if (this.loaded) {
@@ -57,10 +59,10 @@ export const sankeyDiagramMixin = {
     }
   },
   watch: {
-    loaded (val) {
+    loaded(val) {
       if (val) {
         this.renderChart();
       }
-    }
-  }
+    },
+  },
 };
