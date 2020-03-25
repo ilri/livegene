@@ -92,7 +92,7 @@ class StaffMemberAdmin extends AbstractAdmin
             ->add('lastName')
             ->add('homeProgram')
             ->add('email')
-            ->add('totalRolesPercent', 'percent')
+            ->add('totalStaffRolesPercent', 'percent')
         ;
     }
 }
