@@ -116,16 +116,8 @@
    *    > i = index
    *    > n = nodes
    */
-import { mapState } from 'vuex';
-
 export default {
   name: 'App',
-  computed: {
-    ...mapState({
-      authenticated: (state) => state.auth.authenticated,
-      projects: (state) => state.projects,
-    }),
-  },
   created() {
     this.$store.dispatch('getJWTAction');
     this.$store.dispatch('getProjectsAction');
