@@ -33,129 +33,129 @@
       class="text-center pb-5 content"
     >
       <div id="svg-wrapper">
-      <svg
-        id="viewport"
-        :width="viewport.width"
-        :height="viewport.height"
-      >
-        <rect
-          id="zoom"
-          :x="margin.left"
-          :y="margin.top"
-          :width="chart.width"
-          :height="chart.height"
-        />
-        <defs>
-          <linearGradient
-            id="legendGradient"
-            x1="0"
-            x2="1"
-          >
-            <stop
-              offset="0"
-              :style="{ 'stop-color': colorScale(value.min), 'stop-opacity': 0.8 }"
-            />
-            <stop
-              offset="1"
-              :style="{ 'stop-color': colorScale(value.max), 'stop-opacity': 0.8 }"
-            />
-          </linearGradient>
-          <clipPath id="chart">
-            <rect
-              :x="margin.left"
-              :y="margin.top"
-              :width="chart.width"
-              :height="chart.height"
-            />
-          </clipPath>
-        </defs>
-        <x-axis
-          :axis="xAxis"
-          :margin="margin"
-          :chart="chart"
-          class="x-axis"
-        />
-        <y-axis
-          :axis="yAxis"
-          :margin="margin"
-          :chart="chart"
-          :bar-height="barHeight"
-          :spacing="spacing"
-          :data="data"
-          class="y-axis"
-        />
-        <line
-          class="top-border"
-          :x1="margin.left"
-          :y1="margin.top"
-          :x2="margin.left + chart.width"
-          :y2="margin.top"
-        />
-        <line
-          class="right-border"
-          :x1="margin.left + chart.width"
-          :y1="margin.top"
-          :x2="margin.left + chart.width"
-          :y2="margin.top + chart.height"
-        />
-        <g
-          class="view"
-          clip-path="url(#chart)"
+        <svg
+          id="viewport"
+          :width="viewport.width"
+          :height="viewport.height"
         >
-          <g />
-        </g>
-        <g class="legend">
-          <text :transform="`translate(${[viewport.width/2, spacing * 2]})`">
-            Total Project Value
-          </text>
           <rect
-            class="gradient-bar"
-            :x="(viewport.width - legendBox.width) / 2"
-            :y="spacing * 3"
-            :width="legendBox.width"
-            :height="legendBox.height"
+            id="zoom"
+            :x="margin.left"
+            :y="margin.top"
+            :width="chart.width"
+            :height="chart.height"
           />
-          <text
-            :x="(viewport.width - legendBox.width) / 2 - spacing"
-            :y="spacing * 2 + legendBox.height"
-            class="value-min"
-          >
-            {{ `\u2264 ${moneyFormat(value.min)}` }}
-          </text>
-          <text
-            :x="(viewport.width - legendBox.width) / 2 + legendBox.width + spacing"
-            :y="spacing * 2 + legendBox.height"
-            class="value-max"
-          >
-            {{ `\u2265 ${moneyFormat(value.max)}` }}
-          </text>
+          <defs>
+            <linearGradient
+              id="legendGradient"
+              x1="0"
+              x2="1"
+            >
+              <stop
+                offset="0"
+                :style="{ 'stop-color': colorScale(value.min), 'stop-opacity': 0.8 }"
+              />
+              <stop
+                offset="1"
+                :style="{ 'stop-color': colorScale(value.max), 'stop-opacity': 0.8 }"
+              />
+            </linearGradient>
+            <clipPath id="chart">
+              <rect
+                :x="margin.left"
+                :y="margin.top"
+                :width="chart.width"
+                :height="chart.height"
+              />
+            </clipPath>
+          </defs>
+          <x-axis
+            :axis="xAxis"
+            :margin="margin"
+            :chart="chart"
+            class="x-axis"
+          />
+          <y-axis
+            :axis="yAxis"
+            :margin="margin"
+            :chart="chart"
+            :bar-height="barHeight"
+            :spacing="spacing"
+            :data="data"
+            class="y-axis"
+          />
+          <line
+            class="top-border"
+            :x1="margin.left"
+            :y1="margin.top"
+            :x2="margin.left + chart.width"
+            :y2="margin.top"
+          />
+          <line
+            class="right-border"
+            :x1="margin.left + chart.width"
+            :y1="margin.top"
+            :x2="margin.left + chart.width"
+            :y2="margin.top + chart.height"
+          />
           <g
-            class="value-indicator"
-            :transform="transformValueIndicator()"
+            class="view"
+            clip-path="url(#chart)"
           >
-            <text class="caret-up">{{ '\uf0d8' }}</text>
-            <text class="project-value" />
+            <g />
           </g>
-        </g>
-        <g
-          class="today"
-          :transform="`translate(${[today, margin.top]})`"
+          <g class="legend">
+            <text :transform="`translate(${[viewport.width/2, spacing * 2]})`">
+              Total Project Value
+            </text>
+            <rect
+              class="gradient-bar"
+              :x="(viewport.width - legendBox.width) / 2"
+              :y="spacing * 3"
+              :width="legendBox.width"
+              :height="legendBox.height"
+            />
+            <text
+              :x="(viewport.width - legendBox.width) / 2 - spacing"
+              :y="spacing * 2 + legendBox.height"
+              class="value-min"
+            >
+              {{ `\u2264 ${moneyFormat(value.min)}` }}
+            </text>
+            <text
+              :x="(viewport.width - legendBox.width) / 2 + legendBox.width + spacing"
+              :y="spacing * 2 + legendBox.height"
+              class="value-max"
+            >
+              {{ `\u2265 ${moneyFormat(value.max)}` }}
+            </text>
+            <g
+              class="value-indicator"
+              :transform="transformValueIndicator()"
+            >
+              <text class="caret-up">{{ '\uf0d8' }}</text>
+              <text class="project-value" />
+            </g>
+          </g>
+          <g
+            class="today"
+            :transform="`translate(${[today, margin.top]})`"
+          >
+            <line :y2="chart.height" />
+            <text
+              :style="{ fontSize: barHeight + spacing }"
+              @click="toggleActiveProjects"
+            >{{ '\uf274' }}</text>
+          </g>
+        </svg>
+        <b-button
+          id="reset"
+          variant="danger"
+          size="sm"
+          @click="resetChart"
         >
-          <line :y2="chart.height" />
-          <text
-            :style="{ fontSize: barHeight + spacing }"
-            @click="toggleActiveProjects"
-          >{{ '\uf274' }}</text>
-        </g>
-      </svg>
-      <b-button
-        id="reset"
-        variant="danger"
-        size="sm"
-        @click="resetChart"
-      >
-        Reset
-      </b-button>
+          Reset
+        </b-button>
       </div>
       <div class="infobox" />
     </b-row>
