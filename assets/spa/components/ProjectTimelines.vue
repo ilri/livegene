@@ -32,6 +32,7 @@
       align-h="center"
       class="text-center pb-5 content"
     >
+      <div id="svg-wrapper">
       <svg
         id="viewport"
         :width="viewport.width"
@@ -155,6 +156,7 @@
       >
         Reset
       </b-button>
+      </div>
       <div class="infobox" />
     </b-row>
   </div>
@@ -282,7 +284,6 @@ export default {
       this.data.forEach(function generateOffsets(cur) {
         this.push(cur.length);
       }, offsets);
-
       return d3.scaleOrdinal()
         .range(offsets.map(
           (d, i, a) => a.slice(0, (i + 1))
@@ -429,8 +430,8 @@ export default {
       ;
 
       // adjust reset button
-      const resetButton = document.querySelector('#reset');
-      resetButton.style.marginLeft = `${-resetButton.offsetWidth}px`;
+      // const resetButton = document.querySelector('#reset');
+      // resetButton.style.marginLeft = `${-resetButton.offsetWidth}px`;
     },
     createZoom() {
       return d3.zoom()
@@ -563,7 +564,13 @@ export default {
   .content {
     margin: 0;
   }
-
+  #svg-wrapper{
+    position: relative;
+  }
+  #reset{
+    position: absolute;
+    left: 0px;
+  }
   svg#viewport {
     overflow: visible;
     border: thin solid lightgray;
