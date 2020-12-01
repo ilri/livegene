@@ -543,11 +543,23 @@ export default {
       } else {
         todayGroup.attr('opacity', 1);
       }
-
-      d3.select('#reset')
-        .transition('displayResetButton')
-        .duration(1000)
-        .style('opacity', 1);
+      /*
+      Displaying the reset button in full opacity only when the user performs
+      zooming/panning actions, rendering an updated transform object.
+       */
+      if (d3.zoomTransform(d3.select('#zoom').node()) !== d3.zoomIdentity) {
+        d3.select('#reset')
+          .transition('displayResetButton')
+          .duration(1000)
+          .style('opacity', 1)
+        ;
+      } else {
+        d3.select('#reset')
+          .transition('fadeOutResetButton')
+          .duration(500)
+          .style('opacity', 0)
+        ;
+      }
     },
     resetChart() {
       const zoom = this.createZoom();
