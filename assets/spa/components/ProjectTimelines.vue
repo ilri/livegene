@@ -360,9 +360,9 @@ export default {
       this.getTodayPosition();
       this.renderChart();
     }
-    //Alters windowWidth variable upon DOM resizing
+    // Alters windowWidth variable upon DOM resizing
     let self = this;
-    window.addEventListener('resize', (e) => {
+    window.addEventListener('resize', () => {
       self.windowWidth = window.innerWidth;
     });
   },
