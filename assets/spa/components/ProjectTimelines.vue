@@ -35,8 +35,6 @@
       <div id="svg-wrapper">
         <svg
           id="viewport"
-          :width="viewport.width"
-          :height="viewport.height"
         >
           <rect
             id="zoom"
@@ -331,7 +329,7 @@ export default {
      */
     legendBox() {
       return {
-        width: this.baseWidth >= 794 ? 500 : 300,
+        width: this.baseWidth >= 794 ? 500 : this.baseWidth >= 540 ? 300 : 130,
         height: 20,
       };
     },
@@ -360,17 +358,17 @@ export default {
       this.getTodayPosition();
       this.renderChart();
     }
-    //Alters windowWidth variable upon DOM resizing
-    let self = this;
-    window.addEventListener('resize', (e) => {
-      self.windowWidth = window.innerWidth;
-    });
   },
   methods: {
     renderChart() {
       // Create chart area
       const svg = d3.select('#viewport');
       const view = svg.select('g.view > g');
+
+      // Add responsiveness to the SVG element
+      d3.select('svg')
+        .attr('preserveAspectRatio', 'xMinYMin meet')
+        .attr('viewBox', `0 0 ${this.viewport.width} ${this.viewport.height}`);
 
       // Create groups for all teams
       const teams = view.selectAll('g.team')
@@ -581,13 +579,37 @@ export default {
   .content {
     margin: 0;
   }
+
   #svg-wrapper{
     position: relative;
+    width: 80%;
+    padding-bottom: 100%;
+    overflow: hidden;
+
+  }
+  @media screen and (max-width: 992px) {
+    #svg-wrapper {
+      width: 100%;
+    }
   }
   #reset{
     position: absolute;
-    left: 0px;
+    left: 0%;
+    opacity: 0;
+    width: 12%;
+    height: 2.4%;
+    font-size: 1.2vw;
+    line-height: 0;
   }
+
+  @media screen and (max-width: 540px) {
+    #reset {
+      font-size: 2.5vw;
+      width: 15%;
+      height: 3%;
+    }
+  }
+
   svg#viewport {
     overflow: visible;
     border: thin solid lightgray;
@@ -674,11 +696,6 @@ export default {
     alignment-baseline: ideographic;
     cursor: pointer;
     fill: darkred;
-  }
-
-  #reset {
-    position: absolute;
-    opacity: 0;
   }
 
   div.infobox {
