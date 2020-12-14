@@ -1,84 +1,6 @@
 <template>
   <div class="body">
-    <b-navbar
-      toggleable="xl"
-      type="dark"
-      variant="dark"
-    >
-      <b-navbar-brand>
-        <router-link
-          :to="{ name: 'dashboard' }"
-          class="text-decoration-none"
-        >
-          <b-media>
-            <b-img
-              :src="require('./assets/logo.png')"
-              alt="logo"
-              height="35"
-            />
-            <span class="h3 ml-3 my-0 text-white">LiveGene</span>
-          </b-media>
-        </router-link>
-      </b-navbar-brand>
-
-      <b-navbar-toggle target="nav-collapse" />
-
-      <b-collapse
-        id="nav-collapse"
-        is-nav
-      >
-        <transition
-          enter-active-class="animated fadeIn"
-          leave-active-class="animated fadeOut"
-          mode="out-in"
-          appear
-          appear-active-class="animated fadeIn"
-        >
-          <b-navbar-nav>
-            <b-nav-item>
-              <router-link
-                tag="button"
-                :to="{ name: 'awarded_budget' }"
-                exact-active-class="active"
-                class="btn btn-info"
-              >
-                Awarded Budget
-              </router-link>
-            </b-nav-item>
-            <b-nav-item>
-              <router-link
-                tag="button"
-                :to="{ name: 'staff_roles' }"
-                exact-active-class="active"
-                class="btn btn-info"
-              >
-                Staff&nbsp;Roles
-              </router-link>
-            </b-nav-item>
-            <b-nav-item>
-              <router-link
-                tag="button"
-                :to="{name: 'timelines'}"
-                exact-active-class="active"
-                class="btn btn-info"
-              >
-                Project Timelines
-              </router-link>
-            </b-nav-item>
-            <b-nav-item>
-              <router-link
-                tag="button"
-                :to="{name: 'worldmap'}"
-                exact-active-class="active"
-                class="btn btn-info"
-              >
-                World Map
-              </router-link>
-            </b-nav-item>
-          </b-navbar-nav>
-        </transition>
-      </b-collapse>
-    </b-navbar>
+    <NavBar />
     <div class="container-fluid p-0">
       <transition
         enter-active-class="animated fadeIn"
@@ -86,9 +8,8 @@
         mode="out-in"
         appear
         appear-active-class="animated fadeIn"
-      >
-        <router-view />
-      </transition>
+      />
+      <router-view />
     </div>
     <footer class="footer row align-items-center bg-info mx-0">
       <div class="col-12 mx-auto text-center text-white">
@@ -100,24 +21,28 @@
 
 <script>
 /**
-   * Abbreviations:
-   *  - Array.prototype.filter()
-   *    > el = element
-   *  - Array.prototype.findIndex()
-   *    > el = element
-   *  - Array.prototype.forEach()
-   *    > cur = currentValue
-   *    Note: exception is nested forEach, then parentEl and childEl are used instead
-   *  - Array.prototype.reduce()
-   *    > acc = accumulator
-   *    > cur = currentValue
-   *  - D3
-   *    > d = datum
-   *    > i = index
-   *    > n = nodes
-   */
+ * Abbreviations:
+ *  - Array.prototype.filter()
+ *    > el = element
+ *  - Array.prototype.findIndex()
+ *    > el = element
+ *  - Array.prototype.forEach()
+ *    > cur = currentValue
+ *    Note: exception is nested forEach, then parentEl and childEl are used instead
+ *  - Array.prototype.reduce()
+ *    > acc = accumulator
+ *    > cur = currentValue
+ *  - D3
+ *    > d = datum
+ *    > i = index
+ *    > n = nodes
+ */
+
+import NavBar from './components/NavBar.vue';
+
 export default {
   name: 'App',
+  components: { NavBar },
   created() {
     this.$store.dispatch('getJWTAction');
     this.$store.dispatch('getProjectsAction');
@@ -127,21 +52,24 @@ export default {
 </script>
 
 <style>
-  html {
-    position: relative;
-    min-height: 100%;
-  }
-  .body {
-    margin-bottom: 3em;
-  }
-  .footer {
-    position: absolute;
-    margin-top: 2em;
-    bottom: 0;
-    width: 100%;
-    height: 3em; /* Set the fixed height of the footer here */
-  }
-  .btn {
-    width: 12em;
-  }
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+.body {
+  margin-bottom: 3em;
+}
+
+.footer {
+  position: absolute;
+  margin-top: 2em;
+  bottom: 0;
+  width: 100%;
+  height: 3em; /* Set the fixed height of the footer here */
+}
+
+.btn {
+  width: 12em;
+}
 </style>
