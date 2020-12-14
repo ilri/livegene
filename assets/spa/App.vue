@@ -8,8 +8,9 @@
         mode="out-in"
         appear
         appear-active-class="animated fadeIn"
-      />
-      <router-view />
+      >
+        <router-view />
+      </transition>
     </div>
     <footer class="footer row align-items-center bg-info mx-0">
       <div class="col-12 mx-auto text-center text-white">
@@ -20,7 +21,7 @@
 </template>
 
 <script>
-  /**
+/**
    * Abbreviations:
    *  - Array.prototype.filter()
    *    > el = element
