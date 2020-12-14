@@ -20,23 +20,23 @@
 </template>
 
 <script>
-/**
- * Abbreviations:
- *  - Array.prototype.filter()
- *    > el = element
- *  - Array.prototype.findIndex()
- *    > el = element
- *  - Array.prototype.forEach()
- *    > cur = currentValue
- *    Note: exception is nested forEach, then parentEl and childEl are used instead
- *  - Array.prototype.reduce()
- *    > acc = accumulator
- *    > cur = currentValue
- *  - D3
- *    > d = datum
- *    > i = index
- *    > n = nodes
- */
+  /**
+   * Abbreviations:
+   *  - Array.prototype.filter()
+   *    > el = element
+   *  - Array.prototype.findIndex()
+   *    > el = element
+   *  - Array.prototype.forEach()
+   *    > cur = currentValue
+   *    Note: exception is nested forEach, then parentEl and childEl are used instead
+   *  - Array.prototype.reduce()
+   *    > acc = accumulator
+   *    > cur = currentValue
+   *  - D3
+   *    > d = datum
+   *    > i = index
+   *    > n = nodes
+   */
 
 import NavBar from './components/NavBar.vue';
 
@@ -52,24 +52,24 @@ export default {
 </script>
 
 <style>
-html {
-  position: relative;
-  min-height: 100%;
-}
+  html {
+    position: relative;
+    min-height: 100%;
+  }
 
-.body {
-  margin-bottom: 3em;
-}
+  .body {
+    margin-bottom: 3em;
+  }
 
-.footer {
-  position: absolute;
-  margin-top: 2em;
-  bottom: 0;
-  width: 100%;
-  height: 3em; /* Set the fixed height of the footer here */
-}
+  .footer {
+    position: absolute;
+    margin-top: 2em;
+    bottom: 0;
+    width: 100%;
+    height: 3em; /* Set the fixed height of the footer here */
+  }
 
-.btn {
-  width: 12em;
-}
+  .btn {
+    width: 12em;
+  }
 </style>
