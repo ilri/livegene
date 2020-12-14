@@ -1,11 +1,11 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 
-import HomePage from '../components/HomePage';
-import AwardedBudget from '../components/AwardedBudget';
-import StaffRoles from '../components/StaffRoles';
-import ProjectTimelines from '../components/ProjectTimelines';
-import Worldmap from '../components/WorldMap';
+import HomePage from '../views/HomePage';
+import AwardedBudget from '../views/AwardedBudget';
+import StaffRoles from '../views/StaffRoles';
+import ProjectTimelines from '../views/ProjectTimelines';
+import Worldmap from '../views/WorldMap';
 
 Vue.use(VueRouter);
 

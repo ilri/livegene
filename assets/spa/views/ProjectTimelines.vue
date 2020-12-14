@@ -163,8 +163,8 @@
 <script>
 import * as d3 from 'd3';
 import { mapState } from 'vuex';
-import XAxis from './XAxis';
-import YAxis from './YAxis';
+import XAxis from '../components/XAxis';
+import YAxis from '../components/YAxis';
 
 export default {
   name: 'ProjectTimelines',

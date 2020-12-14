@@ -1,6 +1,6 @@
 import { shallowMount, createLocalVue } from '@vue/test-utils';
 import BootstrapVue from 'bootstrap-vue';
-import HomePage from '../../components/HomePage';
+import HomePage from '../../views/HomePage';
 
 const localVue = createLocalVue();
 localVue.use(BootstrapVue);
