@@ -19,7 +19,7 @@ export default {
      * Get the data from Vuex Store
      */
     ...mapState({
-      projects: (state) => state.projects,
+      projects: (state) => state.project.projects,
       loaded: (state) => state.loaded,
       error: (state) => state.error,
       errorStatusText: (state) => state.errorStatusText,

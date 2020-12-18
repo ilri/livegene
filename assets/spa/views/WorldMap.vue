@@ -218,10 +218,10 @@ export default {
      * Get the data from Vuex Store
      */
     ...mapState({
-      projects: (state) => state.projects,
-      projectsGroupedByTeam: (state) => state.projectsGroupedByTeam,
+      projects: (state) => state.project.projects,
+      projectsGroupedByTeam: (state) => state.project.projectsGroupedByTeam,
       loaded: (state) => state.loaded,
-      worldCountries: (state) => state.worldCountries,
+      worldCountries: (state) => state.geography.worldCountries,
       error: (state) => state.error,
       errorStatusText: (state) => state.errorStatusText,
     }),

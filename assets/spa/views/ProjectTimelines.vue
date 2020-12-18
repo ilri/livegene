@@ -197,8 +197,8 @@ export default {
      * Get the data from Vuex Store
      */
     ...mapState({
-      projects: (state) => state.projects,
-      data: (state) => state.projectsGroupedByTeam,
+      projects: (state) => state.project.projects,
+      data: (state) => state.project.projectsGroupedByTeam,
       loaded: (state) => state.loaded,
       error: (state) => state.error,
       errorStatusText: (state) => state.errorStatusText,
@@ -329,7 +329,7 @@ export default {
      */
     legendBox() {
       return {
-        width: this.baseWidth >= 794 ? 500 : this.baseWidth >= 540 ? 300 : 130,
+        width: this.baseWidth >= 794 ? 500 : 300,
         height: 20,
       };
     },
