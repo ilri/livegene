@@ -34,44 +34,17 @@
         appear-active-class="animated fadeIn"
       >
         <b-navbar-nav>
-          <b-nav-item>
+          <b-nav-item
+            v-for="link in this.links"
+            :key="link.name"
+          >
             <router-link
               tag="button"
-              :to="{ name: 'awarded_budget' }"
+              :to="link.name"
               exact-active-class="active"
               class="btn btn-info"
             >
-              Awarded Budget
-            </router-link>
-          </b-nav-item>
-          <b-nav-item>
-            <router-link
-              tag="button"
-              :to="{ name: 'staff_roles' }"
-              exact-active-class="active"
-              class="btn btn-info"
-            >
-              Staff&nbsp;Roles
-            </router-link>
-          </b-nav-item>
-          <b-nav-item>
-            <router-link
-              tag="button"
-              :to="{name: 'timelines'}"
-              exact-active-class="active"
-              class="btn btn-info"
-            >
-              Project Timelines
-            </router-link>
-          </b-nav-item>
-          <b-nav-item>
-            <router-link
-              tag="button"
-              :to="{name: 'worldmap'}"
-              exact-active-class="active"
-              class="btn btn-info"
-            >
-              World Map
+              {{ link.label }}
             </router-link>
           </b-nav-item>
         </b-navbar-nav>
@@ -79,3 +52,30 @@
     </b-collapse>
   </b-navbar>
 </template>
+
+<script>
+export default {
+  data() {
+    return {
+      links: [
+        {
+          name: 'awardedbudget',
+          label: 'Awarded Budget',
+        },
+        {
+          name: 'staffroles',
+          label: 'Staff Roles',
+        },
+        {
+          name: 'timelines',
+          label: 'Project Timelines',
+        },
+        {
+          name: 'worldmap',
+          label: 'World Map',
+        },
+      ],
+    };
+  },
+};
+</script>
