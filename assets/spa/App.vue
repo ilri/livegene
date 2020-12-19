@@ -45,7 +45,7 @@ export default {
   name: 'App',
   components: { NavBar },
   created() {
-    this.$store.dispatch('getJWTAction');
+    this.$store.dispatch('authenticateAction');
     this.$store.dispatch('getProjectsAction');
     this.$store.dispatch('getWorldCountriesAction');
   },

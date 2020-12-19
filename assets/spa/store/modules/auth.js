@@ -1,4 +1,4 @@
-import Axios from 'axios';
+import axios from 'axios';
 import Cookies from 'js-cookie';
 
 export default {
@@ -8,7 +8,7 @@ export default {
   },
   getters: {
     authenticatedAxios(state) {
-      return Axios.create({
+      return axios.create({
         method: 'get',
         headers: {
           'X-Requested-With': 'XMLHttpRequest',
@@ -19,7 +19,7 @@ export default {
     },
   },
   mutations: {
-    setJWT(state, cookie) {
+    SET_JWT(state, cookie) {
       state.jwt = cookie;
     },
     setAuthenticated(state) {
@@ -33,9 +33,18 @@ export default {
         Cookies.get('jwt'),
       );
     },
+    authenticateAction(context) {
+      context.commit('SET_JWT', Cookies.get('jwt'));
+      // axios.defaults.baseURL = '/api';
+      /* eslint-disable dot-notation */
+      axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+      axios.defaults.headers.get['Accept'] = 'application/ld+json';
+      axios.defaults.headers.common['Authorization'] = `Bearer ${context.state.jwt}`;
+      /* eslint-enable dot-notation */
+    },
     async authenticate(context, state) {
       try {
-        const response = await Axios({
+        const response = await axios({
           url: '/api',
           method: 'post',
           headers: {
