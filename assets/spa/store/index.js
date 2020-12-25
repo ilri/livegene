@@ -3,7 +3,6 @@ import Vuex from 'vuex';
 
 import AuthModule from './modules/auth';
 import ProjectModule from './modules/project';
-import GeoModule from './modules/geography';
 
 Vue.use(Vuex);
 
@@ -12,7 +11,6 @@ export default new Vuex.Store({
   modules: {
     auth: AuthModule,
     project: ProjectModule,
-    geography: GeoModule,
   },
   state: {
     loaded: false,

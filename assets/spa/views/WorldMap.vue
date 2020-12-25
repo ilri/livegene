@@ -179,6 +179,7 @@ import { mapState } from 'vuex';
 import * as d3 from 'd3';
 import { feature, merge } from 'topojson-client';
 import versor from 'versor';
+import worldCountries from '../data/world-countries';
 
 const topojson = {
   feature,
@@ -211,6 +212,8 @@ export default {
       selectedPartners: [],
       // is the globe rotating
       rotating: false,
+      // topojson with shape for all world countries
+      worldCountries: worldCountries,
     };
   },
   computed: {
@@ -221,7 +224,6 @@ export default {
       projects: (state) => state.project.projects,
       projectsGroupedByTeam: (state) => state.project.projectsGroupedByTeam,
       loaded: (state) => state.loaded,
-      worldCountries: (state) => state.geography.worldCountries,
       error: (state) => state.error,
       errorStatusText: (state) => state.errorStatusText,
     }),

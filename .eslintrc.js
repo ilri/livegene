@@ -23,6 +23,7 @@ module.exports = {
       node: {
         extensions: [
           '.js',
+          '.json',
           '.vue',
         ],
       },
