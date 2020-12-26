@@ -3,6 +3,7 @@ import Vuex from 'vuex';
 
 import AuthModule from './modules/auth';
 import ProjectModule from './modules/project';
+import ErrorModule from './modules/error';
 
 Vue.use(Vuex);
 
@@ -11,19 +12,14 @@ export default new Vuex.Store({
   modules: {
     auth: AuthModule,
     project: ProjectModule,
+    error: ErrorModule,
   },
   state: {
     loaded: false,
-    error: false,
-    errorStatusText: '',
   },
   mutations: {
     setLoaded(state) {
       state.loaded = true;
-    },
-    setError(state, statusText) {
-      state.error = true;
-      state.errorStatusText = statusText;
     },
   },
 });
