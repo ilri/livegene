@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import BootstrapVue from 'bootstrap-vue';
+import NProgress from 'nprogress';
 
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap-vue/dist/bootstrap-vue.css';
@@ -14,9 +15,14 @@ import store from './store';
 
 Vue.use(BootstrapVue);
 
+const loading = Vue.observable(NProgress);
+
 Vue.config.productionTip = false;
 
 new Vue({
+  data: {
+    loading,
+  },
   render: (h) => h(App),
   router,
   store,

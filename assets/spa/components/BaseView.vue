@@ -8,6 +8,7 @@
     </h2>
     <ErrorBar />
     <b-row
+      v-show="$root.loading.status === null"
       align-h="center"
       class="text-center pb-5 m-0"
     >
