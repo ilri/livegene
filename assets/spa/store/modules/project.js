@@ -63,8 +63,10 @@ export default {
             },
             { root: true },
           );
-          NProgress.done();
           console.error(error);
+        })
+        .finally(() => {
+          NProgress.done();
         })
       ;
     },

@@ -3,34 +3,11 @@
     <h2 class="bg-info text-white text-center p-2">
       Project Timelines
     </h2>
+    <ErrorBar />
     <b-row
-      v-show="!loaded && !error"
+      v-show="data.size"
       align-h="center"
-      align-v="center"
-      class="content"
-    >
-      <b-spinner
-        label="Loading..."
-        class="mt-5"
-      />
-    </b-row>
-    <b-row
-      v-show="!loaded && error"
-      align-h="center"
-      align-v="center"
-      class="content"
-    >
-      <b-alert
-        variant="danger"
-        show
-      >
-        Error message: <strong>{{ errorStatusText }}</strong>
-      </b-alert>
-    </b-row>
-    <b-row
-      v-show="loaded"
-      align-h="center"
-      class="text-center pb-5 content"
+      class="text-center pb-5 m-0"
     >
       <div id="svg-wrapper">
         <svg
@@ -165,10 +142,15 @@ import * as d3 from 'd3';
 import { mapState } from 'vuex';
 import XAxis from '../components/XAxis';
 import YAxis from '../components/YAxis';
+import ErrorBar from '../components/ErrorBar';
 
 export default {
   name: 'ProjectTimelines',
-  components: { XAxis, YAxis },
+  components: {
+    XAxis,
+    YAxis,
+    ErrorBar,
+  },
   data() {
     return {
       barHeight: 12,
@@ -199,9 +181,6 @@ export default {
     ...mapState({
       projects: (state) => state.project.projects,
       data: (state) => state.project.projectsGroupedByTeam,
-      loaded: (state) => state.loaded,
-      error: (state) => state.error,
-      errorStatusText: (state) => state.errorStatusText,
     }),
     /**
      * Get the base width used to calculate the viewport and chart dimensions
@@ -346,15 +325,15 @@ export default {
     },
   },
   watch: {
-    loaded(val) {
-      if (val) {
+    data(val) {
+      if (val.size) {
         this.getTodayPosition();
         this.renderChart();
       }
     },
   },
   mounted() {
-    if (this.loaded) {
+    if (this.data.length) {
       this.getTodayPosition();
       this.renderChart();
     }
@@ -576,10 +555,6 @@ export default {
 </script>
 
 <style scoped>
-  .content {
-    margin: 0;
-  }
-
   #svg-wrapper{
     position: relative;
     width: 80%;
