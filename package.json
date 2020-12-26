@@ -43,6 +43,7 @@
         "regenerator-runtime": "^0.13.2",
         "selenium-server": "^3.141.59",
         "topojson-client": "^3.1.0",
+        "uuid": "^8.3.2",
         "versor": "^0.0.4",
         "vue": "^2.6.11",
         "vue-jest": "^3.0.5",
