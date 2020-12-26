@@ -1,5 +1,6 @@
 import { ascending } from 'd3';
 import { group } from 'd3-array';
+import NProgress from 'nprogress';
 import ProjectService from '../../services/ProjectService';
 
 const d3 = {
@@ -46,6 +47,7 @@ export default {
         },
       };
 
+      NProgress.start();
       ProjectService.getProjects(url, config)
         .then((response) => {
           context.commit('SET_PROJECTS', response);
@@ -53,7 +55,15 @@ export default {
           context.commit('SORT_AND_GROUP_PROJECTS');
         })
         .catch((error) => {
-          context.commit('setError', error.response.statusText);
+          context.dispatch(
+            'error/add',
+            {
+              ...error.response,
+              message: 'There was an error fetching the projects',
+            },
+            { root: true },
+          );
+          NProgress.done();
           console.error(error);
         })
       ;
