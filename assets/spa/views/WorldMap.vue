@@ -4,31 +4,6 @@
       World map
     </h2>
     <b-row
-      v-show="!loaded && !error"
-      align-h="center"
-      align-v="center"
-      class="content"
-    >
-      <b-spinner
-        label="Loading..."
-        class="mt-5"
-      />
-    </b-row>
-    <b-row
-      v-show="!loaded && error"
-      align-h="center"
-      align-v="center"
-      class="content"
-    >
-      <b-alert
-        variant="danger"
-        show
-      >
-        Error message: <strong>{{ errorStatusText }}</strong>
-      </b-alert>
-    </b-row>
-    <b-row
-      v-show="loaded"
       align-h="center"
       class="text-center pb-5 content"
     >
@@ -96,7 +71,6 @@
           :width="viewport.width"
           :height="viewport.height"
           :viewBox="`0 0 ${viewport.width} ${viewport.height}`"
-          preserveAspectRatio="xMinYMin meet"
         >
           <g :class="{ busy: rotating }" />
         </svg>
@@ -223,9 +197,6 @@ export default {
     ...mapState({
       projects: (state) => state.project.projects,
       projectsGroupedByTeam: (state) => state.project.projectsGroupedByTeam,
-      loaded: (state) => state.loaded,
-      error: (state) => state.error,
-      errorStatusText: (state) => state.errorStatusText,
     }),
     /**
      * Calculate the dimensions used to set width and height of the SVG element.
@@ -301,14 +272,14 @@ export default {
     },
   },
   watch: {
-    loaded(val) {
-      if (val) {
+    projects(val) {
+      if (val.length) {
         this.renderChart();
       }
     },
   },
   mounted() {
-    if (this.loaded) {
+    if (this.projects.length) {
       this.renderChart();
     }
   },

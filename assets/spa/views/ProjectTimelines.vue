@@ -333,7 +333,7 @@ export default {
     },
   },
   mounted() {
-    if (this.data.length) {
+    if (this.data.size) {
       this.getTodayPosition();
       this.renderChart();
     }
