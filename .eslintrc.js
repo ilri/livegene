@@ -35,6 +35,7 @@ module.exports = {
     'semi-style': 'off',
     'import/extensions': ['error', 'always', {
       js: 'never',
+      json: 'never',
       vue: 'never',
     }],
     'no-param-reassign': ['error', {
