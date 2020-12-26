@@ -1,37 +1,9 @@
 <template>
-  <div>
-    <h2 class="bg-info text-white text-center p-2">
+  <BaseView>
+    <template slot="header">
       World map
-    </h2>
-    <b-row
-      v-show="!loaded && !error"
-      align-h="center"
-      align-v="center"
-      class="content"
-    >
-      <b-spinner
-        label="Loading..."
-        class="mt-5"
-      />
-    </b-row>
-    <b-row
-      v-show="!loaded && error"
-      align-h="center"
-      align-v="center"
-      class="content"
-    >
-      <b-alert
-        variant="danger"
-        show
-      >
-        Error message: <strong>{{ errorStatusText }}</strong>
-      </b-alert>
-    </b-row>
-    <b-row
-      v-show="loaded"
-      align-h="center"
-      class="text-center pb-5 content"
-    >
+    </template>
+    <template slot="graphic">
       <b-col
         cols="6"
         sm="6"
@@ -96,7 +68,6 @@
           :width="viewport.width"
           :height="viewport.height"
           :viewBox="`0 0 ${viewport.width} ${viewport.height}`"
-          preserveAspectRatio="xMinYMin meet"
         >
           <g :class="{ busy: rotating }" />
         </svg>
@@ -170,8 +141,8 @@
           </b-card-text>
         </b-card>
       </b-col>
-    </b-row>
-  </div>
+    </template>
+  </BaseView>
 </template>
 
 <script>
@@ -179,6 +150,8 @@ import { mapState } from 'vuex';
 import * as d3 from 'd3';
 import { feature, merge } from 'topojson-client';
 import versor from 'versor';
+import worldCountries from '../data/world-countries';
+import BaseView from '../components/BaseView';
 
 const topojson = {
   feature,
@@ -186,6 +159,9 @@ const topojson = {
 };
 export default {
   name: 'WorldMap',
+  components: {
+    BaseView,
+  },
   data() {
     return {
       // https://en.wikipedia.org/wiki/Axial_tilt
@@ -211,6 +187,8 @@ export default {
       selectedPartners: [],
       // is the globe rotating
       rotating: false,
+      // topojson with shape for all world countries
+      worldCountries,
     };
   },
   computed: {
@@ -218,12 +196,8 @@ export default {
      * Get the data from Vuex Store
      */
     ...mapState({
-      projects: (state) => state.projects,
-      projectsGroupedByTeam: (state) => state.projectsGroupedByTeam,
-      loaded: (state) => state.loaded,
-      worldCountries: (state) => state.worldCountries,
-      error: (state) => state.error,
-      errorStatusText: (state) => state.errorStatusText,
+      projects: (state) => state.project.projects,
+      projectsGroupedByTeam: (state) => state.project.projectsGroupedByTeam,
     }),
     /**
      * Calculate the dimensions used to set width and height of the SVG element.
@@ -299,14 +273,14 @@ export default {
     },
   },
   watch: {
-    loaded(val) {
-      if (val) {
+    projects(val) {
+      if (val.length) {
         this.renderChart();
       }
     },
   },
   mounted() {
-    if (this.loaded) {
+    if (this.projects.length) {
       this.renderChart();
     }
   },
@@ -618,10 +592,6 @@ export default {
 </script>
 
 <style scoped>
-  .content {
-    margin: 0;
-  }
-
   svg {
     border: thin solid lightgray;
   }

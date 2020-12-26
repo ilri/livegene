@@ -1,37 +1,9 @@
 <template>
-  <div>
-    <h2 class="bg-info text-white text-center p-2">
+  <BaseView>
+    <template slot="header">
       Awarded Budget
-    </h2>
-    <b-row
-      v-show="!loaded && !error"
-      align-h="center"
-      align-v="center"
-      class="content"
-    >
-      <b-spinner
-        label="Loading..."
-        class="mt-5"
-      />
-    </b-row>
-    <b-row
-      v-show="!loaded && error"
-      align-h="center"
-      align-v="center"
-      class="content"
-    >
-      <b-alert
-        variant="danger"
-        show
-      >
-        Error message: <strong>{{ errorStatusText }}</strong>
-      </b-alert>
-    </b-row>
-    <b-row
-      v-show="loaded"
-      align-h="center"
-      class="text-center pb-5 content"
-    >
+    </template>
+    <template slot="graphic">
       <svg
         id="viewport"
         :width="viewport.width"
@@ -39,14 +11,15 @@
       >
         <g />
       </svg>
-    </b-row>
-  </div>
+    </template>
+  </BaseView>
 </template>
 
 <script>
 import { select, selectAll, format } from 'd3';
 import { sankey, sankeyLinkHorizontal } from 'd3-sankey';
 import sankeyDiagramMixin from '../mixins/sankeyDiagramMixin';
+import BaseView from '../components/BaseView';
 
 const d3 = {
   select,
@@ -58,6 +31,9 @@ const d3 = {
 
 export default {
   name: 'AwardedBudget',
+  components: {
+    BaseView,
+  },
   mixins: [sankeyDiagramMixin],
   data() {
     return {
@@ -315,10 +291,6 @@ export default {
 </script>
 
 <style scoped>
-  .content {
-    margin: 0;
-  }
-
   svg#viewport {
     overflow: visible;
     border: thin solid lightgray;

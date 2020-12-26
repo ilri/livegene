@@ -19,10 +19,7 @@ export default {
      * Get the data from Vuex Store
      */
     ...mapState({
-      projects: (state) => state.projects,
-      loaded: (state) => state.loaded,
-      error: (state) => state.error,
-      errorStatusText: (state) => state.errorStatusText,
+      projects: (state) => state.project.projects,
     }),
     /**
      * Calculate the dimensions used to set width and height of the SVG element.
@@ -54,13 +51,13 @@ export default {
     },
   },
   mounted() {
-    if (this.loaded) {
+    if (this.projects.length) {
       this.renderChart();
     }
   },
   watch: {
-    loaded(val) {
-      if (val) {
+    projects(val) {
+      if (val.length) {
         this.renderChart();
       }
     },
