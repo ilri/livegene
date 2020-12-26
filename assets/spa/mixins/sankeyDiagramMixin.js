@@ -20,9 +20,6 @@ export default {
      */
     ...mapState({
       projects: (state) => state.project.projects,
-      loaded: (state) => state.loaded,
-      error: (state) => state.error,
-      errorStatusText: (state) => state.errorStatusText,
     }),
     /**
      * Calculate the dimensions used to set width and height of the SVG element.
@@ -54,13 +51,13 @@ export default {
     },
   },
   mounted() {
-    if (this.loaded) {
+    if (this.projects.length) {
       this.renderChart();
     }
   },
   watch: {
-    loaded(val) {
-      if (val) {
+    projects(val) {
+      if (val.length) {
         this.renderChart();
       }
     },
