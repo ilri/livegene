@@ -51,7 +51,6 @@ export default {
       ProjectService.getProjects(url, config)
         .then((response) => {
           context.commit('SET_PROJECTS', response);
-          context.commit('setLoaded');
           context.commit('SORT_AND_GROUP_PROJECTS');
         })
         .catch((error) => {

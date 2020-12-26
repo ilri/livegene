@@ -14,12 +14,4 @@ export default new Vuex.Store({
     project: ProjectModule,
     error: ErrorModule,
   },
-  state: {
-    loaded: false,
-  },
-  mutations: {
-    setLoaded(state) {
-      state.loaded = true;
-    },
-  },
 });
