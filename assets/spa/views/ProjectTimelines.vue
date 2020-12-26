@@ -1,17 +1,14 @@
 <template>
-  <div>
-    <h2 class="bg-info text-white text-center p-2">
+  <BaseView>
+    <template slot="header">
       Project Timelines
-    </h2>
-    <ErrorBar />
-    <b-row
-      v-show="data.size"
-      align-h="center"
-      class="text-center pb-5 m-0"
-    >
+    </template>
+    <template slot="graphic">
       <div id="svg-wrapper">
         <svg
           id="viewport"
+          :width="viewport.width"
+          :height="viewport.height"
         >
           <rect
             id="zoom"
@@ -133,8 +130,8 @@
         </b-button>
       </div>
       <div class="infobox" />
-    </b-row>
-  </div>
+    </template>
+  </BaseView>
 </template>
 
 <script>
@@ -142,14 +139,14 @@ import * as d3 from 'd3';
 import { mapState } from 'vuex';
 import XAxis from '../components/XAxis';
 import YAxis from '../components/YAxis';
-import ErrorBar from '../components/ErrorBar';
+import BaseView from '../components/BaseView';
 
 export default {
   name: 'ProjectTimelines',
   components: {
     XAxis,
     YAxis,
-    ErrorBar,
+    BaseView,
   },
   data() {
     return {

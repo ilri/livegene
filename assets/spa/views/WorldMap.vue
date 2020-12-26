@@ -1,12 +1,9 @@
 <template>
-  <div>
-    <h2 class="bg-info text-white text-center p-2">
+  <BaseView>
+    <template slot="header">
       World map
-    </h2>
-    <b-row
-      align-h="center"
-      class="text-center pb-5 m-0"
-    >
+    </template>
+    <template slot="graphic">
       <b-col
         cols="6"
         sm="6"
@@ -144,8 +141,8 @@
           </b-card-text>
         </b-card>
       </b-col>
-    </b-row>
-  </div>
+    </template>
+  </BaseView>
 </template>
 
 <script>
@@ -154,6 +151,7 @@ import * as d3 from 'd3';
 import { feature, merge } from 'topojson-client';
 import versor from 'versor';
 import worldCountries from '../data/world-countries';
+import BaseView from '../components/BaseView';
 
 const topojson = {
   feature,
@@ -161,6 +159,9 @@ const topojson = {
 };
 export default {
   name: 'WorldMap',
+  components: {
+    BaseView,
+  },
   data() {
     return {
       // https://en.wikipedia.org/wiki/Axial_tilt

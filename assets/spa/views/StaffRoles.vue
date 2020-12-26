@@ -1,12 +1,9 @@
 <template>
-  <div>
-    <h2 class="bg-info text-white text-center p-2">
+  <BaseView>
+    <template slot="header">
       Staff Roles
-    </h2>
-    <b-row
-      align-h="center"
-      class="text-center pb-5 m-0"
-    >
+    </template>
+    <template slot="graphic">
       <svg
         id="viewport"
         :width="viewport.width"
@@ -14,14 +11,15 @@
       >
         <g />
       </svg>
-    </b-row>
-  </div>
+    </template>
+  </BaseView>
 </template>
 
 <script>
 import { select, selectAll } from 'd3';
 import { sankey, sankeyLinkHorizontal } from 'd3-sankey';
 import sankeyDiagramMixin from '../mixins/sankeyDiagramMixin';
+import BaseView from '../components/BaseView';
 
 const d3 = {
   select,
@@ -32,6 +30,9 @@ const d3 = {
 
 export default {
   name: 'StaffRoles',
+  components: {
+    BaseView,
+  },
   mixins: [sankeyDiagramMixin],
   data() {
     return {
