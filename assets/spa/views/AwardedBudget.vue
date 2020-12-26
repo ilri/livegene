@@ -5,7 +5,7 @@
     </h2>
     <b-row
       align-h="center"
-      class="text-center pb-5 content"
+      class="text-center pb-5 m-0"
     >
       <svg
         id="viewport"
@@ -290,10 +290,6 @@ export default {
 </script>
 
 <style scoped>
-  .content {
-    margin: 0;
-  }
-
   svg#viewport {
     overflow: visible;
     border: thin solid lightgray;
