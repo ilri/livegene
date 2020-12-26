@@ -213,7 +213,7 @@ export default {
       // is the globe rotating
       rotating: false,
       // topojson with shape for all world countries
-      worldCountries: worldCountries,
+      worldCountries,
     };
   },
   computed: {
