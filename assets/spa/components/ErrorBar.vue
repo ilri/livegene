@@ -18,11 +18,14 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
-
 export default {
   name: 'ErrorBar',
-  computed: mapState('error', ['errors']),
+  props: {
+    errors: {
+      type: Array,
+      required: true,
+    },
+  },
 };
 </script>
 
