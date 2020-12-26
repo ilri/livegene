@@ -1,4 +1,5 @@
 import axios from 'axios';
+import NProgress from 'nprogress';
 
 export default {
   /**
@@ -9,6 +10,7 @@ export default {
    * @returns {Promise<*[]>}
    */
   async getProjects(url, config, data = []) {
+    NProgress.start();
     await axios.get(url, config)
       .then((response) => {
         data.push(...response.data['hydra:member']);
@@ -18,6 +20,7 @@ export default {
         return data;
       })
     ;
+    NProgress.done();
     return data;
   },
 };
