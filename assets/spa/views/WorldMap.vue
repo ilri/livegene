@@ -65,8 +65,7 @@
       >
         <svg
           id="viewport"
-          :width="viewport.width"
-          :height="viewport.height"
+          preserveAspectRatio="xMinYMin meet"
           :viewBox="`0 0 ${viewport.width} ${viewport.height}`"
         >
           <g :class="{ busy: rotating }" />
