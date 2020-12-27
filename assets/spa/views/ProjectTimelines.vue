@@ -4,7 +4,11 @@
       Project Timelines
     </template>
     <template slot="graphic">
-      <div id="svg-wrapper">
+      <b-col
+        id="svg-wrapper"
+        cols="12"
+        md="10"
+      >
         <svg
           id="viewport"
           :width="viewport.width"
@@ -128,7 +132,7 @@
         >
           Reset
         </b-button>
-      </div>
+      </b-col>
       <div class="infobox" />
     </template>
   </BaseView>
@@ -552,17 +556,6 @@ export default {
 </script>
 
 <style scoped>
-  #svg-wrapper{
-    position: relative;
-    width: auto;
-    overflow: hidden;
-
-  }
-  @media screen and (max-width: 992px) {
-    #svg-wrapper {
-      width: 100%;
-    }
-  }
   #reset{
     position: absolute;
     left: 0%;
