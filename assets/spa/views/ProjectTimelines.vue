@@ -11,8 +11,6 @@
       >
         <svg
           id="viewport"
-          :width="viewport.width"
-          :height="viewport.height"
         >
           <rect
             id="zoom"
@@ -348,7 +346,8 @@ export default {
       // Add responsiveness to the SVG element
       d3.select('svg')
         .attr('preserveAspectRatio', 'xMinYMin meet')
-        .attr('viewBox', `0 0 ${this.viewport.width} ${this.viewport.height}`);
+        .attr('viewBox', `0 0 ${this.viewport.width} ${this.viewport.height}`)
+      ;
 
       // Create groups for all teams
       const teams = view.selectAll('g.team')
