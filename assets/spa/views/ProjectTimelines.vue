@@ -170,7 +170,6 @@ export default {
       dateFormat: d3.timeFormat('%b %d, %Y'),
       today: 0,
       todayOn: false,
-      windowWidth: window.innerWidth,
     };
   },
   computed: {
@@ -187,9 +186,9 @@ export default {
      * @returns {number}
      */
     baseWidth() {
-      return this.windowWidth >= 992
-        ? this.windowWidth - 2 * Math.round(this.windowWidth / 10)
-        : this.windowWidth;
+      return window.innerWidth >= 992
+        ? window.innerWidth - 2 * Math.round(window.innerWidth / 10)
+        : window.innerWidth;
     },
     /**
      * Calculate the dimensions of the viewport
