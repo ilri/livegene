@@ -1,17 +1,15 @@
 <template>
   <div class="body">
     <NavBar />
-    <div class="container-fluid p-0">
-      <transition
-        enter-active-class="animated fadeIn"
-        leave-active-class="animated fadeOut"
-        mode="out-in"
-        appear
-        appear-active-class="animated fadeIn"
-      >
-        <router-view />
-      </transition>
-    </div>
+    <transition
+      enter-active-class="animated fadeIn"
+      leave-active-class="animated fadeOut"
+      mode="out-in"
+      appear
+      appear-active-class="animated fadeIn"
+    >
+      <router-view />
+    </transition>
     <footer class="footer row align-items-center bg-info mx-0">
       <div class="col-12 mx-auto text-center text-white">
         &copy; 2019 International Livestock Research Institute
