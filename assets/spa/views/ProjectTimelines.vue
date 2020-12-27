@@ -5,12 +5,13 @@
     </template>
     <template slot="graphic">
       <b-col
-        id="svg-wrapper"
         cols="12"
-        md="10"
+        lg="10"
       >
         <svg
           id="viewport"
+          preserveAspectRatio="xMinYMin meet"
+          :viewBox="`0 0 ${viewport.width} ${viewport.height}`"
         >
           <rect
             id="zoom"
@@ -341,12 +342,6 @@ export default {
       // Create chart area
       const svg = d3.select('#viewport');
       const view = svg.select('g.view > g');
-
-      // Add responsiveness to the SVG element
-      d3.select('svg')
-        .attr('preserveAspectRatio', 'xMinYMin meet')
-        .attr('viewBox', `0 0 ${this.viewport.width} ${this.viewport.height}`)
-      ;
 
       // Create groups for all teams
       const teams = view.selectAll('g.team')
