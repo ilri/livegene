@@ -554,8 +554,7 @@ export default {
 <style scoped>
   #svg-wrapper{
     position: relative;
-    width: 80%;
-    padding-bottom: 100%;
+    width: auto;
     overflow: hidden;
 
   }
