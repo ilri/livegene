@@ -4,13 +4,18 @@
       Staff Roles
     </template>
     <template slot="graphic">
-      <svg
-        id="viewport"
-        :width="viewport.width"
-        :height="viewport.height"
+      <b-col
+        cols="12"
+        lg="10"
       >
-        <g />
-      </svg>
+        <svg
+          id="viewport"
+          preserveAspectRatio="xMinYMin meet"
+          :viewBox="`0 0 ${viewport.width} ${viewport.height}`"
+        >
+          <g />
+        </svg>
+      </b-col>
     </template>
   </BaseView>
 </template>
