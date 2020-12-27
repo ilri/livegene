@@ -4,7 +4,7 @@ import Axios from 'axios';
 import { ascending } from 'd3';
 import { group } from 'd3-array';
 
-import AuthModule from './auth';
+import AuthModule from './modules/auth';
 
 const d3 = {
   ascending,

@@ -39,7 +39,7 @@
    *    > n = nodes
    */
 
-import NavBar from './components/NavBar.vue';
+import NavBar from './components/NavBar';
 
 export default {
   name: 'App',
