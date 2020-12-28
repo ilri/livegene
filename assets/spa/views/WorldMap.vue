@@ -6,8 +6,6 @@
     <template slot="graphic">
       <b-col
         cols="6"
-        sm="6"
-        md="6"
         lg="2"
         order="2"
         order-lg="1"
@@ -57,8 +55,6 @@
       </b-col>
       <b-col
         cols="12"
-        sm="12"
-        md="12"
         lg="8"
         order="1"
         order-lg="2"
@@ -73,8 +69,6 @@
       </b-col>
       <b-col
         cols="6"
-        sm="6"
-        md="6"
         lg="2"
         order="2"
         order-lg="3"
@@ -205,7 +199,7 @@ export default {
      */
     viewport() {
       const width = window.innerWidth >= 992
-        ? window.innerWidth - Math.round(window.innerWidth / 3)
+        ? window.innerWidth * 0.6667
         : window.innerWidth;
       const height = Math.round(width / 1.6);
       const padding = 20;

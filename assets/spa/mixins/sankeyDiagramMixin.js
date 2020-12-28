@@ -28,7 +28,7 @@ export default {
      */
     viewport() {
       const width = window.innerWidth >= 992
-        ? window.innerWidth - 2 * Math.round(window.innerWidth / 10)
+        ? window.innerWidth * 0.8333
         : window.innerWidth;
       const height = window.innerWidth < 992 ? width * 2 : Math.round(width / 1.6);
       return {

@@ -188,7 +188,7 @@ export default {
      */
     baseWidth() {
       return window.innerWidth >= 992
-        ? window.innerWidth - 2 * Math.round(window.innerWidth / 10)
+        ? window.innerWidth * 0.8333
         : window.innerWidth;
     },
     /**
