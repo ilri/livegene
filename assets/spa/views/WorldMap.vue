@@ -59,13 +59,12 @@
         order="1"
         order-lg="2"
       >
-        <svg
-          id="viewport"
-          preserveAspectRatio="xMinYMin meet"
-          :viewBox="`0 0 ${viewport.width} ${viewport.height}`"
-        >
-          <g :class="{ busy: rotating }" />
-        </svg>
+        <ChartContainer :viewport="viewport">
+          <g
+            slot="chart"
+            :class="{ busy: rotating }"
+          />
+        </ChartContainer>
       </b-col>
       <b-col
         cols="6"
@@ -145,6 +144,7 @@ import { feature, merge } from 'topojson-client';
 import versor from 'versor';
 import worldCountries from '../data/world-countries';
 import BaseView from '../components/BaseView';
+import ChartContainer from '../components/ChartContainer';
 
 const topojson = {
   feature,
@@ -154,6 +154,7 @@ export default {
   name: 'WorldMap',
   components: {
     BaseView,
+    ChartContainer,
   },
   data() {
     return {
@@ -585,10 +586,6 @@ export default {
 </script>
 
 <style scoped>
-  svg {
-    border: thin solid lightgray;
-  }
-
   label {
     margin-bottom: 0;
   }

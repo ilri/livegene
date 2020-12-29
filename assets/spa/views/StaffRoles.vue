@@ -8,13 +8,9 @@
         cols="12"
         lg="10"
       >
-        <svg
-          id="viewport"
-          preserveAspectRatio="xMinYMin meet"
-          :viewBox="`0 0 ${viewport.width} ${viewport.height}`"
-        >
-          <g />
-        </svg>
+        <ChartContainer :viewport="viewport">
+          <g slot="chart" />
+        </ChartContainer>
       </b-col>
     </template>
   </BaseView>
@@ -25,6 +21,7 @@ import { select, selectAll } from 'd3';
 import { sankey, sankeyLinkHorizontal } from 'd3-sankey';
 import sankeyDiagramMixin from '../mixins/sankeyDiagramMixin';
 import BaseView from '../components/BaseView';
+import ChartContainer from '../components/ChartContainer';
 
 const d3 = {
   select,
@@ -37,6 +34,7 @@ export default {
   name: 'StaffRoles',
   components: {
     BaseView,
+    ChartContainer,
   },
   mixins: [sankeyDiagramMixin],
   data() {
@@ -336,9 +334,4 @@ export default {
 </script>
 
 <style scoped>
-  svg#viewport {
-    overflow: visible;
-    border: thin solid lightgray;
-    background-color: azure;
-  }
 </style>
