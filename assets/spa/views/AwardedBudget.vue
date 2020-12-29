@@ -7,6 +7,7 @@
       <b-col
         cols="12"
         lg="10"
+        class="px-0"
       >
         <ChartContainer :viewport="viewport">
           <g slot="chart" />

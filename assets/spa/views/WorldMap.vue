@@ -9,6 +9,7 @@
         lg="2"
         order="2"
         order-lg="1"
+        class="pr-0"
       >
         <b-card title="Projects">
           <b-card-text>
@@ -58,6 +59,7 @@
         lg="8"
         order="1"
         order-lg="2"
+        class="px-0"
       >
         <ChartContainer :viewport="viewport">
           <g
@@ -71,6 +73,7 @@
         lg="2"
         order="2"
         order-lg="3"
+        class="pl-0"
       >
         <b-card
           no-body
