@@ -7,6 +7,7 @@
       <b-col
         cols="12"
         lg="10"
+        class="px-0"
       >
         <svg
           id="viewport"
@@ -551,20 +552,10 @@ export default {
 <style scoped>
   #reset{
     position: absolute;
-    left: 0%;
+    top: 0;
+    right: 0;
     opacity: 0;
-    width: 12%;
-    height: 2.4%;
-    font-size: 1.2vw;
-    line-height: 0;
-  }
-
-  @media screen and (max-width: 540px) {
-    #reset {
-      font-size: 2.5vw;
-      width: 15%;
-      height: 3%;
-    }
+    width: 5em;
   }
 
   svg#viewport {
