@@ -392,8 +392,8 @@ export default {
         .attr('class', 'project-label')
         .attr('x', (d) => this.labelPadding + this.xScale(d3.isoParse(d.startDate)))
         .attr('y', this.barHeight / 2 + 1)
-        .style('font-size', this.barHeight - 1)
-        .style('alignment-baseline', 'middle')
+        .style('font-size', `${this.barHeight - 1}px`)
+        .style('dominant-baseline', 'middle')
         .style('font-family', '"Open Sans", sans-serif')
         .style('font-weight', 800)
         .style('fill', 'azure')
@@ -588,15 +588,6 @@ export default {
   g.infobox text {
     text-anchor: start;
     alignment-baseline: middle;
-  }
-
-  .project-name {
-    font-weight: 700;
-  }
-
-  .project-dates {
-    font-weight: 400;
-    font-size: 0.8em;
   }
 
   .legend text:first-of-type {
