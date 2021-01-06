@@ -559,7 +559,10 @@ export default {
     top: 0;
     right: 0;
     opacity: 0;
-    width: 5em;
+    width: 8%;
+    height: 20%;
+    font-size: 1.2vw;
+    line-height: 0;
   }
 
   #zoom {
