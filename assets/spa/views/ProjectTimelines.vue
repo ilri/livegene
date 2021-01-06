@@ -54,7 +54,7 @@
               :chart="chart"
               :bar-height="barHeight"
               :spacing="spacing"
-              :data="data"
+              :data="projectsGroupedByTeam"
               class="y-axis"
             />
             <line
@@ -184,7 +184,7 @@ export default {
      */
     ...mapState({
       projects: (state) => state.project.projects,
-      data: (state) => state.project.projectsGroupedByTeam,
+      projectsGroupedByTeam: (state) => state.project.projectsGroupedByTeam,
     }),
     /**
      * Get the base width used to calculate the viewport and chart dimensions
@@ -215,7 +215,10 @@ export default {
     chart() {
       return {
         width: this.baseWidth - (this.margin.left + this.margin.right),
-        height: this.projects.length * this.barHeight + this.data.size * this.spacing,
+        height: this.projects.length
+                * this.barHeight
+                + this.projectsGroupedByTeam.size
+                * this.spacing,
       };
     },
     /**
@@ -263,7 +266,7 @@ export default {
      */
     yScale() {
       const offsets = [0];
-      this.data.forEach(function generateOffsets(cur) {
+      this.projectsGroupedByTeam.forEach(function generateOffsets(cur) {
         this.push(cur.length);
       }, offsets);
       return d3.scaleOrdinal()
@@ -271,7 +274,7 @@ export default {
           (d, i, a) => a.slice(0, (i + 1))
             .reduce((acc, cur) => acc + cur, 0) * this.barHeight + i * this.spacing,
         ))
-        .domain([...this.data.keys()]);
+        .domain([...this.projectsGroupedByTeam.keys()]);
     },
     /**
      * Create bottom x axis
@@ -329,7 +332,7 @@ export default {
     },
   },
   watch: {
-    data(val) {
+    projectsGroupedByTeam(val) {
       if (val.size) {
         this.getTodayPosition();
         this.renderChart();
@@ -337,7 +340,7 @@ export default {
     },
   },
   mounted() {
-    if (this.data.size) {
+    if (this.projectsGroupedByTeam.size) {
       this.getTodayPosition();
       this.renderChart();
     }
@@ -350,7 +353,7 @@ export default {
 
       // Create groups for all teams
       const teams = view.selectAll('g.team')
-        .data([...this.data])
+        .data([...this.projectsGroupedByTeam])
         .join('g')
         .attr('class', 'team')
         .attr(
