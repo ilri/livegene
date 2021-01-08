@@ -51,7 +51,7 @@ export default {
       margin: {
         top: 10,
         left: 150,
-        right: 90,
+        right: 150,
         bottom: 10,
       },
     };

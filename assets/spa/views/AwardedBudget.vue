@@ -45,8 +45,8 @@ export default {
       principalInvestigators: new Set(),
       margin: {
         top: 10,
-        left: 100,
-        right: 100,
+        left: 150,
+        right: 150,
         bottom: 10,
       },
       colours: {
