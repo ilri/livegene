@@ -50,8 +50,8 @@ export default {
         bottom: 10,
       },
       colours: {
-        donor: 'green',
-        pi: 'yellow',
+        donor: 'mediumSeaGreen',
+        pi: 'gold',
       },
       moneyFormat: d3.format('$,.0f'),
     };

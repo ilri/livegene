@@ -44,8 +44,8 @@ export default {
       staff: new Set(),
       // colours for the nodes
       colours: {
-        person: 'green',
-        project: 'yellow',
+        person: 'gold',
+        project: 'sandyBrown',
       },
       // margins for the diagram
       margin: {
