@@ -287,7 +287,7 @@ export default {
             .attr('width', d.x1 - d.x0)
             .attr('height', d.y1 - d.y0)
             .style('fill', () => this.colours[d.type])
-            .style('stroke', 'black');
+            .style('stroke', 'none');
           d3.select(n[i])
             .append('text')
             .attr('class', 'label')
