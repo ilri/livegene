@@ -215,7 +215,7 @@ export default {
               'transform',
               `translate(${[pathBox.x + pathBox.width / 2, pathBox.y + pathBox.height / 2]})`,
             )
-            .style('fill', 'orangered')
+            .style('fill', 'crimson')
             .style('opacity', 0);
           projectDetails.append('text')
             .attr('text-anchor', 'middle')
