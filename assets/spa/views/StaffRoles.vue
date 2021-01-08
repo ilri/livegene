@@ -250,10 +250,10 @@ export default {
             )
             .style('opacity', 0);
           fte.append('circle')
-            .attr('stroke', 'darkblue')
+            .attr('stroke', 'none')
             .attr('stroke-width', 1)
             .attr('r', 12)
-            .attr('fill', 'yellow');
+            .attr('fill', 'cornsilk');
           fte.append('text')
             .attr('text-anchor', 'middle')
             .attr('alignment-baseline', 'middle')
