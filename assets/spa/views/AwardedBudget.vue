@@ -266,7 +266,7 @@ export default {
             .style('font-family', '"Open Sans Condensed", sans-serif')
             .style('font-weight', 700)
             .style('font-size', 12)
-            .style('fill', 'darkblue');
+            .style('fill', 'DarkSlateGray');
           text
             .append('tspan')
             .attr('class', 'label')

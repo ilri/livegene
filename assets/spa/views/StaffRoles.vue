@@ -318,7 +318,7 @@ export default {
         .style('font-family', '"Open Sans Condensed", sans-serif')
         .style('font-weight', 700)
         .style('font-size', '0.7em')
-        .style('fill', 'darkblue')
+        .style('fill', 'DarkSlateGray')
       ;
 
       // position the text for the node FTE values
@@ -327,7 +327,7 @@ export default {
         .attr('alignment-baseline', 'ideographic')
         .style('font-weight', 800)
         .style('font-size', '0.7em')
-        .style('fill', 'darkblue')
+        .style('fill', 'DarkSlateGrey')
         .style('opacity', 0);
     },
   },
