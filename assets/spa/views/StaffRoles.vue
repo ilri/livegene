@@ -233,7 +233,7 @@ export default {
             .attr('d', d3.sankeyLinkHorizontal())
             .style('opacity', 0.5)
             .style('stroke-width', (datum) => datum.width)
-            .style('stroke', 'black')
+            .style('stroke', 'grey')
             .style('fill', 'none')
             .on('mouseenter', this.highlightPath)
             .on('mouseleave', this.fade)
