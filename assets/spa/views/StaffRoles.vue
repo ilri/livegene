@@ -45,7 +45,7 @@ export default {
       // colours for the nodes
       colours: {
         person: 'gold',
-        project: 'sandyBrown',
+        project: 'chocolate',
       },
       // margins for the diagram
       margin: {
