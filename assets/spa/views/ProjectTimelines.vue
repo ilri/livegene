@@ -315,7 +315,7 @@ export default {
      */
     legendBox() {
       return {
-        width: this.baseWidth >= 794 ? 500 : 300,
+        width: this.baseWidth >= 794 ? 500 : this.baseWidth,
         height: 20,
       };
     },
