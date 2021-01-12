@@ -45,13 +45,13 @@ export default {
       principalInvestigators: new Set(),
       margin: {
         top: 10,
-        left: 100,
-        right: 100,
+        left: 150,
+        right: 150,
         bottom: 10,
       },
       colours: {
-        donor: 'green',
-        pi: 'yellow',
+        donor: 'mediumSeaGreen',
+        pi: 'gold',
       },
       moneyFormat: d3.format('$,.0f'),
     };
@@ -203,7 +203,7 @@ export default {
             .attr('d', d3.sankeyLinkHorizontal())
             .style('opacity', 0.5)
             .style('stroke-width', (datum) => datum.width)
-            .style('stroke', 'black')
+            .style('stroke', 'grey')
             .style('fill', 'none')
             .on('mouseenter', this.highlightPath)
             .on('mouseleave', this.fade);
@@ -215,7 +215,7 @@ export default {
               'transform',
               `translate(${[pathBox.x + pathBox.width / 2, pathBox.y + pathBox.height / 2]})`,
             )
-            .style('fill', 'orangered')
+            .style('fill', 'crimson')
             .style('opacity', 0);
           projectDetails.append('text')
             .attr('text-anchor', 'middle')
@@ -239,7 +239,7 @@ export default {
             .attr('width', d.x1 - d.x0)
             .attr('height', d.y1 - d.y0)
             .style('fill', this.colours[d.type])
-            .style('stroke', 'black');
+            .style('stroke', 'none');
           const text = d3.select(n[i])
             .append('text')
             .attr('class', 'label')
@@ -266,7 +266,7 @@ export default {
             .style('font-family', '"Open Sans Condensed", sans-serif')
             .style('font-weight', 700)
             .style('font-size', 12)
-            .style('fill', 'darkblue');
+            .style('fill', 'DarkSlateGray');
           text
             .append('tspan')
             .attr('class', 'label')

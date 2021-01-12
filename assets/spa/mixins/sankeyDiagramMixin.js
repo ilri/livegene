@@ -10,7 +10,7 @@ export default {
       // hold the links between staff and projects and between projects and teams
       links: [],
       colours: {
-        team: 'red',
+        team: 'crimson',
       },
     };
   },
