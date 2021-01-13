@@ -42,10 +42,6 @@ import NavBar from './components/NavBar';
 export default {
   name: 'App',
   components: { NavBar },
-  created() {
-    this.$store.dispatch('authenticateAction');
-    this.$store.dispatch('getProjectsAction');
-  },
 };
 </script>
 
