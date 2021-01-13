@@ -19,6 +19,9 @@ const loading = Vue.observable(NProgress);
 
 Vue.config.productionTip = false;
 
+store.dispatch('authenticateAction');
+store.dispatch('getProjectsAction');
+
 new Vue({
   data: {
     loading,
