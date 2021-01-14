@@ -315,7 +315,7 @@ export default {
      */
     legendBox() {
       return {
-        width: this.baseWidth >= 794 ? 500 : this.baseWidth,
+        width: this.chart.width * 0.583,
         height: 20,
       };
     },
@@ -562,10 +562,19 @@ export default {
     top: 0;
     right: 0;
     opacity: 0;
-    width: 8%;
-    height: 20%;
-    font-size: 1.2vw;
+    width: 10%;
+    height: 8%;
+    font-size: 1.7vw;
     line-height: 0;
+  }
+  /**
+  Medium devices (tablets, 768px and up)
+  */
+  @media screen and (min-width: 768px) {
+    #reset {
+      height: 14%;
+      font-size: 1.3vw;
+    }
   }
 
   #zoom {
@@ -613,6 +622,18 @@ export default {
 
   .legend .value-min, .legend .value-max {
     alignment-baseline: top;
+  }
+
+  .legend .value-min, .legend .value-max, .legend text:first-of-type {
+    font-size: 12px;
+  }
+  /**
+  Medium devices (tablets, 768px and up)
+  */
+  @media screen and (min-width: 768px) {
+    .legend .value-min, .legend .value-max, .legend text:first-of-type {
+      font-size: 16px;
+    }
   }
 
   .caret-up {
