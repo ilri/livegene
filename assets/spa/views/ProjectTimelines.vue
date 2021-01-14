@@ -563,7 +563,7 @@ export default {
     right: 0;
     opacity: 0;
     width: 10%;
-    height: 8%;
+    height: 2em;
     font-size: 1.7vw;
     line-height: 0;
   }
@@ -572,7 +572,6 @@ export default {
   */
   @media screen and (min-width: 768px) {
     #reset {
-      height: 14%;
       font-size: 1.3vw;
     }
   }
