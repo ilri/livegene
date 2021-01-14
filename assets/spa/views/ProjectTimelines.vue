@@ -562,10 +562,19 @@ export default {
     top: 0;
     right: 0;
     opacity: 0;
-    width: 8%;
-    height: 20%;
-    font-size: 1.2vw;
+    width: 10%;
+    height: 8%;
+    font-size: 1.7vw;
     line-height: 0;
+  }
+  /**
+  Medium devices (tablets, 768px and up)
+  */
+  @media screen and (min-width: 768px) {
+    #reset {
+      height: 14%;
+      font-size: 1.3vw;
+    }
   }
 
   #zoom {
