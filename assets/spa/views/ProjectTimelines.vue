@@ -557,22 +557,37 @@ export default {
 </script>
 
 <style scoped>
+
+  /**
+  Extra-large, large and medium devices (768px and up)
+  */
   #reset{
     position: absolute;
     top: 0;
     right: 0;
     opacity: 0;
-    width: 10%;
+    width: 7em;
     height: 2em;
-    font-size: 1.7vw;
+    font-size: 1.3vw;
     line-height: 0;
   }
   /**
-  Medium devices (tablets, 768px and up)
+  Small devices (landscape phones, less than 768px)
   */
-  @media screen and (min-width: 768px) {
+  @media screen and (max-width: 767px) {
     #reset {
-      font-size: 1.3vw;
+      width: 6em;
+      height: 2.2em;
+      font-size: 1.8vw;
+    }
+  }
+
+  /**
+  Extra small devices (portrait phones, less than 576px)
+  */
+  @media screen and (max-width: 576px) {
+    #reset {
+      font-size: 2.6vw;
     }
   }
 
@@ -622,16 +637,26 @@ export default {
   .legend .value-min, .legend .value-max {
     alignment-baseline: top;
   }
-
+  /**
+  Extra-large, large and medium devices (768px and up)
+  */
   .legend .value-min, .legend .value-max, .legend text:first-of-type {
-    font-size: 12px;
+    font-size: 16px;
   }
   /**
-  Medium devices (tablets, 768px and up)
+  Small devices (landscape phones, less than 768px)
   */
-  @media screen and (min-width: 768px) {
+  @media screen and (max-width: 767px) {
     .legend .value-min, .legend .value-max, .legend text:first-of-type {
-      font-size: 16px;
+      font-size: 14px;
+    }
+  }
+  /**
+  Extra small devices (portrait phones, less than 576px)
+  */
+  @media screen and (max-width: 576px) {
+    .legend .value-min, .legend .value-max, .legend text:first-of-type {
+      font-size: 12px;
     }
   }
 
