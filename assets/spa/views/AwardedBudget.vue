@@ -53,7 +53,13 @@ export default {
         donor: 'mediumSeaGreen',
         pi: 'gold',
       },
+      budgetTotal: {
+        pi: 0,
+        donor: 0,
+        team: 0,
+      },
       moneyFormat: d3.format('$,.0f'),
+      percentageFormat: d3.format(',.1%'),
     };
   },
   computed: {
@@ -178,6 +184,17 @@ export default {
       d3.selectAll('g.project-details')
         .style('opacity', 0);
     },
+    calculateBudgets() {
+      this.nodes.forEach((cur) => {
+        if (cur.type === 'pi') {
+          this.budgetTotal.pi += cur.value;
+        } else if (cur.type === 'donor') {
+          this.budgetTotal.donor += cur.value;
+        } else {
+          this.budgetTotal.team += cur.value;
+        }
+      });
+    },
     renderChart() {
       this.generateNodes();
       this.generateLinks();
@@ -192,6 +209,7 @@ export default {
         nodes: this.nodes,
         links: this.links,
       });
+      this.calculateBudgets();
       chart.selectAll('g.link')
         .data(graph.links)
         .join('g')
@@ -280,12 +298,27 @@ export default {
               }
               return d.label;
             });
-          text.append('tspan')
+          text
+            .append('tspan')
             .attr('class', 'value')
             .attr('x', 0)
             .attr('dx', 0)
             .attr('dy', 16)
             .text(this.moneyFormat(d.value));
+          text
+            .append('tspan')
+            .attr('class', 'percentage')
+            .attr('x', 0)
+            .attr('dx', 0)
+            .attr('dy', 16)
+            .text(() => {
+              if (d.type === 'pi') {
+                return `(${this.percentageFormat((d.value / this.budgetTotal.pi))})`;
+              } if (d.type === 'donor') {
+                return `(${this.percentageFormat((d.value / this.budgetTotal.donor))})`;
+              }
+              return `(${this.percentageFormat((d.value / this.budgetTotal.team))})`;
+            });
         })
         .on('mouseenter', this.highlightNodes)
         .on('mouseleave', this.fade);
