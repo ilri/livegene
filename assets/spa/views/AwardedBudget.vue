@@ -184,6 +184,42 @@ export default {
       d3.selectAll('g.project-details')
         .style('opacity', 0);
     },
+    highlightLegend(datum) {
+      if (datum.type === 'donor') {
+        d3.selectAll('g.legend #Donor text')
+          .transition()
+          .style('font-weight', '800')
+          .style('font-size', '16px');
+        d3.selectAll('g.legend #Donor circle')
+          .transition()
+          .attr('r', 13);
+      } else if (datum.type === 'pi') {
+        d3.selectAll('g.legend #PI text')
+          .transition()
+          .style('font-weight', '800')
+          .style('font-size', '16px');
+        d3.selectAll('g.legend #PI circle')
+          .transition()
+          .attr('r', 13);
+      } else {
+        d3.selectAll('g.legend #Team text')
+          .transition()
+          .style('font-weight', '800')
+          .style('font-size', '16px');
+        d3.selectAll('g.legend #Team circle')
+          .transition()
+          .attr('r', 13);
+      }
+    },
+    fadeLegend() {
+      d3.selectAll('g.legend g.item text')
+        .transition()
+        .style('font-weight', '400')
+        .style('font-size', '14px');
+      d3.selectAll('g.legend g.item circle')
+        .transition()
+        .attr('r', 10);
+    },
     calculateBudgets() {
       this.nodes.forEach((cur) => {
         if (cur.type === 'pi') {
@@ -213,26 +249,26 @@ export default {
       // Creating a legend
       chart.append('g')
         .attr('class', 'legend')
-        .style('fill', 'grey')
         .selectAll('g.representations')
         .data([
-          { title: 'Principal Investigator', colour: 'gold' },
+          { title: 'Donor', colour: 'mediumSeaGreen' },
           { title: 'Team', colour: 'crimson' },
-          { title: 'Donor', colour: 'mediumSeaGreen' }])
+          { title: 'PI', colour: 'gold' }])
         .join('g')
-        .attr('class', 'representation')
+        .attr('class', 'item')
         .each((d, i, n) => {
-          const representation = d3.select(n[i])
-            .attr('transform', () => `translate(${20},${i * 30 + 50})`);
+          const item = d3.select(n[i])
+            .attr('transform', () => `translate(${25},${i * 30 + 40})`)
+            .attr('id', d.title);
 
-          representation.append('circle')
+          item.append('circle')
             .attr('r', 10)
             .style('fill', (d) => d.colour);
 
-          representation.append('text')
-            .text((d) => d.title)
+          item.append('text')
             .attr('x', '15')
             .attr('y', '5')
+            .text((d) => d.title)
             .style('font-size', '14')
             .style('font-family', '"Open Sans Condensed", sans-serif')
             .style('fill', 'DarkSlateGray');
@@ -347,8 +383,10 @@ export default {
               return `(${this.percentageFormat((d.value / this.budgetTotal.team))})`;
             });
         })
-        .on('mouseenter', this.highlightNodes)
-        .on('mouseleave', this.fade);
+        .on('mouseenter.nodes', this.highlightNodes)
+        .on('mouseenter.legend', this.highlightLegend)
+        .on('mouseleave.nodes', this.fade)
+        .on('mouseleave.legend', this.fadeLegend);
     },
   },
 };
