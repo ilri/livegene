@@ -210,6 +210,33 @@ export default {
         links: this.links,
       });
       this.calculateBudgets();
+      // Creating a legend
+      chart.append('g')
+        .attr('class', 'legend')
+        .style('fill', 'grey')
+        .selectAll('g.representations')
+        .data([
+          { title: 'Principal Investigator', colour: 'gold' },
+          { title: 'Team', colour: 'crimson' },
+          { title: 'Donor', colour: 'mediumSeaGreen' }])
+        .join('g')
+        .attr('class', 'representation')
+        .each((d, i, n) => {
+          const representation = d3.select(n[i])
+            .attr('transform', () => `translate(${20},${i * 30 + 50})`);
+
+          representation.append('circle')
+            .attr('r', 10)
+            .style('fill', (d) => d.colour);
+
+          representation.append('text')
+            .text((d) => d.title)
+            .attr('x', '15')
+            .attr('y', '5')
+            .style('font-size', '14')
+            .style('font-family', '"Open Sans Condensed", sans-serif')
+            .style('fill', 'DarkSlateGray');
+        });
       chart.selectAll('g.link')
         .data(graph.links)
         .join('g')
