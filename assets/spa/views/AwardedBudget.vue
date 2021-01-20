@@ -249,7 +249,7 @@ export default {
           item.append('text')
             .attr('x', '15')
             .attr('y', '5')
-            .text(() => d[0])
+            .text(() => d[0][0].toUpperCase() + d[0].substring(1))
             .style('font-size', '14')
             .style('font-family', '"Open Sans Condensed", sans-serif')
             .style('fill', 'DarkSlateGray');
