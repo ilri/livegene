@@ -185,31 +185,14 @@ export default {
         .style('opacity', 0);
     },
     highlightLegend(datum) {
-      if (datum.type === 'donor') {
-        d3.selectAll('g.legend #Donor text')
-          .transition()
-          .style('font-weight', '800')
-          .style('font-size', '16px');
-        d3.selectAll('g.legend #Donor circle')
-          .transition()
-          .attr('r', 13);
-      } else if (datum.type === 'pi') {
-        d3.selectAll('g.legend #PI text')
-          .transition()
-          .style('font-weight', '800')
-          .style('font-size', '16px');
-        d3.selectAll('g.legend #PI circle')
-          .transition()
-          .attr('r', 13);
-      } else {
-        d3.selectAll('g.legend #Team text')
-          .transition()
-          .style('font-weight', '800')
-          .style('font-size', '16px');
-        d3.selectAll('g.legend #Team circle')
-          .transition()
-          .attr('r', 13);
-      }
+      // calculate which legend items have to be highlighted
+      d3.selectAll(`g.legend #${datum.type} text`)
+        .transition()
+        .style('font-weight', '800')
+        .style('font-size', '16px');
+      d3.selectAll(`g.legend #${datum.type} circle`)
+        .transition()
+        .attr('r', 13);
     },
     fadeLegend() {
       d3.selectAll('g.legend g.item text')
@@ -246,29 +229,27 @@ export default {
         links: this.links,
       });
       this.calculateBudgets();
-      // Creating a legend
+
+      // Creating a legend, representing each node type
       chart.append('g')
         .attr('class', 'legend')
         .selectAll('g.representations')
-        .data([
-          { title: 'Donor', colour: 'mediumSeaGreen' },
-          { title: 'Team', colour: 'crimson' },
-          { title: 'PI', colour: 'gold' }])
+        .data(() => Object.entries(this.colours))
         .join('g')
         .attr('class', 'item')
         .each((d, i, n) => {
           const item = d3.select(n[i])
             .attr('transform', () => `translate(${25},${i * 30 + 40})`)
-            .attr('id', d.title);
+            .attr('id', d[0]);
 
           item.append('circle')
             .attr('r', 10)
-            .style('fill', (d) => d.colour);
+            .style('fill', () => d[1]);
 
           item.append('text')
             .attr('x', '15')
             .attr('y', '5')
-            .text((d) => d.title)
+            .text(() => d[0])
             .style('font-size', '14')
             .style('font-family', '"Open Sans Condensed", sans-serif')
             .style('fill', 'DarkSlateGray');
