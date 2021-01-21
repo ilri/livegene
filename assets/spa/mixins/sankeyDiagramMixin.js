@@ -76,7 +76,9 @@ export default {
           item.append('text')
             .attr('x', '20')
             .attr('y', '5')
-            .text(() => d[0][0].toUpperCase() + d[0].substring(1))
+            .text(() => (d[0].length > 2
+              ? d[0][0].toUpperCase() + d[0].substring(1)
+              : d[0].toUpperCase()))
             .style('font-size', '15')
             .style('font-family', '"Open Sans Condensed", sans-serif')
             .style('fill', 'DarkSlateGray')
