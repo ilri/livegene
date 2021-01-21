@@ -199,6 +199,7 @@ export default {
     renderChart() {
       this.generateNodes();
       this.generateLinks();
+      this.generateLegend();
       const chart = d3.select('#viewport > g');
       const sankeyDiagram = d3.sankey()
         .extent([
@@ -298,8 +299,11 @@ export default {
             .text((datum) => datum.value);
         })
         .on('mouseenter', this.highlightNodes)
+        .on('mouseenter.legend', this.highlightLegend)
         .on('mouseleave', this.fade)
+        .on('mouseleave.legend', this.fadeLegend)
       ;
+
 
       // position the text labels of the nodes
       chart.selectAll('text.label')

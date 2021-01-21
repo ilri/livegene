@@ -1,4 +1,14 @@
 import { mapState } from 'vuex';
+import { format, select, selectAll } from 'd3';
+import { sankey, sankeyLinkHorizontal } from 'd3-sankey';
+
+const d3 = {
+  select,
+  selectAll,
+  format,
+  sankey,
+  sankeyLinkHorizontal,
+};
 
 export default {
   data() {
@@ -48,6 +58,53 @@ export default {
      */
     formatName(person) {
       return `${person.lastName.toUpperCase()}, ${person.firstName}`;
+    },
+    generateLegend() {
+      // Representing each node type in a legend
+      d3.select('#viewport > g')
+        .append('g')
+        .attr('class', 'legend')
+        .selectAll('g.representations')
+        .data(() => Object.entries(this.colours))
+        .join('g')
+        .attr('class', 'item')
+        .each((d, i, n) => {
+          const item = d3.select(n[i])
+            .attr('transform', () => `translate(${25},${i * 30 + 40})`)
+            .attr('id', d[0]);
+
+          item.append('circle')
+            .attr('r', 10)
+            .style('fill', () => d[1]);
+
+          item.append('text')
+            .attr('x', '15')
+            .attr('y', '5')
+            .text(() => d[0][0].toUpperCase() + d[0].substring(1))
+            .style('font-size', '14')
+            .style('font-family', '"Open Sans Condensed", sans-serif')
+            .style('fill', 'DarkSlateGray');
+        });
+    },
+    highlightLegend(datum) {
+      // Calculating which legend items have to be highlighted
+      d3.selectAll(`g.legend #${datum.type} text`)
+        .transition()
+        .style('font-weight', '800')
+        .style('font-size', '16px');
+      d3.selectAll(`g.legend #${datum.type} circle`)
+        .transition()
+        .attr('r', 13);
+    },
+    fadeLegend() {
+      // Resetting legend highlighting to default values
+      d3.selectAll('g.legend g.item text')
+        .transition()
+        .style('font-weight', '400')
+        .style('font-size', '14px');
+      d3.selectAll('g.legend g.item circle')
+        .transition()
+        .attr('r', 10);
     },
   },
   mounted() {

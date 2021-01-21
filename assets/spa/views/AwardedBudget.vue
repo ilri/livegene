@@ -184,25 +184,6 @@ export default {
       d3.selectAll('g.project-details')
         .style('opacity', 0);
     },
-    highlightLegend(datum) {
-      // calculate which legend items have to be highlighted
-      d3.selectAll(`g.legend #${datum.type} text`)
-        .transition()
-        .style('font-weight', '800')
-        .style('font-size', '16px');
-      d3.selectAll(`g.legend #${datum.type} circle`)
-        .transition()
-        .attr('r', 13);
-    },
-    fadeLegend() {
-      d3.selectAll('g.legend g.item text')
-        .transition()
-        .style('font-weight', '400')
-        .style('font-size', '14px');
-      d3.selectAll('g.legend g.item circle')
-        .transition()
-        .attr('r', 10);
-    },
     calculateBudgets() {
       this.nodes.forEach((cur) => {
         if (cur.type === 'pi') {
@@ -217,6 +198,7 @@ export default {
     renderChart() {
       this.generateNodes();
       this.generateLinks();
+      this.generateLegend();
       const chart = d3.select('#viewport > g');
       const sankeyDiagram = d3.sankey()
         .extent([
@@ -229,31 +211,6 @@ export default {
         links: this.links,
       });
       this.calculateBudgets();
-
-      // Creating a legend, representing each node type
-      chart.append('g')
-        .attr('class', 'legend')
-        .selectAll('g.representations')
-        .data(() => Object.entries(this.colours))
-        .join('g')
-        .attr('class', 'item')
-        .each((d, i, n) => {
-          const item = d3.select(n[i])
-            .attr('transform', () => `translate(${25},${i * 30 + 40})`)
-            .attr('id', d[0]);
-
-          item.append('circle')
-            .attr('r', 10)
-            .style('fill', () => d[1]);
-
-          item.append('text')
-            .attr('x', '15')
-            .attr('y', '5')
-            .text(() => d[0][0].toUpperCase() + d[0].substring(1))
-            .style('font-size', '14')
-            .style('font-family', '"Open Sans Condensed", sans-serif')
-            .style('fill', 'DarkSlateGray');
-        });
       chart.selectAll('g.link')
         .data(graph.links)
         .join('g')
@@ -364,10 +321,11 @@ export default {
               return `(${this.percentageFormat((d.value / this.budgetTotal.team))})`;
             });
         })
-        .on('mouseenter.nodes', this.highlightNodes)
+        .on('mouseenter', this.highlightNodes)
         .on('mouseenter.legend', this.highlightLegend)
-        .on('mouseleave.nodes', this.fade)
-        .on('mouseleave.legend', this.fadeLegend);
+        .on('mouseleave', this.fade)
+        .on('mouseleave.legend', this.fadeLegend)
+      ;
     },
   },
 };
