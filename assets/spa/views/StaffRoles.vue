@@ -50,8 +50,8 @@ export default {
       // margins for the diagram
       margin: {
         top: 10,
-        left: 150,
-        right: 150,
+        left: 210,
+        right: 210,
         bottom: 10,
       },
     };
