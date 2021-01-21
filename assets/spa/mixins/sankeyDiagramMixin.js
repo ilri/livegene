@@ -1,13 +1,9 @@
 import { mapState } from 'vuex';
-import { format, select, selectAll } from 'd3';
-import { sankey, sankeyLinkHorizontal } from 'd3-sankey';
+import { select, selectAll } from 'd3';
 
 const d3 = {
   select,
   selectAll,
-  format,
-  sankey,
-  sankeyLinkHorizontal,
 };
 
 export default {
@@ -71,40 +67,39 @@ export default {
         .each((d, i, n) => {
           const item = d3.select(n[i])
             .attr('transform', () => `translate(${25},${i * 30 + 40})`)
-            .attr('id', d[0]);
-
+            .attr('id', d[0])
+          ;
           item.append('circle')
             .attr('r', 10)
-            .style('fill', () => d[1]);
-
+            .style('fill', () => d[1])
+          ;
           item.append('text')
-            .attr('x', '15')
+            .attr('x', '20')
             .attr('y', '5')
             .text(() => d[0][0].toUpperCase() + d[0].substring(1))
-            .style('font-size', '14')
+            .style('font-size', '15')
             .style('font-family', '"Open Sans Condensed", sans-serif')
-            .style('fill', 'DarkSlateGray');
+            .style('fill', 'DarkSlateGray')
+          ;
         });
     },
     highlightLegend(datum) {
       // Calculating which legend items have to be highlighted
-      d3.selectAll(`g.legend #${datum.type} text`)
+      d3.selectAll(`#${datum.type} text, #${datum.type} circle`)
         .transition()
         .style('font-weight', '800')
-        .style('font-size', '16px');
-      d3.selectAll(`g.legend #${datum.type} circle`)
-        .transition()
-        .attr('r', 13);
+        .style('font-size', '17px')
+        .attr('r', 13)
+      ;
     },
     fadeLegend() {
-      // Resetting legend highlighting to default values
-      d3.selectAll('g.legend g.item text')
+      // Resetting legend highlights
+      d3.selectAll('g.item text, g.item circle')
         .transition()
         .style('font-weight', '400')
-        .style('font-size', '14px');
-      d3.selectAll('g.legend g.item circle')
-        .transition()
-        .attr('r', 10);
+        .style('font-size', '15px')
+        .attr('r', 10)
+      ;
     },
   },
   mounted() {
