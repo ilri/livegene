@@ -53,11 +53,6 @@ export default {
         donor: 'mediumSeaGreen',
         pi: 'gold',
       },
-      budgetTotal: {
-        pi: 0,
-        donor: 0,
-        team: 0,
-      },
       moneyFormat: d3.format('$,.0f'),
       percentageFormat: d3.format(',.1%'),
     };
@@ -70,6 +65,11 @@ export default {
      */
     activeProjects() {
       return this.projects.filter((el) => el.isActive);
+    },
+    totalBudget() {
+      return this.activeProjects.reduce(
+        (acc, cur) => acc + cur.totalProjectValue,
+      );
     },
   },
   methods: {
@@ -132,7 +132,6 @@ export default {
           labels.push(cur.target.label);
           labels.push(cur.project.principalInvestigator.username);
           projectCodes.push(cur.project.ilriCode);
-          // parentEl.target.sourceLinks.forEach(childEl => labels.push(childEl.target.label));
         });
       } else if (datum.type === 'team') {
         datum.sourceLinks.forEach((cur) => {
@@ -148,7 +147,6 @@ export default {
           labels.push(cur.source.label);
           labels.push(cur.project.donor.fullName);
           projectCodes.push(cur.project.ilriCode);
-          // parentEl.source.targetLinks.forEach(childEl => labels.push(childEl.source.label));
         });
       }
       // highlight the nodes
@@ -160,10 +158,6 @@ export default {
       d3.selectAll('g.link > path')
         .style('opacity', (d) => (projectCodes.includes(d.project.ilriCode) ? 0.7 : 0.1))
       ;
-
-      // d3.selectAll('g.project-details')
-      //  .style('opacity', d => projectCodes.includes(d.project.ilriCode) ? 1 : 0)
-      // ;
     },
     highlightPath(path) {
       d3.selectAll('g.link')
@@ -184,17 +178,6 @@ export default {
       d3.selectAll('g.project-details')
         .style('opacity', 0);
     },
-    calculateBudgets() {
-      this.nodes.forEach((cur) => {
-        if (cur.type === 'pi') {
-          this.budgetTotal.pi += cur.value;
-        } else if (cur.type === 'donor') {
-          this.budgetTotal.donor += cur.value;
-        } else {
-          this.budgetTotal.team += cur.value;
-        }
-      });
-    },
     renderChart() {
       this.generateNodes();
       this.generateLinks();
@@ -209,7 +192,6 @@ export default {
         nodes: this.nodes,
         links: this.links,
       });
-      this.calculateBudgets();
       chart.selectAll('g.link')
         .data(graph.links)
         .join('g')
@@ -311,14 +293,7 @@ export default {
             .attr('x', 0)
             .attr('dx', 0)
             .attr('dy', 16)
-            .text(() => {
-              if (d.type === 'pi') {
-                return `(${this.percentageFormat((d.value / this.budgetTotal.pi))})`;
-              } if (d.type === 'donor') {
-                return `(${this.percentageFormat((d.value / this.budgetTotal.donor))})`;
-              }
-              return `(${this.percentageFormat((d.value / this.budgetTotal.team))})`;
-            });
+            .text(() => `(${this.percentageFormat(d.value / this.totalBudget)})`);
         })
         .on('mouseenter', this.highlightNodes)
         .on('mouseleave', this.fade);
