@@ -49,9 +49,15 @@ export default {
         right: 210,
         bottom: 10,
       },
-      colours: {
-        donor: 'mediumSeaGreen',
-        pi: 'gold',
+      nodeTypes: {
+        pi: {
+          colour: 'gold',
+          label: 'Personal Investigator',
+        },
+        donor: {
+          colour: 'mediumSeaGreen',
+          label: 'Donor',
+        },
       },
       budgetTotal: {
         pi: 0,
@@ -257,7 +263,7 @@ export default {
             .append('rect')
             .attr('width', d.x1 - d.x0)
             .attr('height', d.y1 - d.y0)
-            .style('fill', this.colours[d.type])
+            .style('fill', this.nodeTypes[d.type].colour)
             .style('stroke', 'none');
           const text = d3.select(n[i])
             .append('text')

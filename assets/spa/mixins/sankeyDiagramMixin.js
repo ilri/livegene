@@ -15,8 +15,11 @@ export default {
       nodes: [],
       // hold the links between staff and projects and between projects and teams
       links: [],
-      colours: {
-        team: 'crimson',
+      nodeTypes: {
+        team: {
+          colour: 'crimson',
+          label: 'Team',
+        },
       },
     };
   },
@@ -61,7 +64,7 @@ export default {
         .append('g')
         .attr('class', 'legend')
         .selectAll('g.representations')
-        .data(() => Object.entries(this.colours))
+        .data(Object.entries(this.nodeTypes))
         .join('g')
         .attr('class', 'item')
         .each((d, i, n) => {
@@ -71,14 +74,12 @@ export default {
           ;
           item.append('circle')
             .attr('r', 10)
-            .style('fill', () => d[1])
+            .style('fill', () => d[1].colour)
           ;
           item.append('text')
             .attr('x', '20')
             .attr('y', '5')
-            .text(() => (d[0].length > 2
-              ? d[0][0].toUpperCase() + d[0].substring(1)
-              : d[0].toUpperCase()))
+            .text(() => (d[1].label))
             .style('font-size', '15')
             .style('font-family', '"Open Sans Condensed", sans-serif')
             .style('fill', 'DarkSlateGray')

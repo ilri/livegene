@@ -42,17 +42,22 @@ export default {
     return {
       // hold the staff objects (staffObjects)
       staff: new Set(),
-      // colours for the nodes
-      colours: {
-        person: 'gold',
-        project: 'chocolate',
-      },
       // margins for the diagram
       margin: {
         top: 10,
         left: 210,
         right: 210,
         bottom: 10,
+      },
+      nodeTypes: {
+        person: {
+          colour: 'gold',
+          label: 'Person',
+        },
+        project: {
+          colour: 'chocolate',
+          label: 'Project',
+        },
       },
     };
   },
@@ -287,7 +292,7 @@ export default {
             .append('rect')
             .attr('width', d.x1 - d.x0)
             .attr('height', d.y1 - d.y0)
-            .style('fill', () => this.colours[d.type])
+            .style('fill', this.nodeTypes[d.type].colour)
             .style('stroke', 'none');
           d3.select(n[i])
             .append('text')
@@ -303,7 +308,6 @@ export default {
         .on('mouseleave', this.fade)
         .on('mouseleave.legend', this.fadeLegend)
       ;
-
 
       // position the text labels of the nodes
       chart.selectAll('text.label')
