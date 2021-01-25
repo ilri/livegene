@@ -85,6 +85,19 @@ export default {
             .style('fill', 'DarkSlateGray')
           ;
         });
+      this.generateLegendBackground();
+    },
+    generateLegendBackground() {
+      let dimensions = d3.select('.legend').node().getBBox();
+      d3.select('.legend')
+        .insert('rect', '.item')
+        .attr('width', dimensions.width * 1.3)
+        .attr('height', dimensions.height * 1.3)
+        .attr('x', dimensions.x * 0.6)
+        .attr('y', dimensions.y * 0.6)
+        .style('fill', 'white')
+        .style('stroke', 'gainsboro')
+      ;
     },
     highlightLegend(datum) {
       // Calculating which legend items have to be highlighted
