@@ -52,7 +52,7 @@ export default {
       nodeTypes: {
         pi: {
           colour: 'gold',
-          label: 'Personal Investigator',
+          label: 'Principle Investigator',
         },
         donor: {
           colour: 'mediumSeaGreen',
