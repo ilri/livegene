@@ -69,8 +69,11 @@ export default {
         .join('g')
         .attr('class', 'item')
         .each((d, i, n) => {
+          // compute x coordinates of node rectangles
+          let coordinates = [...new Set(this.nodes.map((x) => (x.x1 + x.x0) / 2))].sort();
+          // placement of legend items above associated nodes
           const item = d3.select(n[i])
-            .attr('transform', () => `translate(${i * 220 + this.viewport.width / 4 + 45},${this.margin.top / 2})`)
+            .attr('transform', () => `translate(${coordinates[i]},${this.margin.top / 2})`)
             .attr('id', d[0])
           ;
           item.append('circle')
@@ -89,13 +92,12 @@ export default {
       this.generateLegendBackground();
     },
     generateLegendBackground() {
-      let dimensions = d3.select('.legend').node().getBBox();
       d3.select('.legend')
         .insert('rect', '.item')
-        .attr('width', dimensions.width + 50)
-        .attr('height', dimensions.height + 20)
-        .attr('x', dimensions.x - 25)
-        .attr('y', dimensions.y - 10)
+        .attr('width', this.viewport.width * 0.95)
+        .attr('height', this.margin.top / 2)
+        .attr('x', this.viewport.width * 0.025)
+        .attr('y', this.margin.top / 4)
         .style('fill', 'white')
         .style('stroke', 'gainsboro')
       ;

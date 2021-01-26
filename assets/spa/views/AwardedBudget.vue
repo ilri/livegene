@@ -206,7 +206,6 @@ export default {
     renderChart() {
       this.generateNodes();
       this.generateLinks();
-      this.generateLegend();
       const chart = d3.select('#viewport > g');
       const sankeyDiagram = d3.sankey()
         .extent([
@@ -334,6 +333,7 @@ export default {
         .on('mouseleave', this.fade)
         .on('mouseleave.legend', this.fadeLegend)
       ;
+      this.generateLegend();
     },
   },
 };
