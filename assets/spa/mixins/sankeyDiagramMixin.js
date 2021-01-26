@@ -101,23 +101,72 @@ export default {
         .style('fill', 'white')
         .style('stroke', 'gainsboro')
       ;
+      d3.select('.legend')
+        .on('mouseenter', () => {
+          // Increasing dimensions of legend box
+          d3.select('.legend > rect')
+            .transition()
+            .duration(250)
+            .attr('width', this.viewport.width)
+            .attr('height', this.margin.top / 1.5)
+            .attr('x', 0)
+            .attr('y', 10)
+          ;
+          // Highlighting all legend items
+          d3.selectAll('g.item text, g.item circle')
+            .transition()
+            .duration(250)
+            .style('font-weight', '800')
+            .style('font-size', '17px')
+            .attr('r', 13)
+          ;
+        })
+        .on('mouseleave', this.fadeLegend)
+      ;
     },
     highlightLegend(datum) {
-      // Calculating which legend items have to be highlighted
+      // Letting legend items fade in opacity
+      d3.selectAll('g.item text, g.item circle')
+        .transition()
+        .style('opacity', 0.5)
+      ;
+      // Calculating which legend item has to be highlighted
       d3.selectAll(`#${datum.type} text, #${datum.type} circle`)
         .transition()
+        .duration(250)
         .style('font-weight', '800')
         .style('font-size', '17px')
         .attr('r', 13)
+        .style('opacity', 1)
+      ;
+      // Increasing dimensions of legend background
+      d3.select('.legend > rect')
+        .transition()
+        .duration(250)
+        .attr('width', this.viewport.width)
+        .attr('height', this.margin.top / 1.5)
+        .attr('x', 0)
+        .attr('y', 10)
       ;
     },
     fadeLegend() {
-      // Resetting legend highlights
+      // Resetting legend items
       d3.selectAll('g.item text, g.item circle')
         .transition()
+        .duration(250)
+        .attr('r', 10)
         .style('font-weight', '400')
         .style('font-size', '15px')
-        .attr('r', 10)
+        .style('opacity', 1)
+      ;
+      // Resetting legend background
+      d3.select('.legend > rect')
+        .transition()
+        .duration(250)
+        .attr('width', this.viewport.width * 0.95)
+        .attr('height', this.margin.top / 2)
+        .attr('x', this.viewport.width * 0.025)
+        .attr('y', this.margin.top / 4)
       ;
     },
   },
