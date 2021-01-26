@@ -19,6 +19,7 @@ export default {
         team: {
           colour: 'crimson',
           label: 'Team',
+          position: 4,
         },
       },
     };
@@ -64,12 +65,12 @@ export default {
         .append('g')
         .attr('class', 'legend')
         .selectAll('g.representations')
-        .data(Object.entries(this.nodeTypes))
+        .data(Object.entries(this.nodeTypes).sort((a, b) => a[1].position - b[1].position))
         .join('g')
         .attr('class', 'item')
         .each((d, i, n) => {
           const item = d3.select(n[i])
-            .attr('transform', () => `translate(${25},${i * 30 + 40})`)
+            .attr('transform', () => `translate(${i * 220 + this.viewport.width / 4 + 45},${this.margin.top / 2})`)
             .attr('id', d[0])
           ;
           item.append('circle')
@@ -91,10 +92,10 @@ export default {
       let dimensions = d3.select('.legend').node().getBBox();
       d3.select('.legend')
         .insert('rect', '.item')
-        .attr('width', dimensions.width * 1.3)
-        .attr('height', dimensions.height * 1.3)
-        .attr('x', dimensions.x * 0.6)
-        .attr('y', dimensions.y * 0.6)
+        .attr('width', dimensions.width + 50)
+        .attr('height', dimensions.height + 20)
+        .attr('x', dimensions.x - 25)
+        .attr('y', dimensions.y - 10)
         .style('fill', 'white')
         .style('stroke', 'gainsboro')
       ;

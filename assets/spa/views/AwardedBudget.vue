@@ -44,19 +44,21 @@ export default {
       donors: new Set(),
       principalInvestigators: new Set(),
       margin: {
-        top: 10,
+        top: 70,
         left: 210,
         right: 210,
         bottom: 10,
       },
       nodeTypes: {
-        pi: {
-          colour: 'gold',
-          label: 'Principle Investigator',
-        },
         donor: {
           colour: 'mediumSeaGreen',
           label: 'Donor',
+          position: 3,
+        },
+        pi: {
+          colour: 'gold',
+          label: 'Principle Investigator',
+          position: 5,
         },
       },
       budgetTotal: {

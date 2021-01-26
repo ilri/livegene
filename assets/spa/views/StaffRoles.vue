@@ -44,7 +44,7 @@ export default {
       staff: new Set(),
       // margins for the diagram
       margin: {
-        top: 10,
+        top: 70,
         left: 210,
         right: 210,
         bottom: 10,
@@ -52,11 +52,13 @@ export default {
       nodeTypes: {
         person: {
           colour: 'gold',
-          label: 'Person',
+          label: 'Staff Member',
+          position: 1,
         },
         project: {
           colour: 'chocolate',
           label: 'Project',
+          position: 2,
         },
       },
     };
