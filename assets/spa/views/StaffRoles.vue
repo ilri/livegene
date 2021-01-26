@@ -45,8 +45,8 @@ export default {
       // margins for the diagram
       margin: {
         top: 70,
-        left: 210,
-        right: 210,
+        left: 190,
+        right: 190,
         bottom: 10,
       },
       nodeTypes: {
