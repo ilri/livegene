@@ -63,13 +63,15 @@ export default {
       d3.select('#viewport > g')
         .append('g')
         .attr('class', 'legend')
-        .selectAll('g.items')
+        .selectAll('g.item')
         .data(Object.entries(this.nodeTypes))
         .join('g')
         .attr('class', 'item')
         .each((d, i, n) => {
           // compute x coordinates of node rectangles
-          let coordinates = [...new Set(this.nodes.map((x) => (x.x1 + x.x0) / 2))].sort();
+          const coordinates = [...new Set(this.nodes.map((x) => (x.x1 + x.x0) / 2))].sort(
+            (a, b) => a - b,
+          );
           // placement of legend items above associated nodes
           const item = d3.select(n[i])
             .attr('transform', () => `translate(${coordinates[i]},${this.margin.top / 2})`)
