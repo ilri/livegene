@@ -57,7 +57,7 @@ export default {
         },
         pi: {
           colour: 'gold',
-          label: 'Principle Investigator',
+          label: 'Principal Investigator',
           position: 5,
         },
       },
