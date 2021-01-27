@@ -53,13 +53,12 @@ export default {
         person: {
           colour: 'gold',
           label: 'Staff Member',
-          position: 1,
         },
         project: {
           colour: 'chocolate',
           label: 'Project',
-          position: 2,
         },
+        team: {},
       },
     };
   },

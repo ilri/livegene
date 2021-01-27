@@ -53,12 +53,11 @@ export default {
         donor: {
           colour: 'mediumSeaGreen',
           label: 'Donor',
-          position: 3,
         },
+        team: {},
         pi: {
           colour: 'gold',
           label: 'Principal Investigator',
-          position: 5,
         },
       },
       moneyFormat: d3.format('$,.0f'),

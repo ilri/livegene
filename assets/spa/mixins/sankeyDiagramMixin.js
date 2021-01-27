@@ -19,7 +19,6 @@ export default {
         team: {
           colour: 'crimson',
           label: 'Team',
-          position: 4,
         },
       },
     };
@@ -64,8 +63,8 @@ export default {
       d3.select('#viewport > g')
         .append('g')
         .attr('class', 'legend')
-        .selectAll('g.representations')
-        .data(Object.entries(this.nodeTypes).sort((a, b) => a[1].position - b[1].position))
+        .selectAll('g.items')
+        .data(Object.entries(this.nodeTypes))
         .join('g')
         .attr('class', 'item')
         .each((d, i, n) => {
