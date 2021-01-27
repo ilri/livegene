@@ -392,7 +392,6 @@ export default {
         .style('fill', 'none')
         .style('stroke-width', 1)
       ;
-
       // Countries
       this.svg.selectAll('path.country')
         .data(this.countries)
@@ -404,8 +403,9 @@ export default {
         .style('stroke-width', 0.5)
         .style('stroke', 'white')
         .attr('d', this.geoPath)
+        .on('mouseenter', this.showTooltip)
+        .on('mouseleave', this.hideTooltip)
       ;
-
       // Outline
       this.svg.append('path')
         .attr('class', 'outline')
@@ -415,7 +415,48 @@ export default {
         .style('fill', 'none')
         .style('stroke-width', 2)
         .style('stroke', 'black')
-        .attr('d', this.geoPath);
+        .attr('d', this.geoPath)
+      ;
+
+      // Tooltip
+      this.svg.append('g')
+        .attr('id', 'tooltip')
+        .style('opacity', 0)
+        .each(function () {
+          d3.select(this)
+            .append('rect')
+            .attr('height', 40)
+            .attr('width', 150)
+            .attr('rx', 5)
+            .attr('ry', 5)
+            .attr('x', -75)
+            .attr('y', -20);
+          d3.select(this).append('text').attr('y', -5);
+          d3.select(this).append('text').attr('y', 15);
+        });
+    },
+    showTooltip(d) {
+      // Displays tooltip
+      const tooltip = d3.select('#tooltip')
+        .attr('transform', `translate(${[d3.event.x - 100, d3.event.y]})`)
+        .style('opacity', 1)
+        .attr('fill', 'white')
+        .attr('fill-opacity', 0.8)
+        .style('stroke', 'black')
+        .style('stroke-width', 0.5)
+      ;
+      tooltip.select('text:first-of-type')
+        .text(d.properties.name)
+        .style('font-size', 12)
+        .style('fill', 'black')
+        .style('font-family', '"Yanone Kaffeesatz", sans-serif')
+        .style('text-anchor', 'middle')
+      ;
+    },
+    hideTooltip() {
+      d3.select('#tooltip')
+        .style('opacity', 0)
+      ;
     },
     /**
      * Select team.
@@ -678,4 +719,9 @@ export default {
     pointer-events: none;
     cursor: wait;
   }
+
+  #tooltip {
+    pointer-events: none;
+  }
+
 </style>
