@@ -268,6 +268,35 @@ export default {
         .on('start', this.zoomStart)
         .on('zoom', this.zooming);
     },
+    /**
+     * Information of projects that feature a 'countryRole'.
+     */
+    countryRoles() {
+      // Projects that have 'countryRole' properties
+      let associatedProjects = this.projects.filter((x) => x.countryRoles[0]);
+      // Project-related information for each country involved in a project
+      let countryDetails = [];
+      // Retrieving information (Country, project, percentage involvement)
+      associatedProjects.forEach((project) => {
+        let countryCodes = project.countryRoles.map((x) => (
+          {
+            country: x.country.country,
+            percentageInvolvement: x.percent,
+          }
+        ));
+        countryCodes.forEach((item) => countryDetails.push(
+          {
+            country: item.country,
+            percentageInvolvement: item.percentage,
+            project,
+          },
+        ));
+      });
+      return {
+        countryCodes: [...new Set(countryDetails.map((x) => x.country))],
+        countryDetails,
+      };
+    },
   },
   watch: {
     projects(val) {
@@ -405,6 +434,11 @@ export default {
         .attr('d', this.geoPath)
         .on('mouseenter', this.showTooltip)
         .on('mouseleave', this.hideTooltip)
+        .each((d, i, n) => {
+          d3.select(n[i])
+            .attr('id', d.id)
+          ;
+        })
       ;
       // Outline
       this.svg.append('path')
@@ -429,33 +463,55 @@ export default {
             .attr('width', 150)
             .attr('rx', 5)
             .attr('ry', 5)
-            .attr('x', -75)
-            .attr('y', -20);
-          d3.select(this).append('text').attr('y', -5);
-          d3.select(this).append('text').attr('y', 15);
+            .style('fill', 'white')
+            .style('fill-opacity', 0.7)
+            .style('stroke', 'black')
+            .style('stroke-width', 0.5)
+          ;
+          d3.select(this)
+            .append('text')
+            .attr('y', 20)
+            .attr('x', 75)
+            .style('font-family', '"Yanone Kaffeesatz", sans-serif')
+            .style('font-size', '12px')
+            .style('text-anchor', 'middle')
+          ;
         });
     },
+    /**
+     * This method checks whether a selected country is involved in a project
+     * and retrieves associated information from the countryRoles property.
+     */
     showTooltip(d) {
       // Displays tooltip
-      const tooltip = d3.select('#tooltip')
-        .attr('transform', `translate(${[d3.event.x - 100, d3.event.y]})`)
-        .style('opacity', 1)
-        .attr('fill', 'white')
-        .attr('fill-opacity', 0.8)
-        .style('stroke', 'black')
-        .style('stroke-width', 0.5)
-      ;
-      tooltip.select('text:first-of-type')
-        .text(d.properties.name)
-        .style('font-size', 12)
-        .style('fill', 'black')
-        .style('font-family', '"Yanone Kaffeesatz", sans-serif')
-        .style('text-anchor', 'middle')
-      ;
+      if (this.countryRoles.countryCodes.includes(d.properties['Alpha-2'])) {
+        const tooltip = d3.select('#tooltip')
+          .transition()
+          .style('opacity', 1)
+        ;
+        // Retrieves the project details associated with the highlighted country
+        let countryDetails = this.countryRoles.countryDetails.find(
+          (obj) => obj.country === d.properties['Alpha-2'],
+        );
+        tooltip.select('text:first-of-type')
+          .transition()
+          .text(d.properties.name)
+        ;
+        // Highlights the country shape
+        d3.select(`#${d.id}`)
+          .transition()
+          .style('fill', 'IndianRed')
+        ;
+      }
     },
-    hideTooltip() {
+    hideTooltip(d) {
       d3.select('#tooltip')
+        .transition()
         .style('opacity', 0)
+      ;
+      d3.select(`#${d.id}`)
+        .transition()
+        .style('fill', 'darkgray')
       ;
     },
     /**
@@ -718,10 +774,6 @@ export default {
   .busy {
     pointer-events: none;
     cursor: wait;
-  }
-
-  #tooltip {
-    pointer-events: none;
   }
 
 </style>
