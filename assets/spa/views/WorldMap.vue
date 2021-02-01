@@ -300,10 +300,7 @@ export default {
           .push(currentValue.project);
         return result;
       }, {});
-      console.log(projectsGroupedByCountry);
       return {
-        countryCodes: [...new Set(countryDetails.map((x) => x.country))],
-        countryDetails,
         projectsGroupedByCountry,
       };
     },
@@ -442,8 +439,6 @@ export default {
         .style('stroke-width', 0.5)
         .style('stroke', 'white')
         .attr('d', this.geoPath)
-        .on('mouseenter', this.showTooltip)
-        .on('mouseleave', this.hideTooltip)
         .each((d, i, n) => {
           d3.select(n[i])
             .attr('id', d.id)
@@ -485,48 +480,8 @@ export default {
             .style('font-family', '"Yanone Kaffeesatz", sans-serif')
             .style('font-size', '12px')
             .style('text-anchor', 'middle')
-            .append('tspan')
           ;
         });
-    },
-    /**
-     * This method checks whether a selected country is involved in a project
-     * and retrieves associated information from the countryRoles property.
-     */
-    showTooltip(d) {
-      // Displays tooltip
-      if (this.countryRoles.countryCodes.includes(d.properties['Alpha-2'])) {
-        const tooltip = d3.select('#tooltip')
-          .transition()
-          .style('opacity', 1)
-        ;
-        // Retrieves the project details associated with the highlighted country
-        this.countryRoles.projectsGroupedByCountry[d.properties['Alpha-2']];
-
-        tooltip.select('text:first-of-type')
-          .text(d.properties.name)
-        ;
-        // Highlights the country shape
-        d3.select(`#${d.id}`)
-          .transition()
-          .style('fill', 'IndianRed')
-        ;
-      }
-    },
-    hideTooltip(d) {
-      const tooltip = d3.select('#tooltip')
-        .transition()
-        .style('opacity', 0)
-      ;
-
-      tooltip.select('text:first-of-type')
-        .transition()
-        .text('')
-      ;
-      d3.select(`#${d.id}`)
-        .transition()
-        .style('fill', 'darkgray')
-      ;
     },
     /**
      * Select team.
@@ -634,13 +589,63 @@ export default {
           (childEl) => countryCodes.add(childEl.country.country),
         ),
       );
-
       const rotationDuration = this.rotateToView(countryCodes);
 
+      // Highlighting shapes of countries associated with the selected project
       d3.selectAll('path.country')
         .transition('highlightCountryPaths')
-        .duration(rotationDuration)
-        .style('fill', (d) => (countryCodes.has(d.properties['Alpha-2']) ? 'chartreuse' : 'darkgray'));
+        .duration(rotationDuration - 1000)
+        .style('fill', (d) => (countryCodes.has(d.properties['Alpha-2']) ? 'chartreuse' : 'darkgray'))
+        .on('end', () => {
+          d3.selectAll('path.country')
+            .on('mouseenter', (d) => (countryCodes.has(d.properties['Alpha-2']) ? this.showTooltip(d) : null))
+            .on('mouseleave', (d) => (countryCodes.has(d.properties['Alpha-2']) ? this.hideTooltip(d) : null))
+          ;
+        })
+      ;
+    },
+    /**
+     * Handles tooltip and fill transitions for a selected team or project.
+     *
+     */
+    showTooltip(d) {
+      console.log('tooltip is being displayed');
+      const tooltip = d3.select('#tooltip')
+        .transition()
+        .style('opacity', 1)
+      ;
+      tooltip.select('text:first-of-type')
+        .text(d.properties.name)
+      ;
+      // Highlights the country shape
+      d3.select(`#${d.id}`)
+        .transition()
+        .style('fill', 'IndianRed')
+      ;
+
+      // Retrieves the project details associated with the highlighted country
+      // this.countryRoles.projectsGroupedByCountry[d.properties['Alpha-2']];
+    },
+    /**
+     * Reverses tooltip and fill transitions for a selected team or project.
+     *
+     */
+    hideTooltip(d) {
+      console.log('tooltip has been hidden');
+      const tooltip = d3.select('#tooltip')
+        .transition()
+        .style('opacity', 0)
+      ;
+      tooltip.select('text:first-of-type')
+        .transition()
+        .text('')
+      ;
+      // Reverts fill to original fill
+      d3.select(`#${d.id}`)
+        .transition()
+        .duration(500)
+        .style('fill', 'chartreuse')
+      ;
     },
     /**
      * Rotate the globe to match the center of gravity of the highlighted countries on the x axis
