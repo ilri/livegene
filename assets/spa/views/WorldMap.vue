@@ -456,7 +456,7 @@ export default {
       this.svg.append('g')
         .attr('id', 'tooltip')
         .style('opacity', 0)
-        .each(function () {
+        .each(() => {
           d3.select(this)
             .append('rect')
             .attr('height', 40)
@@ -490,7 +490,7 @@ export default {
           .style('opacity', 1)
         ;
         // Retrieves the project details associated with the highlighted country
-        let countryDetails = this.countryRoles.countryDetails.find(
+        this.countryRoles.countryDetails.find(
           (obj) => obj.country === d.properties['Alpha-2'],
         );
         tooltip.select('text:first-of-type')
