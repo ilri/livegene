@@ -71,6 +71,12 @@ class SamplingDocumentation
      */
     private $document;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Country", inversedBy="samplingDocumentations")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $country;
+
     public function __toString()
     {
         return $this->id ? $this->document->getName() : '';
@@ -113,6 +119,18 @@ class SamplingDocumentation
     public function setDocument(Media $document): self
     {
         $this->document = $document;
+
+        return $this;
+    }
+
+    public function getCountry(): ?Country
+    {
+        return $this->country;
+    }
+
+    public function setCountry(?Country $country): self
+    {
+        $this->country = $country;
 
         return $this;
     }

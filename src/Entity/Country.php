@@ -6,10 +6,8 @@ use ApiPlatform\Core\Annotation\{
     ApiProperty,
     ApiResource
 };
-use Doctrine\Common\Collections\{
-    ArrayCollection,
-    Collection
-};
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Intl\Intl;
@@ -91,11 +89,17 @@ class Country
      */
     private $countryRoles;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\SamplingDocumentation", mappedBy="country")
+     */
+    private $samplingDocumentations;
+
     public function __construct()
     {
         $this->organisations = new ArrayCollection();
         $this->samplingActivities = new ArrayCollection();
         $this->countryRoles = new ArrayCollection();
+        $this->samplingDocumentations = new ArrayCollection();
     }
 
     public function __toString()
@@ -217,6 +221,36 @@ class Country
             // set the owning side to null (unless already changed)
             if ($countryRole->getCountry() === $this) {
                 $countryRole->setCountry(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|SamplingDocumentation[]
+     */
+    public function getSamplingDocumentations(): Collection
+    {
+        return $this->samplingDocumentations;
+    }
+
+    public function addSamplingDocumentation(SamplingDocumentation $samplingDocumentation): self
+    {
+        if (!$this->samplingDocumentations->contains($samplingDocumentation)) {
+            $this->samplingDocumentations[] = $samplingDocumentation;
+            $samplingDocumentation->setCountry($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSamplingDocumentation(SamplingDocumentation $samplingDocumentation): self
+    {
+        if ($this->samplingDocumentations->removeElement($samplingDocumentation)) {
+            // set the owning side to null (unless already changed)
+            if ($samplingDocumentation->getCountry() === $this) {
+                $samplingDocumentation->setCountry(null);
             }
         }
 
