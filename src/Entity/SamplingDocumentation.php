@@ -73,7 +73,7 @@ class SamplingDocumentation
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Country", inversedBy="samplingDocumentations")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $country;
 
