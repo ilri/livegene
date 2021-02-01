@@ -44,14 +44,21 @@ export default {
       donors: new Set(),
       principalInvestigators: new Set(),
       margin: {
-        top: 10,
-        left: 150,
-        right: 150,
+        top: 70,
+        left: 190,
+        right: 190,
         bottom: 10,
       },
-      colours: {
-        donor: 'mediumSeaGreen',
-        pi: 'gold',
+      nodeTypes: {
+        donor: {
+          colour: 'mediumSeaGreen',
+          label: 'Donor',
+        },
+        team: {},
+        pi: {
+          colour: 'gold',
+          label: 'Principal Investigator',
+        },
       },
       moneyFormat: d3.format('$,.0f'),
       percentageFormat: d3.format(',.1%'),
@@ -238,7 +245,7 @@ export default {
             .append('rect')
             .attr('width', d.x1 - d.x0)
             .attr('height', d.y1 - d.y0)
-            .style('fill', this.colours[d.type])
+            .style('fill', this.nodeTypes[d.type].colour)
             .style('stroke', 'none');
           const text = d3.select(n[i])
             .append('text')
@@ -296,7 +303,11 @@ export default {
             .text(() => `(${this.percentageFormat(d.value / this.totalBudget)})`);
         })
         .on('mouseenter', this.highlightNodes)
-        .on('mouseleave', this.fade);
+        .on('mouseenter.legend', this.highlightLegend)
+        .on('mouseleave', this.fade)
+        .on('mouseleave.legend', this.fadeLegend)
+      ;
+      this.generateLegend();
     },
   },
 };
