@@ -44,19 +44,21 @@ export default {
       donors: new Set(),
       principalInvestigators: new Set(),
       margin: {
-        top: 10,
-        left: 150,
-        right: 150,
+        top: 70,
+        left: 190,
+        right: 190,
         bottom: 10,
       },
-      colours: {
-        donor: 'mediumSeaGreen',
-        pi: 'gold',
-      },
-      budgetTotal: {
-        pi: 0,
-        donor: 0,
-        team: 0,
+      nodeTypes: {
+        donor: {
+          colour: 'mediumSeaGreen',
+          label: 'Donor',
+        },
+        team: {},
+        pi: {
+          colour: 'gold',
+          label: 'Principal Investigator',
+        },
       },
       moneyFormat: d3.format('$,.0f'),
       percentageFormat: d3.format(',.1%'),
@@ -70,6 +72,11 @@ export default {
      */
     activeProjects() {
       return this.projects.filter((el) => el.isActive);
+    },
+    totalBudget() {
+      return this.activeProjects.reduce(
+        (acc, cur) => acc + cur.totalProjectValue,
+      );
     },
   },
   methods: {
@@ -132,7 +139,6 @@ export default {
           labels.push(cur.target.label);
           labels.push(cur.project.principalInvestigator.username);
           projectCodes.push(cur.project.ilriCode);
-          // parentEl.target.sourceLinks.forEach(childEl => labels.push(childEl.target.label));
         });
       } else if (datum.type === 'team') {
         datum.sourceLinks.forEach((cur) => {
@@ -148,7 +154,6 @@ export default {
           labels.push(cur.source.label);
           labels.push(cur.project.donor.fullName);
           projectCodes.push(cur.project.ilriCode);
-          // parentEl.source.targetLinks.forEach(childEl => labels.push(childEl.source.label));
         });
       }
       // highlight the nodes
@@ -160,10 +165,6 @@ export default {
       d3.selectAll('g.link > path')
         .style('opacity', (d) => (projectCodes.includes(d.project.ilriCode) ? 0.7 : 0.1))
       ;
-
-      // d3.selectAll('g.project-details')
-      //  .style('opacity', d => projectCodes.includes(d.project.ilriCode) ? 1 : 0)
-      // ;
     },
     highlightPath(path) {
       d3.selectAll('g.link')
@@ -184,17 +185,6 @@ export default {
       d3.selectAll('g.project-details')
         .style('opacity', 0);
     },
-    calculateBudgets() {
-      this.nodes.forEach((cur) => {
-        if (cur.type === 'pi') {
-          this.budgetTotal.pi += cur.value;
-        } else if (cur.type === 'donor') {
-          this.budgetTotal.donor += cur.value;
-        } else {
-          this.budgetTotal.team += cur.value;
-        }
-      });
-    },
     renderChart() {
       this.generateNodes();
       this.generateLinks();
@@ -209,7 +199,6 @@ export default {
         nodes: this.nodes,
         links: this.links,
       });
-      this.calculateBudgets();
       chart.selectAll('g.link')
         .data(graph.links)
         .join('g')
@@ -256,7 +245,7 @@ export default {
             .append('rect')
             .attr('width', d.x1 - d.x0)
             .attr('height', d.y1 - d.y0)
-            .style('fill', this.colours[d.type])
+            .style('fill', this.nodeTypes[d.type].colour)
             .style('stroke', 'none');
           const text = d3.select(n[i])
             .append('text')
@@ -311,17 +300,14 @@ export default {
             .attr('x', 0)
             .attr('dx', 0)
             .attr('dy', 16)
-            .text(() => {
-              if (d.type === 'pi') {
-                return `(${this.percentageFormat((d.value / this.budgetTotal.pi))})`;
-              } if (d.type === 'donor') {
-                return `(${this.percentageFormat((d.value / this.budgetTotal.donor))})`;
-              }
-              return `(${this.percentageFormat((d.value / this.budgetTotal.team))})`;
-            });
+            .text(() => `(${this.percentageFormat(d.value / this.totalBudget)})`);
         })
         .on('mouseenter', this.highlightNodes)
-        .on('mouseleave', this.fade);
+        .on('mouseenter.legend', this.highlightLegend)
+        .on('mouseleave', this.fade)
+        .on('mouseleave.legend', this.fadeLegend)
+      ;
+      this.generateLegend();
     },
   },
 };
