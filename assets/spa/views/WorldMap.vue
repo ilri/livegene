@@ -281,20 +281,30 @@ export default {
         let countryCodes = project.countryRoles.map((x) => (
           {
             country: x.country.country,
-            percentageInvolvement: x.percent,
+            percentage: x.percent,
           }
         ));
-        countryCodes.forEach((item) => countryDetails.push(
-          {
-            country: item.country,
-            percentageInvolvement: item.percentage,
-            project,
-          },
-        ));
+        countryCodes.forEach((item) => {
+          countryDetails.push(
+            {
+              country: item.country,
+              project,
+            },
+          );
+          project.percentageInvolvement = item.percentage;
+        });
       });
+      // Groups project details by country
+      let projectsGroupedByCountry = countryDetails.reduce((result, currentValue) => {
+        (result[currentValue.country] = result[currentValue.country] || [])
+          .push(currentValue.project);
+        return result;
+      }, {});
+      console.log(projectsGroupedByCountry);
       return {
         countryCodes: [...new Set(countryDetails.map((x) => x.country))],
         countryDetails,
+        projectsGroupedByCountry,
       };
     },
   },
@@ -456,7 +466,7 @@ export default {
       this.svg.append('g')
         .attr('id', 'tooltip')
         .style('opacity', 0)
-        .each(() => {
+        .each(function () {
           d3.select(this)
             .append('rect')
             .attr('height', 40)
@@ -475,6 +485,7 @@ export default {
             .style('font-family', '"Yanone Kaffeesatz", sans-serif')
             .style('font-size', '12px')
             .style('text-anchor', 'middle')
+            .append('tspan')
           ;
         });
     },
@@ -490,9 +501,8 @@ export default {
           .style('opacity', 1)
         ;
         // Retrieves the project details associated with the highlighted country
-        this.countryRoles.countryDetails.find(
-          (obj) => obj.country === d.properties['Alpha-2'],
-        );
+        this.countryRoles.projectsGroupedByCountry[d.properties['Alpha-2']];
+
         tooltip.select('text:first-of-type')
           .text(d.properties.name)
         ;
