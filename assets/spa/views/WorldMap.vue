@@ -594,7 +594,7 @@ export default {
       // Highlighting shapes of countries associated with the selected project
       d3.selectAll('path.country')
         .transition('highlightCountryPaths')
-        .duration(rotationDuration - 1000)
+        .duration(rotationDuration - 1500)
         .style('fill', (d) => (countryCodes.has(d.properties['Alpha-2']) ? 'chartreuse' : 'darkgray'))
         .on('end', () => {
           d3.selectAll('path.country')
