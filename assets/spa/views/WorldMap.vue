@@ -494,7 +494,6 @@ export default {
           (obj) => obj.country === d.properties['Alpha-2'],
         );
         tooltip.select('text:first-of-type')
-          .transition()
           .text(d.properties.name)
         ;
         // Highlights the country shape
@@ -505,9 +504,14 @@ export default {
       }
     },
     hideTooltip(d) {
-      d3.select('#tooltip')
+      const tooltip = d3.select('#tooltip')
         .transition()
         .style('opacity', 0)
+      ;
+
+      tooltip.select('text:first-of-type')
+        .transition()
+        .text('')
       ;
       d3.select(`#${d.id}`)
         .transition()
