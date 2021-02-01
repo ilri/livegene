@@ -77,6 +77,16 @@ class SamplingDocumentation
      */
     private $country;
 
+    /**
+     * @ORM\Column(type="date", nullable=true)
+     */
+    private $valid_from;
+
+    /**
+     * @ORM\Column(type="date", nullable=true)
+     */
+    private $valid_to;
+
     public function __toString()
     {
         return $this->id ? $this->document->getName() : '';
@@ -131,6 +141,30 @@ class SamplingDocumentation
     public function setCountry(?Country $country): self
     {
         $this->country = $country;
+
+        return $this;
+    }
+
+    public function getValidFrom(): ?\DateTimeInterface
+    {
+        return $this->valid_from;
+    }
+
+    public function setValidFrom(?\DateTimeInterface $valid_from): self
+    {
+        $this->valid_from = $valid_from;
+
+        return $this;
+    }
+
+    public function getValidTo(): ?\DateTimeInterface
+    {
+        return $this->valid_to;
+    }
+
+    public function setValidTo(?\DateTimeInterface $valid_to): self
+    {
+        $this->valid_to = $valid_to;
 
         return $this;
     }
