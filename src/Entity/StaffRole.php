@@ -43,6 +43,8 @@ use App\Entity\Traits\RoleTrait;
  * )
  * @UniqueEntity({"project", "staffMember"})
  * @AppAssert\Percent()
+ * @AppAssert\StartDateBeforeEndDate()
+ * @AppAssert\ChildDateRangeWithinParentDateRange()
  */
 class StaffRole
 {
