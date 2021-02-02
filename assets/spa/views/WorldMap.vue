@@ -794,5 +794,4 @@ export default {
     pointer-events: none;
     cursor: wait;
   }
-
 </style>
