@@ -80,12 +80,12 @@ class SamplingDocumentation
     /**
      * @ORM\Column(type="date", nullable=true)
      */
-    private $valid_from;
+    private $validFrom;
 
     /**
      * @ORM\Column(type="date", nullable=true)
      */
-    private $valid_to;
+    private $validTo;
 
     public function __toString()
     {
@@ -147,24 +147,24 @@ class SamplingDocumentation
 
     public function getValidFrom(): ?\DateTimeInterface
     {
-        return $this->valid_from;
+        return $this->validFrom;
     }
 
-    public function setValidFrom(?\DateTimeInterface $valid_from): self
+    public function setValidFrom(?\DateTimeInterface $validFrom): self
     {
-        $this->valid_from = $valid_from;
+        $this->validFrom = $validFrom;
 
         return $this;
     }
 
     public function getValidTo(): ?\DateTimeInterface
     {
-        return $this->valid_to;
+        return $this->validTo;
     }
 
-    public function setValidTo(?\DateTimeInterface $valid_to): self
+    public function setValidTo(?\DateTimeInterface $validTo): self
     {
-        $this->valid_to = $valid_to;
+        $this->validTo = $validTo;
 
         return $this;
     }
