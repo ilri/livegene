@@ -458,30 +458,29 @@ export default {
       ;
 
       // Tooltip
-      this.svg.append('g')
+      const tooltip = this.svg.append('g')
         .attr('id', 'tooltip')
         .style('opacity', 0)
-        .each((d, i, n) => {
-          d3.select(n[i])
-            .append('rect')
-            .attr('height', 40)
-            .attr('width', 150)
-            .attr('rx', 5)
-            .attr('ry', 5)
-            .style('fill', 'white')
-            .style('fill-opacity', 0.7)
-            .style('stroke', 'black')
-            .style('stroke-width', 0.5)
-          ;
-          d3.select(n[i])
-            .append('text')
-            .attr('y', 20)
-            .attr('x', 75)
-            .style('font-family', '"Yanone Kaffeesatz", sans-serif')
-            .style('font-size', '12px')
-            .style('text-anchor', 'middle')
-          ;
-        });
+      ;
+      tooltip
+        .append('rect')
+        .attr('height', 40)
+        .attr('width', 150)
+        .attr('rx', 5)
+        .attr('ry', 5)
+        .style('fill', 'white')
+        .style('fill-opacity', 0.7)
+        .style('stroke', 'black')
+        .style('stroke-width', 0.5)
+      ;
+      tooltip
+        .append('text')
+        .attr('y', 20)
+        .attr('x', 75)
+        .style('font-family', '"Yanone Kaffeesatz", sans-serif')
+        .style('font-size', '12px')
+        .style('text-anchor', 'middle')
+      ;
     },
     /**
      * Select team.
