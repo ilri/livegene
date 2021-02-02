@@ -461,8 +461,8 @@ export default {
       this.svg.append('g')
         .attr('id', 'tooltip')
         .style('opacity', 0)
-        .each(() => {
-          d3.select(this)
+        .each((d, i, n) => {
+          d3.select(n[i])
             .append('rect')
             .attr('height', 40)
             .attr('width', 150)
@@ -473,7 +473,7 @@ export default {
             .style('stroke', 'black')
             .style('stroke-width', 0.5)
           ;
-          d3.select(this)
+          d3.select(n[i])
             .append('text')
             .attr('y', 20)
             .attr('x', 75)
