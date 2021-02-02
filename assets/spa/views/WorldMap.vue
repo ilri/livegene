@@ -271,39 +271,39 @@ export default {
     /**
      * Information of projects that feature a 'countryRole'.
      */
-    countryRoles() {
-      // Projects that have 'countryRole' properties
-      let associatedProjects = this.projects.filter((x) => x.countryRoles[0]);
-      // Project-related information for each country involved in a project
-      let countryDetails = [];
-      // Retrieving information (Country, project, percentage involvement)
-      associatedProjects.forEach((project) => {
-        let countryCodes = project.countryRoles.map((x) => (
-          {
-            country: x.country.country,
-            percentage: x.percent,
-          }
-        ));
-        countryCodes.forEach((item) => {
-          countryDetails.push(
-            {
-              country: item.country,
-              project,
-            },
-          );
-          project.percentageInvolvement = item.percentage;
-        });
-      });
-      // Groups project details by country
-      let projectsGroupedByCountry = countryDetails.reduce((result, currentValue) => {
-        (result[currentValue.country] = result[currentValue.country] || [])
-          .push(currentValue.project);
-        return result;
-      }, {});
-      return {
-        projectsGroupedByCountry,
-      };
-    },
+    // countryRoles() {
+    //   // Projects that have 'countryRole' properties
+    //   let associatedProjects = this.projects.filter((x) => x.countryRoles[0]);
+    //   // Project-related information for each country involved in a project
+    //   let countryDetails = [];
+    //   // Retrieving information (Country, project, percentage involvement)
+    //   associatedProjects.forEach((project) => {
+    //     let countryCodes = project.countryRoles.map((x) => (
+    //       {
+    //         country: x.country.country,
+    //         percentage: x.percent,
+    //       }
+    //     ));
+    //     countryCodes.forEach((item) => {
+    //       countryDetails.push(
+    //         {
+    //           country: item.country,
+    //           project,
+    //         },
+    //       );
+    //       project.percentageInvolvement = item.percentage;
+    //     });
+    //   });
+    //   // Groups project details by country
+    //   let projectsGroupedByCountry = countryDetails.reduce((result, currentValue) => {
+    //     (result[currentValue.country] = result[currentValue.country] || [])
+    //       .push(currentValue.project);
+    //     return result;
+    //   }, {});
+    //   return {
+    //     projectsGroupedByCountry,
+    //   };
+    // },
   },
   watch: {
     projects(val) {
