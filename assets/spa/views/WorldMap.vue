@@ -461,7 +461,7 @@ export default {
       this.svg.append('g')
         .attr('id', 'tooltip')
         .style('opacity', 0)
-        .each(function () {
+        .each(() => {
           d3.select(this)
             .append('rect')
             .attr('height', 40)
