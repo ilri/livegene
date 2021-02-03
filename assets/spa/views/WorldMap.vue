@@ -473,9 +473,17 @@ export default {
         .style('stroke-width', 0.5)
       ;
       tooltip
-        .append('text')
-        .style('font-family', '"Yanone Kaffeesatz", sans-serif')
-        .style('font-size', () => ((this.viewport.width > 700) ? '15px' : '10px'))
+        .append('foreignObject')
+        .attr('height', () => (this.viewport.height * 0.15))
+        .attr('width', () => (this.viewport.width * 0.24))
+        .append('xhtml:body')
+        .attr('id', 'name')
+        .style('line-height', 1)
+        .style('font-size', () => ((this.viewport.width > 768) ? '17px' : '11px'))
+        .style('margin', () => ((this.viewport.width > 768) ? '10% 15%' : '5% 10%'))
+        .style('text-align', 'center')
+        .style('text-anchor', 'middle')
+        .style('background-color', 'transparent')
       ;
     },
     /**
@@ -608,30 +616,11 @@ export default {
         .transition()
         .style('opacity', 1)
       ;
-      const content = d3.select('#tooltip')
-        .select('text:first-of-type')
-        .attr('y', 20)
-        .attr('x', 90)
-        .style('text-anchor', 'middle')
+      // Adds tooltip content
+      d3.select('#tooltip')
+        .select('#name')
+        .html(() => `<div><p>${d.properties.name}</p></div>`)
       ;
-      // Organizes text wrapping within tooltip
-      const titleSegments = d.properties.name.split(' ');
-      if (titleSegments.length > 3) {
-        content
-          .append('tspan')
-          .text(titleSegments.slice(0, 3).join(' '))
-        ;
-        content
-          .append('tspan')
-          .text(titleSegments.slice(3).join(' '))
-          .attr('dy', 20)
-          .attr('dx', -85)
-        ;
-      } else {
-        content.append('tspan')
-          .text(d.properties.name)
-        ;
-      }
       // Highlights the country shape
       d3.select(`#${d.id}`)
         .transition()
@@ -649,10 +638,12 @@ export default {
         .transition()
         .style('opacity', 0)
       ;
-      tooltip.select('text:first-of-type')
+      tooltip
+        .select('#name')
+        .selectAll('*')
         .transition()
-        .text('')
-      ;
+        .remove();
+
       // Reverts fill to original fill
       d3.select(`#${d.id}`)
         .transition()
