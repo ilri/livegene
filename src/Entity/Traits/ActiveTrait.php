@@ -2,11 +2,6 @@
 
 namespace App\Entity\Traits;
 
-use ApiPlatform\Core\Annotation\{
-    ApiFilter,
-    ApiResource
-};
-
 use Carbon\Carbon;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
