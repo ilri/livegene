@@ -83,7 +83,6 @@ export default {
      */
     generateNodes() {
       this.activeProjects.forEach((parentEl) => {
-        console.log(parentEl);
         this.teams.add(parentEl.team);
         parentEl.staffRoles.forEach(
           (childEl) => this.staff.add(JSON.stringify(childEl.staffMember)),
