@@ -456,7 +456,6 @@ export default {
         .style('stroke', 'black')
         .attr('d', this.geoPath)
       ;
-
       // Tooltip
       const tooltip = this.svg.append('g')
         .attr('id', 'tooltip')
@@ -464,8 +463,8 @@ export default {
       ;
       tooltip
         .append('rect')
-        .attr('height', 40)
-        .attr('width', 150)
+        .attr('height', () => (this.viewport.height * 0.15))
+        .attr('width', () => (this.viewport.width * 0.24))
         .attr('rx', 5)
         .attr('ry', 5)
         .style('fill', 'white')
@@ -475,11 +474,8 @@ export default {
       ;
       tooltip
         .append('text')
-        .attr('y', 20)
-        .attr('x', 75)
         .style('font-family', '"Yanone Kaffeesatz", sans-serif')
-        .style('font-size', '12px')
-        .style('text-anchor', 'middle')
+        .style('font-size', () => ((this.viewport.width > 700) ? '15px' : '10px'))
       ;
     },
     /**
@@ -608,20 +604,39 @@ export default {
      *
      */
     showTooltip(d) {
-      console.log('tooltip is being displayed');
-      const tooltip = d3.select('#tooltip')
+      d3.select('#tooltip')
         .transition()
         .style('opacity', 1)
       ;
-      tooltip.select('text:first-of-type')
-        .text(d.properties.name)
+      const content = d3.select('#tooltip')
+        .select('text:first-of-type')
+        .attr('y', 20)
+        .attr('x', 90)
+        .style('text-anchor', 'middle')
       ;
+      // Organizes text wrapping within tooltip
+      const titleSegments = d.properties.name.split(' ');
+      if (titleSegments.length > 3) {
+        content
+          .append('tspan')
+          .text(titleSegments.slice(0, 3).join(' '))
+        ;
+        content
+          .append('tspan')
+          .text(titleSegments.slice(3).join(' '))
+          .attr('dy', 20)
+          .attr('dx', -85)
+        ;
+      } else {
+        content.append('tspan')
+          .text(d.properties.name)
+        ;
+      }
       // Highlights the country shape
       d3.select(`#${d.id}`)
         .transition()
         .style('fill', 'IndianRed')
       ;
-
       // Retrieves the project details associated with the highlighted country
       // this.countryRoles.projectsGroupedByCountry[d.properties['Alpha-2']];
     },
@@ -630,7 +645,6 @@ export default {
      *
      */
     hideTooltip(d) {
-      console.log('tooltip has been hidden');
       const tooltip = d3.select('#tooltip')
         .transition()
         .style('opacity', 0)
