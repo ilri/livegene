@@ -8,6 +8,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Validator\Constraints as AppAssert;
 use Symfony\Component\Serializer\Annotation\Groups;
+use App\Entity\Traits\ActiveTrait;
 use App\Entity\Traits\RoleTrait;
 
 /**
@@ -43,10 +44,13 @@ use App\Entity\Traits\RoleTrait;
  * )
  * @UniqueEntity({"project", "staffMember"})
  * @AppAssert\Percent()
+ * @AppAssert\StartDateBeforeEndDate()
+ * @AppAssert\ChildDateRangeWithinParentDateRange()
  */
 class StaffRole
 {
     use RoleTrait;
+    use ActiveTrait;
 
     /**
      * @ORM\Id()
@@ -71,6 +75,20 @@ class StaffRole
      * @Groups({"staff_role:collection:get", "staff_role:item:get", "project:collection:get", "project:item:get"})
      */
     private $staffMember;
+
+    /**
+     * @ORM\Column(type="date", nullable=true)
+     * @Assert\NotBlank()
+     * @Groups({"staff_role:collection:get", "staff_role:item:get"})
+     */
+    private $startDate;
+
+    /**
+     * @ORM\Column(type="date", nullable=true)
+     * @Assert\NotBlank()
+     * @Groups({"staff_role:collection:get", "staff_role:item:get"})
+     */
+    private $endDate;
 
     public function __toString()
     {
@@ -105,6 +123,30 @@ class StaffRole
     public function setStaffMember(?StaffMember $staffMember): self
     {
         $this->staffMember = $staffMember;
+
+        return $this;
+    }
+
+    public function getStartDate(): ?\DateTimeInterface
+    {
+        return $this->startDate;
+    }
+
+    public function setStartDate(?\DateTimeInterface $startDate): self
+    {
+        $this->startDate = $startDate;
+
+        return $this;
+    }
+
+    public function getEndDate(): ?\DateTimeInterface
+    {
+        return $this->endDate;
+    }
+
+    public function setEndDate(?\DateTimeInterface $endDate): self
+    {
+        $this->endDate = $endDate;
 
         return $this;
     }

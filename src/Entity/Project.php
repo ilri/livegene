@@ -7,6 +7,7 @@ use ApiPlatform\Core\Annotation\{
     ApiResource
 };
 use ApiPlatform\Core\Serializer\Filter\PropertyFilter;
+use App\Entity\Traits\ActiveTrait;
 use App\Entity\Traits\PercentageTrait;
 use App\Validator\Constraints as AppAssert;
 use Carbon\Carbon;
@@ -56,6 +57,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Project
 {
     use PercentageTrait;
+    use ActiveTrait;
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -678,7 +680,7 @@ class Project
         return $this;
     }
 
-    // virtual properties 
+    // virtual properties
 
     /**
      * @Groups({"project:collection:get", "project:item:get"})
@@ -702,15 +704,6 @@ class Project
     public function getTotalAnimalSpeciesRolesPercent(): float
     {
         return $this->calculateTotalRolesPercentage($this->getAnimalSpeciesRoles()->toArray());
-    }
-
-    /**
-     * @Groups({"project:collection:get", "project:item:get"})
-     */
-    public function getIsActive(): bool
-    {
-        $now = Carbon::now();
-        return $this->endDate >= $now && $this->startDate <= $now;
     }
 
     /**
