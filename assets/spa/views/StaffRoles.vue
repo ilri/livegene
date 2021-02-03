@@ -70,7 +70,7 @@ export default {
      * @returns {T[]}
      */
     activeProjects() {
-      return this.projects.filter((el) => el.isActiveThisYear && el.staffRoles.length);
+      return this.projects.filter((el) => el.isActiveThisYear && el.staffRoles.length && el.staffRoles.isActive);
     },
   },
   methods: {
@@ -83,6 +83,7 @@ export default {
      */
     generateNodes() {
       this.activeProjects.forEach((parentEl) => {
+        console.log(parentEl);
         this.teams.add(parentEl.team);
         parentEl.staffRoles.forEach(
           (childEl) => this.staff.add(JSON.stringify(childEl.staffMember)),
