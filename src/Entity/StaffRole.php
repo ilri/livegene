@@ -78,11 +78,15 @@ class StaffRole
 
     /**
      * @ORM\Column(type="date", nullable=true)
+     * @Assert\NotBlank()
+     * @Groups({"staff_role:collection:get", "staff_role:item:get"})
      */
     private $startDate;
 
     /**
      * @ORM\Column(type="date", nullable=true)
+     * @Assert\NotBlank()
+     * @Groups({"staff_role:collection:get", "staff_role:item:get"})
      */
     private $endDate;
 
