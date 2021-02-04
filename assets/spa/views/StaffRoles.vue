@@ -83,16 +83,19 @@ export default {
      */
     generateNodes() {
       this.activeProjects.forEach((parentEl) => {
-        this.teams.add(parentEl.team);
-        parentEl.staffRoles.forEach((childEl) => {
-          if (childEl.isActive) {
-            this.staff.add(JSON.stringify(childEl.staffMember));
-          }
-        });
-        this.nodes.push({
-          label: parentEl.ilriCode,
-          type: 'project',
-        });
+        // Processes only projects with at least one active staff role
+        if (parentEl.staffRoles.find((staff) => staff.isActive)) {
+          this.teams.add(parentEl.team);
+          parentEl.staffRoles.forEach((childEl) => {
+            if (childEl.isActive) {
+              this.staff.add(JSON.stringify(childEl.staffMember));
+            }
+          });
+          this.nodes.push({
+            label: parentEl.ilriCode,
+            type: 'project',
+          });
+        }
       });
 
       this.teams.forEach((cur) => this.nodes.push({
@@ -122,20 +125,27 @@ export default {
      */
     generateLinks() {
       this.activeProjects.forEach((parentEl) => parentEl.staffRoles.forEach(
-        (childEl) => this.links.push({
-          source: this.nodes.findIndex((el) => el.label === childEl.staffMember.username),
-          target: this.nodes.findIndex((el) => el.label === parentEl.ilriCode),
-          value: parseFloat(childEl.percent) * 100,
-        }),
+        (childEl) => {
+          if (childEl.isActive) {
+            this.links.push({
+              source: this.nodes.findIndex((el) => el.label === childEl.staffMember.username),
+              target: this.nodes.findIndex((el) => el.label === parentEl.ilriCode),
+              value: parseFloat(childEl.percent) * 100,
+            });
+          }
+        },
       ));
 
       this.activeProjects.forEach((cur) => {
-        this.links.push({
-          source: this.nodes.findIndex((el) => el.label === cur.ilriCode),
-          target: this.nodes.findIndex((el) => el.label === cur.team),
-          value: this.calculateTotalPercentForProject(cur.staffRoles),
-        });
-      });
+        if (this.nodes.find((el) => el.label === cur.ilriCode)) {
+          this.links.push({
+            source: this.nodes.findIndex((el) => el.label === cur.ilriCode),
+            target: this.nodes.findIndex((el) => el.label === cur.team),
+            value: this.calculateTotalPercentForProject(cur.staffRoles),
+          });
+        }
+      })
+      ;
     },
     /**
      * Helper function to highlight associated nodes and paths when hovering over a node.
