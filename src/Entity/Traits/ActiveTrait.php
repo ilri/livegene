@@ -15,6 +15,6 @@ trait ActiveTrait
     public function getIsActive(): bool
     {
         $now = Carbon::now();
-        return $this->endDate >= $now && $this->startDate <= $now;
+        return $this->getEndDate() >= $now && $this->getStartDate() <= $now;
     }
 }
