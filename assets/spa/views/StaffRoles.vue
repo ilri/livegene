@@ -1,52 +1,28 @@
 <template>
-  <div>
-    <h2 class="bg-info text-white text-center p-2">
+  <BaseView>
+    <template slot="header">
       Staff Roles
-    </h2>
-    <b-row
-      v-show="!loaded && !error"
-      align-h="center"
-      align-v="center"
-      class="content"
-    >
-      <b-spinner
-        label="Loading..."
-        class="mt-5"
-      />
-    </b-row>
-    <b-row
-      v-show="!loaded && error"
-      align-h="center"
-      align-v="center"
-      class="content"
-    >
-      <b-alert
-        variant="danger"
-        show
+    </template>
+    <template slot="graphic">
+      <b-col
+        cols="12"
+        lg="10"
+        class="px-0"
       >
-        Error message: <strong>{{ errorStatusText }}</strong>
-      </b-alert>
-    </b-row>
-    <b-row
-      v-show="loaded"
-      align-h="center"
-      class="text-center pb-5 content"
-    >
-      <svg
-        id="viewport"
-        :width="viewport.width"
-        :height="viewport.height"
-      >
-        <g />
-      </svg>
-    </b-row>
-  </div>
+        <ChartContainer :viewport="viewport">
+          <g slot="chart" />
+        </ChartContainer>
+      </b-col>
+    </template>
+  </BaseView>
 </template>
 
 <script>
 import { select, selectAll } from 'd3';
 import { sankey, sankeyLinkHorizontal } from 'd3-sankey';
 import sankeyDiagramMixin from '../mixins/sankeyDiagramMixin';
+import BaseView from '../components/BaseView';
+import ChartContainer from '../components/ChartContainer';
 
 const d3 = {
   select,
@@ -57,22 +33,32 @@ const d3 = {
 
 export default {
   name: 'StaffRoles',
+  components: {
+    BaseView,
+    ChartContainer,
+  },
   mixins: [sankeyDiagramMixin],
   data() {
     return {
       // hold the staff objects (staffObjects)
       staff: new Set(),
-      // colours for the nodes
-      colours: {
-        person: 'green',
-        project: 'yellow',
-      },
       // margins for the diagram
       margin: {
-        top: 10,
-        left: 150,
-        right: 90,
+        top: 70,
+        left: 190,
+        right: 190,
         bottom: 10,
+      },
+      nodeTypes: {
+        person: {
+          colour: 'gold',
+          label: 'Staff Member',
+        },
+        project: {
+          colour: 'chocolate',
+          label: 'Project',
+        },
+        team: {},
       },
     };
   },
@@ -98,9 +84,11 @@ export default {
     generateNodes() {
       this.activeProjects.forEach((parentEl) => {
         this.teams.add(parentEl.team);
-        parentEl.staffRoles.forEach(
-          (childEl) => this.staff.add(JSON.stringify(childEl.staffMember)),
-        );
+        parentEl.staffRoles.forEach((childEl) => {
+          if (childEl.isActive) {
+            this.staff.add(JSON.stringify(childEl.staffMember));
+          }
+        });
         this.nodes.push({
           label: parentEl.ilriCode,
           type: 'project',
@@ -253,7 +241,7 @@ export default {
             .attr('d', d3.sankeyLinkHorizontal())
             .style('opacity', 0.5)
             .style('stroke-width', (datum) => datum.width)
-            .style('stroke', 'black')
+            .style('stroke', 'grey')
             .style('fill', 'none')
             .on('mouseenter', this.highlightPath)
             .on('mouseleave', this.fade)
@@ -270,10 +258,10 @@ export default {
             )
             .style('opacity', 0);
           fte.append('circle')
-            .attr('stroke', 'darkblue')
+            .attr('stroke', 'none')
             .attr('stroke-width', 1)
             .attr('r', 12)
-            .attr('fill', 'yellow');
+            .attr('fill', 'cornsilk');
           fte.append('text')
             .attr('text-anchor', 'middle')
             .attr('alignment-baseline', 'middle')
@@ -306,8 +294,8 @@ export default {
             .append('rect')
             .attr('width', d.x1 - d.x0)
             .attr('height', d.y1 - d.y0)
-            .style('fill', () => this.colours[d.type])
-            .style('stroke', 'black');
+            .style('fill', this.nodeTypes[d.type].colour)
+            .style('stroke', 'none');
           d3.select(n[i])
             .append('text')
             .attr('class', 'label')
@@ -318,9 +306,11 @@ export default {
             .text((datum) => datum.value);
         })
         .on('mouseenter', this.highlightNodes)
+        .on('mouseenter.legend', this.highlightLegend)
         .on('mouseleave', this.fade)
+        .on('mouseleave.legend', this.fadeLegend)
       ;
-
+      this.generateLegend();
       // position the text labels of the nodes
       chart.selectAll('text.label')
         .each((d, i, n) => {
@@ -338,7 +328,7 @@ export default {
         .style('font-family', '"Open Sans Condensed", sans-serif')
         .style('font-weight', 700)
         .style('font-size', '0.7em')
-        .style('fill', 'darkblue')
+        .style('fill', 'DarkSlateGray')
       ;
 
       // position the text for the node FTE values
@@ -347,7 +337,7 @@ export default {
         .attr('alignment-baseline', 'ideographic')
         .style('font-weight', 800)
         .style('font-size', '0.7em')
-        .style('fill', 'darkblue')
+        .style('fill', 'DarkSlateGrey')
         .style('opacity', 0);
     },
   },
@@ -355,13 +345,4 @@ export default {
 </script>
 
 <style scoped>
-  .content {
-    margin: 0;
-  }
-
-  svg#viewport {
-    overflow: visible;
-    border: thin solid lightgray;
-    background-color: azure;
-  }
 </style>

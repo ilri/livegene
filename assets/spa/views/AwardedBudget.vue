@@ -1,52 +1,28 @@
 <template>
-  <div>
-    <h2 class="bg-info text-white text-center p-2">
+  <BaseView>
+    <template slot="header">
       Awarded Budget
-    </h2>
-    <b-row
-      v-show="!loaded && !error"
-      align-h="center"
-      align-v="center"
-      class="content"
-    >
-      <b-spinner
-        label="Loading..."
-        class="mt-5"
-      />
-    </b-row>
-    <b-row
-      v-show="!loaded && error"
-      align-h="center"
-      align-v="center"
-      class="content"
-    >
-      <b-alert
-        variant="danger"
-        show
+    </template>
+    <template slot="graphic">
+      <b-col
+        cols="12"
+        lg="10"
+        class="px-0"
       >
-        Error message: <strong>{{ errorStatusText }}</strong>
-      </b-alert>
-    </b-row>
-    <b-row
-      v-show="loaded"
-      align-h="center"
-      class="text-center pb-5 content"
-    >
-      <svg
-        id="viewport"
-        :width="viewport.width"
-        :height="viewport.height"
-      >
-        <g />
-      </svg>
-    </b-row>
-  </div>
+        <ChartContainer :viewport="viewport">
+          <g slot="chart" />
+        </ChartContainer>
+      </b-col>
+    </template>
+  </BaseView>
 </template>
 
 <script>
 import { select, selectAll, format } from 'd3';
 import { sankey, sankeyLinkHorizontal } from 'd3-sankey';
 import sankeyDiagramMixin from '../mixins/sankeyDiagramMixin';
+import BaseView from '../components/BaseView';
+import ChartContainer from '../components/ChartContainer';
 
 const d3 = {
   select,
@@ -58,22 +34,34 @@ const d3 = {
 
 export default {
   name: 'AwardedBudget',
+  components: {
+    BaseView,
+    ChartContainer,
+  },
   mixins: [sankeyDiagramMixin],
   data() {
     return {
       donors: new Set(),
       principalInvestigators: new Set(),
       margin: {
-        top: 10,
-        left: 100,
-        right: 100,
+        top: 70,
+        left: 190,
+        right: 190,
         bottom: 10,
       },
-      colours: {
-        donor: 'green',
-        pi: 'yellow',
+      nodeTypes: {
+        donor: {
+          colour: 'mediumSeaGreen',
+          label: 'Donor',
+        },
+        team: {},
+        pi: {
+          colour: 'gold',
+          label: 'Principal Investigator',
+        },
       },
       moneyFormat: d3.format('$,.0f'),
+      percentageFormat: d3.format(',.1%'),
     };
   },
   computed: {
@@ -84,6 +72,11 @@ export default {
      */
     activeProjects() {
       return this.projects.filter((el) => el.isActive);
+    },
+    totalBudget() {
+      return this.activeProjects.reduce(
+        (acc, cur) => acc + cur.totalProjectValue,
+      );
     },
   },
   methods: {
@@ -146,7 +139,6 @@ export default {
           labels.push(cur.target.label);
           labels.push(cur.project.principalInvestigator.username);
           projectCodes.push(cur.project.ilriCode);
-          // parentEl.target.sourceLinks.forEach(childEl => labels.push(childEl.target.label));
         });
       } else if (datum.type === 'team') {
         datum.sourceLinks.forEach((cur) => {
@@ -162,7 +154,6 @@ export default {
           labels.push(cur.source.label);
           labels.push(cur.project.donor.fullName);
           projectCodes.push(cur.project.ilriCode);
-          // parentEl.source.targetLinks.forEach(childEl => labels.push(childEl.source.label));
         });
       }
       // highlight the nodes
@@ -174,10 +165,6 @@ export default {
       d3.selectAll('g.link > path')
         .style('opacity', (d) => (projectCodes.includes(d.project.ilriCode) ? 0.7 : 0.1))
       ;
-
-      // d3.selectAll('g.project-details')
-      //  .style('opacity', d => projectCodes.includes(d.project.ilriCode) ? 1 : 0)
-      // ;
     },
     highlightPath(path) {
       d3.selectAll('g.link')
@@ -223,7 +210,7 @@ export default {
             .attr('d', d3.sankeyLinkHorizontal())
             .style('opacity', 0.5)
             .style('stroke-width', (datum) => datum.width)
-            .style('stroke', 'black')
+            .style('stroke', 'grey')
             .style('fill', 'none')
             .on('mouseenter', this.highlightPath)
             .on('mouseleave', this.fade);
@@ -235,7 +222,7 @@ export default {
               'transform',
               `translate(${[pathBox.x + pathBox.width / 2, pathBox.y + pathBox.height / 2]})`,
             )
-            .style('fill', 'orangered')
+            .style('fill', 'crimson')
             .style('opacity', 0);
           projectDetails.append('text')
             .attr('text-anchor', 'middle')
@@ -258,8 +245,8 @@ export default {
             .append('rect')
             .attr('width', d.x1 - d.x0)
             .attr('height', d.y1 - d.y0)
-            .style('fill', this.colours[d.type])
-            .style('stroke', 'black');
+            .style('fill', this.nodeTypes[d.type].colour)
+            .style('stroke', 'none');
           const text = d3.select(n[i])
             .append('text')
             .attr('class', 'label')
@@ -286,7 +273,7 @@ export default {
             .style('font-family', '"Open Sans Condensed", sans-serif')
             .style('font-weight', 700)
             .style('font-size', 12)
-            .style('fill', 'darkblue');
+            .style('fill', 'DarkSlateGray');
           text
             .append('tspan')
             .attr('class', 'label')
@@ -300,28 +287,31 @@ export default {
               }
               return d.label;
             });
-          text.append('tspan')
+          text
+            .append('tspan')
             .attr('class', 'value')
             .attr('x', 0)
             .attr('dx', 0)
             .attr('dy', 16)
             .text(this.moneyFormat(d.value));
+          text
+            .append('tspan')
+            .attr('class', 'percentage')
+            .attr('x', 0)
+            .attr('dx', 0)
+            .attr('dy', 16)
+            .text(() => `(${this.percentageFormat(d.value / this.totalBudget)})`);
         })
         .on('mouseenter', this.highlightNodes)
-        .on('mouseleave', this.fade);
+        .on('mouseenter.legend', this.highlightLegend)
+        .on('mouseleave', this.fade)
+        .on('mouseleave.legend', this.fadeLegend)
+      ;
+      this.generateLegend();
     },
   },
 };
 </script>
 
 <style scoped>
-  .content {
-    margin: 0;
-  }
-
-  svg#viewport {
-    overflow: visible;
-    border: thin solid lightgray;
-    background-color: azure;
-  }
 </style>

@@ -1,151 +1,131 @@
 <template>
-  <div>
-    <h2 class="bg-info text-white text-center p-2">
+  <BaseView>
+    <template slot="header">
       Project Timelines
-    </h2>
-    <b-row
-      v-show="!loaded && !error"
-      align-h="center"
-      align-v="center"
-      class="content"
-    >
-      <b-spinner
-        label="Loading..."
-        class="mt-5"
-      />
-    </b-row>
-    <b-row
-      v-show="!loaded && error"
-      align-h="center"
-      align-v="center"
-      class="content"
-    >
-      <b-alert
-        variant="danger"
-        show
+    </template>
+    <template slot="graphic">
+      <b-col
+        cols="12"
+        lg="10"
+        class="px-0"
       >
-        Error message: <strong>{{ errorStatusText }}</strong>
-      </b-alert>
-    </b-row>
-    <b-row
-      v-show="loaded"
-      align-h="center"
-      class="text-center pb-5 content"
-    >
-      <div id="svg-wrapper">
-        <svg
-          id="viewport"
-        >
-          <rect
-            id="zoom"
-            :x="margin.left"
-            :y="margin.top"
-            :width="chart.width"
-            :height="chart.height"
-          />
-          <defs>
-            <linearGradient
-              id="legendGradient"
-              x1="0"
-              x2="1"
-            >
-              <stop
-                offset="0"
-                :style="{ 'stop-color': colorScale(value.min), 'stop-opacity': 0.8 }"
-              />
-              <stop
-                offset="1"
-                :style="{ 'stop-color': colorScale(value.max), 'stop-opacity': 0.8 }"
-              />
-            </linearGradient>
-            <clipPath id="chart">
-              <rect
-                :x="margin.left"
-                :y="margin.top"
-                :width="chart.width"
-                :height="chart.height"
-              />
-            </clipPath>
-          </defs>
-          <x-axis
-            :axis="xAxis"
-            :margin="margin"
-            :chart="chart"
-            class="x-axis"
-          />
-          <y-axis
-            :axis="yAxis"
-            :margin="margin"
-            :chart="chart"
-            :bar-height="barHeight"
-            :spacing="spacing"
-            :data="data"
-            class="y-axis"
-          />
-          <line
-            class="top-border"
-            :x1="margin.left"
-            :y1="margin.top"
-            :x2="margin.left + chart.width"
-            :y2="margin.top"
-          />
-          <line
-            class="right-border"
-            :x1="margin.left + chart.width"
-            :y1="margin.top"
-            :x2="margin.left + chart.width"
-            :y2="margin.top + chart.height"
-          />
-          <g
-            class="view"
-            clip-path="url(#chart)"
-          >
-            <g />
-          </g>
-          <g class="legend">
-            <text :transform="`translate(${[viewport.width/2, spacing * 2]})`">
-              Total Project Value
-            </text>
+        <ChartContainer :viewport="viewport">
+          <template slot="chart">
             <rect
-              class="gradient-bar"
-              :x="(viewport.width - legendBox.width) / 2"
-              :y="spacing * 3"
-              :width="legendBox.width"
-              :height="legendBox.height"
+              id="zoom"
+              :x="margin.left"
+              :y="margin.top"
+              :width="chart.width"
+              :height="chart.height"
             />
-            <text
-              :x="(viewport.width - legendBox.width) / 2 - spacing"
-              :y="spacing * 2 + legendBox.height"
-              class="value-min"
-            >
-              {{ `\u2264 ${moneyFormat(value.min)}` }}
-            </text>
-            <text
-              :x="(viewport.width - legendBox.width) / 2 + legendBox.width + spacing"
-              :y="spacing * 2 + legendBox.height"
-              class="value-max"
-            >
-              {{ `\u2265 ${moneyFormat(value.max)}` }}
-            </text>
+            <defs>
+              <linearGradient
+                id="legendGradient"
+                x1="0"
+                x2="1"
+              >
+                <stop
+                  offset="0"
+                  :style="{ 'stop-color': colorScale(value.min), 'stop-opacity': 0.8 }"
+                />
+                <stop
+                  offset="1"
+                  :style="{ 'stop-color': colorScale(value.max), 'stop-opacity': 0.8 }"
+                />
+              </linearGradient>
+              <clipPath id="chart">
+                <rect
+                  :x="margin.left"
+                  :y="margin.top"
+                  :width="chart.width"
+                  :height="chart.height"
+                />
+              </clipPath>
+            </defs>
+            <x-axis
+              :axis="xAxis"
+              :margin="margin"
+              :chart="chart"
+              class="x-axis"
+            />
+            <y-axis
+              :axis="yAxis"
+              :margin="margin"
+              :chart="chart"
+              :bar-height="barHeight"
+              :spacing="spacing"
+              :data="projectsGroupedByTeam"
+              class="y-axis"
+            />
+            <line
+              class="top-border"
+              :x1="margin.left"
+              :y1="margin.top"
+              :x2="margin.left + chart.width"
+              :y2="margin.top"
+            />
+            <line
+              class="right-border"
+              :x1="margin.left + chart.width"
+              :y1="margin.top"
+              :x2="margin.left + chart.width"
+              :y2="margin.top + chart.height"
+            />
             <g
-              class="value-indicator"
-              :transform="transformValueIndicator()"
+              class="view"
+              clip-path="url(#chart)"
             >
-              <text class="caret-up">{{ '\uf0d8' }}</text>
-              <text class="project-value" />
+              <g />
             </g>
-          </g>
-          <g
-            class="today"
-            :transform="`translate(${[today, margin.top]})`"
-          >
-            <line :y2="chart.height" />
-            <text
-              :style="{ fontSize: barHeight + spacing }"
-              @click="toggleActiveProjects"
-            >{{ '\uf274' }}</text>
-          </g>
-        </svg>
+            <g class="legend">
+              <text :transform="`translate(${[viewport.width/2, spacing * 2]})`">
+                Total Project Value
+              </text>
+              <rect
+                class="gradient-bar"
+                :x="(viewport.width - legendBox.width) / 2"
+                :y="spacing * 3"
+                :width="legendBox.width"
+                :height="legendBox.height"
+              />
+              <text
+                :x="(viewport.width - legendBox.width) / 2 - spacing"
+                :y="spacing * 2 + legendBox.height"
+                class="value-min"
+              >
+                {{ `\u2264 ${moneyFormat(value.min)}` }}
+              </text>
+              <text
+                :x="(viewport.width - legendBox.width) / 2 + legendBox.width + spacing"
+                :y="spacing * 2 + legendBox.height"
+                class="value-max"
+              >
+                {{ `\u2265 ${moneyFormat(value.max)}` }}
+              </text>
+              <g
+                class="value-indicator"
+                :transform="transformValueIndicator()"
+              >
+                <text class="caret-up">
+                  {{ '\uf0d8' }}
+                </text>
+                <text class="project-value" />
+              </g>
+            </g>
+            <g
+              class="today"
+              :transform="`translate(${[today, margin.top]})`"
+            >
+              <line :y2="chart.height" />
+              <text
+                :style="{ fontSize: barHeight + spacing }"
+                @click="toggleActiveProjects"
+              >
+                {{ '\uf274' }}
+              </text>
+            </g>
+          </template>
+        </ChartContainer>
         <b-button
           id="reset"
           variant="danger"
@@ -154,10 +134,10 @@
         >
           Reset
         </b-button>
-      </div>
+      </b-col>
       <div class="infobox" />
-    </b-row>
-  </div>
+    </template>
+  </BaseView>
 </template>
 
 <script>
@@ -165,10 +145,17 @@ import * as d3 from 'd3';
 import { mapState } from 'vuex';
 import XAxis from '../components/XAxis';
 import YAxis from '../components/YAxis';
+import BaseView from '../components/BaseView';
+import ChartContainer from '../components/ChartContainer';
 
 export default {
   name: 'ProjectTimelines',
-  components: { XAxis, YAxis },
+  components: {
+    XAxis,
+    YAxis,
+    BaseView,
+    ChartContainer,
+  },
   data() {
     return {
       barHeight: 12,
@@ -189,7 +176,6 @@ export default {
       dateFormat: d3.timeFormat('%b %d, %Y'),
       today: 0,
       todayOn: false,
-      windowWidth: window.innerWidth,
     };
   },
   computed: {
@@ -197,11 +183,8 @@ export default {
      * Get the data from Vuex Store
      */
     ...mapState({
-      projects: (state) => state.projects,
-      data: (state) => state.projectsGroupedByTeam,
-      loaded: (state) => state.loaded,
-      error: (state) => state.error,
-      errorStatusText: (state) => state.errorStatusText,
+      projects: (state) => state.project.projects,
+      projectsGroupedByTeam: (state) => state.project.projectsGroupedByTeam,
     }),
     /**
      * Get the base width used to calculate the viewport and chart dimensions
@@ -209,9 +192,9 @@ export default {
      * @returns {number}
      */
     baseWidth() {
-      return this.windowWidth >= 992
-        ? this.windowWidth - 2 * Math.round(this.windowWidth / 10)
-        : this.windowWidth;
+      return window.innerWidth >= 992
+        ? window.innerWidth * 0.8333
+        : window.innerWidth;
     },
     /**
      * Calculate the dimensions of the viewport
@@ -232,7 +215,10 @@ export default {
     chart() {
       return {
         width: this.baseWidth - (this.margin.left + this.margin.right),
-        height: this.projects.length * this.barHeight + this.data.size * this.spacing,
+        height: this.projects.length
+                * this.barHeight
+                + this.projectsGroupedByTeam.size
+                * this.spacing,
       };
     },
     /**
@@ -280,7 +266,7 @@ export default {
      */
     yScale() {
       const offsets = [0];
-      this.data.forEach(function generateOffsets(cur) {
+      this.projectsGroupedByTeam.forEach(function generateOffsets(cur) {
         this.push(cur.length);
       }, offsets);
       return d3.scaleOrdinal()
@@ -288,7 +274,7 @@ export default {
           (d, i, a) => a.slice(0, (i + 1))
             .reduce((acc, cur) => acc + cur, 0) * this.barHeight + i * this.spacing,
         ))
-        .domain([...this.data.keys()]);
+        .domain([...this.projectsGroupedByTeam.keys()]);
     },
     /**
      * Create bottom x axis
@@ -329,7 +315,7 @@ export default {
      */
     legendBox() {
       return {
-        width: this.baseWidth >= 794 ? 500 : this.baseWidth,
+        width: this.chart.width * 0.583,
         height: 20,
       };
     },
@@ -346,15 +332,15 @@ export default {
     },
   },
   watch: {
-    loaded(val) {
-      if (val) {
+    projectsGroupedByTeam(val) {
+      if (val.size) {
         this.getTodayPosition();
         this.renderChart();
       }
     },
   },
   mounted() {
-    if (this.loaded) {
+    if (this.projectsGroupedByTeam.size) {
       this.getTodayPosition();
       this.renderChart();
     }
@@ -365,14 +351,9 @@ export default {
       const svg = d3.select('#viewport');
       const view = svg.select('g.view > g');
 
-      // Add responsiveness to the SVG element
-      d3.select('svg')
-        .attr('preserveAspectRatio', 'xMinYMin meet')
-        .attr('viewBox', `0 0 ${this.viewport.width} ${this.viewport.height}`);
-
       // Create groups for all teams
       const teams = view.selectAll('g.team')
-        .data([...this.data])
+        .data([...this.projectsGroupedByTeam])
         .join('g')
         .attr('class', 'team')
         .attr(
@@ -414,8 +395,8 @@ export default {
         .attr('class', 'project-label')
         .attr('x', (d) => this.labelPadding + this.xScale(d3.isoParse(d.startDate)))
         .attr('y', this.barHeight / 2 + 1)
-        .style('font-size', this.barHeight - 1)
-        .style('alignment-baseline', 'middle')
+        .style('font-size', `${this.barHeight - 1}px`)
+        .style('dominant-baseline', 'middle')
         .style('font-family', '"Open Sans", sans-serif')
         .style('font-weight', 800)
         .style('fill', 'azure')
@@ -576,44 +557,38 @@ export default {
 </script>
 
 <style scoped>
-  .content {
-    margin: 0;
-  }
 
-  #svg-wrapper{
-    position: relative;
-    width: 80%;
-    padding-bottom: 100%;
-    overflow: hidden;
-
-  }
-  @media screen and (max-width: 992px) {
-    #svg-wrapper {
-      width: 100%;
-    }
-  }
+  /**
+  Extra-large, large and medium devices (768px and up)
+  */
   #reset{
     position: absolute;
-    left: 0%;
+    top: 0;
+    right: 0;
     opacity: 0;
-    width: 12%;
-    height: 2.4%;
-    font-size: 1.2vw;
+    width: 7em;
+    height: 2em;
+    font-size: 1.3vw;
     line-height: 0;
   }
-
-  @media screen and (max-width: 540px) {
+  /**
+  Small devices (landscape phones, less than 768px)
+  */
+  @media screen and (max-width: 767px) {
     #reset {
-      font-size: 2.5vw;
-      width: 15%;
-      height: 3%;
+      width: 6em;
+      height: 2.2em;
+      font-size: 1.8vw;
     }
   }
 
-  svg#viewport {
-    overflow: visible;
-    border: thin solid lightgray;
-    background-color: azure;
+  /**
+  Extra small devices (portrait phones, less than 576px)
+  */
+  @media screen and (max-width: 576px) {
+    #reset {
+      font-size: 2.6vw;
+    }
   }
 
   #zoom {
@@ -644,15 +619,6 @@ export default {
     alignment-baseline: middle;
   }
 
-  .project-name {
-    font-weight: 700;
-  }
-
-  .project-dates {
-    font-weight: 400;
-    font-size: 0.8em;
-  }
-
   .legend text:first-of-type {
     alignment-baseline: middle;
     text-anchor: middle;
@@ -670,6 +636,28 @@ export default {
 
   .legend .value-min, .legend .value-max {
     alignment-baseline: top;
+  }
+  /**
+  Extra-large, large and medium devices (768px and up)
+  */
+  .legend .value-min, .legend .value-max, .legend text:first-of-type {
+    font-size: 16px;
+  }
+  /**
+  Small devices (landscape phones, less than 768px)
+  */
+  @media screen and (max-width: 767px) {
+    .legend .value-min, .legend .value-max, .legend text:first-of-type {
+      font-size: 14px;
+    }
+  }
+  /**
+  Extra small devices (portrait phones, less than 576px)
+  */
+  @media screen and (max-width: 576px) {
+    .legend .value-min, .legend .value-max, .legend text:first-of-type {
+      font-size: 12px;
+    }
   }
 
   .caret-up {
