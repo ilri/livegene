@@ -705,14 +705,4 @@ class Project
     {
         return $this->calculateTotalRolesPercentage($this->getAnimalSpeciesRoles()->toArray());
     }
-
-    /**
-     * @Groups({"project:collection:get", "project:item:get"})
-     */
-    public function getIsActiveThisYear(): bool
-    {
-        $isStartDateInCurrentYear = Carbon::instance($this->startDate)->isCurrentYear();
-        $isEndDateInCurrentYear = Carbon::instance($this->endDate)->isCurrentYear();
-        return $this->getIsActive() || $isStartDateInCurrentYear || $isEndDateInCurrentYear;
-    }
 }

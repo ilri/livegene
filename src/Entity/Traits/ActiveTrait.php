@@ -17,4 +17,14 @@ trait ActiveTrait
         $now = Carbon::now();
         return $this->getEndDate() >= $now && $this->getStartDate() <= $now;
     }
+
+    /**
+     * @Groups({"project:collection:get","project:item:get","staff_role:collection:get","staff_role:item:get"})
+     */
+    public function getIsActiveThisYear(): bool
+    {
+        $isStartDateInCurrentYear = Carbon::instance($this->getStartDate)->isCurrentYear();
+        $isEndDateInCurrentYear = Carbon::instance($this->getEndDate)->isCurrentYear();
+        return $this->getIsActive() || $isStartDateInCurrentYear || $isEndDateInCurrentYear;
+    }
 }
