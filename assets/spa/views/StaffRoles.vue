@@ -70,7 +70,7 @@ export default {
      * @returns {T[]}
      */
     activeProjects() {
-      return this.projects.filter((el) => el.isActiveThisYear && el.staffRoles.length && el.staffRoles.isActive);
+      return this.projects.filter((el) => el.isActiveThisYear && el.staffRoles.length);
     },
   },
   methods: {
@@ -84,9 +84,11 @@ export default {
     generateNodes() {
       this.activeProjects.forEach((parentEl) => {
         this.teams.add(parentEl.team);
-        parentEl.staffRoles.forEach(
-          (childEl) => this.staff.add(JSON.stringify(childEl.staffMember)),
-        );
+        parentEl.staffRoles.forEach((childEl) => {
+          if (childEl.isActive) {
+            this.staff.add(JSON.stringify(childEl.staffMember));
+          }
+        });
         this.nodes.push({
           label: parentEl.ilriCode,
           type: 'project',
