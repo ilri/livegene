@@ -129,6 +129,10 @@ class StaffRole
 
     public function getStartDate(): ?\DateTimeInterface
     {
+        if ($this->getProject()) {
+            return $this->startDate ?: $this->project->getStartDate();
+        }
+
         return $this->startDate;
     }
 
@@ -141,6 +145,10 @@ class StaffRole
 
     public function getEndDate(): ?\DateTimeInterface
     {
+        if ($this->getProject()) {
+            return $this->endDate ?: $this->project->getEndDate();
+        }
+
         return $this->endDate;
     }
 
