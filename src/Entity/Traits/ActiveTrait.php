@@ -23,8 +23,8 @@ trait ActiveTrait
      */
     public function getIsActiveThisYear(): bool
     {
-        $isStartDateInCurrentYear = Carbon::instance($this->getStartDate)->isCurrentYear();
-        $isEndDateInCurrentYear = Carbon::instance($this->getEndDate)->isCurrentYear();
+        $isStartDateInCurrentYear = Carbon::instance($this->getStartDate())->isCurrentYear();
+        $isEndDateInCurrentYear = Carbon::instance($this->getEndDate())->isCurrentYear();
         return $this->getIsActive() || $isStartDateInCurrentYear || $isEndDateInCurrentYear;
     }
 }
