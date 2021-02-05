@@ -198,7 +198,7 @@ class StaffMember
      */
     public function getActiveStaffRoles(): Collection
     {
-        return $this->getStaffRoles()->filter(function(StaffRole $staffRole) {
+        return $this->staffRoles->filter(function(StaffRole $staffRole) {
             return $staffRole->getIsActive();
         });
     }
