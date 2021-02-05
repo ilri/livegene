@@ -2,6 +2,7 @@
 
 namespace App\Tests\API;
 
+use Carbon\Carbon;
 use Liip\TestFixturesBundle\Test\FixturesTrait;
 use Symfony\Component\HttpFoundation\Response;
 use App\DataFixtures\Test\UserFixtures;
@@ -15,6 +16,9 @@ class StaffRoleAPITest extends ApiTestCase
 
     public function setUp()
     {
+        date_default_timezone_set('UTC');
+        $now = Carbon::create(2019, 8, 8, 9);
+        Carbon::setTestNow($now);
         $this->fixtures = $this->loadFixtures([
             'App\DataFixtures\Test\UserFixtures',
             'App\DataFixtures\Test\StaffRoleFixtures',
@@ -88,6 +92,7 @@ class StaffRoleAPITest extends ApiTestCase
                     'fullName' => 'Wile E. Coyote and the Road Runner',
                     'shortName' => 'Looney Tunes',
                     'team' => 'LiveGene',
+                    'isActive' => true,
                 ],
                 'staffMember' => [
                     'id' => 1,
@@ -97,7 +102,10 @@ class StaffRoleAPITest extends ApiTestCase
                     'firstName' => 'Wile E.',
                     'lastName' => 'Coyote',
                 ],
+                'startDate' => '2018-01-01T00:00:00+00:00',
+                'endDate' => '2019-12-31T00:00:00+00:00',
                 'percent' => '0.5',
+                'isActive' => true,
             ]
         );
     }
