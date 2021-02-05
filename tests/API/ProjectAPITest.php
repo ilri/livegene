@@ -144,8 +144,8 @@ class ProjectAPITest extends ApiTestCase
                 'totalCountryRolesPercent' => 0,
                 'totalSDGRolesPercent' => 0,
                 'totalAnimalSpeciesRolesPercent' => 0,
+                'isActiveThisYear' => true,
                 'isActive' => true,
-                'isActiveThisYear' => true
             ]
         );
     }
