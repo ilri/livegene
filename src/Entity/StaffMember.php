@@ -193,6 +193,16 @@ class StaffMember
         return $this->staffRoles;
     }
 
+    /*
+     * @return Collection|StaffRole[]
+     */
+    public function getActiveStaffRoles(): Collection
+    {
+        return $this->getStaffRoles()->filter(function(StaffRole $staffRole) {
+            return $staffRole->getIsActive();
+        });
+    }
+
     public function addStaffRole(StaffRole $staffRole): self
     {
         if (!$this->staffRoles->contains($staffRole)) {
@@ -221,6 +231,6 @@ class StaffMember
      */
     public function getTotalStaffRolesPercent(): float
     {
-        return $this->calculateTotalRolesPercentage($this->getStaffRoles()->toArray());
+        return $this->calculateTotalRolesPercentage($this->getActiveStaffRoles()->toArray());
     }
 }
