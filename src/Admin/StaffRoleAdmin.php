@@ -96,10 +96,12 @@ class StaffRoleAdmin extends AbstractAdmin
 
         $formMapper
             ->add('startDate', DatePickerType::class, [
+                'required' => false,
                 'dp_pick_time' => false,
                 'format' => DateType::HTML5_FORMAT
             ])
             ->add('endDate', DatePickerType::class, [
+                'required' => false,
                 'dp_pick_time' => false,
                 'format' => DateType::HTML5_FORMAT
             ])
