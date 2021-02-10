@@ -16,6 +16,8 @@ class SamplingDocumentationFixtures extends Fixture implements DependentFixtureI
         $documentation->setSamplingActivity($this->getReference('activity'));;
         $documentation->setSamplingDocumentType($this->getReference('doctype'));
         $documentation->setDocument($this->getReference('media'));
+        $documentation->setStartDate(new \DateTime('2021-01-01'));
+        $documentation->setEndDate(new \DateTime('2021-12-31'));
         $manager->persist($documentation);
 
         $manager->flush();

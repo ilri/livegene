@@ -58,6 +58,7 @@ class Project
 {
     use PercentageTrait;
     use ActiveTrait;
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()

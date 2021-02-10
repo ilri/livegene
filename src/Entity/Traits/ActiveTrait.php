@@ -10,7 +10,14 @@ use Symfony\Component\Serializer\Annotation\Groups;
 trait ActiveTrait
 {
     /**
-     * @Groups({"project:collection:get", "project:item:get", "staff_role:collection:get", "staff_role:item:get"})
+     * @Groups({
+     *     "project:collection:get",
+     *     "project:item:get",
+     *     "staff_role:collection:get",
+     *     "staff_role:item:get",
+     *     "sampling_documentation:collection:get",
+     *     "sampling_documentation:item:get",
+     * })
      */
     public function getIsActive(): bool
     {
