@@ -8,9 +8,10 @@
     </h2>
     <ErrorBar :errors="errors" />
     <b-row
-      v-show="$root.loading.status === null && errors.length === 0"
+      v-show="errors.length === 0"
       align-h="center"
       class="text-center pb-5 m-0"
+      :class="[$root.loading.status === null ? 'show' : 'hide']"
     >
       <slot name="graphic" />
     </b-row>
@@ -31,5 +32,10 @@ export default {
 </script>
 
 <style scoped>
-
+  .show {
+    visibility: visible;
+  }
+  .hide {
+    visibility: hidden;
+  }
 </style>
