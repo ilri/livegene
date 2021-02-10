@@ -170,17 +170,9 @@ export default {
         .attr('y', this.margin.top / 4)
       ;
     },
-  },
-  watch: {
-    $loadingStatus(val) {
-      if (val === null) {
-        this.renderChart();
-      }
-    },
-  },
-  mounted() {
-    if (this.$loadingStatus === null) {
+    display() {
+      console.log('mixing called');
       this.renderChart();
-    }
+    },
   },
 };

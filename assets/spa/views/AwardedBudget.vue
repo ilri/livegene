@@ -20,6 +20,7 @@
 <script>
 import { select, selectAll, format } from 'd3';
 import { sankey, sankeyLinkHorizontal } from 'd3-sankey';
+import baseMixin from '../mixins/baseMixin';
 import sankeyDiagramMixin from '../mixins/sankeyDiagramMixin';
 import BaseView from '../components/BaseView';
 import ChartContainer from '../components/ChartContainer';
@@ -38,7 +39,7 @@ export default {
     BaseView,
     ChartContainer,
   },
-  mixins: [sankeyDiagramMixin],
+  mixins: [baseMixin, sankeyDiagramMixin],
   data() {
     return {
       donors: new Set(),

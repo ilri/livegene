@@ -147,6 +147,7 @@ import XAxis from '../components/XAxis';
 import YAxis from '../components/YAxis';
 import BaseView from '../components/BaseView';
 import ChartContainer from '../components/ChartContainer';
+import baseMixin from '../mixins/baseMixin';
 
 export default {
   name: 'ProjectTimelines',
@@ -156,6 +157,7 @@ export default {
     BaseView,
     ChartContainer,
   },
+  mixins: [baseMixin],
   data() {
     return {
       barHeight: 12,
@@ -330,20 +332,6 @@ export default {
         .range([0, this.legendBox.width])
         .clamp(true);
     },
-  },
-  watch: {
-    $loadingStatus(val) {
-      if (val === null) {
-        this.getTodayPosition();
-        this.renderChart();
-      }
-    },
-  },
-  mounted() {
-    if (this.$loadingStatus === null) {
-      this.getTodayPosition();
-      this.renderChart();
-    }
   },
   methods: {
     renderChart() {
@@ -551,6 +539,10 @@ export default {
         .transition('resetting')
         .duration(1000)
         .call(zoom.transform, d3.zoomIdentity);
+    },
+    display() {
+      this.getTodayPosition();
+      this.renderChart();
     },
   },
 };

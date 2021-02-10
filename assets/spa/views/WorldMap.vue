@@ -156,6 +156,7 @@ import versor from 'versor';
 import worldCountries from '../data/world-countries';
 import BaseView from '../components/BaseView';
 import ChartContainer from '../components/ChartContainer';
+import baseMixin from '../mixins/baseMixin';
 
 const topojson = {
   feature,
@@ -167,6 +168,7 @@ export default {
     BaseView,
     ChartContainer,
   },
+  mixins: [baseMixin],
   data() {
     return {
       // https://en.wikipedia.org/wiki/Axial_tilt
@@ -312,18 +314,6 @@ export default {
     //     projectsGroupedByCountry,
     //   };
     // },
-  },
-  watch: {
-    $loadingStatus(val) {
-      if (val === null) {
-        this.renderChart();
-      }
-    },
-  },
-  mounted() {
-    if (this.$loadingStatus === null) {
-      this.renderChart();
-    }
   },
   methods: {
     /**
@@ -674,6 +664,9 @@ export default {
       );
 
       return lambda * 50;
+    },
+    display() {
+      this.renderChart();
     },
   },
 };
