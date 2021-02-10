@@ -62,10 +62,11 @@
         class="px-0"
       >
         <ChartContainer :viewport="viewport">
-          <g
-            slot="chart"
-            :class="{ busy: rotating }"
-          />
+          <template slot="chart">
+            <g
+              :class="{ busy: rotating }"
+            />
+          </template>
         </ChartContainer>
       </b-col>
       <b-col
@@ -101,7 +102,7 @@
           no-body
           header="Partners"
         >
-          <b-card-text>
+          <b-card-text class="mt-2">
             <b-list-group
               v-for="partnershipType in partnershipTypes"
               :key="`partnershipType${JSON.parse(partnershipType).id}`"
@@ -134,6 +135,13 @@
               />
             </figure>
           </b-card-text>
+        </b-card>
+        <b-card
+          id="countryDetails"
+          no-body
+          header="Details"
+        >
+          <b-card-text class="mt-2" />
         </b-card>
       </b-col>
     </template>
@@ -456,35 +464,6 @@ export default {
         .style('stroke', 'black')
         .attr('d', this.geoPath)
       ;
-      // Tooltip
-      const tooltip = this.svg.append('g')
-        .attr('id', 'tooltip')
-        .style('opacity', 0)
-      ;
-      tooltip
-        .append('rect')
-        .attr('height', () => (this.viewport.height * 0.15))
-        .attr('width', () => (this.viewport.width * 0.24))
-        .attr('rx', 5)
-        .attr('ry', 5)
-        .style('fill', 'white')
-        .style('fill-opacity', 0.7)
-        .style('stroke', 'black')
-        .style('stroke-width', 0.5)
-      ;
-      tooltip
-        .append('foreignObject')
-        .attr('height', () => (this.viewport.height * 0.15))
-        .attr('width', () => (this.viewport.width * 0.24))
-        .append('xhtml:body')
-        .attr('id', 'name')
-        .style('line-height', 1)
-        .style('font-size', () => ((this.viewport.width > 768) ? '17px' : '11px'))
-        .style('margin', () => ((this.viewport.width > 768) ? '10% 15%' : '5% 10%'))
-        .style('text-align', 'center')
-        .style('text-anchor', 'middle')
-        .style('background-color', 'transparent')
-      ;
     },
     /**
      * Select team.
@@ -612,15 +591,12 @@ export default {
      *
      */
     showTooltip(d) {
-      d3.select('#tooltip')
-        .transition()
-        .style('opacity', 1)
-      ;
       // Adds tooltip content
-      d3.select('#tooltip')
-        .select('#name')
-        .html(() => `<div><p>${d.properties.name}</p></div>`)
+      d3.select('#countryDetails')
+        .select('.card-text')
+        .html(`<p>${d.properties.name}</p>`)
       ;
+
       // Highlights the country shape
       d3.select(`#${d.id}`)
         .transition()
@@ -634,15 +610,10 @@ export default {
      *
      */
     hideTooltip(d) {
-      const tooltip = d3.select('#tooltip')
-        .transition()
-        .style('opacity', 0)
+      d3.select('#countryDetails')
+        .select('.card-text')
+        .html('')
       ;
-      tooltip
-        .select('#name')
-        .selectAll('*')
-        .transition()
-        .remove();
 
       // Reverts fill to original fill
       d3.select(`#${d.id}`)
