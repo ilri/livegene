@@ -11,7 +11,7 @@
       v-show="errors.length === 0"
       align-h="center"
       class="text-center pb-5 m-0"
-      :class="[$root.loading.status === null ? 'show' : 'hide']"
+      :class="[$loadingStatus === null ? 'show' : 'hide']"
     >
       <slot name="graphic" />
     </b-row>

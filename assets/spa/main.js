@@ -17,12 +17,18 @@ Vue.use(BootstrapVue);
 
 const loading = Vue.observable(NProgress);
 
+Object.defineProperty(Vue.prototype, '$loadingStatus', {
+  get() {
+    return loading.status;
+  },
+  set(val) {
+    loading.status = val;
+  },
+});
+
 Vue.config.productionTip = false;
 
 new Vue({
-  data: {
-    loading,
-  },
   render: (h) => h(App),
   router,
   store,

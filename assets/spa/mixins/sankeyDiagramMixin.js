@@ -171,16 +171,16 @@ export default {
       ;
     },
   },
-  mounted() {
-    if (this.projects.length) {
-      this.renderChart();
-    }
-  },
   watch: {
-    projects(val) {
-      if (val.length) {
+    $loadingStatus(val) {
+      if (val === null) {
         this.renderChart();
       }
     },
+  },
+  mounted() {
+    if (this.$loadingStatus === null) {
+      this.renderChart();
+    }
   },
 };

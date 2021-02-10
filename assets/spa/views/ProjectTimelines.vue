@@ -332,15 +332,15 @@ export default {
     },
   },
   watch: {
-    projectsGroupedByTeam(val) {
-      if (val.size) {
+    $loadingStatus(val) {
+      if (val === null) {
         this.getTodayPosition();
         this.renderChart();
       }
     },
   },
   mounted() {
-    if (this.projectsGroupedByTeam.size) {
+    if (this.$loadingStatus === null) {
       this.getTodayPosition();
       this.renderChart();
     }
