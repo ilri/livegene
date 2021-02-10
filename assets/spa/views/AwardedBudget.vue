@@ -77,6 +77,7 @@ export default {
     totalBudget() {
       return this.activeProjects.reduce(
         (acc, cur) => acc + cur.totalProjectValue,
+        0,
       );
     },
   },

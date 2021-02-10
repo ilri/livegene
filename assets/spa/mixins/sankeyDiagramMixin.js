@@ -171,7 +171,6 @@ export default {
       ;
     },
     display() {
-      console.log('mixing called');
       this.renderChart();
     },
   },
