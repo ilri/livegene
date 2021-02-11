@@ -17,20 +17,20 @@ class PercentValidator extends ConstraintValidator
         switch (get_class($entity)) {
             case 'App\Entity\StaffRole':
                 $subject = $entity->getStaffMember();
-                $totalPercent = $subject->getTotalStaffRolesPercent();
+                $totalPercent = $subject ? $subject->getTotalStaffRolesPercent() : null;
                 break;
             case 'App\Entity\SDGRole':
                 $subject = $entity->getProject();
                 dump($subject);
-                $totalPercent = $subject->getTotalSDGRolesPercent();
+                $totalPercent = $subject ? $subject->getTotalSDGRolesPercent() : null;
                 break;
             case 'App\Entity\CountryRole':
                 $subject = $entity->getProject();
-                $totalPercent = $subject->getTotalCountryRolesPercent();
+                $totalPercent = $subject ? $subject->getTotalCountryRolesPercent() : null;
             break;
             case 'App\Entity\AnimalSpeciesRole':
                 $subject = $entity->getProject();
-                $totalPercent = $subject->getTotalAnimalSpeciesRolesPercent();
+                $totalPercent = $subject ? $subject->getTotalAnimalSpeciesRolesPercent() : null;
             break;
             default:
                 return;
