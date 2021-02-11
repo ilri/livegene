@@ -62,10 +62,11 @@
         class="px-0"
       >
         <ChartContainer :viewport="viewport">
-          <g
-            slot="chart"
-            :class="{ busy: rotating }"
-          />
+          <template slot="chart">
+            <g
+              :class="{ busy: rotating }"
+            />
+          </template>
         </ChartContainer>
       </b-col>
       <b-col
@@ -101,7 +102,7 @@
           no-body
           header="Partners"
         >
-          <b-card-text>
+          <b-card-text class="mt-2">
             <b-list-group
               v-for="partnershipType in partnershipTypes"
               :key="`partnershipType${JSON.parse(partnershipType).id}`"
@@ -134,6 +135,13 @@
               />
             </figure>
           </b-card-text>
+        </b-card>
+        <b-card
+          id="countryDetails"
+          no-body
+          header="Details"
+        >
+          <b-card-text class="mt-2" />
         </b-card>
       </b-col>
     </template>
@@ -268,6 +276,42 @@ export default {
         .on('start', this.zoomStart)
         .on('zoom', this.zooming);
     },
+    /**
+     * Information of projects that feature a 'countryRole'.
+     */
+    // countryRoles() {
+    //   // Projects that have 'countryRole' properties
+    //   const associatedProjects = this.projects.filter((x) => x.countryRoles[0]);
+    //   // Project-related information for each country involved in a project
+    //   const countryDetails = [];
+    //   // Retrieving information (Country, project, percentage involvement)
+    //   associatedProjects.forEach((project) => {
+    //     const countryCodes = project.countryRoles.map((x) => (
+    //       {
+    //         country: x.country.country,
+    //         percentage: x.percent,
+    //       }
+    //     ));
+    //     countryCodes.forEach((item) => {
+    //       countryDetails.push(
+    //         {
+    //           country: item.country,
+    //           project,
+    //         },
+    //       );
+    //       project.percentageInvolvement = item.percentage;
+    //     });
+    //   });
+    //   // Groups project details by country
+    //   const projectsGroupedByCountry = countryDetails.reduce((result, currentValue) => {
+    //     (result[currentValue.country] = result[currentValue.country] || [])
+    //       .push(currentValue.project);
+    //     return result;
+    //   }, {});
+    //   return {
+    //     projectsGroupedByCountry,
+    //   };
+    // },
   },
   watch: {
     projects(val) {
@@ -392,7 +436,6 @@ export default {
         .style('fill', 'none')
         .style('stroke-width', 1)
       ;
-
       // Countries
       this.svg.selectAll('path.country')
         .data(this.countries)
@@ -404,8 +447,12 @@ export default {
         .style('stroke-width', 0.5)
         .style('stroke', 'white')
         .attr('d', this.geoPath)
+        .each((d, i, n) => {
+          d3.select(n[i])
+            .attr('id', d.id)
+          ;
+        })
       ;
-
       // Outline
       this.svg.append('path')
         .attr('class', 'outline')
@@ -415,7 +462,8 @@ export default {
         .style('fill', 'none')
         .style('stroke-width', 2)
         .style('stroke', 'black')
-        .attr('d', this.geoPath);
+        .attr('d', this.geoPath)
+      ;
     },
     /**
      * Select team.
@@ -523,13 +571,56 @@ export default {
           (childEl) => countryCodes.add(childEl.country.country),
         ),
       );
-
       const rotationDuration = this.rotateToView(countryCodes);
 
+      // Highlighting shapes of countries associated with the selected project
       d3.selectAll('path.country')
         .transition('highlightCountryPaths')
-        .duration(rotationDuration)
-        .style('fill', (d) => (countryCodes.has(d.properties['Alpha-2']) ? 'chartreuse' : 'darkgray'));
+        .duration(rotationDuration - 1500)
+        .style('fill', (d) => (countryCodes.has(d.properties['Alpha-2']) ? 'chartreuse' : 'darkgray'))
+        .on('end', () => {
+          d3.selectAll('path.country')
+            .on('mouseenter', (d) => (countryCodes.has(d.properties['Alpha-2']) ? this.showTooltip(d) : null))
+            .on('mouseleave', (d) => (countryCodes.has(d.properties['Alpha-2']) ? this.hideTooltip(d) : null))
+          ;
+        })
+      ;
+    },
+    /**
+     * Handles tooltip and fill transitions for a selected team or project.
+     *
+     */
+    showTooltip(d) {
+      // Adds tooltip content
+      d3.select('#countryDetails')
+        .select('.card-text')
+        .html(`<p>${d.properties.name}</p>`)
+      ;
+
+      // Highlights the country shape
+      d3.select(`#${d.id}`)
+        .transition()
+        .style('fill', 'IndianRed')
+      ;
+      // Retrieves the project details associated with the highlighted country
+      // this.countryRoles.projectsGroupedByCountry[d.properties['Alpha-2']];
+    },
+    /**
+     * Reverses tooltip and fill transitions for a selected team or project.
+     *
+     */
+    hideTooltip(d) {
+      d3.select('#countryDetails')
+        .select('.card-text')
+        .html('')
+      ;
+
+      // Reverts fill to original fill
+      d3.select(`#${d.id}`)
+        .transition()
+        .duration(500)
+        .style('fill', 'chartreuse')
+      ;
     },
     /**
      * Rotate the globe to match the center of gravity of the highlighted countries on the x axis
