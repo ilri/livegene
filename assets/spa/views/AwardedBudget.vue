@@ -227,7 +227,7 @@ export default {
             .style('opacity', 0);
           projectDetails.append('text')
             .attr('text-anchor', 'middle')
-            .attr('alignment-baseline', 'middle')
+            .attr('dominant-baseline', 'middle')
             .style('font-size', '0.7em')
             .style('font-weight', 700)
             .style('font-family', '"Open Sans Condensed", sans-serif')
@@ -270,7 +270,7 @@ export default {
               },
               /* eslint-enable consistent-return */
             )
-            .attr('alignment-baseline', 'middle')
+            .attr('dominant-baseline', 'middle')
             .style('font-family', '"Open Sans Condensed", sans-serif')
             .style('font-weight', 700)
             .style('font-size', '0.8em')

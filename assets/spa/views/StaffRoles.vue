@@ -275,7 +275,7 @@ export default {
             .attr('fill', 'cornsilk');
           fte.append('text')
             .attr('text-anchor', 'middle')
-            .attr('alignment-baseline', 'middle')
+            .attr('dominant-baseline', 'middle')
             .style('font-size', '0.8em')
             .style('font-weight', 700)
             .style('font-family', '"Open Sans Condensed", sans-serif')
@@ -334,7 +334,7 @@ export default {
               .attr('transform', `translate(${[d.x1 - d.x0 + 5, (d.y1 - d.y0) / 2]})`);
           }
           d3.select(n[i])
-            .attr('alignment-baseline', 'middle');
+            .attr('dominant-baseline', 'middle');
         })
         .style('font-family', '"Open Sans Condensed", sans-serif')
         .style('font-weight', 700)
@@ -345,7 +345,7 @@ export default {
       // position the text for the node FTE values
       chart.selectAll('text.node-fte')
         .attr('transform', (d) => `translate(${Math.round((d.x1 - d.x0) / 10)},0)`)
-        .attr('alignment-baseline', 'ideographic')
+        .attr('dominant-baseline', 'ideographic')
         .style('font-weight', 800)
         .style('font-size', '0.8em')
         .style('fill', 'DarkSlateGrey')
