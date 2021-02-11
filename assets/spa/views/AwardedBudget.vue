@@ -228,7 +228,7 @@ export default {
           projectDetails.append('text')
             .attr('text-anchor', 'middle')
             .attr('alignment-baseline', 'middle')
-            .style('font-size', '10px')
+            .style('font-size', '0.7em')
             .style('font-weight', 700)
             .style('font-family', '"Open Sans Condensed", sans-serif')
             .text(`${d.project.ilriCode} (${this.moneyFormat(d.value)})`);
@@ -273,7 +273,7 @@ export default {
             .attr('alignment-baseline', 'middle')
             .style('font-family', '"Open Sans Condensed", sans-serif')
             .style('font-weight', 700)
-            .style('font-size', '12px')
+            .style('font-size', '0.8em')
             .style('fill', 'DarkSlateGray');
           text
             .append('tspan')

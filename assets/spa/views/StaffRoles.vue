@@ -271,12 +271,12 @@ export default {
           fte.append('circle')
             .attr('stroke', 'none')
             .attr('stroke-width', 1)
-            .attr('r', 12)
+            .attr('r', 14)
             .attr('fill', 'cornsilk');
           fte.append('text')
             .attr('text-anchor', 'middle')
             .attr('alignment-baseline', 'middle')
-            .style('font-size', '10px')
+            .style('font-size', '0.8em')
             .style('font-weight', 700)
             .style('font-family', '"Open Sans Condensed", sans-serif')
             .text(d.value);
@@ -338,7 +338,7 @@ export default {
         })
         .style('font-family', '"Open Sans Condensed", sans-serif')
         .style('font-weight', 700)
-        .style('font-size', '0.7em')
+        .style('font-size', '0.8em')
         .style('fill', 'DarkSlateGray')
       ;
 
@@ -347,7 +347,7 @@ export default {
         .attr('transform', (d) => `translate(${Math.round((d.x1 - d.x0) / 10)},0)`)
         .attr('alignment-baseline', 'ideographic')
         .style('font-weight', 800)
-        .style('font-size', '0.7em')
+        .style('font-size', '0.8em')
         .style('fill', 'DarkSlateGrey')
         .style('opacity', 0);
     },
