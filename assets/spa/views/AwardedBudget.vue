@@ -218,6 +218,7 @@ export default {
           const projectDetails = d3.select(n[i])
             .append('g')
             .attr('class', 'project-details')
+            .attr('pointer-events', 'none')
             .attr(
               'transform',
               `translate(${[pathBox.x + pathBox.width / 2, pathBox.y + pathBox.height / 2]})`,

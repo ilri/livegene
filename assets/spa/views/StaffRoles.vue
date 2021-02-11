@@ -262,6 +262,7 @@ export default {
           const fte = d3.select(n[i])
             .append('g')
             .attr('class', 'link-fte')
+            .attr('pointer-events', 'none')
             .attr(
               'transform',
               `translate(${[pathBox.x + pathBox.width / 2, pathBox.y + pathBox.height / 2]})`,
