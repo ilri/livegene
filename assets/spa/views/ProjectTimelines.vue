@@ -701,4 +701,14 @@ export default {
     opacity: 0.8;
     display: none;
   }
+
+  /**
+  Small devices (landscape phones, less than 768px)
+  */
+  @media screen and (max-width: 767px) {
+    div.infobox {
+      width: 10em;
+      font-size: 0.7em;
+    }
+  }
 </style>
