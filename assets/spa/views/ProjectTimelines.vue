@@ -134,8 +134,8 @@
         >
           Reset
         </b-button>
+        <div class="infobox" />
       </b-col>
-      <div class="infobox" />
     </template>
   </BaseView>
 </template>
@@ -163,8 +163,8 @@ export default {
       margin: {
         top: 80,
         left: 100,
-        right: 20,
-        bottom: 50,
+        right: 40,
+        bottom: 70,
       },
       tickBleed: 10,
       labelPadding: 5,
@@ -392,6 +392,7 @@ export default {
 
       // project labels
       timelines.append('text')
+        .style('cursor', 'default')
         .attr('class', 'project-label')
         .attr('x', (d) => this.labelPadding + this.xScale(d3.isoParse(d.startDate)))
         .attr('y', this.barHeight / 2 + 1)
@@ -422,6 +423,8 @@ export default {
     },
     showProjectDetails(d, i, n) {
       const svg = d3.select('#viewport');
+      const svgDimensions = svg.node().getBBox();
+      const svgEvent = d3.mouse(svg.node());
 
       svg.select('text.caret-up')
         .attr('x', this.legendScale(d.totalProjectValue))
@@ -439,8 +442,10 @@ export default {
         .style('stroke', 'red');
       d3.select('div.infobox')
         .style('display', 'block')
-        .style('top', `${d3.event.pageY}px`)
-        .style('left', `${d3.event.pageX}px`)
+        .style('top', () => (svgEvent[1] < svgDimensions.height * 0.7 ? `${svgEvent[1]}px` : null))
+        .style('left', () => (svgEvent[0] < svgDimensions.width * 0.8 ? `${svgEvent[0]}px` : null))
+        .style('bottom', () => (svgEvent[1] >= svgDimensions.height * 0.7 ? 0 : null))
+        .style('right', () => (svgEvent[0] >= svgDimensions.width * 0.8 ? 0 : null))
         .html(
           `<h6>${d.fullName}</h6>
              <span>ILRI code: <strong>${d.ilriCode}</strong></span>
