@@ -116,7 +116,10 @@ export default {
      * @returns {Array}
      */
     calculateTotalPercentForProject(staffRoles) {
-      return staffRoles.reduce((acc, cur) => acc + parseFloat(cur.percent) * 100, 0);
+      return staffRoles
+        .filter((staff) => staff.isActive)
+        .reduce((acc, cur) => acc + parseFloat(cur.percent) * 100, 0)
+      ;
     },
     /**
      * Iterate through the active projects and generate the links.
