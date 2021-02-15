@@ -52,7 +52,7 @@ export default {
   }
 
   .body {
-    margin-bottom: 3em;
+    margin-bottom: 4.5em;
   }
 
   .footer {

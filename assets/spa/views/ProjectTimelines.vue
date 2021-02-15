@@ -134,8 +134,8 @@
         >
           Reset
         </b-button>
-        <div class="infobox" />
       </b-col>
+      <div class="infobox" />
     </template>
   </BaseView>
 </template>
@@ -423,8 +423,6 @@ export default {
     },
     showProjectDetails(d, i, n) {
       const svg = d3.select('#viewport');
-      const svgDimensions = svg.node().getBBox();
-      const svgEvent = d3.mouse(svg.node());
 
       svg.select('text.caret-up')
         .attr('x', this.legendScale(d.totalProjectValue))
@@ -442,10 +440,7 @@ export default {
         .style('stroke', 'red');
       d3.select('div.infobox')
         .style('display', 'block')
-        .style('top', () => (svgEvent[1] < svgDimensions.height * 0.7 ? `${svgEvent[1]}px` : null))
-        .style('left', () => (svgEvent[0] < svgDimensions.width * 0.8 ? `${svgEvent[0]}px` : null))
-        .style('bottom', () => (svgEvent[1] >= svgDimensions.height * 0.7 ? 0 : null))
-        .style('right', () => (svgEvent[0] >= svgDimensions.width * 0.8 ? 0 : null))
+        .style('top', `${d3.event.pageY}px`)
         .html(
           `<h6>${d.fullName}</h6>
              <span>ILRI code: <strong>${d.ilriCode}</strong></span>
@@ -454,6 +449,25 @@ export default {
              <br>
              <span>End: <strong>${this.dateFormat(d3.isoParse(d.endDate))}</strong></span>`,
         );
+      this.positionInfobox();
+    },
+    /**
+     * Ensures the infobox is displayed in its full width by conditionally rendering it
+     * on the left or the right side of the cursor event.
+     */
+    positionInfobox() {
+      const infoboxDimensions = d3.select('div.infobox').node().getBoundingClientRect();
+      if ((window.innerWidth - d3.event.pageX) < infoboxDimensions.width) {
+        // displays to the left of cursor event
+        d3.select('div.infobox')
+          .style('left', `${d3.event.pageX - infoboxDimensions.width}px`)
+        ;
+      } else {
+        // displays to the right of cursor event
+        d3.select('div.infobox')
+          .style('left', `${d3.event.pageX}px`)
+        ;
+      }
     },
     hideProjectDetails(d, i, n) {
       const svg = d3.select('#viewport');
@@ -707,13 +721,4 @@ export default {
     display: none;
   }
 
-  /**
-  Small devices (landscape phones, less than 768px)
-  */
-  @media screen and (max-width: 767px) {
-    div.infobox {
-      width: 10em;
-      font-size: 0.7em;
-    }
-  }
 </style>
