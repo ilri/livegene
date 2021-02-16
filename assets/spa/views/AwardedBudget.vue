@@ -43,12 +43,6 @@ export default {
     return {
       donors: new Set(),
       principalInvestigators: new Set(),
-      margin: {
-        top: 70,
-        left: 190,
-        right: 190,
-        bottom: 10,
-      },
       nodeTypes: {
         donor: {
           colour: 'mediumSeaGreen',
@@ -77,6 +71,18 @@ export default {
       return this.activeProjects.reduce(
         (acc, cur) => acc + cur.totalProjectValue,
       );
+    },
+    /**
+     * Calculate diagram margin sizes in relative to the viewport dimensions.
+     * This ensures the diagrams can be rendered on smaller devices, too.
+     */
+    margin() {
+      return {
+        top: this.viewport.height * 0.12,
+        left: this.viewport.width * 0.15,
+        right: this.viewport.width * 0.15,
+        bottom: this.viewport.height * 0.05,
+      };
     },
   },
   methods: {

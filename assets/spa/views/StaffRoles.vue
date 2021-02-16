@@ -42,13 +42,6 @@ export default {
     return {
       // hold the staff objects (staffObjects)
       staff: new Set(),
-      // margins for the diagram
-      margin: {
-        top: 70,
-        left: 190,
-        right: 190,
-        bottom: 10,
-      },
       nodeTypes: {
         person: {
           colour: 'gold',
@@ -71,6 +64,18 @@ export default {
      */
     activeProjects() {
       return this.projects.filter((el) => el.isActiveThisYear && el.staffRoles.length);
+    },
+    /**
+     * Calculate diagram margin sizes in relative to the viewport dimensions.
+     * This ensures the diagrams can be rendered on smaller devices, too.
+     */
+    margin() {
+      return {
+        top: this.viewport.height * 0.12,
+        left: this.viewport.width * 0.15,
+        right: this.viewport.width * 0.15,
+        bottom: this.viewport.height * 0.05,
+      };
     },
   },
   methods: {
