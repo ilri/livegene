@@ -66,15 +66,22 @@ export default {
       return this.projects.filter((el) => el.isActiveThisYear && el.staffRoles.length);
     },
     /**
-     * Calculate diagram margin sizes in relative to the viewport dimensions.
-     * This ensures the diagrams can be rendered on smaller devices, too.
+     * Calculates diagram margin sizes relative to the viewport dimensions.
+     * On extra small devices (less than 576 px), side margins are larger to
+     * accommodate node and legend labels.
      */
     margin() {
+      const left = window.innerWidth >= 576
+        ? this.viewport.width * 0.17
+        : this.viewport.width * 0.22;
+      const right = window.innerWidth >= 576
+        ? this.viewport.width * 0.15
+        : this.viewport.width * 0.20;
       return {
-        top: this.viewport.height * 0.12,
-        left: this.viewport.width * 0.15,
-        right: this.viewport.width * 0.15,
+        top: this.viewport.height * 0.10,
         bottom: this.viewport.height * 0.05,
+        left,
+        right,
       };
     },
   },
@@ -364,4 +371,28 @@ export default {
 </script>
 
 <style scoped>
+
+/**
+  Extra-large, large and medium devices (768px and up)
+  */
+svg {
+  font-size: 16px;
+}
+/**
+Small devices (landscape phones, less than 768px)
+*/
+@media screen and (max-width: 767.98px) {
+  svg {
+    font-size: 14px;
+  }
+}
+/**
+Extra small devices (portrait phones, less than 576px)
+*/
+@media screen and (max-width: 575.98px) {
+  svg {
+    font-size: 10px;
+  }
+}
+
 </style>

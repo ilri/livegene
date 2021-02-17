@@ -78,16 +78,30 @@ export default {
             .attr('id', d[0])
           ;
           item.append('circle')
-            .attr('r', 10)
+            .attr('r', '1.2%')
             .style('fill', () => d[1].colour)
           ;
-          item.append('text')
-            .attr('x', '20')
-            .attr('y', '5')
-            .text(() => (d[1].label))
-            .style('font-size', '15')
+          const foreignObject = item.append('foreignObject')
+            // Width is subject to breakpoint for small devices (less than 576px)
+            .attr('width', () => (window.innerWidth >= 576 ? '14%' : '18%'))
+            .attr('height', this.margin.top / 2)
+            // X-coordinate is subject to breakpoint for small devices (less than 576px)
+            .attr('x', () => (window.innerWidth >= 576 ? '2.5%' : '3.2%'))
+            .attr('y', this.margin.top / -4)
+          ;
+          foreignObject.append('xhtml:div')
+            .attr('id', () => d[0])
+            .style('height', '100%')
+            .style('display', 'flex')
+            .style('flex-direction', 'column')
+            .style('justify-content', 'center')
+            .style('text-align', 'left')
+            // Font-size is subject to breakpoint for small devices (less than 576px)
+            .style('font-size', () => (window.innerWidth >= 576 ? '0.85em' : '1.1em'))
             .style('font-family', '"Open Sans Condensed", sans-serif')
             .style('fill', 'DarkSlateGray')
+            .style('line-height', '1')
+            .html(d[1].label)
           ;
         });
       this.generateLegendBackground();
@@ -111,15 +125,16 @@ export default {
             .attr('width', this.viewport.width)
             .attr('height', this.margin.top / 1.5)
             .attr('x', 0)
-            .attr('y', 10)
+            .attr('y', this.margin.top / 6)
           ;
           // Highlighting all legend items
-          d3.selectAll('g.item text, g.item circle')
+          d3.selectAll('g.item div, g.item circle')
             .transition()
             .duration(250)
-            .style('font-weight', '800')
-            .style('font-size', '17px')
-            .attr('r', 13)
+            .style('font-weight', '500')
+            .attr('r', '1.4%')
+            // Font-size is subject to breakpoint for small devices (less than 576px)
+            .style('font-size', () => (window.innerWidth >= 576 ? '1em' : '1.2em'))
           ;
         })
         .on('mouseleave', this.fadeLegend)
@@ -127,17 +142,18 @@ export default {
     },
     highlightLegend(datum) {
       // Letting legend items fade in opacity
-      d3.selectAll('g.item text, g.item circle')
+      d3.selectAll('g.item div, g.item circle')
         .transition()
+        .duration(250)
         .style('opacity', 0.5)
       ;
       // Calculating which legend item has to be highlighted
-      d3.selectAll(`#${datum.type} text, #${datum.type} circle`)
+      d3.selectAll(`#${datum.type} div, #${datum.type} circle`)
         .transition()
         .duration(250)
-        .style('font-weight', '800')
-        .style('font-size', '17px')
-        .attr('r', 13)
+        .attr('r', '1.4%')
+        // Font-size is subject to breakpoint for small devices (less than 576px)
+        .style('font-size', () => (window.innerWidth >= 576 ? '1em' : '1.2em'))
         .style('opacity', 1)
       ;
       // Increasing dimensions of legend background
@@ -147,17 +163,17 @@ export default {
         .attr('width', this.viewport.width)
         .attr('height', this.margin.top / 1.5)
         .attr('x', 0)
-        .attr('y', 10)
+        .attr('y', this.margin.top / 6)
       ;
     },
     fadeLegend() {
       // Resetting legend items
-      d3.selectAll('g.item text, g.item circle')
+      d3.selectAll('g.item div, g.item circle')
         .transition()
         .duration(250)
-        .attr('r', 10)
-        .style('font-weight', '400')
-        .style('font-size', '15px')
+        .attr('r', '1.2%')
+        // Font-size is subject to breakpoint for small devices (less than 576px)
+        .style('font-size', () => (window.innerWidth >= 576 ? '0.9em' : '1.1em'))
         .style('opacity', 1)
       ;
       // Resetting legend background
