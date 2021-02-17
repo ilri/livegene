@@ -70,6 +70,7 @@ class SamplingDocumentationAdmin extends AbstractAdmin
             ->add('startDate')
             ->add('endDate')
             ->add('isActive')
+            ->add('country')
             ->add('_action', 'actions', [
                 'actions' => [
                     'show' => [],
@@ -91,6 +92,7 @@ class SamplingDocumentationAdmin extends AbstractAdmin
             ->add('endDate', DateRangeFilter::class, [
                 'field_type' => DateRangePickerType::class,
             ])
+            ->add('country')
         ;
     }
 
@@ -118,6 +120,9 @@ class SamplingDocumentationAdmin extends AbstractAdmin
                 'dp_pick_time' => false,
                 'format' => DateType::HTML5_FORMAT
             ])
+            ->add('country', ModelListType::class, [
+                'required' => false,
+            ])
         ;
     }
 
@@ -133,6 +138,7 @@ class SamplingDocumentationAdmin extends AbstractAdmin
             ->add('startDate')
             ->add('endDate')
             ->add('isActive')
+            ->add('country')
         ;
     }
 }
