@@ -117,7 +117,10 @@ export default {
      * @returns {Array}
      */
     calculateTotalPercentForProject(staffRoles) {
-      return staffRoles.reduce((acc, cur) => acc + parseFloat(cur.percent) * 100, 0);
+      return staffRoles
+        .filter((staff) => staff.isActive)
+        .reduce((acc, cur) => acc + parseFloat(cur.percent) * 100, 0)
+      ;
     },
     /**
      * Iterate through the active projects and generate the links.
@@ -263,6 +266,7 @@ export default {
           const fte = d3.select(n[i])
             .append('g')
             .attr('class', 'link-fte')
+            .attr('pointer-events', 'none')
             .attr(
               'transform',
               `translate(${[pathBox.x + pathBox.width / 2, pathBox.y + pathBox.height / 2]})`,
@@ -271,12 +275,12 @@ export default {
           fte.append('circle')
             .attr('stroke', 'none')
             .attr('stroke-width', 1)
-            .attr('r', 12)
+            .attr('r', 14)
             .attr('fill', 'cornsilk');
           fte.append('text')
             .attr('text-anchor', 'middle')
-            .attr('alignment-baseline', 'middle')
-            .style('font-size', '10')
+            .attr('dominant-baseline', 'middle')
+            .style('font-size', '0.8em')
             .style('font-weight', 700)
             .style('font-family', '"Open Sans Condensed", sans-serif')
             .text(d.value);
@@ -334,20 +338,20 @@ export default {
               .attr('transform', `translate(${[d.x1 - d.x0 + 5, (d.y1 - d.y0) / 2]})`);
           }
           d3.select(n[i])
-            .attr('alignment-baseline', 'middle');
+            .attr('dominant-baseline', 'middle');
         })
         .style('font-family', '"Open Sans Condensed", sans-serif')
         .style('font-weight', 700)
-        .style('font-size', '0.7em')
+        .style('font-size', '0.8em')
         .style('fill', 'DarkSlateGray')
       ;
 
       // position the text for the node FTE values
       chart.selectAll('text.node-fte')
         .attr('transform', (d) => `translate(${Math.round((d.x1 - d.x0) / 10)},0)`)
-        .attr('alignment-baseline', 'ideographic')
+        .attr('dominant-baseline', 'ideographic')
         .style('font-weight', 800)
-        .style('font-size', '0.7em')
+        .style('font-size', '0.8em')
         .style('fill', 'DarkSlateGrey')
         .style('opacity', 0);
     },
