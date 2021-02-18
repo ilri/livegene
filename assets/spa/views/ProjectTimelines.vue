@@ -165,8 +165,8 @@ export default {
       margin: {
         top: 80,
         left: 100,
-        right: 20,
-        bottom: 50,
+        right: 40,
+        bottom: 70,
       },
       tickBleed: 10,
       labelPadding: 5,
@@ -380,6 +380,7 @@ export default {
 
       // project labels
       timelines.append('text')
+        .style('cursor', 'default')
         .attr('class', 'project-label')
         .attr('x', (d) => this.labelPadding + this.xScale(d3.isoParse(d.startDate)))
         .attr('y', this.barHeight / 2 + 1)
@@ -428,7 +429,6 @@ export default {
       d3.select('div.infobox')
         .style('display', 'block')
         .style('top', `${d3.event.pageY}px`)
-        .style('left', `${d3.event.pageX}px`)
         .html(
           `<h6>${d.fullName}</h6>
              <span>ILRI code: <strong>${d.ilriCode}</strong></span>
@@ -437,6 +437,25 @@ export default {
              <br>
              <span>End: <strong>${this.dateFormat(d3.isoParse(d.endDate))}</strong></span>`,
         );
+      this.positionInfobox();
+    },
+    /**
+     * Ensures the infobox is displayed in its full width by conditionally rendering it
+     * on the left or the right side of the cursor event.
+     */
+    positionInfobox() {
+      const infoboxDimensions = d3.select('div.infobox').node().getBoundingClientRect();
+      if ((window.innerWidth - d3.event.pageX) < infoboxDimensions.width) {
+        // displays to the left of cursor event
+        d3.select('div.infobox')
+          .style('left', `${d3.event.pageX - infoboxDimensions.width}px`)
+        ;
+      } else {
+        // displays to the right of cursor event
+        d3.select('div.infobox')
+          .style('left', `${d3.event.pageX}px`)
+        ;
+      }
     },
     hideProjectDetails(d, i, n) {
       const svg = d3.select('#viewport');
@@ -693,4 +712,5 @@ export default {
     opacity: 0.8;
     display: none;
   }
+
 </style>
