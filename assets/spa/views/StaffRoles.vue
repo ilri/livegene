@@ -78,7 +78,7 @@ export default {
         ? this.viewport.width * 0.15
         : this.viewport.width * 0.20;
       return {
-        top: this.viewport.height * 0.12,
+        top: this.viewport.height * 0.13,
         bottom: this.viewport.height * 0.05,
         left,
         right,

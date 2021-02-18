@@ -51,7 +51,7 @@ export default {
         team: {},
         pi: {
           colour: 'gold',
-          label: 'Principal Investigator',
+          label: 'P.I.',
         },
       },
       moneyFormat: d3.format('$,.0f'),
@@ -85,7 +85,7 @@ export default {
         ? this.viewport.width * 0.17
         : this.viewport.width * 0.22;
       return {
-        top: this.viewport.height * 0.12,
+        top: this.viewport.height * 0.13,
         bottom: this.viewport.height * 0.05,
         left,
         right,
