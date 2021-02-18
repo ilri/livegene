@@ -2,8 +2,10 @@
 
 namespace App\Validator\Constraints;
 
-use Symfony\Component\Validator\Constraint;
-use Symfony\Component\Validator\ConstraintValidator;
+use Symfony\Component\Validator\{
+    Constraint,
+    ConstraintValidator
+};
 
 class StartDateBeforeEndDateValidator extends ConstraintValidator
 {

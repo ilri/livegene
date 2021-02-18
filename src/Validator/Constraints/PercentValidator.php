@@ -2,11 +2,10 @@
 
 namespace App\Validator\Constraints;
 
-use Symfony\Component\Validator\Constraint;
-use Symfony\Component\Validator\ConstraintValidator;
-use Symfony\Component\Validator\Exception\UnexpectedTypeException;
-use Doctrine\ORM\EntityManagerInterface;
-use App\Entity\StaffRole;
+use Symfony\Component\Validator\{
+    Constraint,
+    ConstraintValidator
+};
 
 class PercentValidator extends ConstraintValidator
 {
