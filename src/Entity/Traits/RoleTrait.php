@@ -13,6 +13,7 @@ trait RoleTrait
      * @Assert\Range(
      *     min=0.00,
      *     max=1.00,
+     *     notInRangeMessage="This value should be between 0.00% and 100.00%.",
      *     minMessage="The minimal allowed value is 0.00%.",
      *     maxMessage="The maximal allowed value is 100.00%."
      * )

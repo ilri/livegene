@@ -53,6 +53,9 @@ class StaffRoleAdmin extends AbstractAdmin
 
     protected function configureFormFields(FormMapper $formMapper)
     {
+        $staffRole = $this->getSubject();
+        $project = $staffRole->getProject();
+
         $formMapper
             ->add('project', ModelListType::class, [
                 'btn_add' => false,
@@ -98,12 +101,14 @@ class StaffRoleAdmin extends AbstractAdmin
             ->add('startDate', DatePickerType::class, [
                 'required' => false,
                 'dp_pick_time' => false,
-                'format' => DateType::HTML5_FORMAT
+                'format' => DateType::HTML5_FORMAT,
+                'help' => 'Project start date: '.$project->getStartDate()->format('Y-m-d')
             ])
             ->add('endDate', DatePickerType::class, [
                 'required' => false,
                 'dp_pick_time' => false,
-                'format' => DateType::HTML5_FORMAT
+                'format' => DateType::HTML5_FORMAT,
+                'help' => 'Project end date: '.$project->getEndDate()->format('Y-m-d')
             ])
             ->add('percent', PercentType::class, [
                 'type' => 'fractional',

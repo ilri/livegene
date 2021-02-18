@@ -3,9 +3,9 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
-use App\Entity\Traits\ActiveTrait;
 use App\Entity\Traits\RoleTrait;
 use App\Validator\Constraints as AppAssert;
+use Carbon\Carbon;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Serializer\Annotation\Groups;
@@ -50,7 +50,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 class StaffRole
 {
     use RoleTrait;
-    use ActiveTrait;
 
     /**
      * @ORM\Id()
@@ -78,14 +77,12 @@ class StaffRole
 
     /**
      * @ORM\Column(type="date", nullable=true)
-     * @Assert\NotBlank()
      * @Groups({"staff_role:collection:get", "staff_role:item:get", "project:collection:get", "project:item:get"})
      */
     private $startDate;
 
     /**
      * @ORM\Column(type="date", nullable=true)
-     * @Assert\NotBlank()
      * @Groups({"staff_role:collection:get", "staff_role:item:get", "project:collection:get", "project:item:get"})
      */
     private $endDate;
@@ -129,10 +126,6 @@ class StaffRole
 
     public function getStartDate(): ?\DateTimeInterface
     {
-        if ($this->getProject()) {
-            return $this->startDate ?: $this->project->getStartDate();
-        }
-
         return $this->startDate;
     }
 
@@ -145,10 +138,6 @@ class StaffRole
 
     public function getEndDate(): ?\DateTimeInterface
     {
-        if ($this->getProject()) {
-            return $this->endDate ?: $this->project->getEndDate();
-        }
-
         return $this->endDate;
     }
 
@@ -157,5 +146,27 @@ class StaffRole
         $this->endDate = $endDate;
 
         return $this;
+    }
+
+    /**
+     * @Groups({
+     *     "staff_role:collection:get",
+     *     "staff_role:item:get",
+     *     "project:collection:get",
+     *     "project:item:get",
+     * })
+     */
+    public function getIsActive(): bool
+    {
+        $now = Carbon::now();
+        if (!$this->getStartDate() && !$this->getEndDate()) {
+            return $this->getProject()->getIsActive();
+        } elseif (!$this->getStartDate() && $this->getEndDate()) {
+            return $this->getEndDate() >= $now;
+        } elseif ($this->getStartDate() && !$this->getEndDate()) {
+            return $this->getStartDate() <= $now;
+        } else {
+            return $this->getEndDate() >= $now && $this->getStartDate() <= $now;
+        }
     }
 }
