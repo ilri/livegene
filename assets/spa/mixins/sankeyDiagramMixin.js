@@ -39,7 +39,7 @@ export default {
       const width = window.innerWidth >= 992
         ? window.innerWidth * 0.8333
         : window.innerWidth;
-      const height = window.innerWidth < 992 ? width * 2 : Math.round(width / 1.6);
+      const height = window.innerWidth < 576 ? width * 2 : Math.round(width / 1.6);
       return {
         width,
         height,
@@ -97,7 +97,7 @@ export default {
             .style('justify-content', 'center')
             .style('text-align', 'left')
             // Font-size is subject to breakpoint for small devices (less than 576px)
-            .style('font-size', () => (window.innerWidth >= 576 ? '0.85em' : '1.1em'))
+            .style('font-size', () => (window.innerWidth >= 576 ? '0.8em' : '1.1em'))
             .style('font-family', '"Open Sans Condensed", sans-serif')
             .style('fill', 'DarkSlateGray')
             .style('line-height', '1')
@@ -134,7 +134,7 @@ export default {
             .style('font-weight', '500')
             .attr('r', '1.4%')
             // Font-size is subject to breakpoint for small devices (less than 576px)
-            .style('font-size', () => (window.innerWidth >= 576 ? '1em' : '1.2em'))
+            .style('font-size', () => (window.innerWidth >= 576 ? '1em' : '1.3em'))
           ;
         })
         .on('mouseleave', this.fadeLegend)
@@ -153,7 +153,7 @@ export default {
         .duration(250)
         .attr('r', '1.4%')
         // Font-size is subject to breakpoint for small devices (less than 576px)
-        .style('font-size', () => (window.innerWidth >= 576 ? '1em' : '1.2em'))
+        .style('font-size', () => (window.innerWidth >= 576 ? '1em' : '1.3em'))
         .style('opacity', 1)
       ;
       // Increasing dimensions of legend background
@@ -173,7 +173,7 @@ export default {
         .duration(250)
         .attr('r', '1.2%')
         // Font-size is subject to breakpoint for small devices (less than 576px)
-        .style('font-size', () => (window.innerWidth >= 576 ? '0.9em' : '1.1em'))
+        .style('font-size', () => (window.innerWidth >= 576 ? '0.8em' : '1.1em'))
         .style('opacity', 1)
       ;
       // Resetting legend background
