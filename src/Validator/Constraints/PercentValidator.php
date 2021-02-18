@@ -12,7 +12,7 @@ class PercentValidator extends ConstraintValidator
 {
     public function validate($entity, Constraint $constraint)
     {
-        /* @var $constraint App\Validator\Constraint\Percent */
+        /* @var $constraint Percent */
 
         switch (get_class($entity)) {
             case 'App\Entity\StaffRole':

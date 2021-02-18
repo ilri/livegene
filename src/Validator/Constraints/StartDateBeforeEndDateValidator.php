@@ -9,7 +9,7 @@ class StartDateBeforeEndDateValidator extends ConstraintValidator
 {
     public function validate($entity, Constraint $constraint)
     {
-        /* @var $constraint App\Validator\Constraints\StartDateBeforeEndDate */
+        /* @var $constraint StartDateBeforeEndDate */
 
         if (null === $entity->getStartDate() || null === $entity->getEndDate()) {
             return;
