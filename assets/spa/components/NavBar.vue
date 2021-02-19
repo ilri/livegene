@@ -67,6 +67,10 @@ export default {
           label: 'Staff Roles',
         },
         {
+          name: 'staff_map',
+          label: 'Staff Map',
+        },
+        {
           name: 'timelines',
           label: 'Project Timelines',
         },
