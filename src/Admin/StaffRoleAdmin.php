@@ -16,7 +16,6 @@ use Sonata\Form\Type\{
     DatePickerType,
     DateRangePickerType
 };
-use Sonata\DoctrineORMAdminBundle\Filter\NumberFilter;
 
 class StaffRoleAdmin extends AbstractAdmin
 {
@@ -27,6 +26,7 @@ class StaffRoleAdmin extends AbstractAdmin
             ->add('staffMember')
             ->add('startDate')
             ->add('endDate')
+            ->add('isActive', 'boolean')
             ->add('percent', 'percent')
             ->add('_action', 'actions', [
                 'actions' => [
@@ -124,6 +124,7 @@ class StaffRoleAdmin extends AbstractAdmin
             ->add('staffMember')
             ->add('startDate')
             ->add('endDate')
+            ->add('isActive', 'boolean')
             ->add('percent', 'percent')
         ;
     }

@@ -87,6 +87,18 @@ class StaffRole
      */
     private $endDate;
 
+    /**
+     * @var bool
+     *
+     * @Groups({
+     *     "staff_role:collection:get",
+     *     "staff_role:item:get",
+     *     "project:collection:get",
+     *     "project:item:get",
+     * })
+     */
+    private $isActive;
+
     public function __toString()
     {
         return $this->id
@@ -148,14 +160,6 @@ class StaffRole
         return $this;
     }
 
-    /**
-     * @Groups({
-     *     "staff_role:collection:get",
-     *     "staff_role:item:get",
-     *     "project:collection:get",
-     *     "project:item:get",
-     * })
-     */
     public function getIsActive(): bool
     {
         $now = Carbon::now();
