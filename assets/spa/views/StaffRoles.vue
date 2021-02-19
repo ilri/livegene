@@ -43,17 +43,10 @@ export default {
     return {
       // hold the staff objects (staffObjects)
       staff: new Set(),
-      // margins for the diagram
-      margin: {
-        top: 70,
-        left: 190,
-        right: 190,
-        bottom: 10,
-      },
       nodeTypes: {
         person: {
           colour: 'gold',
-          label: 'Staff Member',
+          label: 'Staff',
         },
         project: {
           colour: 'chocolate',
@@ -72,6 +65,25 @@ export default {
      */
     activeProjects() {
       return this.projects.filter((el) => el.isActiveThisYear && el.staffRoles.length);
+    },
+    /**
+     * Calculates diagram margin sizes relative to the viewport dimensions.
+     * On extra small devices (less than 576 px), side margins are larger to
+     * accommodate node and legend labels.
+     */
+    margin() {
+      const left = window.innerWidth >= 576
+        ? this.viewport.width * 0.17
+        : this.viewport.width * 0.22;
+      const right = window.innerWidth >= 576
+        ? this.viewport.width * 0.15
+        : this.viewport.width * 0.20;
+      return {
+        top: this.viewport.height * 0.13,
+        bottom: this.viewport.height * 0.05,
+        left,
+        right,
+      };
     },
   },
   methods: {
@@ -360,4 +372,26 @@ export default {
 </script>
 
 <style scoped>
+/**
+ * Extra small devices (less than 576px)
+ */
+svg {
+  font-size: 10px;
+}
+/**
+ * Medium sized devices and larger (768px or more)
+ */
+@media screen and (min-width: 768px) {
+  svg {
+    font-size: 16px;
+  }
+}
+/**
+ * Small devices (576px to 768px)
+ */
+@media screen and (max-width: 576px) {
+  svg {
+    font-size: 14px;
+  }
+}
 </style>

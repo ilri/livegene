@@ -44,12 +44,6 @@ export default {
     return {
       donors: new Set(),
       principalInvestigators: new Set(),
-      margin: {
-        top: 70,
-        left: 190,
-        right: 190,
-        bottom: 10,
-      },
       nodeTypes: {
         donor: {
           colour: 'mediumSeaGreen',
@@ -58,7 +52,7 @@ export default {
         team: {},
         pi: {
           colour: 'gold',
-          label: 'Principal Investigator',
+          label: 'P.I.',
         },
       },
       moneyFormat: d3.format('$,.0f'),
@@ -79,6 +73,25 @@ export default {
         (acc, cur) => acc + cur.totalProjectValue,
         0,
       );
+    },
+    /**
+     * Calculates diagram margin sizes relative to the viewport dimensions.
+     * On extra small devices (less than 576 px), side margins are larger to
+     * accommodate node and legend labels.
+     */
+    margin() {
+      const left = window.innerWidth >= 576
+        ? this.viewport.width * 0.15
+        : this.viewport.width * 0.20;
+      const right = window.innerWidth >= 576
+        ? this.viewport.width * 0.17
+        : this.viewport.width * 0.22;
+      return {
+        top: this.viewport.height * 0.13,
+        bottom: this.viewport.height * 0.05,
+        left,
+        right,
+      };
     },
   },
   methods: {
@@ -317,4 +330,26 @@ export default {
 </script>
 
 <style scoped>
+/**
+ * Extra small devices (less than 576px)
+ */
+svg {
+  font-size: 10px;
+}
+/**
+ * Medium sized devices and larger (768px or more)
+ */
+@media screen and (min-width: 768px) {
+  svg {
+    font-size: 16px;
+  }
+}
+/**
+ * Small devices (576px to 768px)
+ */
+@media screen and (max-width: 576px) {
+  svg {
+    font-size: 14px;
+  }
+}
 </style>
