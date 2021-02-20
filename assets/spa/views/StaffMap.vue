@@ -33,8 +33,6 @@ export default {
   mixins: [baseMixin],
   data() {
     return {
-      // Determines size of cells
-      itemSize: 20,
       // Holds the id, team, project and percentage value for each staff member.
       roles: [],
     };
@@ -72,12 +70,20 @@ export default {
     xScale() {
       return d3.scaleBand()
         .domain(this.staffNodes)
-        .range([0, this.staffNodes.length * this.itemSize]);
+        .range([0, this.viewport.width])
+        .padding(0.05)
+      ;
     },
     yScale() {
       return d3.scaleBand()
         .domain(this.projectNodes)
-        .range([0, this.projectNodes.length * this.itemSize]);
+        .range([0, this.viewport.height])
+        .padding(0.05)
+      ;
+    },
+    colorScale() {
+      return d3.scaleSequential(d3.interpolateReds)
+        .domain([0, 1]);
     },
   },
   methods: {
@@ -103,11 +109,16 @@ export default {
         .attr('class', 'cell')
       ;
       cells.append('rect')
-        .attr('width', this.itemSize)
-        .attr('height', this.itemSize)
+        .attr('width', this.xScale.bandwidth())
+        .attr('height', this.yScale.bandwidth())
         .attr('x', (d) => this.xScale(d.staffMember))
         .attr('y', (d) => this.yScale(d.project))
-        .style('fill', 'blue')
+        .attr('rx', 4)
+        .attr('ry', 4)
+        .style('fill', (d) => this.colorScale(parseFloat(d.percent)))
+        .style('stroke-width', 4)
+        .style('stroke', 'none')
+        .style('opacity', 0.8)
       ;
     },
     display() {
