@@ -138,8 +138,8 @@ export default {
     },
     margin() {
       return {
-        right: this.viewport.width * 0.05,
-        left: this.viewport.width * 0.05,
+        right: this.viewport.width * 0.15,
+        left: this.viewport.width * 0.15,
         top: this.legend.height + (this.legend.topMargin * 2),
         bottom: this.viewport.height * 0.05,
       };
@@ -196,6 +196,17 @@ export default {
       const svg = d3.select('#viewport');
       const chart = svg.select('g.view > g');
 
+      // Generates background for heat map
+      chart.append('rect')
+        .attr('x', this.margin.left)
+        .attr('y', this.margin.top)
+        .attr('width', this.chart.width)
+        .attr('height', this.chart.height)
+        .style('fill', 'white')
+        .style('stroke', 'gray')
+        .style('stroke-opacity', '0.5')
+      ;
+
       const cells = chart.selectAll('g.cell')
         .data(Object.values(this.roles))
         .join('g')
@@ -214,19 +225,22 @@ export default {
         .style('stroke', 'none')
         .style('opacity', 0.8)
       ;
+
       // Generates left Y-Axis
-      chart.append('g')
-        .style('font-size', 15)
+      svg.append('g')
+        .attr('transform', `translate(${this.margin.left},${this.margin.top})`)
         .call(d3.axisLeft(this.yScale).tickSize(0))
-        .select('.domain')
-        .remove()
+        .style('font-size', '0.8em')
+        .style('font-family', '"Open Sans", sans-serif')
+        .style('color', 'darkslategray')
       ;
-      // Generates right Y-Axis
-      chart.append('g')
-        .style('font-size', 15)
-        .call(d3.axisTop(this.xScale).tickSize(10))
-        .select('.domain')
-        .remove()
+      // Generates X-Axis
+      svg.append('g')
+        .attr('transform', `translate(0,${this.margin.top})`)
+        .call(d3.axisTop(this.xScale).tickSize(0))
+        .style('font-size', '0.8em')
+        .style('font-family', '"Open Sans", sans-serif')
+        .style('color', 'darkslategray')
       ;
     },
     display() {
