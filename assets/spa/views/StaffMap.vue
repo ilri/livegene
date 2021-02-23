@@ -76,6 +76,7 @@
           </template>
         </ChartContainer>
       </b-col>
+      <div class="tooltip" />
     </template>
   </BaseView>
 </template>
@@ -203,8 +204,9 @@ export default {
         .attr('width', this.chart.width)
         .attr('height', this.chart.height)
         .style('fill', 'white')
-        .style('stroke', 'gray')
-        .style('stroke-opacity', '0.5')
+        .style('stroke', 'darkslategray')
+        .style('stroke-opacity', '1')
+        .style('stroke-width', '3')
       ;
 
       const cells = chart.selectAll('g.cell')
@@ -221,18 +223,43 @@ export default {
         .attr('rx', 4)
         .attr('ry', 4)
         .style('fill', (d) => this.colorScale(parseFloat(d.percent)))
-        .style('stroke-width', 4)
-        .style('stroke', 'none')
         .style('opacity', 0.8)
+        .on('mouseenter', (d, i, n) => {
+          d3.select(n[i])
+            .style('stroke', 'darkslategray')
+            .style('opacity', 1)
+            .style('stroke-width', 1)
+            .style('stroke-opacity', 0)
+          ;
+          d3.select('div.tooltip')
+            .style('opacity', '0.8')
+          ;
+        })
+        .on('mousemove', (d) => {
+          d3.select('div.tooltip')
+            .html(`FTE of <b>${parseFloat(d.percent)}%</b>`)
+            .style('left', `${d3.event.pageX + 20}px`)
+            .style('top', `${d3.event.pageY + 20}px`)
+          ;
+        })
+        .on('mouseleave', (d, i, n) => {
+          d3.select('div.tooltip')
+            .style('opacity', 0)
+          ;
+          d3.select(n[i])
+            .style('stroke', 'none')
+            .style('opacity', 0.8)
+          ;
+        })
       ;
-
       // Generates left Y-Axis
       svg.append('g')
         .attr('transform', `translate(${this.margin.left},${this.margin.top})`)
         .call(d3.axisLeft(this.yScale).tickSize(0))
         .style('font-size', '0.8em')
         .style('font-family', '"Open Sans", sans-serif')
-        .style('color', 'darkslategray')
+        .select('.domain')
+        .remove()
       ;
       // Generates X-Axis
       svg.append('g')
@@ -240,7 +267,8 @@ export default {
         .call(d3.axisTop(this.xScale).tickSize(0))
         .style('font-size', '0.8em')
         .style('font-family', '"Open Sans", sans-serif')
-        .style('color', 'darkslategray')
+        .select('.domain')
+        .remove()
       ;
     },
     display() {
@@ -271,6 +299,27 @@ export default {
 
   .gradient-minimum {
     text-anchor: end;
+  }
+
+  .tooltip {
+    /*positioning*/
+    position: absolute;
+    /*display & box model*/
+    display: block;
+    opacity: 0;
+    border: thin solid darkslategrey;
+    border-radius: 0.5em;
+    padding: 2em;
+    /*text*/
+    font-size: 0.8em;
+    font-family: '"Open Sans Condensed"', sans-serif;
+    text-align: center;
+    dominant-baseline: central;
+    /*colors*/
+    background: white;
+    fill: darkslategrey;
+    /*others*/
+    pointer-events: none;
   }
 
   /**
