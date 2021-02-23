@@ -102,13 +102,13 @@ class StaffRoleAdmin extends AbstractAdmin
                 'required' => false,
                 'dp_pick_time' => false,
                 'format' => DateType::HTML5_FORMAT,
-                'help' => 'Project start date: '.$project->getStartDate()->format('Y-m-d')
+                'help' => $project ? 'Project start date: '.$project->getStartDate()->format('Y-m-d') : null
             ])
             ->add('endDate', DatePickerType::class, [
                 'required' => false,
                 'dp_pick_time' => false,
                 'format' => DateType::HTML5_FORMAT,
-                'help' => 'Project end date: '.$project->getEndDate()->format('Y-m-d')
+                'help' => $project ? 'Project end date: '.$project->getEndDate()->format('Y-m-d') : null
             ])
             ->add('percent', PercentType::class, [
                 'type' => 'fractional',
