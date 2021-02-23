@@ -97,8 +97,9 @@ export default {
   mixins: [baseMixin],
   data() {
     return {
-      // Holds the id, team, project and percentage value for each staff member.
+      // Holds the id, team, project name and percentage value for each staff member.
       roles: [],
+      // Required for placement of the legend labels.
       spacing: 6,
     };
   },
@@ -123,7 +124,9 @@ export default {
     viewport() {
       return {
         width: this.baseWidth,
-        height: window.innerHeight,
+        height: this.chart.height
+                + this.margin.top
+                + this.margin.bottom,
       };
     },
     /**
@@ -131,41 +134,58 @@ export default {
      */
     legend() {
       return {
-        width: this.viewport.width * 0.583,
-        height: this.viewport.height * 0.03,
-        topMargin: this.viewport.height * 0.05,
-        leftMargin: this.viewport.width * 0.2085,
+        width: this.baseWidth * 0.583,
+        height: this.chart.height * 0.03,
+        topMargin: this.chart.height * 0.06,
+        leftMargin: this.baseWidth * 0.2085,
       };
     },
+    /**
+     * Calculates the viewport's margins.
+     */
     margin() {
       return {
-        right: this.viewport.width * 0.15,
-        left: this.viewport.width * 0.15,
-        top: this.legend.height + (this.legend.topMargin * 2),
-        bottom: this.viewport.height * 0.05,
+        right: this.baseWidth * 0.15,
+        left: this.baseWidth * 0.15,
+        top: this.baseWidth * 0.15,
+        bottom: this.baseWidth * 0.05,
       };
     },
+    /**
+     * Calculates the dimensions of the chart.
+     */
     chart() {
       return {
-        width: this.viewport.width - (this.margin.left + this.margin.right),
-        height: this.viewport.height
-            - this.margin.top
-            - this.margin.bottom,
+        width: this.baseWidth - (this.margin.left + this.margin.right),
+        height: this.projectNodes.length
+                * this.xScale.bandwidth(),
       };
     },
+    /**
+     * Returns an array of staff nodes, used to render the chart's X-axis.
+     */
     staffNodes() {
       return [...new Set(this.roles.map((d) => d.staffMember).sort())];
     },
+    /**
+     * Returns an array of staff nodes, used to render the chart's Y-axis.
+     */
     projectNodes() {
       return [...new Set(this.roles.map((d) => d.project).sort())];
     },
+    /**
+     * Returns the chart's X-Scale.
+     */
     xScale() {
       return d3.scaleBand()
         .domain(this.staffNodes)
-        .range([this.margin.left, this.margin.left + this.chart.width])
+        .range([this.margin.left, this.baseWidth - this.margin.left])
         .padding(0.05)
       ;
     },
+    /**
+     * Returns the chart's Y-Scale.
+     */
     yScale() {
       return d3.scaleBand()
         .domain(this.projectNodes)
@@ -173,6 +193,9 @@ export default {
         .padding(0.05)
       ;
     },
+    /**
+     * Returns the color scale used for the legend and chart.
+     */
     colorScale() {
       return d3.scaleSequential(d3.interpolateReds)
         .domain([0, 1]);
