@@ -63,12 +63,8 @@ export default {
           label: 'Awarded Budget',
         },
         {
-          name: 'staff_roles',
+          name: 'diagram',
           label: 'Staff Roles',
-        },
-        {
-          name: 'staff_map',
-          label: 'Staff Map',
         },
         {
           name: 'timelines',

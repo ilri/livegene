@@ -1,37 +1,7 @@
 <template>
   <BaseView>
     <template slot="header">
-      <div>
-        <b-nav
-          small
-          pills
-          align="center"
-        >
-          <b-nav-text>
-            Staff Roles
-          </b-nav-text>
-          <b-nav-item>
-            <router-link
-              tag="button"
-              :to="{ name: 'diagram' }"
-              exact-active-class="active"
-              class="btn btn-sm btn-primary"
-            >
-              Diagram
-            </router-link>
-          </b-nav-item>
-          <b-nav-item>
-            <router-link
-              tag="button"
-              :to="{ name: 'heatmap' }"
-              exact-active-class="active"
-              class="btn btn-sm btn-primary"
-            >
-              Heatmap
-            </router-link>
-          </b-nav-item>
-        </b-nav>
-      </div>
+      Staff Roles
     </template>
     <template slot="graphic">
       <b-col
@@ -39,7 +9,9 @@
         lg="10"
         class="px-0"
       >
-        <router-view />
+        <ChartContainer :viewport="viewport">
+          <g slot="chart" />
+        </ChartContainer>
       </b-col>
     </template>
   </BaseView>
@@ -51,7 +23,7 @@ import { sankey, sankeyLinkHorizontal } from 'd3-sankey';
 import baseMixin from '../mixins/baseMixin';
 import sankeyDiagramMixin from '../mixins/sankeyDiagramMixin';
 import BaseView from '../components/BaseView';
-// import ChartContainer from '../components/ChartContainer';
+import ChartContainer from '../components/ChartContainer';
 
 const d3 = {
   select,
@@ -64,7 +36,7 @@ export default {
   name: 'StaffRoles',
   components: {
     BaseView,
-    // ChartContainer,
+    ChartContainer,
   },
   mixins: [baseMixin, sankeyDiagramMixin],
   data() {

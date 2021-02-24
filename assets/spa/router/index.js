@@ -7,7 +7,7 @@ import AwardedBudget from '../views/AwardedBudget';
 import StaffRoles from '../views/StaffRoles';
 import StaffMap from '../views/StaffMap';
 import ProjectTimelines from '../views/ProjectTimelines';
-import Worldmap from '../views/WorldMap';
+import WorldMap from '../views/WorldMap';
 
 Vue.use(VueRouter);
 
@@ -27,11 +27,21 @@ const router = new VueRouter({
       path: '/staffroles',
       name: 'staff_roles',
       component: StaffRoles,
-    },
-    {
-      path: '/staffmap',
-      name: 'staff_map',
-      component: StaffMap,
+      children: [
+        {
+          path: 'diagram',
+          name: 'diagram',
+        },
+        {
+          path: 'heatmap',
+          name: 'heatmap',
+          component: StaffMap,
+        },
+        {
+          path: '',
+          redirect: 'diagram',
+        },
+      ],
     },
     {
       path: '/timelines',
@@ -41,7 +51,7 @@ const router = new VueRouter({
     {
       path: '/worldmap',
       name: 'worldmap',
-      component: Worldmap,
+      component: WorldMap,
     },
     {
       path: '*',
