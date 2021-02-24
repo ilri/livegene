@@ -39,7 +39,15 @@
               class="view"
               clip-path="url(#clipPath)"
             >
-              <g />
+              <g>
+                <rect
+                  class="background"
+                  :x="margin.left"
+                  :y="margin.top"
+                  :width="chart.width"
+                  :height="chart.height"
+                />
+              </g>
             </g>
             <g class="legend">
               <text
@@ -135,8 +143,8 @@ export default {
     legend() {
       return {
         width: this.baseWidth * 0.583,
-        height: this.chart.height * 0.03,
-        topMargin: this.chart.height * 0.06,
+        height: this.baseWidth * 0.03,
+        topMargin: this.baseWidth * 0.05,
         leftMargin: this.baseWidth * 0.2085,
       };
     },
@@ -147,7 +155,8 @@ export default {
       return {
         right: this.baseWidth * 0.15,
         left: this.baseWidth * 0.15,
-        top: this.baseWidth * 0.15,
+        top: this.legend.height
+              + this.legend.topMargin * 1.5,
         bottom: this.baseWidth * 0.05,
       };
     },
@@ -202,6 +211,17 @@ export default {
     },
   },
   methods: {
+    /**
+     * Formats a staff member's name to: "SURNAME, Name".
+     *
+     * @param staffMember
+     * @param {string} staffMember.lastName
+     * @param {string} staffMember.firstName
+     * @returns {string}
+     */
+    formatName(staffMember) {
+      return `${staffMember.lastName.toUpperCase()}, ${staffMember.firstName}`;
+    },
     generateRoles() {
       this.projects.forEach((parentEl) => {
         parentEl.staffRoles.forEach((role) => {
@@ -210,27 +230,16 @@ export default {
             team: parentEl.team,
             id: role.id,
             percent: role.percent,
-            staffMember: role.staffMember.lastName,
+            staffMember: this.formatName(role.staffMember),
           });
         });
       });
     },
     generateChart() {
       this.generateRoles();
+      this.generateAxes();
       const svg = d3.select('#viewport');
       const chart = svg.select('g.view > g');
-
-      // Generates background for heat map
-      chart.append('rect')
-        .attr('x', this.margin.left)
-        .attr('y', this.margin.top)
-        .attr('width', this.chart.width)
-        .attr('height', this.chart.height)
-        .style('fill', 'white')
-        .style('stroke', 'darkslategray')
-        .style('stroke-opacity', '1')
-        .style('stroke-width', '3')
-      ;
 
       const cells = chart.selectAll('g.cell')
         .data(Object.values(this.roles))
@@ -275,23 +284,48 @@ export default {
           ;
         })
       ;
-      // Generates left Y-Axis
+    },
+    generateAxes() {
+      const svg = d3.select('#viewport');
+      // Generates left Y-axis
       svg.append('g')
-        .attr('transform', `translate(${this.margin.left},${this.margin.top})`)
+        .attr('class', 'y-axis')
         .call(d3.axisLeft(this.yScale).tickSize(0))
         .style('font-size', '0.8em')
         .style('font-family', '"Open Sans", sans-serif')
         .select('.domain')
         .remove()
       ;
-      // Generates X-Axis
+      // Generates X-axis
       svg.append('g')
-        .attr('transform', `translate(0,${this.margin.top})`)
-        .call(d3.axisTop(this.xScale).tickSize(0))
+        .attr('class', 'x-axis')
+        .call(d3.axisTop(this.xScale).tickSize(5))
         .style('font-size', '0.8em')
         .style('font-family', '"Open Sans", sans-serif')
         .select('.domain')
         .remove()
+      ;
+      // Rotates and conditionally styles X-axis text
+      svg.selectAll('.x-axis text')
+        .attr('transform', 'translate(10,0) rotate(-45)')
+        .style('text-anchor', 'start')
+        // Reduces font-size for longer staff roles names of over 25 characters
+        .each((d, i, n) => {
+          if (d.length > 25) {
+            d3.select(n[i])
+              .style('font-size', '0.9em')
+            ;
+          }
+        })
+      ;
+      // Increases top margin by height of X-Axis
+      this.margin.top += d3.select('.x-axis').node().getBBox().height;
+
+      d3.select('.x-axis')
+        .attr('transform', `translate(0,${this.margin.top})`)
+      ;
+      d3.select('.y-axis')
+        .attr('transform', `translate(${this.margin.left},${this.margin.top})`)
       ;
     },
     display() {
@@ -345,6 +379,12 @@ export default {
     pointer-events: none;
   }
 
+  .background {
+    fill: white;
+    stroke: darkslategrey;
+    stroke-opacity: 1;
+    stroke-width: 3;
+  }
   /**
    * Extra small devices (less than 576px)
    */
