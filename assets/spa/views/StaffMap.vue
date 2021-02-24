@@ -107,6 +107,8 @@ export default {
     return {
       // Holds the id, team, project name and percentage value for each staff member.
       roles: [],
+      // Holds all possible project-staff links to generate cell placeholders
+      placeholders: [],
       // Required for placement of the legend labels.
       spacing: 6,
     };
@@ -235,19 +237,48 @@ export default {
         });
       });
     },
+    generatePlaceholders() {
+      this.projectNodes.forEach((project) => {
+        this.staffNodes.forEach((staffMember) => {
+          this.placeholders.push({
+            project,
+            staffMember,
+          });
+        });
+      });
+    },
     generateChart() {
       this.generateRoles();
+      this.generatePlaceholders();
       this.generateAxes();
       const svg = d3.select('#viewport');
       const chart = svg.select('g.view > g');
 
-      const cells = chart.selectAll('g.cell')
-        .data(Object.values(this.roles))
+      // Creates 'empty', gainsboro-filled placeholders
+      const cells = chart.selectAll('g.cells')
+        .data(Object.values(this.placeholders))
         .join('g')
-        .attr('class', 'cell')
+        .attr('class', 'cells')
         .attr('transform', () => `translate(${[0, this.margin.top]})`)
       ;
       cells.append('rect')
+        .attr('width', this.xScale.bandwidth())
+        .attr('height', this.yScale.bandwidth())
+        .attr('x', (d) => this.xScale(d.staffMember))
+        .attr('y', (d) => this.yScale(d.project))
+        .attr('rx', 4)
+        .attr('ry', 4)
+        .style('fill', 'whitesmoke')
+        .style('opacity', 0.7)
+      ;
+      // Creates FTE cells, coloured to scale.
+      const fteCells = chart.selectAll('g.fte-cells')
+        .data(Object.values(this.roles))
+        .join('g')
+        .attr('class', 'fte-cells')
+        .attr('transform', () => `translate(${[0, this.margin.top]})`)
+      ;
+      fteCells.append('rect')
         .attr('width', this.xScale.bandwidth())
         .attr('height', this.yScale.bandwidth())
         .attr('x', (d) => this.xScale(d.staffMember))
