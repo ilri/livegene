@@ -27,28 +27,6 @@
                 />
               </linearGradient>
             </defs>
-            <clipPath id="clipPath">
-              <rect
-                :x="margin.left"
-                :y="margin.top"
-                :width="chart.width"
-                :height="chart.height"
-              />
-            </clipPath>
-            <g
-              class="view"
-              clip-path="url(#clipPath)"
-            >
-              <g>
-                <rect
-                  class="background"
-                  :x="margin.left"
-                  :y="margin.top"
-                  :width="chart.width"
-                  :height="chart.height"
-                />
-              </g>
-            </g>
             <g class="legend">
               <text
                 class="gradient-caption"
@@ -85,6 +63,7 @@
         </ChartContainer>
       </b-col>
       <div class="tooltip" />
+      <table />
     </template>
   </BaseView>
 </template>
@@ -107,10 +86,9 @@ export default {
     return {
       // Holds the id, team, project name and percentage value for each staff member.
       roles: [],
-      // Holds all possible project-staff links to generate cell placeholders
-      placeholders: [],
       // Required for placement of the legend labels.
       spacing: 6,
+      percentageFormat: d3.format(',.1'),
     };
   },
   computed: {
@@ -134,8 +112,7 @@ export default {
     viewport() {
       return {
         width: this.baseWidth,
-        height: this.chart.height
-                + this.margin.top
+        height: this.margin.top
                 + this.margin.bottom,
       };
     },
@@ -163,16 +140,6 @@ export default {
       };
     },
     /**
-     * Calculates the dimensions of the chart.
-     */
-    chart() {
-      return {
-        width: this.baseWidth - (this.margin.left + this.margin.right),
-        height: this.projectNodes.length
-                * this.xScale.bandwidth(),
-      };
-    },
-    /**
      * Returns an array of staff nodes, used to render the chart's X-axis.
      */
     staffNodes() {
@@ -185,31 +152,19 @@ export default {
       return [...new Set(this.roles.map((d) => d.project).sort())];
     },
     /**
-     * Returns the chart's X-Scale.
-     */
-    xScale() {
-      return d3.scaleBand()
-        .domain(this.staffNodes)
-        .range([this.margin.left, this.baseWidth - this.margin.left])
-        .padding(0.05)
-      ;
-    },
-    /**
-     * Returns the chart's Y-Scale.
-     */
-    yScale() {
-      return d3.scaleBand()
-        .domain(this.projectNodes)
-        .range([0, this.chart.height])
-        .padding(0.05)
-      ;
-    },
-    /**
      * Returns the color scale used for the legend and chart.
      */
     colorScale() {
       return d3.scaleSequential(d3.interpolateReds)
         .domain([0, 1]);
+    },
+    nestedProjects() {
+      return d3.nest()
+        .key((d) => d.team)
+        .key((d) => d.ilriCode)
+        .sortKeys((a, b) => d3.ascending(a, b))
+        .sortValues((a, b) => d3.ascending(a.ilriCode, b.ilriCode))
+        .entries(this.projects.filter((d) => d.staffRoles.length));
     },
   },
   methods: {
@@ -237,130 +192,51 @@ export default {
         });
       });
     },
-    generatePlaceholders() {
-      this.projectNodes.forEach((project) => {
-        this.staffNodes.forEach((staffMember) => {
-          this.placeholders.push({
-            project,
-            staffMember,
-          });
-        });
-      });
-    },
-    generateChart() {
+    generateTable() {
       this.generateRoles();
-      this.generatePlaceholders();
-      this.generateAxes();
-      const svg = d3.select('#viewport');
-      const chart = svg.select('g.view > g');
+      const table = d3.select('table');
 
-      // Creates 'empty', gainsboro-filled placeholders
-      const cells = chart.selectAll('g.cells')
-        .data(Object.values(this.placeholders))
-        .join('g')
-        .attr('class', 'cells')
-        .attr('transform', () => `translate(${[0, this.margin.top]})`)
+      // Creates the table heading
+      table
+        .append('tr')
+        .attr('class', 'header-row')
+        .append('td')
       ;
-      cells.append('rect')
-        .attr('width', this.xScale.bandwidth())
-        .attr('height', this.yScale.bandwidth())
-        .attr('x', (d) => this.xScale(d.staffMember))
-        .attr('y', (d) => this.yScale(d.project))
-        .attr('rx', 4)
-        .attr('ry', 4)
-        .style('fill', 'whitesmoke')
-        .style('opacity', 0.7)
+      d3.select('.header-row').selectAll('th')
+        .data(this.staffNodes)
+        .join('th')
+        .text((d) => d)
+        .style('font-size', '0.005em')
+        .style('border', '0.1px solid black')
       ;
-      // Creates FTE cells, coloured to scale.
-      const fteCells = chart.selectAll('g.fte-cells')
-        .data(Object.values(this.roles))
-        .join('g')
-        .attr('class', 'fte-cells')
-        .attr('transform', () => `translate(${[0, this.margin.top]})`)
+      // Creates a tbody element for each team
+      const teams = table.selectAll('tbody.team')
+        .data(this.nestedProjects)
+        .join('tbody')
+        .attr('class', 'team')
+        .attr('id', (d) => d.key)
       ;
-      fteCells.append('rect')
-        .attr('width', this.xScale.bandwidth())
-        .attr('height', this.yScale.bandwidth())
-        .attr('x', (d) => this.xScale(d.staffMember))
-        .attr('y', (d) => this.yScale(d.project))
-        .attr('rx', 4)
-        .attr('ry', 4)
-        .style('fill', (d) => this.colorScale(parseFloat(d.percent)))
-        .style('opacity', 0.8)
-        .on('mouseenter', (d, i, n) => {
-          d3.select(n[i])
-            .style('stroke', 'darkslategray')
-            .style('opacity', 1)
-            .style('stroke-width', 1)
-            .style('stroke-opacity', 0)
-          ;
-          d3.select('div.tooltip')
-            .style('opacity', '0.8')
-          ;
-        })
-        .on('mousemove', (d) => {
-          d3.select('div.tooltip')
-            .html(`FTE of <b>${parseFloat(d.percent)}%</b>`)
-            .style('left', `${d3.event.pageX + 20}px`)
-            .style('top', `${d3.event.pageY + 20}px`)
-          ;
-        })
-        .on('mouseleave', (d, i, n) => {
-          d3.select('div.tooltip')
-            .style('opacity', 0)
-          ;
-          d3.select(n[i])
-            .style('stroke', 'none')
-            .style('opacity', 0.8)
-          ;
-        })
-      ;
-    },
-    generateAxes() {
-      const svg = d3.select('#viewport');
-      // Generates left Y-axis
-      svg.append('g')
-        .attr('class', 'y-axis')
-        .call(d3.axisLeft(this.yScale).tickSize(0))
-        .style('font-size', '0.8em')
-        .style('font-family', '"Open Sans", sans-serif')
-        .select('.domain')
-        .remove()
-      ;
-      // Generates X-axis
-      svg.append('g')
-        .attr('class', 'x-axis')
-        .call(d3.axisTop(this.xScale).tickSize(5))
-        .style('font-size', '0.8em')
-        .style('font-family', '"Open Sans", sans-serif')
-        .select('.domain')
-        .remove()
-      ;
-      // Rotates and conditionally styles X-axis text
-      svg.selectAll('.x-axis text')
-        .attr('transform', 'translate(10,0) rotate(-45)')
-        .style('text-anchor', 'start')
-        // Reduces font-size for longer staff roles names of over 25 characters
-        .each((d, i, n) => {
-          if (d.length > 25) {
-            d3.select(n[i])
-              .style('font-size', '0.9em')
-            ;
-          }
-        })
-      ;
-      // Increases top margin by height of X-Axis
-      this.margin.top += d3.select('.x-axis').node().getBBox().height;
-
-      d3.select('.x-axis')
-        .attr('transform', `translate(0,${this.margin.top})`)
-      ;
-      d3.select('.y-axis')
-        .attr('transform', `translate(${this.margin.left},${this.margin.top})`)
-      ;
+      // Creates the project rows
+      const projects = teams.selectAll('tr.project')
+        .data((d) => d.values)
+        .join('tr')
+        .attr('class', 'project')
+        .attr('title', (d) => d.key)
+        .text((d) => d.key)
+        .style('border', '0.1px solid black')
+       ;
+      // Adds empty placeholders
+      const staffMembers = projects.selectAll('td.staff')
+        .data(this.staffNodes)
+        .join('td')
+        .attr('class', 'staff')
+        .attr('title', (d) => d)
+        .text(null)
+        .style('border', '0.1px solid black')
+       ;
     },
     display() {
-      this.generateChart();
+      this.generateTable();
     },
   },
 };
@@ -410,12 +286,6 @@ export default {
     pointer-events: none;
   }
 
-  .background {
-    fill: white;
-    stroke: darkslategrey;
-    stroke-opacity: 1;
-    stroke-width: 3;
-  }
   /**
    * Extra small devices (less than 576px)
    */
@@ -437,5 +307,10 @@ export default {
     svg {
       font-size: 16px;
     }
+  }
+
+  table {
+    border: 1px solid black;
+    border-collapse: collapse;
   }
 </style>
