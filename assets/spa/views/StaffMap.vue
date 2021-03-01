@@ -9,61 +9,63 @@
         lg="10"
         class="px-0"
       >
-        <ChartContainer :viewport="viewport">
-          <template slot="chart">
-            <defs>
-              <linearGradient
-                id="legendGradient"
-                x1="0"
-                x2="1"
-              >
-                <stop
-                  offset="0"
-                  :style="{ 'stop-color': colorScale(0), 'stop-opacity': 1 }"
-                />
-                <stop
-                  offset="1"
-                  :style="{ 'stop-color': colorScale(1), 'stop-opacity': 1 }"
-                />
-              </linearGradient>
-            </defs>
-            <g class="legend">
-              <text
-                class="gradient-caption"
-                :x="viewport.width / 2"
-                :y="legend.topMargin / 1.5"
-              >
-                Full-time equivalent (FTE) in %
-              </text>
-              <text
-                class="gradient-minimum"
-                :x="legend.leftMargin - spacing"
-                :y="legend.topMargin + (legend.height / 2)"
-              >
-                0%
-              </text>
-              <text
-                class="gradient-maximum"
-                :x="(legend.leftMargin + legend.width) + spacing"
-                :y="legend.topMargin + (legend.height / 2)"
-              >
-                100%
-              </text>
-              <rect
-                class="gradient-bar"
-                :x="legend.leftMargin"
-                :y="legend.topMargin"
-                :width="legend.width"
-                :height="legend.height"
-                :rx="4"
-                :ry="4"
+        <svg
+          width="100%"
+        >
+          <defs>
+            <linearGradient
+              id="legendGradient"
+              x1="0"
+              x2="1"
+            >
+              <stop
+                offset="0"
+                :style="{ 'stop-color': colorScale(0), 'stop-opacity': 1 }"
               />
-            </g>
-          </template>
-        </ChartContainer>
+              <stop
+                offset="1"
+                :style="{ 'stop-color': colorScale(1), 'stop-opacity': 1 }"
+              />
+            </linearGradient>
+          </defs>
+          <g class="legend">
+            <text
+              class="gradient-caption"
+              :x="baseWidth / 2"
+              :y="legend.topMargin / 1.5"
+            >
+              Full-time equivalent (FTE) in %
+            </text>
+            <text
+              class="gradient-minimum"
+              :x="legend.leftMargin - spacing"
+              :y="legend.topMargin + (legend.height / 2)"
+            >
+              0%
+            </text>
+            <text
+              class="gradient-maximum"
+              :x="(legend.leftMargin + legend.width) + spacing"
+              :y="legend.topMargin + (legend.height / 2)"
+            >
+              100%
+            </text>
+            <rect
+              class="gradient-bar"
+              :x="legend.leftMargin"
+              :y="legend.topMargin"
+              :width="legend.width"
+              :height="legend.height"
+              :rx="4"
+              :ry="4"
+            />
+          </g>
+        </svg>
+        <div class="table-wrapper">
+          <table />
+        </div>
       </b-col>
       <div class="tooltip" />
-      <table />
     </template>
   </BaseView>
 </template>
@@ -72,23 +74,18 @@
 import * as d3 from 'd3';
 import { mapState } from 'vuex';
 import BaseView from '../components/BaseView';
-import ChartContainer from '../components/ChartContainer';
 import baseMixin from '../mixins/baseMixin';
 
 export default {
   name: 'StaffMap',
   components: {
     BaseView,
-    ChartContainer,
   },
   mixins: [baseMixin],
   data() {
     return {
-      // Holds the id, team, project name and percentage value for each staff member.
-      roles: [],
       // Required for placement of the legend labels.
       spacing: 6,
-      percentageFormat: d3.format(',.1'),
     };
   },
   computed: {
@@ -105,16 +102,6 @@ export default {
       return window.innerWidth >= 992
         ? window.innerWidth * 0.8333
         : window.innerWidth;
-    },
-    /**
-     * Calculates the dimensions of the viewport.
-     */
-    viewport() {
-      return {
-        width: this.baseWidth,
-        height: this.margin.top
-                + this.margin.bottom,
-      };
     },
     /**
      * Calculates the dimensions of the legend.
@@ -140,16 +127,11 @@ export default {
       };
     },
     /**
-     * Returns an array of staff nodes, used to render the chart's X-axis.
+     * Returns an array of all staff names.
      */
     staffNodes() {
-      return [...new Set(this.roles.map((d) => d.staffMember).sort())];
-    },
-    /**
-     * Returns an array of staff nodes, used to render the chart's Y-axis.
-     */
-    projectNodes() {
-      return [...new Set(this.roles.map((d) => d.project).sort())];
+      const staffRoles = this.projects.flatMap((d) => d.staffRoles);
+      return [...new Set(staffRoles.map((d) => this.formatName(d.staffMember)).sort())];
     },
     /**
      * Returns the color scale used for the legend and chart.
@@ -179,61 +161,84 @@ export default {
     formatName(staffMember) {
       return `${staffMember.lastName.toUpperCase()}, ${staffMember.firstName}`;
     },
-    generateRoles() {
-      this.projects.forEach((parentEl) => {
-        parentEl.staffRoles.forEach((role) => {
-          this.roles.push({
-            project: parentEl.ilriCode,
-            team: parentEl.team,
-            id: role.id,
-            percent: role.percent,
-            staffMember: this.formatName(role.staffMember),
-          });
-        });
-      });
-    },
     generateTable() {
-      this.generateRoles();
       const table = d3.select('table');
 
-      // Creates the table heading
-      table
-        .append('tr')
-        .attr('class', 'header-row')
-        .append('td')
-      ;
-      d3.select('.header-row').selectAll('th')
-        .data(this.staffNodes)
-        .join('th')
-        .text((d) => d)
-        .style('font-size', '0.005em')
-        .style('border', '0.1px solid black')
-      ;
-      // Creates a tbody element for each team
+      // Creates a tbody element for each team element.
       const teams = table.selectAll('tbody.team')
         .data(this.nestedProjects)
         .join('tbody')
         .attr('class', 'team')
         .attr('id', (d) => d.key)
       ;
-      // Creates the project rows
+      // Creates a project row for every project, sorted by team.
       const projects = teams.selectAll('tr.project')
         .data((d) => d.values)
         .join('tr')
         .attr('class', 'project')
-        .attr('title', (d) => d.key)
-        .text((d) => d.key)
-        .style('border', '0.1px solid black')
+        .attr('id', (d) => d.key)
        ;
-      // Adds empty placeholders
-      const staffMembers = projects.selectAll('td.staff')
+      // Creates empty cells for every staff member.
+      projects.selectAll('td.staff')
         .data(this.staffNodes)
         .join('td')
         .attr('class', 'staff')
-        .attr('title', (d) => d)
+        .attr('id', (d) => d.split(', ')[0])
         .text(null)
-        .style('border', '0.1px solid black')
-       ;
+        .style('border-collapse', 'collapse')
+        .style('border', 'thick solid white')
+        .style('background-color', this.colorScale(0))
+      ;
+      // Populates table with FTE percentages.
+      this.projects.forEach((parentEl) => {
+        parentEl.staffRoles.forEach((role) => {
+          d3.select(`#${parentEl.ilriCode} > #${this.formatName(role.staffMember).split(', ')[0]}`)
+            .text((parseFloat(role.percent) > 0 ? parseFloat(role.percent) : null))
+            .style('background-color', this.colorScale(parseFloat(role.percent)))
+            .style('color', (role.percent) > 0.5 ? 'white' : 'black');
+        });
+      });
+
+      // Inserts a column before first column for project labels
+      projects.insert('th', 'td:first-of-type')
+        .attr('class', 'project-label')
+        .text((d) => d.key)
+        .style('font-size', '0.7em')
+      ;
+      // Inserts a column after last column for team labels
+      teams.select('tr:first-of-type').append('th')
+        .attr('rowspan', (d) => d.values.length)
+        .attr('scope', 'rowgroup')
+        .attr('class', 'project-label')
+        .attr('id', (d) => d.key)
+        .text((d) => d.key)
+        .style('font-size', '0.7em')
+      ;
+      // Inserts a row above first row for staff labels
+      const header = table.insert('tr', 'tbody:first-of-type')
+        .attr('class', 'header-row')
+      ;
+      header.selectAll('th.staff-label')
+        .data(this.staffNodes)
+        .join('th')
+        .attr('class', 'staff-label')
+        .text((d) => d)
+        .style('font-size', '0.7em')
+        .style('border', 'thick solid white')
+      ;
+      // insert empty cell at table position 0,0
+      header.insert('th', 'th:first-of-type')
+      ;
+      // insert empty cell at table position n,0
+      header.append('th', 'th:last-of-type')
+      ;
+      // Renders the project and team labels 'sticky'.
+      d3.selectAll('tbody th, tr.header-row > th:first-of-type, tr.header-row > th:last-of-type, th.team-labels')
+        .style('left', '0px')
+        .style('right', '0px')
+        .style('position', 'sticky')
+        .style('background-color', 'white')
+      ;
     },
     display() {
       this.generateTable();
@@ -243,6 +248,12 @@ export default {
 </script>
 
 <style scoped>
+  .px-0 {
+    border: thin solid lightgray;
+    background-color: azure;
+    margin-bottom: auto;
+  }
+
   .gradient-bar {
     fill: url(#legendGradient);
     stroke: blueviolet;
@@ -263,6 +274,39 @@ export default {
 
   .gradient-minimum {
     text-anchor: end;
+  }
+
+  .table-wrapper {
+    overflow: scroll;
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+    padding-top: 2%;
+    padding-bottom: 5%;
+  }
+
+  /**
+   * Extra small devices (less than 576px)
+   */
+  table {
+    background: white;
+    font-size: 10px;
+  }
+  /**
+   * Small devices (576px to 768px)
+   */
+  @media screen and (min-width: 576px) {
+    table {
+      font-size: 14px;
+    }
+  }
+  /**
+ * Medium sized devices and larger (768px or more)
+ */
+  @media screen and (min-width: 768px) {
+    table {
+      font-size: 16px;
+    }
   }
 
   .tooltip {
@@ -286,31 +330,4 @@ export default {
     pointer-events: none;
   }
 
-  /**
-   * Extra small devices (less than 576px)
-   */
-  svg {
-    font-size: 10px;
-  }
-  /**
-   * Small devices (576px to 768px)
-   */
-  @media screen and (min-width: 576px) {
-    svg {
-      font-size: 14px;
-    }
-  }
-  /**
- * Medium sized devices and larger (768px or more)
- */
-  @media screen and (min-width: 768px) {
-    svg {
-      font-size: 16px;
-    }
-  }
-
-  table {
-    border: 1px solid black;
-    border-collapse: collapse;
-  }
 </style>
