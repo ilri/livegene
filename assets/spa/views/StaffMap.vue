@@ -9,59 +9,61 @@
         lg="10"
         class="px-0"
       >
-        <svg
-          width="100%"
-        >
-          <defs>
-            <linearGradient
-              id="legendGradient"
-              x1="0"
-              x2="1"
-            >
-              <stop
-                offset="0"
-                :style="{ 'stop-color': colorScale(0), 'stop-opacity': 1 }"
+        <div class="legend-container">
+          <svg
+            width="100%"
+          >
+            <defs>
+              <linearGradient
+                id="legendGradient"
+                x1="0"
+                x2="1"
+              >
+                <stop
+                  offset="0"
+                  :style="{ 'stop-color': colorScale(0), 'stop-opacity': 1 }"
+                />
+                <stop
+                  offset="1"
+                  :style="{ 'stop-color': colorScale(1), 'stop-opacity': 1 }"
+                />
+              </linearGradient>
+            </defs>
+            <g class="legend">
+              <text
+                class="gradient-caption"
+                :x="'50%'"
+                :y="'30%'"
+              >
+                Full-time equivalent (FTE) in %
+              </text>
+              <text
+                class="gradient-minimum"
+                :x="'10%'"
+                :y="'50%'"
+              >
+                0%
+              </text>
+              <text
+                class="gradient-maximum"
+                :x="'90%'"
+                :y="'50%'"
+              >
+                100%
+              </text>
+              <rect
+                class="gradient-bar"
+                :x="'12.5%'"
+                :y="'40%'"
+                :width="'75%'"
+                :height="'20%'"
+                :rx="4"
+                :ry="4"
               />
-              <stop
-                offset="1"
-                :style="{ 'stop-color': colorScale(1), 'stop-opacity': 1 }"
-              />
-            </linearGradient>
-          </defs>
-          <g class="legend">
-            <text
-              class="gradient-caption"
-              :x="baseWidth / 2"
-              :y="legend.topMargin / 1.5"
-            >
-              Full-time equivalent (FTE) in %
-            </text>
-            <text
-              class="gradient-minimum"
-              :x="legend.leftMargin - spacing"
-              :y="legend.topMargin + (legend.height / 2)"
-            >
-              0%
-            </text>
-            <text
-              class="gradient-maximum"
-              :x="(legend.leftMargin + legend.width) + spacing"
-              :y="legend.topMargin + (legend.height / 2)"
-            >
-              100%
-            </text>
-            <rect
-              class="gradient-bar"
-              :x="legend.leftMargin"
-              :y="legend.topMargin"
-              :width="legend.width"
-              :height="legend.height"
-              :rx="4"
-              :ry="4"
-            />
-          </g>
-        </svg>
-        <div class="table-wrapper">
+            </g>
+          </svg>
+        </div>
+        <div class="table-container">
           <table />
         </div>
       </b-col>
@@ -82,12 +84,6 @@ export default {
     BaseView,
   },
   mixins: [baseMixin],
-  data() {
-    return {
-      // Required for placement of the legend labels.
-      spacing: 6,
-    };
-  },
   computed: {
     /**
      * Get the data from Vuex Store
@@ -95,37 +91,6 @@ export default {
     ...mapState({
       projects: (state) => state.project.projects,
     }),
-    /**
-     * Gets the base width for calculating the viewport dimensions.
-     */
-    baseWidth() {
-      return window.innerWidth >= 992
-        ? window.innerWidth * 0.8333
-        : window.innerWidth;
-    },
-    /**
-     * Calculates the dimensions of the legend.
-     */
-    legend() {
-      return {
-        width: this.baseWidth * 0.583,
-        height: this.baseWidth * 0.03,
-        topMargin: this.baseWidth * 0.05,
-        leftMargin: this.baseWidth * 0.2085,
-      };
-    },
-    /**
-     * Calculates the viewport's margins.
-     */
-    margin() {
-      return {
-        right: this.baseWidth * 0.15,
-        left: this.baseWidth * 0.15,
-        top: this.legend.height
-              + this.legend.topMargin * 1.5,
-        bottom: this.baseWidth * 0.05,
-      };
-    },
     /**
      * Returns an array of all staff names.
      */
@@ -177,6 +142,7 @@ export default {
         .join('tr')
         .attr('class', 'project')
         .attr('id', (d) => d.key)
+        // .style('height', '60px')
        ;
       // Creates empty cells for every staff member.
       projects.selectAll('td.staff')
@@ -188,6 +154,8 @@ export default {
         .style('border-collapse', 'collapse')
         .style('border', 'thick solid white')
         .style('background-color', this.colorScale(0))
+        // .style('padding-top', '1em')
+        // .style('padding-bottom', '1em')
       ;
       // Populates table with FTE percentages.
       this.projects.forEach((parentEl) => {
@@ -225,6 +193,7 @@ export default {
         .text((d) => d)
         .style('font-size', '0.7em')
         .style('border', 'thick solid white')
+        .attr('margin-right', '100px')
       ;
       // insert empty cell at table position 0,0
       header.insert('th', 'th:first-of-type')
@@ -248,10 +217,36 @@ export default {
 </script>
 
 <style scoped>
+  /**
+   * Extra small devices (up to 576px)
+   */
   .px-0 {
-    border: thin solid lightgray;
     background-color: azure;
+    border: thin solid lightgray;
     margin-bottom: auto;
+    font-size: 10px;
+  }
+
+  /**
+   * Small devices (576px to 768px)
+   */
+  @media screen and (min-width: 576px) {
+    .px-0 {
+      font-size: 14px;
+    }
+  }
+  /**
+   * Medium sized devices and larger (768px or more)
+   */
+  @media screen and (min-width: 768px) {
+    .px-0 {
+      font-size: 16px;
+    }
+  }
+
+  .legend-container {
+    width: 70%;
+    margin: auto;
   }
 
   .gradient-bar {
@@ -270,43 +265,22 @@ export default {
 
   .gradient-minimum, .gradient-maximum {
     dominant-baseline: middle;
+    font-size: 1em;
   }
 
   .gradient-minimum {
     text-anchor: end;
   }
 
-  .table-wrapper {
+  .table-container {
     overflow: scroll;
     width: 90%;
-    margin-left: auto;
-    margin-right: auto;
-    padding-top: 2%;
-    padding-bottom: 5%;
+    margin: 5% auto;
+    border: thin solid gainsboro;
   }
 
-  /**
-   * Extra small devices (less than 576px)
-   */
   table {
-    background: white;
-    font-size: 10px;
-  }
-  /**
-   * Small devices (576px to 768px)
-   */
-  @media screen and (min-width: 576px) {
-    table {
-      font-size: 14px;
-    }
-  }
-  /**
- * Medium sized devices and larger (768px or more)
- */
-  @media screen and (min-width: 768px) {
-    table {
-      font-size: 16px;
-    }
+    background-color: white;
   }
 
   .tooltip {
