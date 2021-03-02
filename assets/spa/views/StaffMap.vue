@@ -12,6 +12,7 @@
         <div class="legend-container">
           <svg
             width="100%"
+            height="100px"
           >
             <defs>
               <linearGradient
@@ -40,23 +41,23 @@
               <text
                 class="gradient-minimum"
                 :x="'10%'"
-                :y="'50%'"
+                :y="'60%'"
               >
                 0%
               </text>
               <text
                 class="gradient-maximum"
                 :x="'90%'"
-                :y="'50%'"
+                :y="'60%'"
               >
                 100%
               </text>
               <rect
                 class="gradient-bar"
                 :x="'12.5%'"
-                :y="'40%'"
+                :y="'45%'"
                 :width="'75%'"
-                :height="'20%'"
+                :height="'30%'"
                 :rx="4"
                 :ry="4"
               />
@@ -132,55 +133,51 @@ export default {
       // Creates a tbody element for each team element.
       const teams = table.selectAll('tbody.team')
         .data(this.nestedProjects)
-        .join('tbody')
-        .attr('class', 'team')
+        .join('tbody').attr('class', 'team')
         .attr('id', (d) => d.key)
+        .style('border-top', 'thin solid #F0F0F0')
+        .style('border-width', '4px')
       ;
       // Creates a project row for every project, sorted by team.
       const projects = teams.selectAll('tr.project')
         .data((d) => d.values)
-        .join('tr')
-        .attr('class', 'project')
+        .join('tr').attr('class', 'project')
         .attr('id', (d) => d.key)
-        // .style('height', '60px')
        ;
       // Creates empty cells for every staff member.
       projects.selectAll('td.staff')
         .data(this.staffNodes)
-        .join('td')
-        .attr('class', 'staff')
-        .attr('id', (d) => d.split(', ')[0])
+        .join('td').attr('class', 'staff')
+        .attr('id', (d) => d.replaceAll(', ', ''))
         .text(null)
-        .style('border-collapse', 'collapse')
-        .style('border', 'thick solid white')
+        .style('border', '3.5px solid white')
+        .style('border-radius', '0.7em')
         .style('background-color', this.colorScale(0))
-        // .style('padding-top', '1em')
-        // .style('padding-bottom', '1em')
       ;
       // Populates table with FTE percentages.
       this.projects.forEach((parentEl) => {
         parentEl.staffRoles.forEach((role) => {
-          d3.select(`#${parentEl.ilriCode} > #${this.formatName(role.staffMember).split(', ')[0]}`)
-            .text((parseFloat(role.percent) > 0 ? parseFloat(role.percent) : null))
+          d3.select(`#${parentEl.ilriCode} > #${this.formatName(role.staffMember).replaceAll(', ', '')}`)
+            .text((role.percent > 0 ? parseFloat(role.percent) : null))
             .style('background-color', this.colorScale(parseFloat(role.percent)))
             .style('color', (role.percent) > 0.5 ? 'white' : 'black');
         });
       });
 
       // Inserts a column before first column for project labels
-      projects.insert('th', 'td:first-of-type')
-        .attr('class', 'project-label')
+      projects.insert('th', 'td:first-of-type').attr('class', 'project-label')
         .text((d) => d.key)
         .style('font-size', '0.7em')
+        .style('padding', '0.7em')
       ;
       // Inserts a column after last column for team labels
-      teams.select('tr:first-of-type').append('th')
-        .attr('rowspan', (d) => d.values.length)
-        .attr('scope', 'rowgroup')
-        .attr('class', 'project-label')
+      teams.select('tr:first-of-type')
+        .append('th').attr('class', 'team-label')
         .attr('id', (d) => d.key)
+        .attr('rowspan', (d) => d.values.length)
         .text((d) => d.key)
         .style('font-size', '0.7em')
+        .style('padding', '0.7em')
       ;
       // Inserts a row above first row for staff labels
       const header = table.insert('tr', 'tbody:first-of-type')
@@ -188,25 +185,28 @@ export default {
       ;
       header.selectAll('th.staff-label')
         .data(this.staffNodes)
-        .join('th')
-        .attr('class', 'staff-label')
+        .join('th').attr('class', 'staff-label')
         .text((d) => d)
         .style('font-size', '0.7em')
-        .style('border', 'thick solid white')
-        .attr('margin-right', '100px')
+        .style('padding', '0.7em')
       ;
-      // insert empty cell at table position 0,0
+      // Insert empty cell at table position 0,0
       header.insert('th', 'th:first-of-type')
       ;
-      // insert empty cell at table position n,0
+      // Insert empty cell at table position n,0
       header.append('th', 'th:last-of-type')
       ;
       // Renders the project and team labels 'sticky'.
-      d3.selectAll('tbody th, tr.header-row > th:first-of-type, tr.header-row > th:last-of-type, th.team-labels')
+      d3.selectAll('tbody th, tr.header-row > th:first-of-type, tr.header-row > th:last-of-type')
         .style('left', '0px')
         .style('right', '0px')
         .style('position', 'sticky')
         .style('background-color', 'white')
+      ;
+      // Changes background colour of every second t-body element light gray
+      d3.selectAll('tbody:nth-child(even)')
+        .selectAll('th')
+        .style('background-color', '#F0F0F0')
       ;
     },
     display() {
@@ -281,6 +281,8 @@ export default {
 
   table {
     background-color: white;
+    border-collapse: collapse;
+    font-family: "Arial Narrow";
   }
 
   .tooltip {
