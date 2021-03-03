@@ -7,7 +7,7 @@
       <b-col
         cols="12"
         lg="10"
-        class="px-0"
+        class="viewport"
       >
         <div class="legend-container">
           <svg
@@ -78,13 +78,14 @@ import * as d3 from 'd3';
 import { mapState } from 'vuex';
 import BaseView from '../components/BaseView';
 import baseMixin from '../mixins/baseMixin';
+import formatNameMixin from '../mixins/formatNameMixin';
 
 export default {
   name: 'StaffMap',
   components: {
     BaseView,
   },
-  mixins: [baseMixin],
+  mixins: [baseMixin, formatNameMixin],
   computed: {
     /**
      * Get the data from Vuex Store
@@ -93,11 +94,27 @@ export default {
       projects: (state) => state.project.projects,
     }),
     /**
-     * Returns an array of all staff names.
+     * Returns an array of unique staff member objects, sorted alphabetically by last name.
      */
     staffNodes() {
       const staffRoles = this.projects.flatMap((d) => d.staffRoles);
-      return [...new Set(staffRoles.map((d) => this.formatName(d.staffMember)).sort())];
+      // returns array of distinct staff members
+      const staffArray = [...new Map(
+        staffRoles.map((d) => [d.staffMember.lastName, d.staffMember]),
+      ).values(),
+      ];
+      // sorts by last name
+      return staffArray.sort((a, b) => {
+        let lastNameA = a.lastName.toUpperCase();
+        let lastNameB = b.lastName.toUpperCase();
+        if (lastNameA < lastNameB) {
+          return -1;
+        }
+        if (lastNameA > lastNameB) {
+          return 1;
+        }
+        return 0;
+      });
     },
     /**
      * Returns the color scale used for the legend and chart.
@@ -112,21 +129,10 @@ export default {
         .key((d) => d.ilriCode)
         .sortKeys((a, b) => d3.ascending(a, b))
         .sortValues((a, b) => d3.ascending(a.ilriCode, b.ilriCode))
-        .entries(this.projects.filter((d) => d.staffRoles.length));
+        .entries(this.projects);
     },
   },
   methods: {
-    /**
-     * Formats a staff member's name to: "SURNAME, Name".
-     *
-     * @param staffMember
-     * @param {string} staffMember.lastName
-     * @param {string} staffMember.firstName
-     * @returns {string}
-     */
-    formatName(staffMember) {
-      return `${staffMember.lastName.toUpperCase()}, ${staffMember.firstName}`;
-    },
     generateTable() {
       const table = d3.select('table');
 
@@ -148,19 +154,20 @@ export default {
       projects.selectAll('td.staff')
         .data(this.staffNodes)
         .join('td').attr('class', 'staff')
-        .attr('id', (d) => d.replaceAll(', ', ''))
+        .attr('id', (d) => `staff_member_${d.id}`)
         .text(null)
         .style('border', '3.5px solid white')
         .style('border-radius', '0.7em')
         .style('background-color', this.colorScale(0))
       ;
       // Populates table with FTE percentages.
-      this.projects.forEach((parentEl) => {
-        parentEl.staffRoles.forEach((role) => {
-          d3.select(`#${parentEl.ilriCode} > #${this.formatName(role.staffMember).replaceAll(', ', '')}`)
-            .text((role.percent > 0 ? parseFloat(role.percent) : null))
-            .style('background-color', this.colorScale(parseFloat(role.percent)))
-            .style('color', (role.percent) > 0.5 ? 'white' : 'black');
+      this.projects.forEach((project) => {
+        project.staffRoles.forEach((role) => {
+          d3.select(`#${project.ilriCode} > #staff_member_${role.staffMember.id}`)
+            .text(parseFloat(role.percent))
+            .style('background-color', (role.percent > 0 ? this.colorScale(parseFloat(role.percent)) : 'PowderBlue'))
+            .style('color', (role.percent) > 0.5 ? 'white' : 'black')
+          ;
         });
       });
 
@@ -186,7 +193,7 @@ export default {
       header.selectAll('th.staff-label')
         .data(this.staffNodes)
         .join('th').attr('class', 'staff-label')
-        .text((d) => d)
+        .text((d) => this.formatName(d))
         .style('font-size', '0.7em')
         .style('padding', '0.7em')
       ;
@@ -220,7 +227,7 @@ export default {
   /**
    * Extra small devices (up to 576px)
    */
-  .px-0 {
+  .viewport {
     background-color: azure;
     border: thin solid lightgray;
     margin-bottom: auto;
@@ -231,7 +238,7 @@ export default {
    * Small devices (576px to 768px)
    */
   @media screen and (min-width: 576px) {
-    .px-0 {
+    .viewport {
       font-size: 14px;
     }
   }
@@ -239,7 +246,7 @@ export default {
    * Medium sized devices and larger (768px or more)
    */
   @media screen and (min-width: 768px) {
-    .px-0 {
+    .viewport {
       font-size: 16px;
     }
   }
@@ -282,7 +289,7 @@ export default {
   table {
     background-color: white;
     border-collapse: collapse;
-    font-family: "Arial Narrow";
+    font-family: "Arial Narrow",serif;
   }
 
   .tooltip {
