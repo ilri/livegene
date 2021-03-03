@@ -112,7 +112,8 @@ export default {
         .key((d) => d.ilriCode)
         .sortKeys((a, b) => d3.ascending(a, b))
         .sortValues((a, b) => d3.ascending(a.ilriCode, b.ilriCode))
-        .entries(this.projects.filter((d) => d.staffRoles.length));
+        .entries(this.projects)
+      ;
     },
   },
   methods: {
