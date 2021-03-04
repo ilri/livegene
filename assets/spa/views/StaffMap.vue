@@ -141,8 +141,7 @@ export default {
         .data(this.nestedProjects)
         .join('tbody').attr('class', 'team')
         .attr('id', (d) => d.key)
-        .style('border-top', 'thin solid #F0F0F0')
-        .style('border-width', '4px')
+        .style('border-top', '4px solid #F0F0F0')
       ;
       // Creates a project row for every project, sorted by team.
       const projects = teams.selectAll('tr.project')
@@ -193,18 +192,28 @@ export default {
       header.selectAll('th.staff-label')
         .data(this.staffNodes)
         .join('th').attr('class', 'staff-label')
+        .style('height', '7em')
+        .style('white-space', 'nowrap')
+        .append('div')
+        .style('transform', 'rotate(315deg) translate(-0.8em,1.8em)')
+        .style('max-width', '2.5em')
+        .append('span')
         .text((d) => this.formatName(d))
-        .style('font-size', '0.7em')
-        .style('padding', '0.7em')
+        .style('font-size', (d) => (this.formatName(d).length < 20 ? '0.7em' : '0.6em'))
+        .style('border-bottom', 'thin solid gainsboro')
       ;
       // Insert empty cell at table position 0,0
-      header.insert('th', 'th:first-of-type')
+      header.insert('td', 'th:first-of-type')
+        .style('z-index', '1')
+        .style('opacity', '80%')
       ;
       // Insert empty cell at table position n,0
-      header.append('th', 'th:last-of-type')
+      header.append('td', 'th:last-of-type')
+        .style('z-index', '1')
+        .style('opacity', '80%')
       ;
       // Renders the project and team labels 'sticky'.
-      d3.selectAll('tbody th, tr.header-row > th:first-of-type, tr.header-row > th:last-of-type')
+      d3.selectAll('tbody th, tr.header-row > td')
         .style('left', '0px')
         .style('right', '0px')
         .style('position', 'sticky')
@@ -280,7 +289,7 @@ export default {
   }
 
   .table-container {
-    overflow: scroll;
+    overflow: auto;
     width: 90%;
     margin: 5% auto;
     border: thin solid gainsboro;
