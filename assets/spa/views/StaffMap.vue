@@ -104,17 +104,7 @@ export default {
       ).values(),
       ];
       // sorts by last name
-      return staffArray.sort((a, b) => {
-        let lastNameA = a.lastName.toUpperCase();
-        let lastNameB = b.lastName.toUpperCase();
-        if (lastNameA < lastNameB) {
-          return -1;
-        }
-        if (lastNameA > lastNameB) {
-          return 1;
-        }
-        return 0;
-      });
+      return staffArray.sort((a, b) => a.lastName.localeCompare(b.lastName));
     },
     /**
      * Returns the color scale used for the legend and chart.
@@ -140,7 +130,7 @@ export default {
       const teams = table.selectAll('tbody.team')
         .data(this.nestedProjects)
         .join('tbody').attr('class', 'team')
-        .attr('id', (d) => d.key)
+        .attr('id', (d) => d.key.replaceAll(' ', '_'))
         .style('border-top', '4px solid #F0F0F0')
       ;
       // Creates a project row for every project, sorted by team.
@@ -153,7 +143,7 @@ export default {
       projects.selectAll('td.staff')
         .data(this.staffNodes)
         .join('td').attr('class', 'staff')
-        .attr('id', (d) => `staff_member_${d.id}`)
+        .attr('id', (d) => `staffMember_${d.id}`)
         .text(null)
         .style('border', '3.5px solid white')
         .style('border-radius', '0.7em')
@@ -162,10 +152,11 @@ export default {
       // Populates table with FTE percentages.
       this.projects.forEach((project) => {
         project.staffRoles.forEach((role) => {
-          d3.select(`#${project.ilriCode} > #staff_member_${role.staffMember.id}`)
+          d3.select(`#${project.ilriCode} > #staffMember_${role.staffMember.id}`)
             .text(parseFloat(role.percent))
             .style('background-color', (role.percent > 0 ? this.colorScale(parseFloat(role.percent)) : 'PowderBlue'))
             .style('color', (role.percent) > 0.5 ? 'white' : 'black')
+            .style('cursor', 'default')
             .on('mouseenter', this.showTooltip)
             .on('mousemove', this.moveTooltip)
             .on('mouseleave', this.hideTooltip)
@@ -182,7 +173,7 @@ export default {
       // Inserts a column after last column for team labels
       teams.select('tr:first-of-type')
         .append('th').attr('class', 'team-label')
-        .attr('id', (d) => d.key)
+        .attr('id', (d) => d.key.replaceAll(' ', '_'))
         .attr('rowspan', (d) => d.values.length)
         .text((d) => d.key)
         .style('font-size', '0.7em')
@@ -229,14 +220,14 @@ export default {
       ;
     },
     showTooltip(d, i, n) {
-      const role_percentage = parseFloat(n[0].innerText) * 100;
+      const rolePercentage = parseFloat(n[0].innerText) * 100;
       d3.select(n[i])
         .style('background-color', 'darkgray')
         .style('color', 'white')
       ;
       d3.select('div.tooltip')
         .style('opacity', '0.9')
-        .html(`${this.formatName(d)}<hr>Percentage Value: <b>${role_percentage}%</b>`)
+        .html(`${this.formatName(d)}<hr>Percentage Value: <b>${rolePercentage}%</b>`)
       ;
     },
     moveTooltip() {
@@ -246,13 +237,13 @@ export default {
       ;
     },
     hideTooltip(d, i, n) {
-      const role_percentage = n[0].innerText;
+      const rolePercentage = n[0].innerText;
       d3.select('div.tooltip')
         .style('opacity', 0)
       ;
       d3.select(n[i])
-        .style('background-color', (role_percentage > 0 ? this.colorScale(role_percentage) : 'PowderBlue'))
-        .style('color', (role_percentage) > 0.5 ? 'white' : 'black')
+        .style('background-color', (rolePercentage > 0 ? this.colorScale(rolePercentage) : 'PowderBlue'))
+        .style('color', (rolePercentage) > 0.5 ? 'white' : 'black')
       ;
     },
     display() {
@@ -328,7 +319,7 @@ export default {
   table {
     background-color: white;
     border-collapse: collapse;
-    font-family: "Arial Narrow", Sans-Serif;
+    font-family: "Arial Narrow", sans-serif;
   }
 
   /**
@@ -345,7 +336,7 @@ export default {
     padding: 1em;
     /*text*/
     font-size: 0.6em;
-    font-family: "Arial Narrow", Sans-Serif;
+    font-family: "Arial Narrow", sans-serif;
     text-align: center;
     dominant-baseline: central;
     white-space: normal;
