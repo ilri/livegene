@@ -166,6 +166,9 @@ export default {
             .text(parseFloat(role.percent))
             .style('background-color', (role.percent > 0 ? this.colorScale(parseFloat(role.percent)) : 'PowderBlue'))
             .style('color', (role.percent) > 0.5 ? 'white' : 'black')
+            .on('mouseenter', this.showTooltip)
+            .on('mousemove', this.moveTooltip)
+            .on('mouseleave', this.hideTooltip)
           ;
         });
       });
@@ -223,6 +226,33 @@ export default {
       d3.selectAll('tbody:nth-child(even)')
         .selectAll('th')
         .style('background-color', '#F0F0F0')
+      ;
+    },
+    showTooltip(d, i, n) {
+      const role_percentage = parseFloat(n[0].innerText) * 100;
+      d3.select(n[i])
+        .style('background-color', 'darkgray')
+        .style('color', 'white')
+      ;
+      d3.select('div.tooltip')
+        .style('opacity', '0.9')
+        .html(`${this.formatName(d)}<hr>Percentage Value: <b>${role_percentage}%</b>`)
+      ;
+    },
+    moveTooltip() {
+      d3.select('div.tooltip')
+        .style('left', `${d3.event.pageX + 10}px`)
+        .style('top', `${d3.event.pageY + 10}px`)
+      ;
+    },
+    hideTooltip(d, i, n) {
+      const role_percentage = n[0].innerText;
+      d3.select('div.tooltip')
+        .style('opacity', 0)
+      ;
+      d3.select(n[i])
+        .style('background-color', (role_percentage > 0 ? this.colorScale(role_percentage) : 'PowderBlue'))
+        .style('color', (role_percentage) > 0.5 ? 'white' : 'black')
       ;
     },
     display() {
@@ -298,28 +328,52 @@ export default {
   table {
     background-color: white;
     border-collapse: collapse;
-    font-family: "Arial Narrow",serif;
+    font-family: "Arial Narrow", Sans-Serif;
   }
 
+  /**
+ * Extra small devices (up to 576px)
+ */
   .tooltip {
     /*positioning*/
     position: absolute;
     /*display & box model*/
-    display: block;
+    display: inline;
     opacity: 0;
     border: thin solid darkslategrey;
     border-radius: 0.5em;
-    padding: 2em;
+    padding: 1em;
     /*text*/
-    font-size: 0.8em;
-    font-family: '"Open Sans Condensed"', sans-serif;
+    font-size: 0.6em;
+    font-family: "Arial Narrow", Sans-Serif;
     text-align: center;
     dominant-baseline: central;
+    white-space: normal;
+    word-wrap: break-word;
     /*colors*/
     background: white;
     fill: darkslategrey;
     /*others*/
     pointer-events: none;
+  }
+
+  /**
+   * Small devices (576px to 768px)
+   */
+  @media screen and (min-width: 576px) {
+    .tooltip {
+      font-size: 0.7em;
+      padding: 1.5em;
+    }
+  }
+  /**
+   * Medium sized devices and larger (768px or more)
+   */
+  @media screen and (min-width: 768px) {
+    .tooltip {
+      font-size: 0.9em;
+      padding: 2em;
+    }
   }
 
 </style>
