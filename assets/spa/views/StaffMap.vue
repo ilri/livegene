@@ -329,7 +329,7 @@ export default {
   table {
     background-color: white;
     border-collapse: collapse;
-    font-family: "Arial Narrow", Sans-Serif;
+    font-family: "Arial Narrow", sans-serif;
   }
 
   /**
@@ -346,7 +346,7 @@ export default {
     padding: 1em;
     /*text*/
     font-size: 0.6em;
-    font-family: "Arial Narrow", Sans-Serif;
+    font-family: "Arial Narrow", sans-serif;
     text-align: center;
     dominant-baseline: central;
     white-space: normal;
