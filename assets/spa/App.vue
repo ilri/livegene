@@ -1,20 +1,18 @@
 <template>
   <div class="body">
     <NavBar />
-    <div class="container-fluid p-0">
-      <transition
-        enter-active-class="animated fadeIn"
-        leave-active-class="animated fadeOut"
-        mode="out-in"
-        appear
-        appear-active-class="animated fadeIn"
-      >
-        <router-view />
-      </transition>
-    </div>
+    <transition
+      enter-active-class="animated fadeIn"
+      leave-active-class="animated fadeOut"
+      mode="out-in"
+      appear
+      appear-active-class="animated fadeIn"
+    >
+      <router-view />
+    </transition>
     <footer class="footer row align-items-center bg-info mx-0">
       <div class="col-12 mx-auto text-center text-white">
-        &copy; 2019 International Livestock Reasearch Institute
+        &copy; 2019 International Livestock Research Institute
       </div>
     </footer>
   </div>
@@ -45,9 +43,8 @@ export default {
   name: 'App',
   components: { NavBar },
   created() {
-    this.$store.dispatch('getJWTAction');
+    this.$store.dispatch('authenticateAction');
     this.$store.dispatch('getProjectsAction');
-    this.$store.dispatch('getWorldCountriesAction');
   },
 };
 </script>
@@ -59,7 +56,7 @@ export default {
   }
 
   .body {
-    margin-bottom: 3em;
+    margin-bottom: 4.5em;
   }
 
   .footer {

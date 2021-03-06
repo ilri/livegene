@@ -89,6 +89,9 @@ class SamplingDocumentationAPITest extends ApiTestCase
         $this->assertArrayHasKey('samplingActivity', $data);
         $this->assertArrayHasKey('samplingDocumentType', $data);
         $this->assertArrayHasKey('document', $data);
+        $this->assertArrayHasKey('startDate', $data);
+        $this->assertArrayHasKey('endDate', $data);
+        $this->assertArrayHasKey('isActive', $data);
 
         $url = $data['document'];
         ob_start();

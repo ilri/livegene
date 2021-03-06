@@ -10,10 +10,11 @@ use Sonata\AdminBundle\Datagrid\{
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\AdminBundle\Form\Type\ModelListType;
-use Symfony\Component\Form\Extension\Core\Type\{
-    CheckboxType,
-    PercentType,
-    HiddenType
+use Symfony\Component\Form\Extension\Core\Type\{CheckboxType, DateType, PercentType, HiddenType};
+use Sonata\DoctrineORMAdminBundle\Filter\DateRangeFilter;
+use Sonata\Form\Type\{
+    DatePickerType,
+    DateRangePickerType
 };
 
 class StaffRoleAdmin extends AbstractAdmin
@@ -23,6 +24,9 @@ class StaffRoleAdmin extends AbstractAdmin
         $listMapper->addIdentifier('id')
             ->add('project')
             ->add('staffMember')
+            ->add('startDate')
+            ->add('endDate')
+            ->add('isActive', 'boolean')
             ->add('percent', 'percent')
             ->add('_action', 'actions', [
                 'actions' => [
@@ -38,12 +42,20 @@ class StaffRoleAdmin extends AbstractAdmin
         $datagridMapper
             ->add('project')
             ->add('staffMember')
-            ->add('percent')
+            ->add('startDate', DateRangeFilter::class, [
+                'field_type' => DateRangePickerType::class,
+            ])
+            ->add('endDate', DateRangeFilter::class, [
+                'field_type' => DateRangePickerType::class,
+            ])
         ;
     }
 
     protected function configureFormFields(FormMapper $formMapper)
     {
+        $staffRole = $this->getSubject();
+        $project = $staffRole->getProject();
+
         $formMapper
             ->add('project', ModelListType::class, [
                 'btn_add' => false,
@@ -86,6 +98,18 @@ class StaffRoleAdmin extends AbstractAdmin
         }
 
         $formMapper
+            ->add('startDate', DatePickerType::class, [
+                'required' => false,
+                'dp_pick_time' => false,
+                'format' => DateType::HTML5_FORMAT,
+                'help' => $project ? 'Project start date: '.$project->getStartDate()->format('Y-m-d') : null
+            ])
+            ->add('endDate', DatePickerType::class, [
+                'required' => false,
+                'dp_pick_time' => false,
+                'format' => DateType::HTML5_FORMAT,
+                'help' => $project ? 'Project end date: '.$project->getEndDate()->format('Y-m-d') : null
+            ])
             ->add('percent', PercentType::class, [
                 'type' => 'fractional',
                 'scale' => 2
@@ -98,6 +122,9 @@ class StaffRoleAdmin extends AbstractAdmin
         $showMapper
             ->add('project')
             ->add('staffMember')
+            ->add('startDate')
+            ->add('endDate')
+            ->add('isActive', 'boolean')
             ->add('percent', 'percent')
         ;
     }

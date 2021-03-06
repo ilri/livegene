@@ -3,10 +3,11 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
-use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\Serializer\Annotation\Groups;
 use App\Application\Sonata\MediaBundle\Entity\Media;
+use App\Entity\Traits\ActiveTrait;
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ApiResource(
@@ -39,6 +40,8 @@ use App\Application\Sonata\MediaBundle\Entity\Media;
  */
 class SamplingDocumentation
 {
+    use ActiveTrait;
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -79,13 +82,15 @@ class SamplingDocumentation
 
     /**
      * @ORM\Column(type="date", nullable=true)
+     * @Groups({"sampling_documentation:collection:get", "sampling_documentation:item:get"})
      */
-    private $validFrom;
+    private $startDate;
 
     /**
      * @ORM\Column(type="date", nullable=true)
+     * @Groups({"sampling_documentation:collection:get", "sampling_documentation:item:get"})
      */
-    private $validTo;
+    private $endDate;
 
     public function __toString()
     {
@@ -145,26 +150,26 @@ class SamplingDocumentation
         return $this;
     }
 
-    public function getValidFrom(): ?\DateTimeInterface
+    public function getStartDate(): ?\DateTimeInterface
     {
-        return $this->validFrom;
+        return $this->startDate;
     }
 
-    public function setValidFrom(?\DateTimeInterface $validFrom): self
+    public function setStartDate(?\DateTimeInterface $startDate): self
     {
-        $this->validFrom = $validFrom;
+        $this->startDate = $startDate;
 
         return $this;
     }
 
-    public function getValidTo(): ?\DateTimeInterface
+    public function getEndDate(): ?\DateTimeInterface
     {
-        return $this->validTo;
+        return $this->endDate;
     }
 
-    public function setValidTo(?\DateTimeInterface $validTo): self
+    public function setEndDate(?\DateTimeInterface $endDate): self
     {
-        $this->validTo = $validTo;
+        $this->endDate = $endDate;
 
         return $this;
     }

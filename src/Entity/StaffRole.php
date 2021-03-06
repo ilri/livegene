@@ -3,12 +3,13 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
+use App\Entity\Traits\RoleTrait;
+use App\Validator\Constraints as AppAssert;
+use Carbon\Carbon;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-use Symfony\Component\Validator\Constraints as Assert;
-use App\Validator\Constraints as AppAssert;
 use Symfony\Component\Serializer\Annotation\Groups;
-use App\Entity\Traits\RoleTrait;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ApiResource(
@@ -76,13 +77,27 @@ class StaffRole
 
     /**
      * @ORM\Column(type="date", nullable=true)
+     * @Groups({"staff_role:collection:get", "staff_role:item:get", "project:collection:get", "project:item:get"})
      */
     private $startDate;
 
     /**
      * @ORM\Column(type="date", nullable=true)
+     * @Groups({"staff_role:collection:get", "staff_role:item:get", "project:collection:get", "project:item:get"})
      */
     private $endDate;
+
+    /**
+     * @var bool
+     *
+     * @Groups({
+     *     "staff_role:collection:get",
+     *     "staff_role:item:get",
+     *     "project:collection:get",
+     *     "project:item:get",
+     * })
+     */
+    private $isActive;
 
     public function __toString()
     {
@@ -143,5 +158,19 @@ class StaffRole
         $this->endDate = $endDate;
 
         return $this;
+    }
+
+    public function getIsActive(): bool
+    {
+        $now = Carbon::now();
+        if (!$this->getStartDate() && !$this->getEndDate()) {
+            return $this->getProject()->getIsActive();
+        } elseif (!$this->getStartDate() && $this->getEndDate()) {
+            return $this->getEndDate() >= $now;
+        } elseif ($this->getStartDate() && !$this->getEndDate()) {
+            return $this->getStartDate() <= $now;
+        } else {
+            return $this->getEndDate() >= $now && $this->getStartDate() <= $now;
+        }
     }
 }

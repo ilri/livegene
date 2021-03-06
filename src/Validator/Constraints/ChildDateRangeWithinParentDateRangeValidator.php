@@ -2,10 +2,11 @@
 
 namespace App\Validator\Constraints;
 
-use Symfony\Component\Validator\Constraint;
-use Symfony\Component\Validator\ConstraintValidator;
 use Doctrine\ORM\EntityManagerInterface;
-use App\Entity\Partnership;
+use Symfony\Component\Validator\{
+    Constraint,
+    ConstraintValidator
+};
 
 class ChildDateRangeWithinParentDateRangeValidator extends ConstraintValidator
 {
@@ -18,7 +19,7 @@ class ChildDateRangeWithinParentDateRangeValidator extends ConstraintValidator
 
     public function validate($entity, Constraint $constraint)
     {
-        /* @var $constraint App\Validator\Constraint\ChildDateRangeWithinParentDateRange */
+        /* @var $constraint ChildDateRangeWithinParentDateRange */
 
         if (null === $entity->getStartDate() || null === $entity->getEndDate() || null === $entity->getProject()) {
             return;

@@ -2,6 +2,7 @@
 
 namespace App\Tests\Admin;
 
+use Carbon\Carbon;
 use Liip\FunctionalTestBundle\Test\WebTestCase;
 use Liip\TestFixturesBundle\Test\FixturesTrait;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,6 +17,9 @@ class StaffMemberAdminTest extends WebTestCase
 
     public function setUp()
     {
+        date_default_timezone_set('UTC');
+        $now = Carbon::create(2019, 8, 8, 9);
+        Carbon::setTestNow($now);
         $this->client = $this->createClient();
     }
 
@@ -37,7 +41,7 @@ class StaffMemberAdminTest extends WebTestCase
      * Test that the form for creating StaffMember can be accessed.
      * It should not display the box for managing staff roles.
      */
-    public function testNewStaffMemberFormDoesnotDisplayRoles()
+    public function testNewStaffMemberFormDoesNotDisplayRoles()
     {
         $fixtures = $this->loadFixtures([
             'App\DataFixtures\Test\UserFixtures',
@@ -122,7 +126,7 @@ class StaffMemberAdminTest extends WebTestCase
         $percent = $staffRole->getPercent();
         $this->assertSame(
             sprintf('%.2f', doubleval($percent) * 100),
-            $crawler->filter('table.table.table-bordered tr td')->eq(3)->filter('input[type="text"]')->attr('value')
+            $crawler->filter('table.table.table-bordered tr td')->eq(5)->filter('input[type="text"]')->attr('value')
         );
 
         // delete the staff role

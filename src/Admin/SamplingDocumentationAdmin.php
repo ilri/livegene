@@ -3,15 +3,21 @@
 namespace App\Admin;
 
 use Sonata\AdminBundle\Admin\AbstractAdmin;
-use Sonata\AdminBundle\Route\RouteCollection;
 use Sonata\AdminBundle\Datagrid\{
-    ListMapper,
-    DatagridMapper
+    DatagridMapper,
+    ListMapper
 };
 use Sonata\AdminBundle\Form\FormMapper;
-use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\AdminBundle\Form\Type\ModelListType;
+use Sonata\AdminBundle\Route\RouteCollection;
+use Sonata\AdminBundle\Show\ShowMapper;
+use Sonata\DoctrineORMAdminBundle\Filter\DateRangeFilter;
+use Sonata\Form\Type\{
+    DatePickerType,
+    DateRangePickerType
+};
 use Sonata\MediaBundle\Form\Type\MediaType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 
 class SamplingDocumentationAdmin extends AbstractAdmin
 {
@@ -61,6 +67,10 @@ class SamplingDocumentationAdmin extends AbstractAdmin
             ->add('samplingActivity')
             ->add('samplingDocumentType')
             ->add('document')
+            ->add('startDate')
+            ->add('endDate')
+            ->add('isActive')
+            ->add('country')
             ->add('_action', 'actions', [
                 'actions' => [
                     'show' => [],
@@ -76,6 +86,13 @@ class SamplingDocumentationAdmin extends AbstractAdmin
             ->add('samplingActivity')
             ->add('samplingDocumentType')
             ->add('document')
+            ->add('startDate', DateRangeFilter::class, [
+                'field_type' => DateRangePickerType::class,
+            ])
+            ->add('endDate', DateRangeFilter::class, [
+                'field_type' => DateRangePickerType::class,
+            ])
+            ->add('country')
         ;
     }
 
@@ -93,6 +110,19 @@ class SamplingDocumentationAdmin extends AbstractAdmin
                 'provider' => 'sonata.media.provider.file',
                 'context' => 'default'
             ])
+            ->add('startDate', DatePickerType::class, [
+                'required' => false,
+                'dp_pick_time' => false,
+                'format' => DateType::HTML5_FORMAT
+            ])
+            ->add('endDate', DatePickerType::class, [
+                'required' => false,
+                'dp_pick_time' => false,
+                'format' => DateType::HTML5_FORMAT
+            ])
+            ->add('country', ModelListType::class, [
+                'required' => false,
+            ])
         ;
     }
 
@@ -105,6 +135,10 @@ class SamplingDocumentationAdmin extends AbstractAdmin
             ->add('file', null, [
                 'template' => 'SonataAdmin/CRUD/SamplingDocumentation/show_file.html.twig'
             ])
+            ->add('startDate')
+            ->add('endDate')
+            ->add('isActive')
+            ->add('country')
         ;
     }
 }

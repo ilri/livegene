@@ -15,8 +15,8 @@
         <env name="DATABASE_URL" value="sqlite:///%kernel.project_dir%/var/test.db3" />
 
         <!-- ###+ nelmio/cors-bundle ### -->
-	<env name="CORS_ALLOW_ORIGIN" value="^https?://localhost\(:[0-9]+\)?$"/>
-	<!--"^https?://localhost\(:[0-9]+\)?$"/ -->
+	    <env name="CORS_ALLOW_ORIGIN" value="^https?://localhost\(:[0-9]+\)?$"/>
+	    <!--"^https?://localhost\(:[0-9]+\)?$"/ -->
         <!-- ###- nelmio/cors-bundle ### -->
 
         <!-- suppress deprecation notices -->
