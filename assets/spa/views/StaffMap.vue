@@ -230,14 +230,14 @@ export default {
       ;
     },
     showTooltip(d, i, n) {
-      const role_percentage = parseFloat(n[0].innerText) * 100;
+      const rolePercentage = parseFloat(n[0].innerText) * 100;
       d3.select(n[i])
         .style('background-color', 'darkgray')
         .style('color', 'white')
       ;
       d3.select('div.tooltip')
         .style('opacity', '0.9')
-        .html(`${this.formatName(d)}<hr>Percentage Value: <b>${role_percentage}%</b>`)
+        .html(`${this.formatName(d)}<hr>Percentage Value: <b>${rolePercentage}%</b>`)
       ;
     },
     moveTooltip() {
@@ -247,13 +247,13 @@ export default {
       ;
     },
     hideTooltip(d, i, n) {
-      const role_percentage = n[0].innerText;
+      const rolePercentage = n[0].innerText;
       d3.select('div.tooltip')
         .style('opacity', 0)
       ;
       d3.select(n[i])
-        .style('background-color', (role_percentage > 0 ? this.colorScale(role_percentage) : 'PowderBlue'))
-        .style('color', (role_percentage) > 0.5 ? 'white' : 'black')
+        .style('background-color', (rolePercentage > 0 ? this.colorScale(rolePercentage) : 'PowderBlue'))
+        .style('color', (rolePercentage) > 0.5 ? 'white' : 'black')
       ;
     },
     display() {
