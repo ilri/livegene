@@ -116,9 +116,9 @@ export default {
     nestedProjects() {
       return d3.nest()
         .key((d) => d.team)
+        .sortKeys((a, b) => d3.ascending(a, b))
         .key((d) => d.ilriCode)
         .sortKeys((a, b) => d3.ascending(a, b))
-        .sortValues((a, b) => d3.ascending(a.ilriCode, b.ilriCode))
         .entries(this.projects)
       ;
     },
