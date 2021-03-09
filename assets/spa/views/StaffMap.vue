@@ -376,6 +376,20 @@ export default {
           .transition()
           .style('background-color', 'PowderBlue')
         ;
+        this.projects.forEach((project) => {
+          if (project.team === teamID) {
+            project.staffRoles.forEach((role) => {
+            // Highlights STAFF MEMBER labels
+              let staffID = role.staffMember.id;
+              d3.select(`tr.header-row > th.staff-label#staffMember_${staffID} > div > span`)
+                .transition()
+                .style('color', this.colorScale(0.8))
+                .style('font-size', '0.75em')
+                .style('border-bottom', 'thin solid darkslategray')
+              ;
+            });
+          }
+        });
       }
     },
     highlightProject(d) {
