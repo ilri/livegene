@@ -86,6 +86,11 @@ export default {
     BaseView,
   },
   mixins: [baseMixin, formatNameMixin],
+  data() {
+    return {
+      checked: false,
+    };
+  },
   computed: {
     /**
      * Get the data from Vuex Store
@@ -129,6 +134,20 @@ export default {
       ;
     },
   },
+  watch: {
+    checked(newValue) {
+      if (newValue === false) {
+        this.resetTableStyle();
+        d3.selectAll("input[type='checkbox']")
+          .property('disabled', false)
+        ;
+      } else {
+        d3.selectAll("input[type='checkbox']:not(:checked)")
+          .property('disabled', true)
+        ;
+      }
+    },
+  },
   methods: {
     generateTable() {
       const table = d3.select('table');
@@ -139,12 +158,14 @@ export default {
         .join('tbody').attr('class', 'team')
         .attr('id', (d) => d.key.replaceAll(' ', '_'))
         .style('border-top', '4px solid #F0F0F0')
+        .style('cursor', 'default')
       ;
       // Creates a project row for every project, sorted by team.
       const projects = teams.selectAll('tr.project')
         .data((d) => d.values)
         .join('tr').attr('class', 'project')
-        .attr('id', (d) => d.key)
+        .attr('id', (d) => `${d.key}`)
+        .style('cursor', 'default')
        ;
       // Creates empty cells for every staff member.
       projects.selectAll('td.staff')
@@ -176,6 +197,8 @@ export default {
         .text((d) => d.key)
         .style('font-size', '0.7em')
         .style('padding', '0.7em')
+        .on('mouseenter', this.highlightProject)
+        .on('mouseleave', this.resetTableStyle)
       ;
       // Inserts a column after last column for team labels
       teams.select('tr:first-of-type')
@@ -185,6 +208,8 @@ export default {
         .text((d) => d.key)
         .style('font-size', '0.7em')
         .style('padding', '0.7em')
+        .on('mouseenter', this.highlightTeam)
+        .on('mouseleave', this.resetTableStyle)
       ;
       // Inserts a row above first row for staff labels
       const header = table.insert('tr', 'tbody:first-of-type')
@@ -193,6 +218,7 @@ export default {
       header.selectAll('th.staff-label')
         .data(this.staffNodes)
         .join('th').attr('class', 'staff-label')
+        .attr('id', (d) => `staffMember_${d.id}`)
         .style('height', '7em')
         .style('white-space', 'nowrap')
         .append('div')
@@ -204,7 +230,7 @@ export default {
         .style('border-bottom', 'thin solid gainsboro')
         .style('cursor', 'default')
         .on('mouseenter', this.highlightStaffMember)
-        .on('mouseleave', this.hideStaffMember)
+        .on('mouseleave', this.resetTableStyle)
       ;
       // Insert empty cell at table position 0,0
       header.insert('td', 'th:first-of-type')
@@ -213,6 +239,33 @@ export default {
       ;
       // Insert empty cell at table position n,0
       header.append('td', 'th:last-of-type')
+        .style('z-index', '1')
+        .style('opacity', '80%')
+      ;
+      const menu = table.insert('tr', 'tbody:first-of-type')
+        .attr('class', 'menu')
+      ;
+      menu.selectAll('th.menu-label')
+        .data(this.staffNodes)
+        .join('th').attr('class', 'check-box')
+        .style('height', '1em')
+        .style('border-right', '3.5px solid white')
+        .style('background-color', 'gainsboro')
+        .attr('font-family', 'FontAwesome')
+        .append('input')
+        .attr('type', 'checkbox')
+        .each((d, i, n) => {
+          d3.select(n[i])
+            .on('click.a', this.highlightStaffMember)
+            .on('click.b', () => { this.checked = !this.checked; })
+          ;
+        })
+      ;
+      menu.insert('td', 'th:first-of-type')
+        .style('z-index', '1')
+        .style('opacity', '80%')
+      ;
+      menu.append('td', 'th:last-of-type')
         .style('z-index', '1')
         .style('opacity', '80%')
       ;
@@ -256,55 +309,148 @@ export default {
         .style('color', (rolePercentage) > 0.5 ? 'white' : 'black')
       ;
     },
-    highlightStaffMember(d, i, n) {
-      const staffID = d.id;
+    highlightStaffMember(d) {
+      // Only allows event when no checkboxes ticked
+      if (this.checked === false) {
+        const staffID = d.id;
 
-      // Highlight the staff member label
-      d3.select(n[i])
-        .transition()
-        .style('color', this.colorScale(0.8))
-        .style('font-size', () => (this.formatName(d).length < 20 ? '0.8em' : '0.65em'))
-        .style('border-bottom', 'thin solid darkslategray')
-      ;
-      // Highlight associated projects and team labels
-      this.projects.forEach((project) => {
-        project.staffRoles.forEach((role) => {
-          if (role.staffMember.id === staffID) {
-            // Highlight team label
-            let team = project.team.replaceAll(' ', '_');
-            d3.select(`tbody#${team} > tr > th.team-label`)
+        // Highlights STAFF MEMBER label
+        d3.select(`tr.header-row > th.staff-label#staffMember_${staffID} > div > span`)
+          .transition()
+          .style('color', this.colorScale(0.8))
+          .style('font-size', () => (this.formatName(d).length < 20 ? '0.8em' : '0.65em'))
+          .style('border-bottom', 'thin solid darkslategray')
+        ;
+        // Creates a highlighted path for all associated STAFF MEMBER cells
+        d3.selectAll(`tbody > tr.project > td#staffMember_${staffID}`)
+          .transition()
+          .style('background-color', 'PowderBlue')
+        ;
+        // Retains original FTE cell colours
+        this.projects.forEach((project) => {
+          project.staffRoles.forEach((role) => {
+            d3.select(`#${project.ilriCode} > #staffMember_${role.staffMember.id}`)
               .transition()
-              .style('background-color', 'lightblue')
+              .style('background-color', (role.percent > 0 ? this.colorScale(parseFloat(role.percent)) : 'PowderBlue'))
             ;
-            // Highlight project label
-            let ilriCode = project.ilriCode.replaceAll(' ', '_');
-            d3.select(`tbody > tr#${ilriCode} > th.project-label`)
+          });
+        });
+        this.projects.forEach((project) => {
+          project.staffRoles.forEach((role) => {
+            if (role.staffMember.id === staffID) {
+              // Highlights TEAM label
+              let team = project.team.replaceAll(' ', '_');
+              d3.selectAll(`tbody#${team} > tr > th.team-label`)
+                .transition()
+                .style('background-color', 'PowderBlue')
+              ;
+              // Highlight PROJECT label
+              let ilriCode = project.ilriCode.replaceAll(' ', '_');
+              d3.selectAll(`tbody > tr#${ilriCode} > th.project-label`)
+                .transition()
+                .style('background-color', 'PowderBlue')
+              ;
+            }
+          });
+        });
+      }
+    },
+    highlightTeam(d) {
+      // Only allows event when no checkboxes ticked
+      if (this.checked === false) {
+        const teamID = d.key.replaceAll(' ', '_');
+        const team = d3.select(`tbody#${teamID}`);
+
+        // Highlights TEAM borders
+        team
+          .transition()
+          .style('border-color', 'PowderBlue')
+        ;
+        d3.select(`tbody#${teamID} + tbody`)
+          .transition()
+          .style('border-color', 'PowderBlue')
+        ;
+        // Highlights PROJECT and TEAM labels
+        team
+          .selectAll('tr > th')
+          .transition()
+          .style('background-color', 'PowderBlue')
+        ;
+      }
+    },
+    highlightProject(d) {
+      // Only allows event when no checkboxes ticked
+      if (this.checked === false) {
+        const projectCode = d.key;
+        const projectLabel = d3.select(`tbody > tr#${projectCode}`);
+
+        // Highlights PROJECT labels
+        projectLabel.selectAll('th.project-label')
+          .transition()
+          .style('background-color', 'PowderBlue')
+        ;
+
+        this.projects.forEach((project) => {
+          if (project.ilriCode === projectCode) {
+            // Highlights TEAM labels
+            let teamID = project.team.replaceAll(' ', '_');
+            d3.select(`tbody > tr > th.team-label#${teamID}`)
               .transition()
-              .style('background-color', 'lightblue')
+              .style('background-color', 'PowderBlue')
             ;
+            // Highlights STAFF MEMBER labels
+            project.staffRoles.forEach((role) => {
+              let staffID = role.staffMember.id;
+              d3.select(`tr.header-row > th.staff-label#staffMember_${staffID} > div > span`)
+                .transition()
+                .style('color', this.colorScale(0.8))
+                .style('font-size', '0.75em')
+                .style('border-bottom', 'thin solid darkslategray')
+              ;
+            });
           }
         });
-      });
+      }
     },
-    hideStaffMember(d, i, n) {
-      // Removes highlighting of staff member labels
-      d3.select(n[i])
-        .transition()
-        .style('color', 'black')
-        .style('font-size', () => (this.formatName(d).length < 20 ? '0.7em' : '0.6em'))
-        .style('border-bottom', 'thin solid gainsboro')
-      ;
-      // Removes highlighting of team and project labels
-      d3.selectAll('tbody:nth-child(even)')
-        .transition()
-        .selectAll('th')
-        .style('background-color', '#F0F0F0')
-      ;
-      d3.selectAll('tbody:nth-child(odd)')
-        .transition()
-        .selectAll('th')
-        .style('background-color', 'white')
-      ;
+    resetTableStyle() {
+      // Only allows event when no checkboxes ticked
+      if (this.checked === false) {
+        // Resets STAFF MEMBER labels
+        d3.selectAll('tr.header-row > th.staff-label > div > span')
+          .transition()
+          .style('color', 'black')
+          .style('border-bottom', 'thin solid gainsboro')
+          .style('font-size', '0.65em')
+        ;
+        // Resets T-BODY labels
+        d3.selectAll('tbody')
+          .style('border-color', '#F0F0F0')
+        ;
+        d3.selectAll('tbody:nth-child(even)')
+          .transition()
+          .selectAll('th')
+          .style('background-color', '#F0F0F0')
+        ;
+        d3.selectAll('tbody:nth-child(odd)')
+          .transition()
+          .selectAll('th')
+          .style('background-color', 'white')
+        ;
+
+        // Resets PROJECT cells
+        d3.selectAll('tbody > tr.project > td')
+          .transition()
+          .style('background-color', this.colorScale(0))
+        ;
+        this.projects.forEach((project) => {
+          project.staffRoles.forEach((role) => {
+            d3.select(`#${project.ilriCode} > #staffMember_${role.staffMember.id}`)
+              .transition()
+              .style('background-color', (role.percent > 0 ? this.colorScale(parseFloat(role.percent)) : 'PowderBlue'))
+            ;
+          });
+        });
+      }
     },
     display() {
       this.generateTable();
