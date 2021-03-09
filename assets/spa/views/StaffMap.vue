@@ -113,6 +113,12 @@ export default {
       return d3.scaleSequential(d3.interpolateReds)
         .domain([0, 1]);
     },
+    /**
+     * Returns an array of project objects, grouped into a hierarchical tree structure.
+     * First grouped by TEAMS in alphabetical order,
+     * Secondly grouped by PROJECTS in alphabetical order.
+     * The values of the project keys are STAFF ROLES.
+     */
     nestedProjects() {
       return d3.nest()
         .key((d) => d.team)
@@ -196,6 +202,9 @@ export default {
         .text((d) => this.formatName(d))
         .style('font-size', (d) => (this.formatName(d).length < 20 ? '0.7em' : '0.6em'))
         .style('border-bottom', 'thin solid gainsboro')
+        .style('cursor', 'default')
+        .on('mouseenter', this.highlightStaffMember)
+        .on('mouseleave', this.hideStaffMember)
       ;
       // Insert empty cell at table position 0,0
       header.insert('td', 'th:first-of-type')
@@ -245,6 +254,56 @@ export default {
       d3.select(n[i])
         .style('background-color', (rolePercentage > 0 ? this.colorScale(rolePercentage) : 'PowderBlue'))
         .style('color', (rolePercentage) > 0.5 ? 'white' : 'black')
+      ;
+    },
+    highlightStaffMember(d, i, n) {
+      const staffID = d.id;
+
+      // Highlight the staff member label
+      d3.select(n[i])
+        .transition()
+        .style('color', this.colorScale(0.8))
+        .style('font-size', () => (this.formatName(d).length < 20 ? '0.8em' : '0.65em'))
+        .style('border-bottom', 'thin solid darkslategray')
+      ;
+      // Highlight associated projects and team labels
+      this.projects.forEach((project) => {
+        project.staffRoles.forEach((role) => {
+          if (role.staffMember.id === staffID) {
+            // Highlight team label
+            let team = project.team.replaceAll(' ', '_');
+            d3.select(`tbody#${team} > tr > th.team-label`)
+              .transition()
+              .style('background-color', 'lightblue')
+            ;
+            // Highlight project label
+            let ilriCode = project.ilriCode.replaceAll(' ', '_');
+            d3.select(`tbody > tr#${ilriCode} > th.project-label`)
+              .transition()
+              .style('background-color', 'lightblue')
+            ;
+          }
+        });
+      });
+    },
+    hideStaffMember(d, i, n) {
+      // Removes highlighting of staff member labels
+      d3.select(n[i])
+        .transition()
+        .style('color', 'black')
+        .style('font-size', () => (this.formatName(d).length < 20 ? '0.7em' : '0.6em'))
+        .style('border-bottom', 'thin solid gainsboro')
+      ;
+      // Removes highlighting of team and project labels
+      d3.selectAll('tbody:nth-child(even)')
+        .transition()
+        .selectAll('th')
+        .style('background-color', '#F0F0F0')
+      ;
+      d3.selectAll('tbody:nth-child(odd)')
+        .transition()
+        .selectAll('th')
+        .style('background-color', 'white')
       ;
     },
     display() {
