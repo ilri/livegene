@@ -13,6 +13,8 @@ trait ActiveTrait
      *     "project:item:get",
      *     "sampling_documentation:collection:get",
      *     "sampling_documentation:item:get",
+     *     "staff_role:collection:get",
+     *     "staff_role:item:get"
      * })
      */
     public function getIsActive(): bool

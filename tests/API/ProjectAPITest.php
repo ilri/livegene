@@ -136,8 +136,8 @@ class ProjectAPITest extends ApiTestCase
                         ],
                         'startDate' => '2018-01-01T00:00:00+00:00',
                         'endDate' => '2019-12-31T00:00:00+00:00',
-                        'percent' => '0.5',
                         'isActive'=> true,
+                        'percent' => '0.5',
                     ]
                 ],
                 'countryRoles' => [],
