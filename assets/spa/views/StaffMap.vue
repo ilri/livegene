@@ -245,8 +245,16 @@ export default {
         .data(this.staffNodes)
         .join('th').attr('class', 'staff-label')
         .attr('id', (d) => `staffMember_${d.id}`)
+        .style('position', 'sticky')
+        .style('top', '0px')
+        .style('background-color', 'white')
         .style('height', '7.5em')
         .style('white-space', 'nowrap')
+        .each((d, i, n) => {
+          d3.select(n[i])
+            .style('z-index', `${this.staffNodes.length + 1 - i}`)
+          ;
+        })
       ;
       // Wraps text in div and span elements for rotating.
       labelNodes.append('div')
@@ -262,8 +270,19 @@ export default {
       // Inserts empty table cells at position (0,0) and (n,0)
       header
         .insert('td', 'th:first-of-type')
+        .style('position', 'sticky')
+        .style('top', '0')
+        .style('left', '0')
+        .style('background-color', 'white')
+        .style('z-index', '1')
+      ;
+      header
         .append('td', 'th:last-of-type')
-        .style('z-index', '-1')
+        .style('position', 'sticky')
+        .style('top', '0')
+        .style('right', '0')
+        .style('background-color', 'white')
+        .style('z-index', '1')
       ;
     },
     /**
@@ -274,18 +293,21 @@ export default {
      */
     generateStaffCheckboxes() {
       const table = d3.select('table');
+      const headerDimensions = table.select('tr.header-row').node().getBoundingClientRect();
 
       // Inserts a new row above the first t-body element.
       const menu = table.insert('tr', 'tbody:first-of-type')
         .attr('class', 'menu')
       ;
+
       // Generates a checkbox for every staff label
       menu.selectAll('th.checkbox')
         .data(this.staffNodes)
         .join('th').attr('class', 'checkbox')
         .style('height', '1em')
         .style('background-color', 'gainsboro')
-        .style('border-right', '3.5px solid white')
+        .style('position', 'sticky')
+        .style('top', `${headerDimensions.height}px`)
         .append('input')
         .attr('type', 'checkbox')
         .each((d, i, n) => {
@@ -297,7 +319,18 @@ export default {
       ;
       // Creates empty cells at the (1,0) and (n,1) position.
       menu.insert('td', 'th:first-of-type')
-        .append('td', 'th:last-of-type')
+        .style('position', 'sticky')
+        .style('top', `${headerDimensions.height}px`)
+        .style('left', '0')
+        .style('background-color', 'gainsboro')
+        .style('z-index', `${this.staffNodes.length + 2}`)
+      ;
+      menu.append('td', 'th:last-of-type')
+        .style('position', 'sticky')
+        .style('top', `${headerDimensions.height}px`)
+        .style('right', '0')
+        .style('background-color', 'gainsboro')
+        .style('z-index', `${this.staffNodes.length + 2}`)
       ;
     },
     showTooltip(d, i, n) {
@@ -560,6 +593,7 @@ export default {
   .table-container {
     overflow: auto;
     width: 90%;
+    height: 800px;
     margin: 1% auto 5% auto;
     border: thin solid gainsboro;
   }
