@@ -99,7 +99,8 @@ export default {
       projects: (state) => state.project.projects,
     }),
     /**
-     * Returns an array of unique staff member objects, sorted alphabetically by last name.
+     * Returns an array of unique staff member objects.
+     * Sorted alphabetically by last name.
      */
     staffNodes() {
       const staffRoles = this.projects.flatMap((d) => d.staffRoles);
@@ -112,7 +113,7 @@ export default {
       return staffArray.sort((a, b) => a.lastName.localeCompare(b.lastName));
     },
     /**
-     * Returns the color scale used for the legend and chart.
+     * Returns the color scale used for the legend and table cells.
      */
     colorScale() {
       return d3.scaleSequential(d3.interpolateReds)
@@ -120,6 +121,7 @@ export default {
     },
     /**
      * Returns an array of project objects, grouped into a hierarchical tree structure.
+     *
      * First grouped by TEAMS in alphabetical order,
      * Secondly grouped by PROJECTS in alphabetical order.
      * The values of the project keys are STAFF ROLES.
@@ -152,7 +154,7 @@ export default {
     generateTable() {
       const table = d3.select('table');
 
-      // Creates a tbody element for each team element.
+      // Creates a t-body element for each team.
       const teams = table.selectAll('tbody.team')
         .data(this.nestedProjects)
         .join('tbody').attr('class', 'team')
@@ -191,7 +193,6 @@ export default {
           ;
         });
       });
-
       // Inserts a column before first column for project labels
       projects.insert('th', 'td:first-of-type').attr('class', 'project-label')
         .text((d) => d.key)
@@ -211,64 +212,6 @@ export default {
         .on('mouseenter', this.highlightTeam)
         .on('mouseleave', this.resetTableStyle)
       ;
-      // Inserts a row above first row for staff labels
-      const header = table.insert('tr', 'tbody:first-of-type')
-        .attr('class', 'header-row')
-      ;
-      header.selectAll('th.staff-label')
-        .data(this.staffNodes)
-        .join('th').attr('class', 'staff-label')
-        .attr('id', (d) => `staffMember_${d.id}`)
-        .style('height', '7em')
-        .style('white-space', 'nowrap')
-        .append('div')
-        .style('transform', 'rotate(315deg) translate(-0.8em,1.8em)')
-        .style('max-width', '2.5em')
-        .append('span')
-        .text((d) => this.formatName(d))
-        .style('font-size', (d) => (this.formatName(d).length < 20 ? '0.7em' : '0.6em'))
-        .style('border-bottom', 'thin solid gainsboro')
-        .style('cursor', 'default')
-        .on('mouseenter', this.highlightStaffMember)
-        .on('mouseleave', this.resetTableStyle)
-      ;
-      // Insert empty cell at table position 0,0
-      header.insert('td', 'th:first-of-type')
-        .style('z-index', '1')
-        .style('opacity', '80%')
-      ;
-      // Insert empty cell at table position n,0
-      header.append('td', 'th:last-of-type')
-        .style('z-index', '1')
-        .style('opacity', '80%')
-      ;
-      const menu = table.insert('tr', 'tbody:first-of-type')
-        .attr('class', 'menu')
-      ;
-      menu.selectAll('th.menu-label')
-        .data(this.staffNodes)
-        .join('th').attr('class', 'check-box')
-        .style('height', '1em')
-        .style('border-right', '3.5px solid white')
-        .style('background-color', 'gainsboro')
-        .attr('font-family', 'FontAwesome')
-        .append('input')
-        .attr('type', 'checkbox')
-        .each((d, i, n) => {
-          d3.select(n[i])
-            .on('click.a', this.highlightStaffMember)
-            .on('click.b', () => { this.checked = !this.checked; })
-          ;
-        })
-      ;
-      menu.insert('td', 'th:first-of-type')
-        .style('z-index', '1')
-        .style('opacity', '80%')
-      ;
-      menu.append('td', 'th:last-of-type')
-        .style('z-index', '1')
-        .style('opacity', '80%')
-      ;
       // Renders the project and team labels 'sticky'.
       d3.selectAll('tbody th, tr.header-row > td')
         .style('left', '0px')
@@ -280,6 +223,81 @@ export default {
       d3.selectAll('tbody:nth-child(even)')
         .selectAll('th')
         .style('background-color', '#F0F0F0')
+      ;
+      this.generateStaffLabels();
+      this.generateStaffCheckboxes();
+    },
+    /**
+     *  Creates staff labels for every staff member.
+     *
+     *  Displayed above the staff checkboxes.
+     */
+    generateStaffLabels() {
+      const table = d3.select('table');
+
+      // Inserts a new row above the first t-body element.
+      const header = table.insert('tr', 'tbody:first-of-type')
+        .attr('class', 'header-row')
+        .style('cursor', 'default')
+      ;
+      // Creates table header elements for every staff node.
+      const labelNodes = header.selectAll('th.staff-label')
+        .data(this.staffNodes)
+        .join('th').attr('class', 'staff-label')
+        .attr('id', (d) => `staffMember_${d.id}`)
+        .style('height', '7.5em')
+        .style('white-space', 'nowrap')
+      ;
+      // Wraps text in div and span elements for rotating.
+      labelNodes.append('div')
+        .style('transform', 'rotate(315deg) translate(-0.8em,2.2em)')
+        .style('max-width', '2.5em')
+        .append('span')
+        .text((d) => this.formatName(d))
+        .style('font-size', (d) => (this.formatName(d).length < 20 ? '0.7em' : '0.6em'))
+        .style('border-bottom', 'thin solid gainsboro')
+        .on('mouseenter', this.highlightStaffMember)
+        .on('mouseleave', this.resetTableStyle)
+      ;
+      // Inserts empty table cells at position (0,0) and (n,0)
+      header
+        .insert('td', 'th:first-of-type')
+        .append('td', 'th:last-of-type')
+        .style('z-index', '-1')
+      ;
+    },
+    /**
+     *  Creates checkboxes for locking into position
+     *  a given staff member's event feature.
+     *
+     *  Displayed underneath the staff labels.
+     */
+    generateStaffCheckboxes() {
+      const table = d3.select('table');
+
+      // Inserts a new row above the first t-body element.
+      const menu = table.insert('tr', 'tbody:first-of-type')
+        .attr('class', 'menu')
+      ;
+      // Generates a checkbox for every staff label
+      menu.selectAll('th.checkbox')
+        .data(this.staffNodes)
+        .join('th').attr('class', 'checkbox')
+        .style('height', '1em')
+        .style('background-color', 'gainsboro')
+        .style('border-right', '3.5px solid white')
+        .append('input')
+        .attr('type', 'checkbox')
+        .each((d, i, n) => {
+          d3.select(n[i])
+            .on('click.a', this.highlightStaffMember)
+            .on('click.b', () => { this.checked = !this.checked; })
+          ;
+        })
+      ;
+      // Creates empty cells at the (1,0) and (n,1) position.
+      menu.insert('td', 'th:first-of-type')
+        .append('td', 'th:last-of-type')
       ;
     },
     showTooltip(d, i, n) {
@@ -310,7 +328,7 @@ export default {
       ;
     },
     highlightStaffMember(d) {
-      // Only allows event when no checkboxes ticked
+      // Only allows event when no checkboxes are ticked
       if (this.checked === false) {
         const staffID = d.id;
 
@@ -384,7 +402,7 @@ export default {
               d3.select(`tr.header-row > th.staff-label#staffMember_${staffID} > div > span`)
                 .transition()
                 .style('color', this.colorScale(0.8))
-                .style('font-size', '0.75em')
+                .style('font-size', () => (this.formatName(role.staffMember).length < 20 ? '0.8em' : '0.65em'))
                 .style('border-bottom', 'thin solid darkslategray')
               ;
             });
@@ -418,7 +436,7 @@ export default {
               d3.select(`tr.header-row > th.staff-label#staffMember_${staffID} > div > span`)
                 .transition()
                 .style('color', this.colorScale(0.8))
-                .style('font-size', '0.75em')
+                .style('font-size', () => (this.formatName(role.staffMember).length < 20 ? '0.8em' : '0.65em'))
                 .style('border-bottom', 'thin solid darkslategray')
               ;
             });
@@ -434,7 +452,17 @@ export default {
           .transition()
           .style('color', 'black')
           .style('border-bottom', 'thin solid gainsboro')
-          .style('font-size', '0.65em')
+          .each((d, i, n) => {
+            if (this.formatName(d).length < 20) {
+              d3.select(n[i])
+                .style('font-size', '0.7em')
+              ;
+            } else {
+              d3.select(n[i])
+                .style('font-size', '0.6em')
+              ;
+            }
+          })
         ;
         // Resets T-BODY labels
         d3.selectAll('tbody')
@@ -532,7 +560,7 @@ export default {
   .table-container {
     overflow: auto;
     width: 90%;
-    margin: 5% auto;
+    margin: 1% auto 5% auto;
     border: thin solid gainsboro;
   }
 
