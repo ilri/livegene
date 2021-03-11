@@ -214,8 +214,8 @@ export default {
       ;
       // Renders the project and team labels 'sticky'.
       d3.selectAll('tbody th, tr.header-row > td')
-        .style('left', '0px')
-        .style('right', '0px')
+        .style('left', '-2px')
+        .style('right', '-2px')
         .style('position', 'sticky')
         .style('background-color', 'white')
       ;
@@ -321,14 +321,14 @@ export default {
       menu.insert('td', 'th:first-of-type')
         .style('position', 'sticky')
         .style('top', `${headerDimensions.height}px`)
-        .style('left', '0')
+        .style('left', '-2px')
         .style('background-color', 'gainsboro')
         .style('z-index', `${this.staffNodes.length + 2}`)
       ;
       menu.append('td', 'th:last-of-type')
         .style('position', 'sticky')
         .style('top', `${headerDimensions.height}px`)
-        .style('right', '0')
+        .style('right', '-2px')
         .style('background-color', 'gainsboro')
         .style('z-index', `${this.staffNodes.length + 2}`)
       ;
@@ -593,7 +593,7 @@ export default {
   .table-container {
     overflow: auto;
     width: 90%;
-    height: 800px;
+    height: 90vh;
     margin: 1% auto 5% auto;
     border: thin solid gainsboro;
   }
