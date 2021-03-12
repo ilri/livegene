@@ -169,9 +169,61 @@ export default {
         .attr('id', (d) => `${d.key}`)
         .style('cursor', 'default')
        ;
+
+      // Inserts a column before first column for project labels
+      projects.insert('th', 'td:first-of-type').attr('class', 'project-label')
+        .text((d) => d.key)
+        .style('font-size', '0.7em')
+        .style('padding', '0.7em')
+        .on('mouseenter', this.highlightProject)
+        .on('mouseleave', this.resetTableStyle)
+      ;
+
+      this.generateTableCells(this.staffNodes);
+
+      // Inserts a column after last column for team labels
+      teams.select('tr:first-of-type')
+        .insert('th', 'td:last-of-type').attr('class', 'team-label')
+        .attr('id', (d) => d.key.replaceAll(' ', '_'))
+        .attr('rowspan', (d) => d.values.length)
+        .text((d) => d.key)
+        .style('font-size', '0.7em')
+        .style('padding', '0.7em')
+        .on('mouseenter', this.highlightTeam)
+        .on('mouseleave', this.resetTableStyle)
+      ;
+      // Renders the project and team labels 'sticky'.
+      d3.selectAll('tbody th, tr.header-row > td')
+        .style('left', '-2px')
+        .style('right', '-2px')
+        .style('position', 'sticky')
+        .style('background-color', 'white')
+      ;
+      // Changes background colour of every second t-body element light gray
+      d3.selectAll('tbody:nth-child(even)')
+        .selectAll('th')
+        .style('background-color', '#F0F0F0')
+      ;
+
+      // New row above the first t-body element for the HEADER ROW.
+      table.insert('tr', 'tbody:first-of-type')
+        .attr('class', 'header-row')
+        .style('cursor', 'default')
+      ;
+      this.generateStaffLabels(this.staffNodes);
+
+      // New row above the first t-body element for the MENU.
+      table.insert('tr', 'tbody:first-of-type')
+        .attr('class', 'menu')
+      ;
+      this.generateStaffCheckboxes(this.staffNodes);
+    },
+    generateTableCells(staffArray) {
+      const projects = d3.selectAll('tbody.team').selectAll('tr.project');
+
       // Creates empty cells for every staff member.
       projects.selectAll('td.staff')
-        .data(this.staffNodes)
+        .data(staffArray)
         .join('td').attr('class', 'staff')
         .attr('id', (d) => `staffMember_${d.id}`)
         .text(null)
@@ -193,57 +245,19 @@ export default {
           ;
         });
       });
-      // Inserts a column before first column for project labels
-      projects.insert('th', 'td:first-of-type').attr('class', 'project-label')
-        .text((d) => d.key)
-        .style('font-size', '0.7em')
-        .style('padding', '0.7em')
-        .on('mouseenter', this.highlightProject)
-        .on('mouseleave', this.resetTableStyle)
-      ;
-      // Inserts a column after last column for team labels
-      teams.select('tr:first-of-type')
-        .append('th').attr('class', 'team-label')
-        .attr('id', (d) => d.key.replaceAll(' ', '_'))
-        .attr('rowspan', (d) => d.values.length)
-        .text((d) => d.key)
-        .style('font-size', '0.7em')
-        .style('padding', '0.7em')
-        .on('mouseenter', this.highlightTeam)
-        .on('mouseleave', this.resetTableStyle)
-      ;
-      // Renders the project and team labels 'sticky'.
-      d3.selectAll('tbody th, tr.header-row > td')
-        .style('left', '-2px')
-        .style('right', '-2px')
-        .style('position', 'sticky')
-        .style('background-color', 'white')
-      ;
-      // Changes background colour of every second t-body element light gray
-      d3.selectAll('tbody:nth-child(even)')
-        .selectAll('th')
-        .style('background-color', '#F0F0F0')
-      ;
-      this.generateStaffLabels();
-      this.generateStaffCheckboxes();
     },
     /**
      *  Creates staff labels for every staff member.
      *
      *  Displayed above the staff checkboxes.
      */
-    generateStaffLabels() {
-      const table = d3.select('table');
-
-      // Inserts a new row above the first t-body element.
-      const header = table.insert('tr', 'tbody:first-of-type')
-        .attr('class', 'header-row')
-        .style('cursor', 'default')
-      ;
+    generateStaffLabels(staffArray) {
+      const header = d3.select('tr.header-row');
       // Creates table header elements for every staff node.
       const labelNodes = header.selectAll('th.staff-label')
-        .data(this.staffNodes)
-        .join('th').attr('class', 'staff-label')
+        .data(staffArray)
+        .join('th')
+        .attr('class', 'staff-label')
         .attr('id', (d) => `staffMember_${d.id}`)
         .style('position', 'sticky')
         .style('top', '0px')
@@ -252,7 +266,7 @@ export default {
         .style('white-space', 'nowrap')
         .each((d, i, n) => {
           d3.select(n[i])
-            .style('z-index', `${this.staffNodes.length + 1 - i}`)
+            .style('z-index', `${staffArray.length + 1 - i}`)
           ;
         })
       ;
@@ -271,6 +285,7 @@ export default {
       header
         .insert('td', 'th:first-of-type')
         .style('position', 'sticky')
+        .style('height', '7.5em')
         .style('top', '0')
         .style('left', '0')
         .style('background-color', 'white')
@@ -279,6 +294,7 @@ export default {
       header
         .append('td', 'th:last-of-type')
         .style('position', 'sticky')
+        .style('height', '7.5em')
         .style('top', '0')
         .style('right', '0')
         .style('background-color', 'white')
@@ -291,18 +307,13 @@ export default {
      *
      *  Displayed underneath the staff labels.
      */
-    generateStaffCheckboxes() {
-      const table = d3.select('table');
-      const headerDimensions = table.select('tr.header-row').node().getBoundingClientRect();
-
-      // Inserts a new row above the first t-body element.
-      const menu = table.insert('tr', 'tbody:first-of-type')
-        .attr('class', 'menu')
-      ;
+    generateStaffCheckboxes(staffArray) {
+      const headerDimensions = d3.select('tr.header-row').node().getBoundingClientRect();
+      const menu = d3.select('tr.menu');
 
       // Generates a checkbox for every staff label
       menu.selectAll('th.checkbox')
-        .data(this.staffNodes)
+        .data(staffArray)
         .join('th').attr('class', 'checkbox')
         .style('height', '1em')
         .style('background-color', 'gainsboro')
@@ -320,17 +331,19 @@ export default {
       // Creates empty cells at the (1,0) and (n,1) position.
       menu.insert('td', 'th:first-of-type')
         .style('position', 'sticky')
+        .style('height', '2em')
         .style('top', `${headerDimensions.height}px`)
         .style('left', '-2px')
         .style('background-color', 'gainsboro')
-        .style('z-index', `${this.staffNodes.length + 2}`)
+        .style('z-index', `${staffArray.length + 2}`)
       ;
       menu.append('td', 'th:last-of-type')
         .style('position', 'sticky')
+        .style('height', '2em')
         .style('top', `${headerDimensions.height}px`)
         .style('right', '-2px')
         .style('background-color', 'gainsboro')
-        .style('z-index', `${this.staffNodes.length + 2}`)
+        .style('z-index', `${staffArray.length + 2}`)
       ;
     },
     showTooltip(d, i, n) {
@@ -448,6 +461,22 @@ export default {
       if (this.checked === false) {
         const projectCode = d.key;
         const projectLabel = d3.select(`tbody > tr#${projectCode}`);
+        const updatedStaffNodes = this.updateStaffNodes(projectCode);
+        const header = d3.select('tr.header-row');
+        const menu = d3.select('tr.menu');
+
+        // Removes duplicated elements
+        header.selectAll('td').remove();
+        header.selectAll('div > span').remove();
+        menu.selectAll('td').remove();
+        menu.selectAll('input').remove();
+
+        // Updates staff member labels to display only associated staff members
+        this.generateStaffLabels(updatedStaffNodes);
+        // Updates checkboxes
+        this.generateStaffCheckboxes(updatedStaffNodes);
+        // Updates table cells
+        this.generateTableCells(updatedStaffNodes);
 
         // Highlights PROJECT labels
         projectLabel.selectAll('th.project-label')
@@ -480,52 +509,21 @@ export default {
     resetTableStyle() {
       // Only allows event when no checkboxes ticked
       if (this.checked === false) {
-        // Resets STAFF MEMBER labels
-        d3.selectAll('tr.header-row > th.staff-label > div > span')
-          .transition()
-          .style('color', 'black')
-          .style('border-bottom', 'thin solid gainsboro')
-          .each((d, i, n) => {
-            if (this.formatName(d).length < 20) {
-              d3.select(n[i])
-                .style('font-size', '0.7em')
-              ;
-            } else {
-              d3.select(n[i])
-                .style('font-size', '0.6em')
-              ;
-            }
-          })
-        ;
-        // Resets T-BODY labels
-        d3.selectAll('tbody')
-          .style('border-color', '#F0F0F0')
-        ;
-        d3.selectAll('tbody:nth-child(even)')
-          .transition()
-          .selectAll('th')
-          .style('background-color', '#F0F0F0')
-        ;
-        d3.selectAll('tbody:nth-child(odd)')
-          .transition()
-          .selectAll('th')
-          .style('background-color', 'white')
-        ;
-
-        // Resets PROJECT cells
-        d3.selectAll('tbody > tr.project > td')
-          .transition()
-          .style('background-color', this.colorScale(0))
-        ;
-        this.projects.forEach((project) => {
-          project.staffRoles.forEach((role) => {
-            d3.select(`#${project.ilriCode} > #staffMember_${role.staffMember.id}`)
-              .transition()
-              .style('background-color', (role.percent > 0 ? this.colorScale(parseFloat(role.percent)) : 'PowderBlue'))
-            ;
-          });
-        });
+        d3.selectAll('table > *').remove();
+        this.generateTable();
       }
+    },
+    updateStaffNodes(projectCode) {
+      const projectArray = this.projects.filter((project) => (project.ilriCode === projectCode));
+
+      const staffRoles = projectArray.flatMap((d) => d.staffRoles);
+      // returns array of distinct staff members
+      const staffArray = [...new Map(
+        staffRoles.map((d) => [d.staffMember.lastName, d.staffMember]),
+      ).values(),
+      ];
+      // sorts by last name
+      return staffArray.sort((a, b) => a.lastName.localeCompare(b.lastName));
     },
     display() {
       this.generateTable();
