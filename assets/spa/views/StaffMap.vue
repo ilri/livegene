@@ -183,7 +183,7 @@ export default {
 
       // Inserts a column after last column for team labels
       teams.select('tr:first-of-type')
-        .insert('th', 'td:last-of-type').attr('class', 'team-label')
+        .append('th').attr('class', 'team-label')
         .attr('id', (d) => d.key.replaceAll(' ', '_'))
         .attr('rowspan', (d) => d.values.length)
         .text((d) => d.key)
@@ -471,12 +471,12 @@ export default {
         menu.selectAll('td').remove();
         menu.selectAll('input').remove();
 
+        // Updates table cells
+        this.generateTableCells(updatedStaffNodes);
         // Updates staff member labels to display only associated staff members
         this.generateStaffLabels(updatedStaffNodes);
         // Updates checkboxes
         this.generateStaffCheckboxes(updatedStaffNodes);
-        // Updates table cells
-        this.generateTableCells(updatedStaffNodes);
 
         // Highlights PROJECT labels
         projectLabel.selectAll('th.project-label')
