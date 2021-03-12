@@ -99,20 +99,6 @@ export default {
       projects: (state) => state.project.projects,
     }),
     /**
-     * Returns an array of unique staff member objects.
-     * Sorted alphabetically by last name.
-     */
-    staffNodes() {
-      const staffRoles = this.projects.flatMap((d) => d.staffRoles);
-      // returns array of distinct staff members
-      const staffArray = [...new Map(
-        staffRoles.map((d) => [d.staffMember.lastName, d.staffMember]),
-      ).values(),
-      ];
-      // sorts by last name
-      return staffArray.sort((a, b) => a.lastName.localeCompare(b.lastName));
-    },
-    /**
      * Returns the color scale used for the legend and table cells.
      */
     colorScale() {
@@ -151,8 +137,30 @@ export default {
     },
   },
   methods: {
+    /**
+     * Returns an array of unique staff member objects.
+     * Sorted alphabetically by last name.
+     *
+     * An optional identifier may be used to filter the project array.
+     */
+    generateStaffNodes(identifier) {
+      const projectArray = identifier
+        ? this.projects.filter((project) => Object.values(project).includes(identifier))
+        : this.projects;
+
+      const staffRoles = projectArray.flatMap((d) => d.staffRoles);
+      // returns array of distinct staff members
+      const staffArray = [...new Map(
+        staffRoles.map((d) => [d.staffMember.lastName, d.staffMember]),
+      ).values(),
+      ];
+      // sorts by last name
+      return staffArray.sort((a, b) => a.lastName.localeCompare(b.lastName));
+    },
+
     generateTable() {
       const table = d3.select('table');
+      const staffNodes = this.generateStaffNodes();
 
       // Creates a t-body element for each team.
       const teams = table.selectAll('tbody.team')
@@ -176,10 +184,10 @@ export default {
         .style('font-size', '0.7em')
         .style('padding', '0.7em')
         .on('mouseenter', this.highlightProject)
-        .on('mouseleave', this.resetTableStyle)
+        .on('mouseleave', this.updateTable)
       ;
 
-      this.generateTableCells(this.staffNodes);
+      this.generateTableCells(staffNodes);
 
       // Inserts a column after last column for team labels
       teams.select('tr:first-of-type')
@@ -205,18 +213,20 @@ export default {
         .style('background-color', '#F0F0F0')
       ;
 
-      // New row above the first t-body element for the HEADER ROW.
+      // Creates the header row
       table.insert('tr', 'tbody:first-of-type')
         .attr('class', 'header-row')
         .style('cursor', 'default')
       ;
-      this.generateStaffLabels(this.staffNodes);
 
-      // New row above the first t-body element for the MENU.
+      // Creates the menu row
       table.insert('tr', 'tbody:first-of-type')
         .attr('class', 'menu')
       ;
-      this.generateStaffCheckboxes(this.staffNodes);
+      // Fills the header row with staff labels
+      this.generateStaffLabels(staffNodes);
+      // Fills the menu row with checkboxes
+      this.generateStaffCheckboxes(staffNodes);
     },
     generateTableCells(staffArray) {
       const projects = d3.selectAll('tbody.team').selectAll('tr.project');
@@ -461,22 +471,18 @@ export default {
       if (this.checked === false) {
         const projectCode = d.key;
         const projectLabel = d3.select(`tbody > tr#${projectCode}`);
-        const updatedStaffNodes = this.updateStaffNodes(projectCode);
-        const header = d3.select('tr.header-row');
-        const menu = d3.select('tr.menu');
+        const staffNodes = this.generateStaffNodes(projectCode);
 
         // Removes duplicated elements
-        header.selectAll('td').remove();
-        header.selectAll('div > span').remove();
-        menu.selectAll('td').remove();
-        menu.selectAll('input').remove();
+        d3.select('tr.header-row').selectAll('td, div > span').remove();
+        d3.select('tr.menu').selectAll('td, input').remove();
 
         // Updates table cells
-        this.generateTableCells(updatedStaffNodes);
-        // Updates staff member labels to display only associated staff members
-        this.generateStaffLabels(updatedStaffNodes);
+        this.generateTableCells(staffNodes);
+        // Updates staff member labels
+        this.generateStaffLabels(staffNodes);
         // Updates checkboxes
-        this.generateStaffCheckboxes(updatedStaffNodes);
+        this.generateStaffCheckboxes(staffNodes);
 
         // Highlights PROJECT labels
         projectLabel.selectAll('th.project-label')
@@ -509,21 +515,58 @@ export default {
     resetTableStyle() {
       // Only allows event when no checkboxes ticked
       if (this.checked === false) {
+        // Resets STAFF MEMBER labels
+        d3.selectAll('tr.header-row > th.staff-label > div > span')
+          .transition()
+          .style('color', 'black')
+          .style('border-bottom', 'thin solid gainsboro')
+          .each((d, i, n) => {
+            if (this.formatName(d).length < 20) {
+              d3.select(n[i])
+                .style('font-size', '0.7em')
+              ;
+            } else {
+              d3.select(n[i])
+                .style('font-size', '0.6em')
+              ;
+            }
+          })
+        ;
+        // Resets T-BODY labels
+        d3.selectAll('tbody.team')
+          .style('border-color', '#F0F0F0')
+        ;
+        d3.selectAll('tbody:nth-child(even)')
+          .transition()
+          .selectAll('th')
+          .style('background-color', '#F0F0F0')
+        ;
+        d3.selectAll('tbody:nth-child(odd)')
+          .transition()
+          .selectAll('th')
+          .style('background-color', 'white')
+        ;
+        // Resets PROJECT cells
+        d3.selectAll('tr.project > td')
+          .transition()
+          .style('background-color', this.colorScale(0))
+        ;
+        this.projects.forEach((project) => {
+          project.staffRoles.forEach((role) => {
+            d3.select(`#${project.ilriCode} > #staffMember_${role.staffMember.id}`)
+              .transition()
+              .style('background-color', (role.percent > 0 ? this.colorScale(parseFloat(role.percent)) : 'PowderBlue'))
+            ;
+          });
+        });
+      }
+    },
+    updateTable() {
+      // Only allows event when no checkboxes ticked
+      if (this.checked === false) {
         d3.selectAll('table > *').remove();
         this.generateTable();
       }
-    },
-    updateStaffNodes(projectCode) {
-      const projectArray = this.projects.filter((project) => (project.ilriCode === projectCode));
-
-      const staffRoles = projectArray.flatMap((d) => d.staffRoles);
-      // returns array of distinct staff members
-      const staffArray = [...new Map(
-        staffRoles.map((d) => [d.staffMember.lastName, d.staffMember]),
-      ).values(),
-      ];
-      // sorts by last name
-      return staffArray.sort((a, b) => a.lastName.localeCompare(b.lastName));
     },
     display() {
       this.generateTable();
