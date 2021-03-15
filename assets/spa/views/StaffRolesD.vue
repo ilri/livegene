@@ -1,20 +1,7 @@
 <template>
-  <BaseView>
-    <template slot="header">
-      Staff Roles
-    </template>
-    <template slot="graphic">
-      <b-col
-        cols="12"
-        lg="10"
-        class="px-0"
-      >
-        <ChartContainer :viewport="viewport">
-          <g slot="chart" />
-        </ChartContainer>
-      </b-col>
-    </template>
-  </BaseView>
+  <ChartContainer :viewport="viewport">
+    <g slot="chart" />
+  </ChartContainer>
 </template>
 
 <script>
@@ -22,7 +9,7 @@ import { select, selectAll } from 'd3';
 import { sankey, sankeyLinkHorizontal } from 'd3-sankey';
 import baseMixin from '../mixins/baseMixin';
 import sankeyDiagramMixin from '../mixins/sankeyDiagramMixin';
-import BaseView from '../components/BaseView';
+// import BaseView from '../components/BaseView';
 import ChartContainer from '../components/ChartContainer';
 
 const d3 = {
@@ -35,7 +22,7 @@ const d3 = {
 export default {
   name: 'StaffRoles',
   components: {
-    BaseView,
+    // BaseView,
     ChartContainer,
   },
   mixins: [baseMixin, sankeyDiagramMixin],

@@ -5,6 +5,7 @@ import NProgress from 'nprogress';
 import HomePage from '../views/HomePage';
 import AwardedBudget from '../views/AwardedBudget';
 import StaffRoles from '../views/StaffRoles';
+import StaffRolesD from '../views/StaffRolesD';
 import StaffMap from '../views/StaffMap';
 import ProjectTimelines from '../views/ProjectTimelines';
 import WorldMap from '../views/WorldMap';
@@ -31,6 +32,7 @@ const router = new VueRouter({
         {
           path: 'diagram',
           name: 'diagram',
+          component: StaffRolesD,
         },
         {
           path: 'heatmap',
