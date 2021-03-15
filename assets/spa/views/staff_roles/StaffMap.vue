@@ -76,9 +76,9 @@
 <script>
 import * as d3 from 'd3';
 import { mapState } from 'vuex';
-import BaseView from '../components/BaseView';
-import baseMixin from '../mixins/baseMixin';
-import formatNameMixin from '../mixins/formatNameMixin';
+import BaseView from '../../components/BaseView';
+import baseMixin from '../../mixins/baseMixin';
+import formatNameMixin from '../../mixins/formatNameMixin';
 
 export default {
   name: 'StaffMap',

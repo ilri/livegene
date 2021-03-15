@@ -5,8 +5,8 @@ import NProgress from 'nprogress';
 import HomePage from '../views/HomePage';
 import AwardedBudget from '../views/AwardedBudget';
 import StaffRoles from '../views/StaffRoles';
-import StaffRolesD from '../views/StaffRolesD';
-import StaffMap from '../views/StaffMap';
+import StaffDiagram from '../views/staff_roles/StaffDiagram';
+import StaffMap from '../views/staff_roles/StaffMap';
 import ProjectTimelines from '../views/ProjectTimelines';
 import WorldMap from '../views/WorldMap';
 
@@ -26,13 +26,12 @@ const router = new VueRouter({
     },
     {
       path: '/staffroles',
-      name: 'staff_roles',
       component: StaffRoles,
       children: [
         {
           path: 'diagram',
           name: 'diagram',
-          component: StaffRolesD,
+          component: StaffDiagram,
         },
         {
           path: 'heatmap',
