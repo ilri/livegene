@@ -279,7 +279,7 @@ export default {
         .style('white-space', 'nowrap')
         .each((d, i, n) => {
           d3.select(n[i])
-            .style('z-index', `${staffArray.length + 1 - i}`)
+            .style('z-index', `${staffNodes.length + 1 - i}`)
           ;
         })
       ;
@@ -348,7 +348,7 @@ export default {
         .style('top', `${headerDimensions.height}px`)
         .style('left', '-2px')
         .style('background-color', 'gainsboro')
-        .style('z-index', `${staffArray.length + 2}`)
+        .style('z-index', `${staffNodes.length + 2}`)
       ;
       menu.append('td', 'th:last-of-type')
         .style('position', 'sticky')
@@ -356,7 +356,7 @@ export default {
         .style('top', `${headerDimensions.height}px`)
         .style('right', '-2px')
         .style('background-color', 'gainsboro')
-        .style('z-index', `${staffArray.length + 2}`)
+        .style('z-index', `${staffNodes.length + 2}`)
       ;
     },
     showTooltip(d, i, n) {
