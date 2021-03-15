@@ -1,7 +1,12 @@
 <template>
   <BaseView>
     <template slot="header">
-      Project Timelines
+      <b-nav
+        small
+        align="center"
+      >
+        <b-nav-text>Project Timelines</b-nav-text>
+      </b-nav>
     </template>
     <template slot="graphic">
       <b-col
