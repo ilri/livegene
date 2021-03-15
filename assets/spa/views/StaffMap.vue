@@ -413,13 +413,13 @@ export default {
           project.staffRoles.forEach((role) => {
             if (role.staffMember.id === staffID) {
               // Highlights TEAM label
-              let team = project.team.replaceAll(' ', '_');
+              const team = project.team.replaceAll(' ', '_');
               d3.selectAll(`tbody#${team} > tr > th.team-label`)
                 .transition()
                 .style('background-color', 'PowderBlue')
               ;
               // Highlight PROJECT label
-              let ilriCode = project.ilriCode.replaceAll(' ', '_');
+              const ilriCode = project.ilriCode.replaceAll(' ', '_');
               d3.selectAll(`tbody > tr#${ilriCode} > th.project-label`)
                 .transition()
                 .style('background-color', 'PowderBlue')
@@ -454,7 +454,7 @@ export default {
           if (project.team === teamID) {
             project.staffRoles.forEach((role) => {
             // Highlights STAFF MEMBER labels
-              let staffID = role.staffMember.id;
+              const staffID = role.staffMember.id;
               d3.select(`tr.header-row > th.staff-label#staffMember_${staffID} > div > span`)
                 .transition()
                 .style('color', this.colorScale(0.8))
@@ -493,14 +493,14 @@ export default {
         this.projects.forEach((project) => {
           if (project.ilriCode === projectCode) {
             // Highlights TEAM labels
-            let teamID = project.team.replaceAll(' ', '_');
+            const teamID = project.team.replaceAll(' ', '_');
             d3.select(`tbody > tr > th.team-label#${teamID}`)
               .transition()
               .style('background-color', 'PowderBlue')
             ;
             // Highlights STAFF MEMBER labels
             project.staffRoles.forEach((role) => {
-              let staffID = role.staffMember.id;
+              const staffID = role.staffMember.id;
               d3.select(`tr.header-row > th.staff-label#staffMember_${staffID} > div > span`)
                 .transition()
                 .style('color', this.colorScale(0.8))
