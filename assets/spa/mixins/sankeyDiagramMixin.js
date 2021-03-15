@@ -1,5 +1,6 @@
 import { mapState } from 'vuex';
 import { select, selectAll } from 'd3';
+import formatNameMixin from './formatNameMixin';
 
 const d3 = {
   select,
@@ -7,6 +8,7 @@ const d3 = {
 };
 
 export default {
+  mixins: [formatNameMixin],
   data() {
     return {
       // hold the teams extracted from projects
@@ -47,17 +49,6 @@ export default {
     },
   },
   methods: {
-    /**
-     * Format person's name like "SURNAME, Name"
-     *
-     * @param person
-     * @param {string} person.lastName
-     * @param {string} person.firstName
-     * @returns {string}
-     */
-    formatName(person) {
-      return `${person.lastName.toUpperCase()}, ${person.firstName}`;
-    },
     generateLegend() {
       // Representing each node type in a legend
       d3.select('#viewport > g')
