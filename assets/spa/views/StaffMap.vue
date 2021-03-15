@@ -212,13 +212,11 @@ export default {
         .selectAll('th')
         .style('background-color', '#F0F0F0')
       ;
-
       // Creates the header row
       table.insert('tr', 'tbody:first-of-type')
         .attr('class', 'header-row')
         .style('cursor', 'default')
       ;
-
       // Creates the menu row
       table.insert('tr', 'tbody:first-of-type')
         .attr('class', 'menu')
@@ -228,12 +226,16 @@ export default {
       // Fills the menu row with checkboxes
       this.generateStaffCheckboxes(staffNodes);
     },
-    generateTableCells(staffArray) {
+    /**
+     *  Creates 'td' elements for every staff member defined in the
+     *  'staffNodes' parameter.
+     */
+    generateTableCells(staffNodes) {
       const projects = d3.selectAll('tbody.team').selectAll('tr.project');
 
       // Creates empty cells for every staff member.
       projects.selectAll('td.staff')
-        .data(staffArray)
+        .data(staffNodes)
         .join('td').attr('class', 'staff')
         .attr('id', (d) => `staffMember_${d.id}`)
         .text(null)
@@ -257,15 +259,16 @@ export default {
       });
     },
     /**
-     *  Creates staff labels for every staff member.
+     *  Creates staff labels for every staff member defined in the
+     *  'staffNodes' parameter.
      *
      *  Displayed above the staff checkboxes.
      */
-    generateStaffLabels(staffArray) {
+    generateStaffLabels(staffNodes) {
       const header = d3.select('tr.header-row');
       // Creates table header elements for every staff node.
       const labelNodes = header.selectAll('th.staff-label')
-        .data(staffArray)
+        .data(staffNodes)
         .join('th')
         .attr('class', 'staff-label')
         .attr('id', (d) => `staffMember_${d.id}`)
@@ -313,17 +316,17 @@ export default {
     },
     /**
      *  Creates checkboxes for locking into position
-     *  a given staff member's event feature.
+     *  a staff member's highlighting.
      *
      *  Displayed underneath the staff labels.
      */
-    generateStaffCheckboxes(staffArray) {
+    generateStaffCheckboxes(staffNodes) {
       const headerDimensions = d3.select('tr.header-row').node().getBoundingClientRect();
       const menu = d3.select('tr.menu');
 
       // Generates a checkbox for every staff label
       menu.selectAll('th.checkbox')
-        .data(staffArray)
+        .data(staffNodes)
         .join('th').attr('class', 'checkbox')
         .style('height', '1em')
         .style('background-color', 'gainsboro')
@@ -383,6 +386,10 @@ export default {
         .style('color', (rolePercentage) > 0.5 ? 'white' : 'black')
       ;
     },
+    /**
+     * Highlights the project, staff member and team nodes associated with
+     * a selected team.
+     */
     highlightStaffMember(d) {
       // Only allows event when no checkboxes are ticked
       if (this.checked === false) {
@@ -429,6 +436,10 @@ export default {
         });
       }
     },
+    /**
+     * Highlights the project, staff member and team nodes associated with
+     * a selected team.
+     */
     highlightTeam(d) {
       // Only allows event when no checkboxes ticked
       if (this.checked === false) {
@@ -466,6 +477,12 @@ export default {
         });
       }
     },
+    /**
+     * Shows header item and table entries only of staff members
+     * associated with the selected project.
+     *
+     * Highlights the associated project, staff member and team nodes.
+     */
     highlightProject(d) {
       // Only allows event when no checkboxes ticked
       if (this.checked === false) {
@@ -512,6 +529,10 @@ export default {
         });
       }
     },
+    /**
+     * Removes the conditional styling of staff member, project and team nodes.
+     *
+     */
     resetTableStyle() {
       // Only allows event when no checkboxes ticked
       if (this.checked === false) {
@@ -561,6 +582,9 @@ export default {
         });
       }
     },
+    /**
+     * Resets the table to its original state.
+     */
     updateTable() {
       // Only allows event when no checkboxes ticked
       if (this.checked === false) {
