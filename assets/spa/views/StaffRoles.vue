@@ -10,24 +10,17 @@
           <b-nav-text>
             Staff Roles
           </b-nav-text>
-          <b-nav-item>
+          <b-nav-item
+            v-for="route in routes"
+            :key="route.name"
+          >
             <router-link
               tag="button"
-              :to="{ name: 'diagram' }"
+              :to="{ name: route.name }"
               exact-active-class="active"
               class="btn btn-sm btn-primary"
             >
-              Diagram
-            </router-link>
-          </b-nav-item>
-          <b-nav-item>
-            <router-link
-              tag="button"
-              :to="{ name: 'heatmap' }"
-              exact-active-class="active"
-              class="btn btn-sm btn-primary"
-            >
-              Heatmap
+              {{ route.label }}
             </router-link>
           </b-nav-item>
         </b-nav>
@@ -69,6 +62,16 @@ export default {
   mixins: [baseMixin, sankeyDiagramMixin],
   data() {
     return {
+      routes: [
+        {
+          name: 'diagram',
+          label: 'Diagram',
+        },
+        {
+          name: 'heatmap',
+          label: 'Heatmap',
+        },
+      ],
       // hold the staff objects (staffObjects)
       staff: new Set(),
       nodeTypes: {
