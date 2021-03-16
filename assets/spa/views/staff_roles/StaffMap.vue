@@ -354,7 +354,7 @@ export default {
       ;
       d3.select('div.tooltip')
         .style('opacity', '0.9')
-        .html(`${this.formatName(d)}<hr>Percentage Value: <b>${rolePercentage}%</b>`)
+        .html(`${this.formatName(d)}<hr>FTE: <b>${rolePercentage}%</b>`)
       ;
     },
     moveTooltip() {
