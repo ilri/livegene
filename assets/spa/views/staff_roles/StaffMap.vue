@@ -1,90 +1,77 @@
 <template>
-  <BaseView>
-    <template slot="header">
-      Staff Map
-    </template>
-    <template slot="graphic">
-      <b-col
-        cols="12"
-        lg="10"
-        class="viewport"
+  <b-col
+    class="viewport"
+  >
+    <div class="legend-container">
+      <svg
+        width="100%"
+        height="100px"
       >
-        <div class="legend-container">
-          <svg
-            width="100%"
-            height="100px"
+        <defs>
+          <linearGradient
+            id="legendGradient"
+            x1="0"
+            x2="1"
           >
-            <defs>
-              <linearGradient
-                id="legendGradient"
-                x1="0"
-                x2="1"
-              >
-                <stop
-                  offset="0"
-                  :style="{ 'stop-color': colorScale(0), 'stop-opacity': 1 }"
-                />
-                <stop
-                  offset="1"
-                  :style="{ 'stop-color': colorScale(1), 'stop-opacity': 1 }"
-                />
-              </linearGradient>
-            </defs>
-            <g class="legend">
-              <text
-                class="gradient-caption"
-                :x="'50%'"
-                :y="'30%'"
-              >
-                Full-time equivalent (FTE) in %
-              </text>
-              <text
-                class="gradient-minimum"
-                :x="'10%'"
-                :y="'60%'"
-              >
-                0%
-              </text>
-              <text
-                class="gradient-maximum"
-                :x="'90%'"
-                :y="'60%'"
-              >
-                100%
-              </text>
-              <rect
-                class="gradient-bar"
-                :x="'12.5%'"
-                :y="'45%'"
-                :width="'75%'"
-                :height="'30%'"
-                :rx="4"
-                :ry="4"
-              />
-            </g>
-          </svg>
-        </div>
-        <div class="table-container">
-          <table />
-        </div>
-      </b-col>
-      <div class="tooltip" />
-    </template>
-  </BaseView>
+            <stop
+              offset="0"
+              :style="{ 'stop-color': colorScale(0), 'stop-opacity': 1 }"
+            />
+            <stop
+              offset="1"
+              :style="{ 'stop-color': colorScale(1), 'stop-opacity': 1 }"
+            />
+          </linearGradient>
+        </defs>
+        <g class="legend">
+          <text
+            class="gradient-caption"
+            :x="'50%'"
+            :y="'30%'"
+          >
+            Full-time equivalent (FTE) in %
+          </text>
+          <text
+            class="gradient-minimum"
+            :x="'10%'"
+            :y="'60%'"
+          >
+            0%
+          </text>
+          <text
+            class="gradient-maximum"
+            :x="'90%'"
+            :y="'60%'"
+          >
+            100%
+          </text>
+          <rect
+            class="gradient-bar"
+            :x="'12.5%'"
+            :y="'45%'"
+            :width="'75%'"
+            :height="'30%'"
+            :rx="4"
+            :ry="4"
+          />
+        </g>
+      </svg>
+    </div>
+    <div class="table-container">
+      <table />
+    </div>
+    <div class="tooltip" />
+  </b-col>
 </template>
 
 <script>
 import * as d3 from 'd3';
 import { mapState } from 'vuex';
-import BaseView from '../../components/BaseView';
 import baseMixin from '../../mixins/baseMixin';
 import formatNameMixin from '../../mixins/formatNameMixin';
 
 export default {
   name: 'StaffMap',
-  components: {
-    BaseView,
-  },
   mixins: [baseMixin, formatNameMixin],
   data() {
     return {
@@ -713,5 +700,4 @@ export default {
       padding: 2em;
     }
   }
-
 </style>
