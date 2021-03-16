@@ -35,16 +35,16 @@
       >
         <b-navbar-nav>
           <b-nav-item
-            v-for="link in links"
-            :key="link.name"
+            v-for="route in routes"
+            :key="route.name"
           >
             <router-link
               tag="button"
-              :to="{ name: link.name }"
+              :to="{ name: route.name }"
               exact-active-class="active"
               class="btn btn-info"
             >
-              {{ link.label }}
+              {{ route.label }}
             </router-link>
           </b-nav-item>
         </b-navbar-nav>
@@ -57,7 +57,7 @@
 export default {
   data() {
     return {
-      links: [
+      routes: [
         {
           name: 'awarded_budget',
           label: 'Awarded Budget',
