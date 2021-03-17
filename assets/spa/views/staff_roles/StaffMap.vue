@@ -463,7 +463,10 @@ export default {
       // Only allows event when no checkboxes ticked
       if (this.checked === false) {
         const projectLabel = d3.select(`tbody > tr#${d.ilriCode}`);
-        const staffMembers = d.staffRoles.map((el) => el.staffMember);
+        const staffMembers = d.staffRoles
+          .map((el) => el.staffMember)
+          .sort((a, b) => a.lastName.localeCompare(b.lastName))
+        ;
 
         // Removes duplicated elements
         d3.select('tr.header-row').selectAll('td, div > span').remove();
