@@ -259,7 +259,8 @@ export default {
     xScale() {
       return d3.scaleTime()
         .range([this.margin.left, this.margin.left + this.chart.width])
-        .domain([this.xMin, this.xMax]);
+        .domain([this.xMin, this.xMax])
+      ;
     },
     /**
      * Create ordinal scale for the y axis
@@ -276,7 +277,8 @@ export default {
           (d, i, a) => a.slice(0, (i + 1))
             .reduce((acc, cur) => acc + cur, 0) * this.barHeight + i * this.spacing,
         ))
-        .domain([...this.projectsGroupedByTeam.keys()]);
+        .domain([...this.projectsGroupedByTeam.keys()])
+      ;
     },
     /**
      * Create bottom x axis
@@ -288,7 +290,8 @@ export default {
         .ticks(10)
         .tickSize(this.chart.height + this.tickBleed)
         .tickPadding(this.labelPadding)
-        .tickSizeOuter(0);
+        .tickSizeOuter(0)
+      ;
     },
     /**
      * Create left y axis
@@ -298,7 +301,8 @@ export default {
     yAxis() {
       return d3.axisLeft(this.yScale)
         .tickSizeInner(this.chart.width)
-        .tickSizeOuter(0);
+        .tickSizeOuter(0)
+      ;
     },
     /**
      * Create sequential scale for the project values
@@ -308,7 +312,8 @@ export default {
     colorScale() {
       return d3
         .scaleSequential(d3.interpolateReds)
-        .domain([this.value.min, this.value.max]);
+        .domain([this.value.min, this.value.max])
+      ;
     },
     /**
      * Calculate the dimensions of the legend box
@@ -330,7 +335,8 @@ export default {
       return d3.scaleLinear()
         .domain([this.value.min, this.value.max])
         .range([0, this.legendBox.width])
-        .clamp(true);
+        .clamp(true)
+      ;
     },
   },
   methods: {
@@ -347,7 +353,8 @@ export default {
         .attr(
           'transform',
           (d) => `translate(${[0, this.margin.top + this.yScale(d[0])]})`,
-        );
+        )
+      ;
       const timelines = teams.selectAll('g.timeline')
         .data((d) => d[1])
         .join('g')
@@ -407,25 +414,29 @@ export default {
       return d3.zoom()
         .scaleExtent([1, 10])
         .extent([[0, 0], [this.chart.width, this.chart.height]])
-        .on('zoom', this.updateChart);
+        .on('zoom', this.updateChart)
+      ;
     },
     showProjectDetails(d, i, n) {
       const svg = d3.select('#viewport');
 
       svg.select('text.caret-up')
         .attr('x', this.legendScale(d.totalProjectValue))
-        .style('opacity', 1);
+        .style('opacity', 1)
+      ;
       svg.select('text.project-value')
         .attr('x', this.legendScale(d.totalProjectValue))
         .attr('y', this.spacing * 3)
         .style('text-anchor', 'middle')
         .style('font-family', '"Yanone Kaffeesatz", sans-serif')
         .style('opacity', 1)
-        .text(this.moneyFormat(d.totalProjectValue));
+        .text(this.moneyFormat(d.totalProjectValue))
+      ;
       d3.select(n[i])
         .select('rect.project')
-        .style('fill', 'yellow')
-        .style('stroke', 'red');
+        .style('stroke', 'red')
+        .style('stroke-width', 3)
+      ;
       d3.select('div.infobox')
         .style('display', 'block')
         .style('top', `${d3.event.pageY}px`)
@@ -460,12 +471,16 @@ export default {
     hideProjectDetails(d, i, n) {
       const svg = d3.select('#viewport');
       svg.select('text.caret-up')
-        .style('opacity', 0);
+        .style('opacity', 0)
+      ;
       svg.select('text.project-value')
-        .style('opacity', 0);
+        .style('opacity', 0)
+      ;
       d3.select(n[i]).select('rect')
         .style('fill', (datum) => this.colorScale(datum.totalProjectValue))
-        .style('stroke', 'blueviolet');
+        .style('stroke', 'blueviolet')
+        .style('stroke-width', 1)
+      ;
       d3.select('div.infobox').style('display', 'none');
     },
     getTodayPosition() {
@@ -522,12 +537,14 @@ export default {
         .selectAll('line')
         .attr('stroke', 'lightgray')
         .attr('opacity', '0.8')
-        .attr('shape-rendering', 'crispEdges');
+        .attr('shape-rendering', 'crispEdges')
+      ;
       const today = newX(d3.isoParse(new Date()));
 
       d3.selectAll('rect.project')
         .attr('x', (d) => newX(d3.isoParse(d.startDate)))
-        .attr('width', (d) => newX(d3.isoParse(d.endDate)) - newX(d3.isoParse(d.startDate)));
+        .attr('width', (d) => newX(d3.isoParse(d.endDate)) - newX(d3.isoParse(d.startDate)))
+      ;
       d3.selectAll('text.project-label')
         .attr(
           'x',
@@ -539,7 +556,8 @@ export default {
             }
             return this.labelPadding + newStart;
           },
-        );
+        )
+      ;
       const todayGroup = d3.select('.today');
       todayGroup.attr(
         'transform',
@@ -557,7 +575,8 @@ export default {
       d3.select('#zoom')
         .transition('resetting')
         .duration(1000)
-        .call(zoom.transform, d3.zoomIdentity);
+        .call(zoom.transform, d3.zoomIdentity)
+      ;
     },
     display() {
       this.getTodayPosition();
