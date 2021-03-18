@@ -627,11 +627,11 @@ export default {
 
   g.infobox text {
     text-anchor: start;
-    alignment-baseline: middle;
+    dominant-baseline: middle;
   }
 
   .legend text:first-of-type {
-    alignment-baseline: middle;
+    dominant-baseline: middle;
     text-anchor: middle;
   }
 
@@ -646,7 +646,7 @@ export default {
   }
 
   .legend .value-min, .legend .value-max {
-    alignment-baseline: top;
+    dominant-baseline: top;
   }
   /**
   Extra-large, large and medium devices (768px and up)
@@ -674,8 +674,8 @@ export default {
   .caret-up {
     font-weight: 900;
     font-family: 'FontAwesome';
-    text-anchor: middle;
-    alignment-baseline: middle;
+    text-anchor: middle !important;
+    dominant-baseline: mathematical !important;
     opacity: 0;
   }
 
@@ -692,7 +692,7 @@ export default {
     font-family: 'FontAwesome';
     font-weight: 900;
     text-anchor: middle;
-    alignment-baseline: ideographic;
+    dominant-baseline: ideographic;
     cursor: pointer;
     fill: darkred;
   }
@@ -712,5 +712,4 @@ export default {
     opacity: 0.8;
     display: none;
   }
-
 </style>
