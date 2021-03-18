@@ -222,8 +222,10 @@ export default {
       // Populates table with FTE percentages.
       this.projects.forEach((project) => {
         project.staffRoles.forEach((role) => {
+          const percent = parseFloat(role.percent) * 100;
+          const fte = Number.isInteger(percent) ? percent : percent.toFixed(1);
           d3.select(`#${project.ilriCode} > #staffMember_${role.staffMember.id}`)
-            .text(parseFloat(role.percent))
+            .text(fte)
             .style('background-color', (role.percent > 0 ? this.colorScale(parseFloat(role.percent)) : 'PowderBlue'))
             .style('color', (role.percent) > 0.5 ? 'white' : 'black')
             .style('cursor', 'default')
@@ -336,7 +338,7 @@ export default {
       ;
     },
     showTooltip(d, i, n) {
-      const fte = parseFloat(n[0].innerText) * 100;
+      const fte = parseFloat(n[0].innerText);
       d3.select(n[i])
         .style('background-color', 'darkgray')
         .style('color', 'white')
