@@ -27,10 +27,6 @@
         <env name="JWT_PUBLIC_KEY" value="%kernel.project_dir%/config/jwt/public.pem"/>
         <env name="JWT_PASSPHRASE" value="c0a073316b0c1735501f5a512c39fa7b"/>
         <!-- ###- lexik/jwt-authentication-bundle ### -->
-
-        <!-- ###+ symfony/mailer ### -->
-        <!-- MAILER_DSN=smtp://localhost -->
-        <!-- ###- symfony/mailer ### -->
     </php>
 
     <testsuites>
