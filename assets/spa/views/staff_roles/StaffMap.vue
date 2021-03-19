@@ -76,6 +76,7 @@ export default {
   data() {
     return {
       checked: false,
+      highlightedProject: null,
     };
   },
   computed: {
@@ -101,6 +102,13 @@ export default {
      * @returns {any[]}
      */
     staffMembers() {
+      if (this.highlightedProject) {
+        return this.highlightedProject.staffRoles
+          .map((el) => el.staffMember)
+          .sort((a, b) => a.lastName.localeCompare(b.lastName))
+        ;
+      }
+
       const staff = new Set();
 
       this.projectsGroupedByTeam.forEach((team) => {
@@ -163,7 +171,7 @@ export default {
         .on('mouseleave', this.updateTable)
       ;
 
-      this.generateTableCells(this.staffMembers);
+      this.generateTableCells();
 
       // Inserts a column after last column for team labels
       teams.select('tr:first-of-type')
@@ -198,20 +206,20 @@ export default {
         .attr('class', 'menu')
       ;
       // Fills the header row with staff labels
-      this.generateStaffLabels(this.staffMembers);
+      this.generateStaffLabels();
       // Fills the menu row with checkboxes
-      this.generateStaffCheckboxes(this.staffMembers);
+      this.generateStaffCheckboxes();
     },
     /**
      *  Creates 'td' elements for every staff member defined in the
      *  'staffMembers' parameter.
      */
-    generateTableCells(staffMembers) {
+    generateTableCells() {
       const projects = d3.selectAll('tbody.team').selectAll('tr.project');
 
       // Creates empty cells for every staff member.
       projects.selectAll('td.staff')
-        .data(staffMembers)
+        .data(this.staffMembers)
         .join('td').attr('class', 'staff')
         .attr('id', (d) => `staffMember_${d.id}`)
         .text(null)
@@ -242,11 +250,11 @@ export default {
      *
      *  Displayed above the staff checkboxes.
      */
-    generateStaffLabels(staffMembers) {
+    generateStaffLabels() {
       const header = d3.select('tr.header-row');
       // Creates table header elements for every staff node.
       const labelNodes = header.selectAll('th.staff-label')
-        .data(staffMembers)
+        .data(this.staffMembers)
         .join('th')
         .attr('class', 'staff-label')
         .attr('id', (d) => `staffMember_${d.id}`)
@@ -257,7 +265,7 @@ export default {
         .style('white-space', 'nowrap')
         .each((d, i, n) => {
           d3.select(n[i])
-            .style('z-index', `${staffMembers.length + 1 - i}`)
+            .style('z-index', `${this.staffMembers.length + 1 - i}`)
           ;
         })
       ;
@@ -298,13 +306,13 @@ export default {
      *
      *  Displayed underneath the staff labels.
      */
-    generateStaffCheckboxes(staffMembers) {
+    generateStaffCheckboxes() {
       const headerDimensions = d3.select('tr.header-row').node().getBoundingClientRect();
       const menu = d3.select('tr.menu');
 
       // Generates a checkbox for every staff label
       menu.selectAll('th.checkbox')
-        .data(staffMembers)
+        .data(this.staffMembers)
         .join('th').attr('class', 'checkbox')
         .style('height', '1em')
         .style('background-color', 'gainsboro')
@@ -326,7 +334,7 @@ export default {
         .style('top', `${headerDimensions.height}px`)
         .style('left', '-2px')
         .style('background-color', 'gainsboro')
-        .style('z-index', `${staffMembers.length + 2}`)
+        .style('z-index', `${this.staffMembers.length + 2}`)
       ;
       menu.append('td', 'th:last-of-type')
         .style('position', 'sticky')
@@ -334,7 +342,7 @@ export default {
         .style('top', `${headerDimensions.height}px`)
         .style('right', '-2px')
         .style('background-color', 'gainsboro')
-        .style('z-index', `${staffMembers.length + 2}`)
+        .style('z-index', `${this.staffMembers.length + 2}`)
       ;
     },
     showTooltip(d, i, n) {
@@ -464,22 +472,19 @@ export default {
     highlightProject(d) {
       // Only allows event when no checkboxes ticked
       if (this.checked === false) {
+        this.highlightedProject = d;
         const projectLabel = d3.select(`tbody > tr#${d.ilriCode}`);
-        const staffMembers = d.staffRoles
-          .map((el) => el.staffMember)
-          .sort((a, b) => a.lastName.localeCompare(b.lastName))
-        ;
 
         // Removes duplicated elements
         d3.select('tr.header-row').selectAll('td, div > span').remove();
         d3.select('tr.menu').selectAll('td, input').remove();
 
         // Updates table cells
-        this.generateTableCells(staffMembers);
+        this.generateTableCells();
         // Updates staff member labels
-        this.generateStaffLabels(staffMembers);
+        this.generateStaffLabels();
         // Updates checkboxes
-        this.generateStaffCheckboxes(staffMembers);
+        this.generateStaffCheckboxes();
 
         // Highlights PROJECT labels
         projectLabel.selectAll('th.project-label')
@@ -568,6 +573,7 @@ export default {
     updateTable() {
       // Only allows event when no checkboxes ticked
       if (this.checked === false) {
+        this.highlightedProject = null;
         d3.selectAll('table > *').remove();
         this.generateTable();
       }
