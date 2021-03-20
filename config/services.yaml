@@ -58,6 +58,14 @@ services:
         class: App\Security\Service\CustomBasicAuthenticationEntryPoint
         arguments: [ main ]
 
+    app.user_mailer:
+        class: App\Mailer\UserMailer
+        arguments:
+            - '@router'
+            - '@twig'
+            - '@mailer'
+            - '%fos_user.resetting.email.from_email%'
+
     # admin services
     admin.animal_species:
         class: App\Admin\AnimalSpeciesAdmin
