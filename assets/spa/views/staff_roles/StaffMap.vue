@@ -357,9 +357,10 @@ export default {
       ;
     },
     moveTooltip() {
+      const tooltipEvent = d3.mouse(d3.select('div.viewport.col').node());
       d3.select('div.tooltip')
-        .style('left', `${d3.event.pageX + 10}px`)
-        .style('top', `${d3.event.pageY + 10}px`)
+        .style('left', `${tooltipEvent[0] + 10}px`)
+        .style('top', `${tooltipEvent[1] + 10}px`)
       ;
     },
     hideTooltip(d, i, n) {
