@@ -5,6 +5,7 @@ namespace App\Tests\Mailer;
 use App\DataFixtures\Test\UserFixtures;
 use Liip\TestFixturesBundle\Test\FixturesTrait;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Symfony\Component\DomCrawler\Crawler;
 
 class UserMailerTest extends WebTestCase
 {
@@ -42,7 +43,7 @@ class UserMailerTest extends WebTestCase
     {
         $client = static::createClient();
         $client->enableProfiler();
-        $crawler = $client->request(
+        $client->request(
             'POST',
             '/admin/resetting/send-email',
             [
@@ -58,12 +59,15 @@ class UserMailerTest extends WebTestCase
         $collectedMessages = $mailCollector->getMessages();
         $message = $collectedMessages[0];
 
+        $crawler = new Crawler();
+        $crawler->addHtmlContent($message->getBody());
+
         $this->assertInstanceOf('Swift_Message', $message);
         $this->assertSame('Reset your password', $message->getSubject());
         $this->assertSame($mailerUser, key($message->getFrom()));
         $this->assertSame($this->user->getEmail(), key($message->getTo()));
-        $this->assertContains('ILRI LiveGene', $message->getBody());
-        $this->assertContains('Reset your password', $message->getBody());
-        $this->assertContains('Your ILRI LiveGene Admin', $message->getBody());
+        $this->assertContains('ILRI LiveGene', $crawler->filter('h1')->text());
+        $this->assertContains('Reset your password', $crawler->filter('h2')->text());
+        $this->assertContains('Your ILRI LiveGene Admin', $crawler->filter('h4')->text());
     }
 }
