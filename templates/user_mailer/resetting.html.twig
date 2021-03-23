@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>ILRI LiveGene - Reset Your Password</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Helvetica, Arial, sans-serif;
+        }
+
+        .container {
+            width: 576px;
+            margin: 0 auto;
+            background-color: PowderBlue;
+        }
+
+        .header {
+            height: 128px;
+            border-bottom: thin solid blue;
+            vertical-align: middle;
+        }
+
+        .header h1 {
+            display: inline-block;
+            width: 426px;
+            height: 128px;
+            text-align: center;
+            color: slategrey;
+            padding-top: 20px;
+        }
+
+        .header a {
+            display: inline-block;
+            float: right;
+        }
+
+        .logo {
+            height: 128px;
+        }
+
+        .content {
+            padding: 10px;
+            line-height: 1.5;
+        }
+
+        .content h2 {
+            text-align: center;
+            color: slategrey;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>
+            ILRI LiveGene
+        </h1>
+        <a href="livegene.org">
+            <img src="{{ absolute_url(asset('/images/logo.png')) }}" alt="Logo" class="logo">
+        </a>
+    </div>
+    <div class="content">
+        <h2>
+            Reset your password
+        </h2>
+        <h3>
+            Dear {{ user.firstName }},
+        </h3>
+        <p>
+            please use the following link to change your password:<br>
+            <a href="{{  confirmationUrl }}">{{ confirmationUrl }}</a>
+        </p>
+        <p>
+            Sincerely,
+        </p>
+        <h4>
+            Your ILRI LiveGene Admin
+        </h4>
+    </div>
+</div>
+</body>

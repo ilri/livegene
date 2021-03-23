@@ -6,4 +6,4 @@ sonata_user:
         group: App\Application\Sonata\UserBundle\Entity\Group
     impersonating:
         route: sonata_admin_dashboard
-
+    mailer: app.user_mailer
