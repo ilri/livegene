@@ -168,7 +168,7 @@ export default {
         .style('font-size', '0.7em')
         .style('padding', '0.7em')
         .on('mouseenter', this.highlightProject)
-        .on('mouseleave', this.updateTable)
+        .on('mouseout', this.updateTable)
       ;
 
       this.generateTableCells();
@@ -182,7 +182,7 @@ export default {
         .style('font-size', '0.7em')
         .style('padding', '0.7em')
         .on('mouseenter', this.highlightTeam)
-        .on('mouseleave', this.resetTableStyle)
+        .on('mouseout', this.resetTableStyle)
       ;
       // Renders the project and team labels 'sticky'.
       d3.selectAll('tbody th, tr.header-row > td')
@@ -239,7 +239,7 @@ export default {
             .style('cursor', 'default')
             .on('mouseenter', this.showTooltip)
             .on('mousemove', this.moveTooltip)
-            .on('mouseleave', this.hideTooltip)
+            .on('mouseout', this.hideTooltip)
           ;
         });
       });
