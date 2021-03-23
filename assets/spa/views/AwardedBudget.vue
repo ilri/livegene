@@ -1,7 +1,12 @@
 <template>
   <BaseView>
     <template slot="header">
-      Awarded Budget
+      <b-nav
+        small
+        align="center"
+      >
+        <b-nav-text>Awarded Budget</b-nav-text>
+      </b-nav>
     </template>
     <template slot="graphic">
       <b-col

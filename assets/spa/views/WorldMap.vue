@@ -1,7 +1,12 @@
 <template>
   <BaseView>
     <template slot="header">
-      World map
+      <b-nav
+        small
+        align="center"
+      >
+        <b-nav-text>World map</b-nav-text>
+      </b-nav>
     </template>
     <template slot="graphic">
       <b-col
