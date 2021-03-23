@@ -11,7 +11,7 @@ security:
         admin:
             pattern:            /admin(.*)
             context:            user
-            provider:           fos_userbundle 
+            provider:           fos_userbundle
             form_login:
                 login_path:     sonata_user_admin_security_login
                 use_forward:    false

@@ -15,11 +15,11 @@
           >
             <stop
               offset="0"
-              :style="{ 'stop-color': colorScale(0), 'stop-opacity': 1 }"
+              :style="{ 'stop-color': colorScale(0), 'stop-opacity': 100 }"
             />
             <stop
               offset="1"
-              :style="{ 'stop-color': colorScale(1), 'stop-opacity': 1 }"
+              :style="{ 'stop-color': colorScale(100), 'stop-opacity': 100 }"
             />
           </linearGradient>
         </defs>
@@ -94,7 +94,7 @@ export default {
      */
     colorScale() {
       return d3.scaleSequential(d3.interpolateReds)
-        .domain([0, 1]);
+        .domain([0, 100]);
     },
     /**
      * Get all staff members for all projects, ordered by last name.
@@ -234,8 +234,8 @@ export default {
           const fte = Number.isInteger(percent) ? percent : percent.toFixed(1);
           d3.select(`#${project.ilriCode} > #staffMember_${role.staffMember.id}`)
             .text(fte)
-            .style('background-color', (role.percent > 0 ? this.colorScale(parseFloat(role.percent)) : 'PowderBlue'))
-            .style('color', (role.percent) > 0.5 ? 'white' : 'black')
+            .style('background-color', (fte) > 0 ? this.colorScale(fte) : 'PowderBlue')
+            .style('color', (fte) > 50 ? 'white' : 'black')
             .style('cursor', 'default')
             .on('mouseenter', this.showTooltip)
             .on('mousemove', this.moveTooltip)
@@ -357,9 +357,10 @@ export default {
       ;
     },
     moveTooltip() {
+      const tooltipEvent = d3.mouse(d3.select('div.viewport.col').node());
       d3.select('div.tooltip')
-        .style('left', `${d3.event.pageX + 10}px`)
-        .style('top', `${d3.event.pageY + 10}px`)
+        .style('left', `${tooltipEvent[0] + 10}px`)
+        .style('top', `${tooltipEvent[1] + 10}px`)
       ;
     },
     hideTooltip(d, i, n) {
@@ -369,7 +370,7 @@ export default {
       ;
       d3.select(n[i])
         .style('background-color', (fte > 0 ? this.colorScale(fte) : 'PowderBlue'))
-        .style('color', (fte) > 0.5 ? 'white' : 'black')
+        .style('color', (fte) > 50 ? 'white' : 'black')
       ;
     },
     /**
@@ -384,7 +385,7 @@ export default {
         // Highlights STAFF MEMBER label
         d3.select(`tr.header-row > th.staff-label#staffMember_${staffID} > div > span`)
           .transition()
-          .style('color', this.colorScale(0.8))
+          .style('color', this.colorScale(80))
           .style('font-size', () => (this.formatName(d).length < 20 ? '0.8em' : '0.65em'))
           .style('border-bottom', 'thin solid darkslategray')
         ;
@@ -396,9 +397,11 @@ export default {
         // Retains original FTE cell colours
         this.projects.forEach((project) => {
           project.staffRoles.forEach((role) => {
+            const percent = parseFloat(role.percent) * 100;
+            const fte = Number.isInteger(percent) ? percent : percent.toFixed(1);
             d3.select(`#${project.ilriCode} > #staffMember_${role.staffMember.id}`)
               .transition()
-              .style('background-color', (role.percent > 0 ? this.colorScale(parseFloat(role.percent)) : 'PowderBlue'))
+              .style('background-color', (fte) > 0 ? this.colorScale(fte) : 'PowderBlue')
             ;
           });
         });
@@ -454,7 +457,7 @@ export default {
               const staffID = role.staffMember.id;
               d3.select(`tr.header-row > th.staff-label#staffMember_${staffID} > div > span`)
                 .transition()
-                .style('color', this.colorScale(0.8))
+                .style('color', this.colorScale(80))
                 .style('font-size', () => (this.formatName(role.staffMember).length < 20 ? '0.8em' : '0.65em'))
                 .style('border-bottom', 'thin solid darkslategray')
               ;
@@ -505,7 +508,7 @@ export default {
               const staffID = role.staffMember.id;
               d3.select(`tr.header-row > th.staff-label#staffMember_${staffID} > div > span`)
                 .transition()
-                .style('color', this.colorScale(0.8))
+                .style('color', this.colorScale(80))
                 .style('font-size', () => (this.formatName(role.staffMember).length < 20 ? '0.8em' : '0.65em'))
                 .style('border-bottom', 'thin solid darkslategray')
               ;
@@ -559,9 +562,11 @@ export default {
         ;
         this.projects.forEach((project) => {
           project.staffRoles.forEach((role) => {
+            const percent = parseFloat(role.percent) * 100;
+            const fte = Number.isInteger(percent) ? percent : percent.toFixed(1);
             d3.select(`#${project.ilriCode} > #staffMember_${role.staffMember.id}`)
               .transition()
-              .style('background-color', (role.percent > 0 ? this.colorScale(parseFloat(role.percent)) : 'PowderBlue'))
+              .style('background-color', (fte) > 0 ? this.colorScale(fte) : 'PowderBlue')
             ;
           });
         });
