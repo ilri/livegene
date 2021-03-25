@@ -52,7 +52,7 @@ class OrganisationAdmin extends AbstractAdmin
     {
         $organisation = $this->getSubject();
 
-        $fileFieldOptions = ['required' => false];
+        $fileFieldOptions = ['required' => false, 'empty_data' => 'https://static.thenounproject.com/png/1275971-200.png'];
         if ($organisation && ($webPath = $organisation->getLogoUrl())) {
             $fileFieldOptions['help'] = '<img src="'.$webPath.'" class="admin-preview" />';
         }
