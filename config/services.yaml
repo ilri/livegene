@@ -5,8 +5,7 @@
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     locale: 'en'
-    mailer_transport: gmail
-    mailer_user: 'ilri.livegene@gmail.com'
+    mailer_user: 'ilrilivegeneadmin@cgiar.org'
     spa_user: '%env(resolve:SPA_USER)%'
 
 services:
@@ -58,6 +57,14 @@ services:
     app.custom_basic_authentication_entry_point:
         class: App\Security\Service\CustomBasicAuthenticationEntryPoint
         arguments: [ main ]
+
+    app.user_mailer:
+        class: App\Mailer\UserMailer
+        arguments:
+            - '@router'
+            - '@twig'
+            - '@mailer'
+            - '%fos_user.resetting.email.from_email%'
 
     # admin services
     admin.animal_species:
