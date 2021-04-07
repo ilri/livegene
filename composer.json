@@ -1,6 +1,26 @@
 {
+    "name": "ilri/livegene",
+    "description": "ILRI LiveGene",
     "type": "project",
+    "homepage": "https://livegene.ilri.org",
     "license": "proprietary",
+    "authors": [
+        {
+            "name": "Cezar Pendarovski",
+            "email": "cezar.pendarovski@roslin.ed.ac.uk",
+            "role": "Lead developer"
+        },
+        {
+            "name": "Johanna Benndorf",
+            "email": "jbennado@exseed.ed.ac.uk",
+            "role": "Developer"
+        },
+        {
+            "name": "David Mirieri Mogaka",
+            "email": "d.mogaka@cgiar.org",
+            "role": "Developer"
+        }
+    ],
     "require": {
         "php": "^7.1.3",
         "ext-ctype": "*",
