@@ -33,3 +33,7 @@ yarn-error.log
 assets/spa/tests/e2e/reports
 selenium-server.log
 ###< Nightwatch.js ###
+
+###> VueJS Unit Testing (Cezar) ###
+assets/spa/tests/unit/coverage
+###< VueJS Unit Testing (Cezar) ###
