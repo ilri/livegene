@@ -1,4 +1,6 @@
 {
+    "name": "livegene",
+    "description": "ILRI LiveGene",
     "devDependencies": {
         "@babel/core": "^7.8.6",
         "@babel/plugin-transform-runtime": "^7.8.3",
