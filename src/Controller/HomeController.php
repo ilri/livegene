@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface;
 use App\Application\Sonata\UserBundle\Entity\User;
@@ -13,8 +14,11 @@ class HomeController extends AbstractController
 {
     /**
      * @Route("/", name="home")
+     *
+     * @param JWTTokenManagerInterface $JWTManager
+     * @return Response
      */
-    public function index(JWTTokenManagerInterface $JWTManager)
+    public function index(JWTTokenManagerInterface $JWTManager): Response
     {
         $userRepository = $this->getDoctrine()->getRepository(User::class);
         $username = $this->getParameter('spa_user');
