@@ -13,7 +13,7 @@ class CountryAPITest extends ApiTestCase
     private $fixtures = null;
     private $client;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->fixtures = $this->loadFixtures([
             'App\DataFixtures\Test\UserFixtures',
@@ -28,7 +28,7 @@ class CountryAPITest extends ApiTestCase
         $this->client = $this->createAuthenticatedClient($credentials);
     }
 
-    public function testGetCollectionIsAvailable()
+    public function testGetCollectionIsAvailable(): void
     {
         $this->client->request('GET', '/api/countries', [], [], [
             'HTTP_ACCEPT' => 'application/json',
@@ -47,7 +47,7 @@ class CountryAPITest extends ApiTestCase
         $this->assertCount(1, $data);
     }
 
-    public function testPostIsNotAllowed()
+    public function testPostIsNotAllowed(): void
     {
         $this->client->request('POST', '/api/countries', [], [], [
             'CONTENT_TYPE' => 'application/json',
@@ -58,7 +58,7 @@ class CountryAPITest extends ApiTestCase
         );
     }
 
-    public function testGetItemIsAvailable()
+    public function testGetItemIsAvailable(): void
     {
         $country = $this->getCountry();
         $this->client->request('GET', sprintf('/api/countries/%s', $country), [], [], [
@@ -86,7 +86,7 @@ class CountryAPITest extends ApiTestCase
         );
     }
 
-    public function testPutIsNotAllowed()
+    public function testPutIsNotAllowed(): void
     {
         $country = $this->getCountry();
         $this->client->request('PUT', sprintf('/api/countries/%s', $country), [], [], [
@@ -98,7 +98,7 @@ class CountryAPITest extends ApiTestCase
         );
     }
 
-    public function testDeleteIsNotAllowed()
+    public function testDeleteIsNotAllowed(): void
     {
         $country = $this->getCountry();
         $this->client->request('DELETE', sprintf('/api/countries/%s', $country), [], [], [
@@ -110,7 +110,7 @@ class CountryAPITest extends ApiTestCase
         );
     }
 
-    private function getCountry()
+    private function getCountry(): string
     {
         return $this->fixtures->getReference('country')->getCountry();
     }
