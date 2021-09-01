@@ -13,7 +13,7 @@ class ExpenditureAPITest extends ApiTestCase
     private $fixtures = null;
     private $client;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->fixtures = $this->loadFixtures([
             'App\DataFixtures\Test\UserFixtures',
@@ -28,7 +28,7 @@ class ExpenditureAPITest extends ApiTestCase
         $this->client = $this->createAuthenticatedClient($credentials);
     }
 
-    public function testGetCollectionIsAvailable()
+    public function testGetCollectionIsAvailable(): void
     {
         $this->client->request('GET', '/api/expenditures', [], [], [
             'HTTP_ACCEPT' => 'application/json',
@@ -47,7 +47,7 @@ class ExpenditureAPITest extends ApiTestCase
         $this->assertCount(1, $data);
     }
 
-    public function testPostIsNotAllowed()
+    public function testPostIsNotAllowed(): void
     {
         $this->client->request('POST', '/api/expenditures', [], [], [
             'CONTENT_TYPE' => 'application/json',
@@ -58,7 +58,7 @@ class ExpenditureAPITest extends ApiTestCase
         );
     }
 
-    public function testGetItemIsAvailable()
+    public function testGetItemIsAvailable(): void
     {
         $expenditure = $this->getId();
         $this->client->request('GET', sprintf('/api/expenditures/%s', $expenditure), [], [], [
@@ -93,7 +93,7 @@ class ExpenditureAPITest extends ApiTestCase
         );
     }
 
-    public function testPutIsNotAllowed()
+    public function testPutIsNotAllowed(): void
     {
         $expenditure = $this->getId();
         $this->client->request('PUT', sprintf('/api/expenditures/%s', $expenditure), [], [], [
@@ -105,7 +105,7 @@ class ExpenditureAPITest extends ApiTestCase
         );
     }
 
-    public function testDeleteIsNotAllowed()
+    public function testDeleteIsNotAllowed(): void
     {
         $expenditure = $this->getId();
         $this->client->request('DELETE', sprintf('/api/expenditures/%s', $expenditure), [], [], [
@@ -117,7 +117,7 @@ class ExpenditureAPITest extends ApiTestCase
         );
     }
 
-    private function getId()
+    private function getId(): int
     {
         return $this->fixtures->getReference('expenditure')->getId();
     }
