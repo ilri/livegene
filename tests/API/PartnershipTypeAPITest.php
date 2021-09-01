@@ -14,7 +14,7 @@ class PartnershipTypeAPITest extends ApiTestCase
     private $fixtures = null;
     private $client;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->fixtures = $this->loadFixtures([
             'App\DataFixtures\Test\UserFixtures',
@@ -31,7 +31,7 @@ class PartnershipTypeAPITest extends ApiTestCase
         $this->em = self::$container->get('doctrine.orm.entity_manager');
     }
 
-    public function testGetCollectionIsAvailable()
+    public function testGetCollectionIsAvailable(): void
     {
         $this->client->request('GET', '/api/partnership_types', [], [], [
             'HTTP_ACCEPT' => 'application/json',
@@ -50,7 +50,7 @@ class PartnershipTypeAPITest extends ApiTestCase
         $this->assertCount(5, $data);
     }
 
-    public function testPostIsNotAllowed()
+    public function testPostIsNotAllowed(): void
     {
         $this->client->request('POST', '/api/partnership_types', [], [], [
             'CONTENT_TYPE' => 'application/json',
@@ -61,7 +61,7 @@ class PartnershipTypeAPITest extends ApiTestCase
         );
     }
 
-    public function testGetItemIsAvailable()
+    public function testGetItemIsAvailable(): void
     {
         $partnership_type = $this->getPartnershipType();
         $this->client->request('GET', sprintf('/api/partnership_types/%s', $partnership_type), [], [], [
@@ -88,7 +88,7 @@ class PartnershipTypeAPITest extends ApiTestCase
         );
     }
 
-    public function testPutIsNotAllowed()
+    public function testPutIsNotAllowed(): void
     {
         $partnership_type = $this->getPartnershipType();
         $this->client->request('PUT', sprintf('/api/partnership_types/%s', $partnership_type), [], [], [
@@ -100,7 +100,7 @@ class PartnershipTypeAPITest extends ApiTestCase
         );
     }
 
-    public function testDeleteIsNotAllowed()
+    public function testDeleteIsNotAllowed(): void
     {
         $partnership_type = $this->getPartnershipType();
         $this->client->request('DELETE', sprintf('/api/partnership_types/%s', $partnership_type), [], [], [
@@ -112,7 +112,7 @@ class PartnershipTypeAPITest extends ApiTestCase
         );
     }
 
-    private function getPartnershipType()
+    private function getPartnershipType(): int
     {
         return $this->em->getRepository(PartnershipType::class)->findOneByDescription('Unspecified')->getId();
     }
