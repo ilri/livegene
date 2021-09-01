@@ -13,7 +13,7 @@ class SDGAPITest extends ApiTestCase
     private $fixtures = null;
     private $client;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->fixtures = $this->loadFixtures([
             'App\DataFixtures\Test\UserFixtures',
@@ -28,7 +28,7 @@ class SDGAPITest extends ApiTestCase
         $this->client = $this->createAuthenticatedClient($credentials);
     }
 
-    public function testGetCollectionIsAvailable()
+    public function testGetCollectionIsAvailable(): void
     {
         $this->client->request('GET', '/api/sdgs', [], [], [
             'HTTP_ACCEPT' => 'application/json',
@@ -47,7 +47,7 @@ class SDGAPITest extends ApiTestCase
         $this->assertCount(17, $data);
     }
 
-    public function testPostIsNotAllowed()
+    public function testPostIsNotAllowed(): void
     {
         $this->client->request('POST', '/api/sdgs', [], [], [
             'CONTENT_TYPE' => 'application/json',
@@ -58,7 +58,7 @@ class SDGAPITest extends ApiTestCase
         );
     }
 
-    public function testGetItemIsAvailable()
+    public function testGetItemIsAvailable(): void
     {
         $sdg = $this->getSDG();
         $this->client->request('GET', sprintf('/api/sdgs/%s', $sdg), [], [], [
@@ -90,7 +90,7 @@ class SDGAPITest extends ApiTestCase
         );
     }
 
-    public function testGetItemIsNotAvailable()
+    public function testGetItemIsNotAvailable(): void
     {
         $this->client->request('GET', '/api/sdgs/18', [], [], [
             'HTTP_ACCEPT' => 'application/json'
@@ -101,7 +101,7 @@ class SDGAPITest extends ApiTestCase
         );
     }
 
-    public function testPutIsNotAllowed()
+    public function testPutIsNotAllowed(): void
     {
         $sdg = $this->getSDG();
         $this->client->request('PUT', sprintf('/api/sdgs/%s', $sdg), [], [], [
@@ -113,7 +113,7 @@ class SDGAPITest extends ApiTestCase
         );
     }
 
-    public function testDeleteIsNotAllowed()
+    public function testDeleteIsNotAllowed(): void
     {
         $sdg = $this->getSDG();
         $this->client->request('DELETE', sprintf('/api/sdgs/%s', $sdg), [], [], [
@@ -125,7 +125,7 @@ class SDGAPITest extends ApiTestCase
         );
     }
 
-    private function getSDG()
+    private function getSDG(): int
     {
         return $this->fixtures->getReference('sdg1')->getId();
     }
