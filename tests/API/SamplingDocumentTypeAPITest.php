@@ -13,7 +13,7 @@ class SamplingDocumentTypeAPITest extends ApiTestCase
     private $fixtures = null;
     private $client;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->fixtures = $this->loadFixtures([
             'App\DataFixtures\Test\UserFixtures',
@@ -28,7 +28,7 @@ class SamplingDocumentTypeAPITest extends ApiTestCase
         $this->client = $this->createAuthenticatedClient($credentials);
     }
 
-    public function testGetCollectionIsAvailable()
+    public function testGetCollectionIsAvailable(): void
     {
         $this->client->request('GET', '/api/sampling_document_types', [], [], [
             'HTTP_ACCEPT' => 'application/json',
@@ -47,7 +47,7 @@ class SamplingDocumentTypeAPITest extends ApiTestCase
         $this->assertCount(1, $data);
     }
 
-    public function testPostIsNotAllowed()
+    public function testPostIsNotAllowed(): void
     {
         $this->client->request('POST', '/api/sampling_document_types', [], [], [
             'CONTENT_TYPE' => 'application/json',
@@ -58,7 +58,7 @@ class SamplingDocumentTypeAPITest extends ApiTestCase
         );
     }
 
-    public function testGetItemIsAvailable()
+    public function testGetItemIsAvailable(): void
     {
         $doctype = $this->getSamplingDocumentType();
         $this->client->request('GET', sprintf('/api/sampling_document_types/%s', $doctype), [], [], [
@@ -87,7 +87,7 @@ class SamplingDocumentTypeAPITest extends ApiTestCase
         );
     }
 
-    public function testPutIsNotAllowed()
+    public function testPutIsNotAllowed(): void
     {
         $doctype = $this->getSamplingDocumentType();
         $this->client->request('PUT', sprintf('/api/sampling_document_types/%s', $doctype), [], [], [
@@ -99,7 +99,7 @@ class SamplingDocumentTypeAPITest extends ApiTestCase
         );
     }
 
-    public function testDeleteIsNotAllowed()
+    public function testDeleteIsNotAllowed(): void
     {
         $doctype = $this->getSamplingDocumentType();
         $this->client->request('DELETE', sprintf('/api/sampling_document_types/%s', $doctype), [], [], [
@@ -111,7 +111,7 @@ class SamplingDocumentTypeAPITest extends ApiTestCase
         );
     }
 
-    private function getSamplingDocumentType()
+    private function getSamplingDocumentType(): int
     {
         return $this->fixtures->getReference('doctype')->getId();
     }
