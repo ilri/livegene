@@ -13,7 +13,7 @@ class PartnershipAPITest extends ApiTestCase
     private $fixtures = null;
     private $client;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->fixtures = $this->loadFixtures([
             'App\DataFixtures\Test\UserFixtures',
@@ -28,7 +28,7 @@ class PartnershipAPITest extends ApiTestCase
         $this->client = $this->createAuthenticatedClient($credentials);
     }
 
-    public function testGetCollectionIsAvailable()
+    public function testGetCollectionIsAvailable(): void
     {
         $this->client->request('GET', '/api/partnerships', [], [], [
             'HTTP_ACCEPT' => 'application/json',
@@ -47,7 +47,7 @@ class PartnershipAPITest extends ApiTestCase
         $this->assertCount(1, $data);
     }
 
-    public function testPostIsNotAllowed()
+    public function testPostIsNotAllowed(): void
     {
         $this->client->request('POST', '/api/partnerships', [], [], [
             'CONTENT_TYPE' => 'application/json',
@@ -58,7 +58,7 @@ class PartnershipAPITest extends ApiTestCase
         );
     }
 
-    public function testGetItemIsAvailable()
+    public function testGetItemIsAvailable(): void
     {
         $partnership = $this->getPartnership();
         $this->client->request('GET', sprintf('/api/partnerships/%s', $partnership), [], [], [
@@ -92,7 +92,7 @@ class PartnershipAPITest extends ApiTestCase
         );
     }
 
-    public function testPutIsNotAllowed()
+    public function testPutIsNotAllowed(): void
     {
         $partnership = $this->getPartnership();
         $this->client->request('PUT', sprintf('/api/partnerships/%s', $partnership), [], [], [
@@ -104,7 +104,7 @@ class PartnershipAPITest extends ApiTestCase
         );
     }
 
-    public function testDeleteIsNotAllowed()
+    public function testDeleteIsNotAllowed(): void
     {
         $partnership = $this->getPartnership();
         $this->client->request('DELETE', sprintf('/api/partnerships/%s', $partnership), [], [], [
@@ -116,7 +116,7 @@ class PartnershipAPITest extends ApiTestCase
         );
     }
 
-    private function getPartnership()
+    private function getPartnership(): int
     {
         return $this->fixtures->getReference('partnership')->getId();
     }
