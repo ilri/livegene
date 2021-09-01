@@ -13,7 +13,7 @@ class SDGRoleAPITest extends ApiTestCase
     private $fixtures = null;
     private $client;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->fixtures = $this->loadFixtures([
             'App\DataFixtures\Test\UserFixtures',
@@ -28,7 +28,7 @@ class SDGRoleAPITest extends ApiTestCase
         $this->client = $this->createAuthenticatedClient($credentials);
     }
 
-    public function testGetCollectionIsAvailable()
+    public function testGetCollectionIsAvailable(): void
     {
         $this->client->request('GET', '/api/sdg_roles', [], [], [
             'HTTP_ACCEPT' => 'application/json',
@@ -47,7 +47,7 @@ class SDGRoleAPITest extends ApiTestCase
         $this->assertCount(1, $data);
     }
 
-    public function testPostIsNotAllowed()
+    public function testPostIsNotAllowed(): void
     {
         $this->client->request('POST', '/api/sdg_roles', [], [], [
             'CONTENT_TYPE' => 'application/json',
@@ -58,7 +58,7 @@ class SDGRoleAPITest extends ApiTestCase
         );
     }
 
-    public function testGetItemIsAvailable()
+    public function testGetItemIsAvailable(): void
     {
         $sdgRole = $this->getSDGRole();
         $this->client->request('GET', sprintf('/api/sdg_roles/%s', $sdgRole), [], [], [
@@ -89,7 +89,7 @@ class SDGRoleAPITest extends ApiTestCase
         );
     }
 
-    public function testPutIsNotAllowed()
+    public function testPutIsNotAllowed(): void
     {
         $sdgRole = $this->getSDGRole();
         $this->client->request('PUT', sprintf('/api/sdg_roles/%s', $sdgRole), [], [], [
@@ -101,7 +101,7 @@ class SDGRoleAPITest extends ApiTestCase
         );
     }
 
-    public function testDeleteIsNotAllowed()
+    public function testDeleteIsNotAllowed(): void
     {
         $sdgRole = $this->getSDGRole();
         $this->client->request('DELETE', sprintf('/api/sdg_roles/%s', $sdgRole), [], [], [
@@ -113,7 +113,7 @@ class SDGRoleAPITest extends ApiTestCase
         );
     }
 
-    private function getSDGRole()
+    private function getSDGRole(): int
     {
         return $this->fixtures->getReference('sdg-role')->getId();
     }
