@@ -13,7 +13,7 @@ class OrganisationAPITest extends ApiTestCase
     private $fixtures = null;
     private $client;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->fixtures = $this->loadFixtures([
             'App\DataFixtures\Test\UserFixtures',
@@ -28,7 +28,7 @@ class OrganisationAPITest extends ApiTestCase
         $this->client = $this->createAuthenticatedClient($credentials);
     }
 
-    public function testGetCollectionIsAvailable()
+    public function testGetCollectionIsAvailable(): void
     {
         $this->client->request('GET', '/api/organisations', [], [], [
             'HTTP_ACCEPT' => 'application/json',
@@ -47,7 +47,7 @@ class OrganisationAPITest extends ApiTestCase
         $this->assertCount(1, $data);
     }
 
-    public function testPostIsNotAllowed()
+    public function testPostIsNotAllowed(): void
     {
         $this->client->request('POST', '/api/organisations', [], [], [
             'CONTENT_TYPE' => 'application/json',
@@ -58,7 +58,7 @@ class OrganisationAPITest extends ApiTestCase
         );
     }
 
-    public function testGetItemIsAvailable()
+    public function testGetItemIsAvailable(): void
     {
         $organisation = $this->getOrganisation();
         $this->client->request('GET', sprintf('/api/organisations/%s', $organisation), [], [], [
@@ -95,7 +95,7 @@ class OrganisationAPITest extends ApiTestCase
         );
     }
 
-    public function testPutIsNotAllowed()
+    public function testPutIsNotAllowed(): void
     {
         $organisation = $this->getOrganisation();
         $this->client->request('PUT', sprintf('/api/organisations/%s', $organisation), [], [], [
@@ -107,7 +107,7 @@ class OrganisationAPITest extends ApiTestCase
         );
     }
 
-    public function testDeleteIsNotAllowed()
+    public function testDeleteIsNotAllowed(): void
     {
         $organisation = $this->getOrganisation();
         $this->client->request('DELETE', sprintf('/api/organisations/%s', $organisation), [], [], [
@@ -119,7 +119,7 @@ class OrganisationAPITest extends ApiTestCase
         );
     }
 
-    private function getOrganisation()
+    private function getOrganisation(): int
     {
         return $this->fixtures->getReference('organisation')->getId();
     }
