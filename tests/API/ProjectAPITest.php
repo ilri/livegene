@@ -14,7 +14,7 @@ class ProjectAPITest extends ApiTestCase
     private $fixtures = null;
     private $client;
 
-    public function setUp()
+    public function setUp(): void
     {
         date_default_timezone_set('UTC');
         $now = Carbon::create(2019, 8, 8, 9);
@@ -33,7 +33,7 @@ class ProjectAPITest extends ApiTestCase
         $this->client = $this->createAuthenticatedClient($credentials);
     }
 
-    public function testGetCollectionIsAvailable()
+    public function testGetCollectionIsAvailable(): void
     {
         $this->client->request('GET', '/api/projects', [], [], [
             'HTTP_ACCEPT' => 'application/json',
@@ -52,7 +52,7 @@ class ProjectAPITest extends ApiTestCase
         $this->assertCount(1, $data);
     }
 
-    public function testPostIsNotAllowed()
+    public function testPostIsNotAllowed(): void
     {
         $this->client->request('POST', '/api/projects', [], [], [
             'CONTENT_TYPE' => 'application/json',
@@ -63,7 +63,7 @@ class ProjectAPITest extends ApiTestCase
         );
     }
 
-    public function testGetItemIsAvailable()
+    public function testGetItemIsAvailable(): void
     {
         $project = $this->getProject();
         $this->client->request('GET', sprintf('/api/projects/%s', $project), [], [], [
@@ -150,7 +150,7 @@ class ProjectAPITest extends ApiTestCase
         );
     }
 
-    public function testPutIsNotAllowed()
+    public function testPutIsNotAllowed(): void
     {
         $project = $this->getProject();
         $this->client->request('PUT', sprintf('/api/projects/%s', $project), [], [], [
@@ -162,7 +162,7 @@ class ProjectAPITest extends ApiTestCase
         );
     }
 
-    public function testDeleteIsNotAllowed()
+    public function testDeleteIsNotAllowed(): void
     {
         $project = $this->getProject();
         $this->client->request('DELETE', sprintf('/api/projects/%s', $project), [], [], [
@@ -174,7 +174,7 @@ class ProjectAPITest extends ApiTestCase
         );
     }
 
-    private function getProject()
+    private function getProject(): int
     {
         return $this->fixtures->getReference('project')->getId();
     }

@@ -13,7 +13,7 @@ class AnimalSpeciesRoleAPITest extends ApiTestCase
     private $fixtures = null;
     private $client;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->fixtures = $this->loadFixtures([
             'App\DataFixtures\Test\UserFixtures',
@@ -28,7 +28,7 @@ class AnimalSpeciesRoleAPITest extends ApiTestCase
         $this->client = $this->createAuthenticatedClient($credentials);
     }
 
-    public function testGetCollectionIsAvailable()
+    public function testGetCollectionIsAvailable(): void
     {
         $this->client->request('GET', '/api/animal_species_roles', [], [], [
             'HTTP_ACCEPT' => 'application/json',
@@ -47,7 +47,7 @@ class AnimalSpeciesRoleAPITest extends ApiTestCase
         $this->assertCount(1, $data);
     }
 
-    public function testPostIsNotAllowed()
+    public function testPostIsNotAllowed(): void
     {
         $this->client->request('POST', '/api/animal_species_roles', [], [], [
             'CONTENT_TYPE' => 'application/json',
@@ -58,7 +58,7 @@ class AnimalSpeciesRoleAPITest extends ApiTestCase
         );
     }
 
-    public function testGetItemIsAvailable()
+    public function testGetItemIsAvailable(): void
     {
         $animalSpeciesRole = $this->getAnimalSpeciesRole();
         $this->client->request('GET', sprintf('/api/animal_species_roles/%s', $animalSpeciesRole), [], [], [
@@ -89,7 +89,7 @@ class AnimalSpeciesRoleAPITest extends ApiTestCase
         );
     }
 
-    public function testPutIsNotAllowed()
+    public function testPutIsNotAllowed(): void
     {
         $animalSpeciesRole = $this->getAnimalSpeciesRole();
         $this->client->request('PUT', sprintf('/api/animal_species_roles/%s', $animalSpeciesRole), [], [], [
@@ -101,7 +101,7 @@ class AnimalSpeciesRoleAPITest extends ApiTestCase
         );
     }
 
-    public function testDeleteIsNotAllowed()
+    public function testDeleteIsNotAllowed(): void
     {
         $animalSpeciesRole = $this->getAnimalSpeciesRole();
         $this->client->request('DELETE', sprintf('/api/animal_species_roles/%s', $animalSpeciesRole), [], [], [
@@ -113,7 +113,7 @@ class AnimalSpeciesRoleAPITest extends ApiTestCase
         );
     }
 
-    private function getAnimalSpeciesRole()
+    private function getAnimalSpeciesRole(): int
     {
         return $this->fixtures->getReference('animal-species-role')->getId();
     }

@@ -14,7 +14,7 @@ class SamplingDocumentationAPITest extends ApiTestCase
     private $fixtures = null;
     private $client;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->entityManager = $this->getContainer()->get('doctrine')->getManager();
         $this->fixtures = $this->loadFixtures([
@@ -39,7 +39,7 @@ class SamplingDocumentationAPITest extends ApiTestCase
         parent::tearDown();
     }
 
-    public function testGetCollectionIsAvailable()
+    public function testGetCollectionIsAvailable(): void
     {
         $this->client->request('GET', '/api/sampling_documentations', [], [], [
             'HTTP_ACCEPT' => 'application/json',
@@ -58,7 +58,7 @@ class SamplingDocumentationAPITest extends ApiTestCase
         $this->assertCount(1, $data);
     }
 
-    public function testPostIsNotAllowed()
+    public function testPostIsNotAllowed(): void
     {
         $this->client->request('POST', '/api/sampling_documentations', [], [], [
             'CONTENT_TYPE' => 'application/json',
@@ -69,7 +69,7 @@ class SamplingDocumentationAPITest extends ApiTestCase
         );
     }
 
-    public function testGetItemIsAvailable()
+    public function testGetItemIsAvailable(): void
     {
         $documentation = $this->getSamplingDocumentation();
         $this->client->request('GET', sprintf('/api/sampling_documentations/%s', $documentation), [], [], [
@@ -108,7 +108,7 @@ class SamplingDocumentationAPITest extends ApiTestCase
         );
     }
 
-    public function testPutIsNotAllowed()
+    public function testPutIsNotAllowed(): void
     {
         $documentation = $this->getSamplingDocumentation();
         $this->client->request('PUT', sprintf('/api/sampling_documentations/%s', $documentation), [], [], [
@@ -120,7 +120,7 @@ class SamplingDocumentationAPITest extends ApiTestCase
         );
     }
 
-    public function testDeleteIsNotAllowed()
+    public function testDeleteIsNotAllowed(): void
     {
         $documentation = $this->getSamplingDocumentation();
         $this->client->request('DELETE', sprintf('/api/sampling_documentations/%s', $documentation), [], [], [
@@ -132,7 +132,7 @@ class SamplingDocumentationAPITest extends ApiTestCase
         );
     }
 
-    private function getSamplingDocumentation()
+    private function getSamplingDocumentation(): int
     {
         return $this->fixtures->getReference('documentation')->getId();
     }

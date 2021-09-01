@@ -15,7 +15,7 @@ class StaffMemberAdminTest extends WebTestCase
     private $client;
     private $fixtures = null;
 
-    public function setUp()
+    public function setUp(): void
     {
         date_default_timezone_set('UTC');
         $now = Carbon::create(2019, 8, 8, 9);
@@ -27,7 +27,7 @@ class StaffMemberAdminTest extends WebTestCase
      * Helper method.
      * Log in the user through the admin login form.
      */
-    private function formLogIn($username)
+    private function formLogIn($username): void
     {
         $crawler = $this->client->request('GET', '/admin/login');
         $form = $crawler->filter('button.btn-primary')->form();
@@ -41,7 +41,7 @@ class StaffMemberAdminTest extends WebTestCase
      * Test that the form for creating StaffMember can be accessed.
      * It should not display the box for managing staff roles.
      */
-    public function testNewStaffMemberFormDoesNotDisplayRoles()
+    public function testNewStaffMemberFormDoesNotDisplayRoles(): void
     {
         $fixtures = $this->loadFixtures([
             'App\DataFixtures\Test\UserFixtures',
@@ -64,7 +64,7 @@ class StaffMemberAdminTest extends WebTestCase
      * It should display the box for managing staff roles.
      * There are no staff roles yet, so no table is displayed.
      */
-    public function testExistingStaffMemberWithoutRolesDisplaysEmptyBox()
+    public function testExistingStaffMemberWithoutRolesDisplaysEmptyBox(): void
     {
         $fixtures = $this->loadFixtures([
             'App\DataFixtures\Test\UserFixtures',
@@ -87,7 +87,7 @@ class StaffMemberAdminTest extends WebTestCase
      * It should display the box for managing staff roles.
      * It should display a table with the existing staff roles.
      */
-    public function testExistingStaffMemberWithRolesDisplaysTable()
+    public function testExistingStaffMemberWithRolesDisplaysTable(): void
     {
         $fixtures = $this->loadFixtures([
             'App\DataFixtures\Test\UserFixtures',
@@ -140,11 +140,11 @@ class StaffMemberAdminTest extends WebTestCase
         );
     }
 
-    private function existingStaffMemberCanManageRoles($fixtures)
+    private function existingStaffMemberCanManageRoles($fixtures): object
     {
         $username = $fixtures->getReference('super_admin')->getUsername();
         $this->formLogin($username);
-        
+
         $staffMemberId = $fixtures->getReference('coyote')->getId();
         $crawler = $this->client->request('GET', sprintf('/admin/app/staffmember/%s/edit', $staffMemberId));
         $this->assertTrue(

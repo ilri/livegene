@@ -13,7 +13,7 @@ class StaffMemberAPITest extends ApiTestCase
     private $fixtures = null;
     private $client;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->fixtures = $this->loadFixtures([
             'App\DataFixtures\Test\UserFixtures',
@@ -28,7 +28,7 @@ class StaffMemberAPITest extends ApiTestCase
         $this->client = $this->createAuthenticatedClient($credentials);
     }
 
-    public function testGetCollectionIsAvailable()
+    public function testGetCollectionIsAvailable(): void
     {
         $this->client->request('GET', '/api/staff', [], [], [
             'HTTP_ACCEPT' => 'application/json',
@@ -47,7 +47,7 @@ class StaffMemberAPITest extends ApiTestCase
         $this->assertCount(1, $data);
     }
 
-    public function testPostIsNotAllowed()
+    public function testPostIsNotAllowed(): void
     {
         $this->client->request('POST', '/api/staff', [], [], [
             'CONTENT_TYPE' => 'application/json',
@@ -58,7 +58,7 @@ class StaffMemberAPITest extends ApiTestCase
         );
     }
 
-    public function testGetItemIsAvailable()
+    public function testGetItemIsAvailable(): void
     {
         $coyote = $this->getStaffMember();
         $this->client->request('GET', sprintf('/api/staff/%s', $coyote), [], [], [
@@ -91,7 +91,7 @@ class StaffMemberAPITest extends ApiTestCase
         );
     }
 
-    public function testPutIsNotAllowed()
+    public function testPutIsNotAllowed(): void
     {
         $coyote = $this->getStaffMember();
         $this->client->request('PUT', sprintf('/api/staff/%s', $coyote), [], [], [
@@ -103,7 +103,7 @@ class StaffMemberAPITest extends ApiTestCase
         );
     }
 
-    public function testDeleteIsNotAllowed()
+    public function testDeleteIsNotAllowed(): void
     {
         $coyote = $this->getStaffMember();
         $this->client->request('DELETE', sprintf('/api/staff/%s', $coyote), [], [], [
@@ -115,7 +115,7 @@ class StaffMemberAPITest extends ApiTestCase
         );
     }
 
-    private function getStaffMember()
+    private function getStaffMember(): string
     {
         return $this->fixtures->getReference('coyote')->getUsername();
     }

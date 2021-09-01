@@ -14,7 +14,7 @@ class StaffRoleAPITest extends ApiTestCase
     private $fixtures = null;
     private $client;
 
-    public function setUp()
+    public function setUp(): void
     {
         date_default_timezone_set('UTC');
         $now = Carbon::create(2019, 8, 8, 9);
@@ -32,7 +32,7 @@ class StaffRoleAPITest extends ApiTestCase
         $this->client = $this->createAuthenticatedClient($credentials);
     }
 
-    public function testGetCollectionIsAvailable()
+    public function testGetCollectionIsAvailable(): void
     {
         $this->client->request('GET', '/api/staff_roles', [], [], [
             'HTTP_ACCEPT' => 'application/json',
@@ -51,7 +51,7 @@ class StaffRoleAPITest extends ApiTestCase
         $this->assertCount(1, $data);
     }
 
-    public function testPostIsNotAllowed()
+    public function testPostIsNotAllowed(): void
     {
         $this->client->request('POST', '/api/staff_roles', [], [], [
             'CONTENT_TYPE' => 'application/json',
@@ -62,7 +62,7 @@ class StaffRoleAPITest extends ApiTestCase
         );
     }
 
-    public function testGetItemIsAvailable()
+    public function testGetItemIsAvailable(): void
     {
         $staffRole = $this->getStaffRole();
         $this->client->request('GET', sprintf('/api/staff_roles/%s', $staffRole), [], [], [
@@ -110,7 +110,7 @@ class StaffRoleAPITest extends ApiTestCase
         );
     }
 
-    public function testPutIsNotAllowed()
+    public function testPutIsNotAllowed(): void
     {
         $staffRole = $this->getStaffRole();
         $this->client->request('PUT', sprintf('/api/staff_roles/%s', $staffRole), [], [], [
@@ -122,7 +122,7 @@ class StaffRoleAPITest extends ApiTestCase
         );
     }
 
-    public function testDeleteIsNotAllowed()
+    public function testDeleteIsNotAllowed(): void
     {
         $staffRole = $this->getStaffRole();
         $this->client->request('DELETE', sprintf('/api/staff_roles/%s', $staffRole), [], [], [
@@ -134,7 +134,7 @@ class StaffRoleAPITest extends ApiTestCase
         );
     }
 
-    private function getStaffRole()
+    private function getStaffRole(): int
     {
         return $this->fixtures->getReference('staff-role')->getId();
     }

@@ -13,7 +13,7 @@ class ContactAPITest extends ApiTestCase
     private $fixtures = null;
     private $client;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->fixtures = $this->loadFixtures([
             'App\DataFixtures\Test\UserFixtures',
@@ -28,7 +28,7 @@ class ContactAPITest extends ApiTestCase
         $this->client = $this->createAuthenticatedClient($credentials);
     }
 
-    public function testGetCollectionIsAvailable()
+    public function testGetCollectionIsAvailable(): void
     {
         $this->client->request('GET', '/api/contacts', [], [], [
             'HTTP_ACCEPT' => 'application/json',
@@ -47,7 +47,7 @@ class ContactAPITest extends ApiTestCase
         $this->assertCount(1, $data);
     }
 
-    public function testPostIsNotAllowed()
+    public function testPostIsNotAllowed(): void
     {
         $this->client->request('POST', '/api/contacts', [], [], [
             'CONTENT_TYPE' => 'application/json',
@@ -58,7 +58,7 @@ class ContactAPITest extends ApiTestCase
         );
     }
 
-    public function testGetItemIsAvailable()
+    public function testGetItemIsAvailable(): void
     {
         $contact = $this->getContact();
         $this->client->request('GET', sprintf('/api/contacts/%s', $contact), [], [], [
@@ -88,7 +88,7 @@ class ContactAPITest extends ApiTestCase
         );
     }
 
-    public function testPutIsNotAllowed()
+    public function testPutIsNotAllowed(): void
     {
         $contact = $this->getContact();
         $this->client->request('PUT', sprintf('/api/contacts/%s', $contact), [], [], [
@@ -112,7 +112,7 @@ class ContactAPITest extends ApiTestCase
         );
     }
 
-    private function getContact()
+    private function getContact(): int
     {
         return $this->fixtures->getReference('contact')->getId();
     }

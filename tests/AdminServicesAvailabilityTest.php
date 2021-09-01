@@ -13,7 +13,7 @@ class AdminServicesAvailabilityTest extends WebTestCase
     private $client;
     private $fixtures = null;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->client = $this->createClient();
         $this->fixtures = $this->loadFixtures([
@@ -25,7 +25,7 @@ class AdminServicesAvailabilityTest extends WebTestCase
      * Helper method.
      * Log in the user through the admin login form.
      */
-    private function formLogIn($username)
+    private function formLogIn($username): void
     {
         $crawler = $this->client->request('GET', '/admin/login');
         $form = $crawler->filter('button.btn-primary')->form();
@@ -41,7 +41,7 @@ class AdminServicesAvailabilityTest extends WebTestCase
      *
      * @dataProvider adminRoutes
      */
-    public function testAdminAvailability($route)
+    public function testAdminAvailability($route): void
     {
         $username = $this->fixtures->getReference('super_admin')->getUsername();
         $this->formLogin($username);
@@ -52,7 +52,7 @@ class AdminServicesAvailabilityTest extends WebTestCase
         );
     }
 
-    public function adminRoutes()
+    public function adminRoutes(): \Generator
     {
         $adminServices = [
             'animalspecies',

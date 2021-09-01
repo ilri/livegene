@@ -19,7 +19,7 @@ class StaffMemberTest extends TestCase
     private static $staffRole3;
     private static $totalPercent;
 
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass(): void
     {
         date_default_timezone_set('UTC');
         $now = Carbon::create(2021, 2, 1, 12);
@@ -55,7 +55,7 @@ class StaffMemberTest extends TestCase
         self::$staffMember->addStaffRole(self::$staffRole3);
     }
 
-    public function setUp()
+    public function setUp(): void
     {
         $staffMemberRepository = $this->createMock(ObjectRepository::class);
         $staffMemberRepository->expects($this->any())
@@ -68,19 +68,19 @@ class StaffMemberTest extends TestCase
             ->willReturn($staffMemberRepository);
     }
 
-    public function testUsernameIsSavedInLowerCase()
+    public function testUsernameIsSavedInLowerCase(): void
     {
         $this->assertEquals(strtolower(self::$username), self::$staffMember->getUsername());
         $this->assertNotEquals(self::$username, self::$staffMember->getUsername());
     }
 
-    public function testEmailIsSavedInLowerCase()
+    public function testEmailIsSavedInLowerCase(): void
     {
         $this->assertEquals(strtolower(self::$email), self::$staffMember->getEmail());
         $this->assertNotEquals(self::$email, self::$staffMember->getEmail());
     }
 
-    public function testGetActiveStaffRoles()
+    public function testGetActiveStaffRoles(): void
     {
         $this->assertEquals(
             2,
@@ -100,7 +100,7 @@ class StaffMemberTest extends TestCase
         );
     }
 
-    public function testTotalRolesPercent()
+    public function testTotalRolesPercent(): void
     {
         $this->assertEquals(
             self::$totalPercent,

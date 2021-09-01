@@ -7,7 +7,7 @@ use Liip\FunctionalTestBundle\Test\WebTestCase;
 class ApiTestCase extends WebTestCase
 {
 
-    public function createAuthenticatedClient($credentials)
+    public function createAuthenticatedClient($credentials): object
     {
         $client = $this->createClient();
 

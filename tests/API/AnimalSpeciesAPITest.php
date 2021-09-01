@@ -13,7 +13,7 @@ class AnimalSpeciesAPITest extends ApiTestCase
     private $fixtures = null;
     private $client;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->fixtures = $this->loadFixtures([
             'App\DataFixtures\Test\UserFixtures',
@@ -28,7 +28,7 @@ class AnimalSpeciesAPITest extends ApiTestCase
         $this->client = $this->createAuthenticatedClient($credentials);
     }
 
-    public function testGetCollectionIsAvailable()
+    public function testGetCollectionIsAvailable(): void
     {
         $this->client->request('GET', '/api/animal_species', [], [], [
             'HTTP_ACCEPT' => 'application/json',
@@ -47,7 +47,7 @@ class AnimalSpeciesAPITest extends ApiTestCase
         $this->assertCount(1, $data);
     }
 
-    public function testPostIsNotAllowed()
+    public function testPostIsNotAllowed(): void
     {
         $this->client->request('POST', '/api/animal_species', [], [], [
             'CONTENT_TYPE' => 'application/json',
@@ -58,7 +58,7 @@ class AnimalSpeciesAPITest extends ApiTestCase
         );
     }
 
-    public function testGetItemIsAvailable()
+    public function testGetItemIsAvailable(): void
     {
         $animal = $this->getAnimal();
         $this->client->request('GET', sprintf('/api/animal_species/%s', $animal), [], [], [
@@ -87,7 +87,7 @@ class AnimalSpeciesAPITest extends ApiTestCase
         );
     }
 
-    public function testPutIsNotAllowed()
+    public function testPutIsNotAllowed(): void
     {
         $animal = $this->getAnimal();
         $this->client->request('PUT', sprintf('/api/animal_species/%s', $animal), [], [], [
@@ -99,7 +99,7 @@ class AnimalSpeciesAPITest extends ApiTestCase
         );
     }
 
-    public function testDeleteIsNotAllowed()
+    public function testDeleteIsNotAllowed(): void
     {
         $animal = $this->getAnimal();
         $this->client->request('DELETE', sprintf('/api/animal_species/%s', $animal), [], [], [
@@ -111,7 +111,7 @@ class AnimalSpeciesAPITest extends ApiTestCase
         );
     }
 
-    private function getAnimal()
+    private function getAnimal(): int
     {
         return $this->fixtures->getReference('animal')->getId();
     }

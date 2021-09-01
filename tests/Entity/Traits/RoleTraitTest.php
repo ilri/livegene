@@ -7,7 +7,7 @@ use App\Entity\Traits\RoleTrait;
 
 class RoleTraitTest extends TestCase
 {
-    public function testGetPercent()
+    public function testGetPercent(): void
     {
         $mock = $this->getMockForTrait(RoleTrait::class);
 

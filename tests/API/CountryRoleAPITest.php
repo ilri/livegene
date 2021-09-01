@@ -13,7 +13,7 @@ class CountryRoleAPITest extends ApiTestCase
     private $fixtures = null;
     private $client;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->fixtures = $this->loadFixtures([
             'App\DataFixtures\Test\UserFixtures',
@@ -28,7 +28,7 @@ class CountryRoleAPITest extends ApiTestCase
         $this->client = $this->createAuthenticatedClient($credentials);
     }
 
-    public function testGetCollectionIsAvailable()
+    public function testGetCollectionIsAvailable(): void
     {
         $this->client->request('GET', '/api/country_roles', [], [], [
             'HTTP_ACCEPT' => 'application/json',
@@ -47,7 +47,7 @@ class CountryRoleAPITest extends ApiTestCase
         $this->assertCount(1, $data);
     }
 
-    public function testPostIsNotAllowed()
+    public function testPostIsNotAllowed(): void
     {
         $this->client->request('POST', '/api/country_roles', [], [], [
             'CONTENT_TYPE' => 'application/json',
@@ -58,7 +58,7 @@ class CountryRoleAPITest extends ApiTestCase
         );
     }
 
-    public function testGetItemIsAvailable()
+    public function testGetItemIsAvailable(): void
     {
         $countryRole = $this->getCountryRole();
         $this->client->request('GET', sprintf('/api/country_roles/%s', $countryRole), [], [], [
@@ -89,7 +89,7 @@ class CountryRoleAPITest extends ApiTestCase
         );
     }
 
-    public function testPutIsNotAllowed()
+    public function testPutIsNotAllowed(): void
     {
         $countryRole = $this->getCountryRole();
         $this->client->request('PUT', sprintf('/api/country_roles/%s', $countryRole), [], [], [
@@ -101,7 +101,7 @@ class CountryRoleAPITest extends ApiTestCase
         );
     }
 
-    public function testDeleteIsNotAllowed()
+    public function testDeleteIsNotAllowed(): void
     {
         $countryRole = $this->getCountryRole();
         $this->client->request('DELETE', sprintf('/api/country_roles/%s', $countryRole), [], [], [
@@ -113,7 +113,7 @@ class CountryRoleAPITest extends ApiTestCase
         );
     }
 
-    private function getCountryRole()
+    private function getCountryRole(): int
     {
         return $this->fixtures->getReference('country-role')->getId();
     }

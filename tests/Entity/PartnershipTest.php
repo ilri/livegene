@@ -15,7 +15,7 @@ class PartnershipTest extends TestCase
     private static $partnership;
     private static $project;
 
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass(): void
     {
         $today = new \DateTime('today');
         self::$startDate = $today->sub(new \DateInterval('P10D'));
@@ -24,7 +24,7 @@ class PartnershipTest extends TestCase
         self::$project = new Project();
     }
 
-    public function setUp()
+    public function setUp(): void
     {
         $partnershipRepository = $this->createMock(ObjectRepository::class);
         $partnershipRepository->expects($this->any())
@@ -37,13 +37,13 @@ class PartnershipTest extends TestCase
             ->willReturn($partnershipRepository);
     }
 
-    public function testPartnershipDatesAreNull()
+    public function testPartnershipDatesAreNull(): void
     {
         $this->assertNull(self::$partnership->getStartDate());
         $this->assertNull(self::$partnership->getEndDate());
     }
 
-    public function testProjectDatesAreDisplayed()
+    public function testProjectDatesAreDisplayed(): void
     {
         self::$project->setStartDate(self::$startDate);
         self::$project->setEndDate(self::$endDate);
@@ -52,7 +52,7 @@ class PartnershipTest extends TestCase
         $this->assertSame(self::$endDate, self::$partnership->getEndDate());
     }
 
-    public function testPartnershipDatesAreDisplayed()
+    public function testPartnershipDatesAreDisplayed(): void
     {
         $yesterday = new \DateTime('yesterday');
         $tomorrow = new \DateTime('tomorrow');
