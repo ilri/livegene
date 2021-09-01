@@ -23,7 +23,7 @@ class UserMailerTest extends WebTestCase
      * By setting the above mentioned value to null we ensure the test
      * can run multiple consecutive times with the same expected result.
      */
-    public function setUp()
+    public function setUp(): void
     {
         $fixtures = $this->loadFixtures([
             UserFixtures::class
