@@ -66,8 +66,8 @@ class UserMailerTest extends WebTestCase
         $this->assertSame('Reset your password', $message->getSubject());
         $this->assertSame($mailerUser, key($message->getFrom()));
         $this->assertSame($this->user->getEmail(), key($message->getTo()));
-        $this->assertContains('ILRI LiveGene', $crawler->filter('h1')->text());
-        $this->assertContains('Reset your password', $crawler->filter('h2')->text());
-        $this->assertContains('Your ILRI LiveGene Admin', $crawler->filter('h4')->text());
+        $this->assertStringContainsString('ILRI LiveGene', $crawler->filter('h1')->text());
+        $this->assertStringContainsString('Reset your password', $crawler->filter('h2')->text());
+        $this->assertStringContainsString('Your ILRI LiveGene Admin', $crawler->filter('h4')->text());
     }
 }
