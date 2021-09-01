@@ -5325,16 +5325,16 @@
         },
         {
             "name": "sonata-project/user-bundle",
-            "version": "4.5.0",
+            "version": "4.5.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sonata-project/SonataUserBundle.git",
-                "reference": "5159ebfee7c6bf09a4ca33b269d088b46090a772"
+                "reference": "6f67594a79c121a41277b7a32393abd179dbcb89"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sonata-project/SonataUserBundle/zipball/5159ebfee7c6bf09a4ca33b269d088b46090a772",
-                "reference": "5159ebfee7c6bf09a4ca33b269d088b46090a772",
+                "url": "https://api.github.com/repos/sonata-project/SonataUserBundle/zipball/6f67594a79c121a41277b7a32393abd179dbcb89",
+                "reference": "6f67594a79c121a41277b7a32393abd179dbcb89",
                 "shasum": ""
             },
             "require": {
@@ -5421,7 +5421,11 @@
                 "sonata",
                 "user"
             ],
-            "time": "2019-09-27T06:39:59+00:00"
+            "support": {
+                "issues": "https://github.com/sonata-project/SonataUserBundle/issues",
+                "source": "https://github.com/sonata-project/SonataUserBundle/tree/4.5.1"
+            },
+            "time": "2019-10-21T06:59:16+00:00"
         },
         {
             "name": "swiftmailer/swiftmailer",
