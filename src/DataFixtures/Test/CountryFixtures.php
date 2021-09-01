@@ -4,7 +4,7 @@ namespace App\DataFixtures\Test;
 
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 use App\Entity\Country;
 
 class CountryFixtures extends Fixture implements FixtureGroupInterface

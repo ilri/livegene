@@ -4,13 +4,12 @@ namespace App\DataFixtures\Test;
 
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use App\Application\Sonata\MediaBundle\Entity\Gallery;
 
 class GalleryFixtures extends Fixture implements FixtureGroupInterface
 {
-    private $container;
+    private ContainerInterface $container;
 
     public function __construct(ContainerInterface $container)
     {
