@@ -37,3 +37,7 @@ selenium-server.log
 ###> VueJS Unit Testing (Cezar) ###
 assets/spa/tests/unit/coverage
 ###< VueJS Unit Testing (Cezar) ###
+###> phpunit/phpunit ###
+/phpunit.xml
+.phpunit.result.cache
+###< phpunit/phpunit ###
