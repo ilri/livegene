@@ -5196,16 +5196,16 @@
         },
         {
             "name": "sonata-project/media-bundle",
-            "version": "3.20.1",
+            "version": "3.21.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sonata-project/SonataMediaBundle.git",
-                "reference": "3f236ed8d51754f8e71afc8216ea25149996a6a0"
+                "reference": "0f54b613418e8c4a6c688d7e39ed904046421e4a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sonata-project/SonataMediaBundle/zipball/3f236ed8d51754f8e71afc8216ea25149996a6a0",
-                "reference": "3f236ed8d51754f8e71afc8216ea25149996a6a0",
+                "url": "https://api.github.com/repos/sonata-project/SonataMediaBundle/zipball/0f54b613418e8c4a6c688d7e39ed904046421e4a",
+                "reference": "0f54b613418e8c4a6c688d7e39ed904046421e4a",
                 "shasum": ""
             },
             "require": {
@@ -5238,7 +5238,7 @@
                 "symfony/twig-bridge": "^2.8 || ^3.2 || ^4.0",
                 "symfony/twig-bundle": "^2.8 || ^3.2 || ^4.0",
                 "symfony/validator": "^2.8 || ^3.2 || ^4.0",
-                "twig/twig": "^1.35 || ^2.0"
+                "twig/twig": "^2.10"
             },
             "conflict": {
                 "doctrine/dbal": "<2.6.0",
@@ -5296,13 +5296,13 @@
             ],
             "authors": [
                 {
-                    "name": "Sonata Community",
-                    "homepage": "https://github.com/sonata-project/SonataMediaBundle/contributors"
-                },
-                {
                     "name": "Thomas Rabaix",
                     "email": "thomas.rabaix@sonata-project.org",
                     "homepage": "https://sonata-project.org"
+                },
+                {
+                    "name": "Sonata Community",
+                    "homepage": "https://github.com/sonata-project/SonataMediaBundle/contributors"
                 }
             ],
             "description": "Symfony SonataMediaBundle",
@@ -5317,7 +5317,11 @@
                 "vimeo",
                 "youtube"
             ],
-            "time": "2019-06-13T20:10:24+00:00"
+            "support": {
+                "issues": "https://github.com/sonata-project/SonataMediaBundle/issues",
+                "source": "https://github.com/sonata-project/SonataMediaBundle/tree/3.21.0"
+            },
+            "time": "2019-10-21T06:19:57+00:00"
         },
         {
             "name": "sonata-project/user-bundle",
