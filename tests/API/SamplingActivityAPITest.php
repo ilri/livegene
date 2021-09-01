@@ -13,7 +13,7 @@ class SamplingActivityAPITest extends ApiTestCase
     private $fixtures = null;
     private $client;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->fixtures = $this->loadFixtures([
             'App\DataFixtures\Test\UserFixtures',
@@ -28,7 +28,7 @@ class SamplingActivityAPITest extends ApiTestCase
         $this->client = $this->createAuthenticatedClient($credentials);
     }
 
-    public function testGetCollectionIsAvailable()
+    public function testGetCollectionIsAvailable(): void
     {
         $this->client->request('GET', '/api/sampling_activities', [], [], [
             'HTTP_ACCEPT' => 'application/json',
@@ -47,7 +47,7 @@ class SamplingActivityAPITest extends ApiTestCase
         $this->assertCount(1, $data);
     }
 
-    public function testPostIsNotAllowed()
+    public function testPostIsNotAllowed(): void
     {
         $this->client->request('POST', '/api/sampling_activities', [], [], [
             'CONTENT_TYPE' => 'application/json',
@@ -58,7 +58,7 @@ class SamplingActivityAPITest extends ApiTestCase
         );
     }
 
-    public function testGetItemIsAvailable()
+    public function testGetItemIsAvailable(): void
     {
         $activity = $this->getSamplingActivity();
         $this->client->request('GET', sprintf('/api/sampling_activities/%s', $activity), [], [], [
@@ -106,7 +106,7 @@ class SamplingActivityAPITest extends ApiTestCase
         );
     }
 
-    public function testPutIsNotAllowed()
+    public function testPutIsNotAllowed(): void
     {
         $activity = $this->getSamplingActivity();
         $this->client->request('PUT', sprintf('/api/sampling_activities/%s', $activity), [], [], [
@@ -118,7 +118,7 @@ class SamplingActivityAPITest extends ApiTestCase
         );
     }
 
-    public function testDeleteIsNotAllowed()
+    public function testDeleteIsNotAllowed(): void
     {
         $activity = $this->getSamplingActivity();
         $this->client->request('DELETE', sprintf('/api/sampling_activities/%s', $activity), [], [], [
@@ -130,7 +130,7 @@ class SamplingActivityAPITest extends ApiTestCase
         );
     }
 
-    private function getSamplingActivity()
+    private function getSamplingActivity(): int
     {
         return $this->fixtures->getReference('activity')->getId();
     }
