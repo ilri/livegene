@@ -5196,16 +5196,16 @@
         },
         {
             "name": "sonata-project/media-bundle",
-            "version": "3.20.1",
+            "version": "3.21.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sonata-project/SonataMediaBundle.git",
-                "reference": "3f236ed8d51754f8e71afc8216ea25149996a6a0"
+                "reference": "0f54b613418e8c4a6c688d7e39ed904046421e4a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sonata-project/SonataMediaBundle/zipball/3f236ed8d51754f8e71afc8216ea25149996a6a0",
-                "reference": "3f236ed8d51754f8e71afc8216ea25149996a6a0",
+                "url": "https://api.github.com/repos/sonata-project/SonataMediaBundle/zipball/0f54b613418e8c4a6c688d7e39ed904046421e4a",
+                "reference": "0f54b613418e8c4a6c688d7e39ed904046421e4a",
                 "shasum": ""
             },
             "require": {
@@ -5238,7 +5238,7 @@
                 "symfony/twig-bridge": "^2.8 || ^3.2 || ^4.0",
                 "symfony/twig-bundle": "^2.8 || ^3.2 || ^4.0",
                 "symfony/validator": "^2.8 || ^3.2 || ^4.0",
-                "twig/twig": "^1.35 || ^2.0"
+                "twig/twig": "^2.10"
             },
             "conflict": {
                 "doctrine/dbal": "<2.6.0",
@@ -5296,13 +5296,13 @@
             ],
             "authors": [
                 {
-                    "name": "Sonata Community",
-                    "homepage": "https://github.com/sonata-project/SonataMediaBundle/contributors"
-                },
-                {
                     "name": "Thomas Rabaix",
                     "email": "thomas.rabaix@sonata-project.org",
                     "homepage": "https://sonata-project.org"
+                },
+                {
+                    "name": "Sonata Community",
+                    "homepage": "https://github.com/sonata-project/SonataMediaBundle/contributors"
                 }
             ],
             "description": "Symfony SonataMediaBundle",
@@ -5317,20 +5317,24 @@
                 "vimeo",
                 "youtube"
             ],
-            "time": "2019-06-13T20:10:24+00:00"
+            "support": {
+                "issues": "https://github.com/sonata-project/SonataMediaBundle/issues",
+                "source": "https://github.com/sonata-project/SonataMediaBundle/tree/3.21.0"
+            },
+            "time": "2019-10-21T06:19:57+00:00"
         },
         {
             "name": "sonata-project/user-bundle",
-            "version": "4.5.0",
+            "version": "4.5.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sonata-project/SonataUserBundle.git",
-                "reference": "5159ebfee7c6bf09a4ca33b269d088b46090a772"
+                "reference": "6f67594a79c121a41277b7a32393abd179dbcb89"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sonata-project/SonataUserBundle/zipball/5159ebfee7c6bf09a4ca33b269d088b46090a772",
-                "reference": "5159ebfee7c6bf09a4ca33b269d088b46090a772",
+                "url": "https://api.github.com/repos/sonata-project/SonataUserBundle/zipball/6f67594a79c121a41277b7a32393abd179dbcb89",
+                "reference": "6f67594a79c121a41277b7a32393abd179dbcb89",
                 "shasum": ""
             },
             "require": {
@@ -5417,7 +5421,11 @@
                 "sonata",
                 "user"
             ],
-            "time": "2019-09-27T06:39:59+00:00"
+            "support": {
+                "issues": "https://github.com/sonata-project/SonataUserBundle/issues",
+                "source": "https://github.com/sonata-project/SonataUserBundle/tree/4.5.1"
+            },
+            "time": "2019-10-21T06:59:16+00:00"
         },
         {
             "name": "swiftmailer/swiftmailer",
@@ -10520,21 +10528,22 @@
     "packages-dev": [
         {
             "name": "liip/functional-test-bundle",
-            "version": "3.2.0",
+            "version": "3.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/liip/LiipFunctionalTestBundle.git",
-                "reference": "a47557ffe3c6aa01db24f6b996eab4ac4ad529e0"
+                "reference": "d3f7238feea43fa2bffa76a6c5b189b550c074da"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/liip/LiipFunctionalTestBundle/zipball/a47557ffe3c6aa01db24f6b996eab4ac4ad529e0",
-                "reference": "a47557ffe3c6aa01db24f6b996eab4ac4ad529e0",
+                "url": "https://api.github.com/repos/liip/LiipFunctionalTestBundle/zipball/d3f7238feea43fa2bffa76a6c5b189b550c074da",
+                "reference": "d3f7238feea43fa2bffa76a6c5b189b550c074da",
                 "shasum": ""
             },
             "require": {
                 "doctrine/annotations": "^1.3",
                 "php": "^7.1",
+                "phpunit/phpunit": "^7.5.0 || ^8.0",
                 "symfony/browser-kit": "^3.4 || ^4.1",
                 "symfony/framework-bundle": "^3.4 || ^4.1"
             },
@@ -10544,8 +10553,7 @@
             "require-dev": {
                 "doctrine/doctrine-bundle": "^1.8",
                 "doctrine/orm": "^2.6",
-                "phpunit/phpunit": "^6.1 || ^7.0",
-                "symfony/monolog-bundle": "^3.1",
+                "symfony/monolog-bundle": "^3.2",
                 "symfony/phpunit-bridge": "^3.4 || ^4.1",
                 "symfony/symfony": "^3.4 || ^4.1",
                 "twig/twig": "^2.0"
@@ -10557,7 +10565,7 @@
             "type": "symfony-bundle",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.x-dev"
+                    "dev-master": "3.x-dev"
                 }
             },
             "autoload": {
@@ -10584,37 +10592,41 @@
                 "symfony",
                 "testing"
             ],
-            "time": "2019-09-06T21:44:21+00:00"
+            "support": {
+                "issues": "https://github.com/liip/LiipFunctionalTestBundle/issues",
+                "source": "https://github.com/liip/LiipFunctionalTestBundle/tree/3.3.0"
+            },
+            "time": "2019-11-03T19:05:31+00:00"
         },
         {
             "name": "liip/test-fixtures-bundle",
-            "version": "1.3.2",
+            "version": "1.9.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/liip/LiipTestFixturesBundle.git",
-                "reference": "c137ef44fdaa496c8e0631f5a86521a13541d8f0"
+                "reference": "c8d4984f134e21c2b6e30b85dbd62e60fdf824dd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/liip/LiipTestFixturesBundle/zipball/c137ef44fdaa496c8e0631f5a86521a13541d8f0",
-                "reference": "c137ef44fdaa496c8e0631f5a86521a13541d8f0",
+                "url": "https://api.github.com/repos/liip/LiipTestFixturesBundle/zipball/c8d4984f134e21c2b6e30b85dbd62e60fdf824dd",
+                "reference": "c8d4984f134e21c2b6e30b85dbd62e60fdf824dd",
                 "shasum": ""
             },
             "require": {
                 "doctrine/common": "^2.0",
                 "php": "^7.1",
-                "symfony/framework-bundle": "^3.4 || ^4.1"
+                "symfony/framework-bundle": "^3.4 || ^4.1 || ^5.0"
             },
             "require-dev": {
                 "doctrine/data-fixtures": "^1.3",
-                "doctrine/doctrine-bundle": "^1.8",
+                "doctrine/doctrine-bundle": "^1.8 | ^2.0",
                 "doctrine/doctrine-fixtures-bundle": "^3.0.2",
                 "doctrine/orm": "^2.6",
-                "jackalope/jackalope-doctrine-dbal": "^1.3",
+                "monolog/monolog": "~1.11 | ^2.0",
                 "phpunit/phpunit": "^7.5 || ^8.0",
+                "symfony/monolog-bridge": ">=3",
                 "symfony/monolog-bundle": "^3.2",
-                "symfony/phpunit-bridge": "^3.4 || ^4.1",
-                "symfony/symfony": "^3.4 || ^4.1",
+                "symfony/phpunit-bridge": "^3.4 || ^4.1 || ^5.0",
                 "theofidry/alice-data-fixtures": "^1.0.1"
             },
             "suggest": {
@@ -10655,7 +10667,11 @@
                 "symfony",
                 "testing"
             ],
-            "time": "2019-10-14T19:19:32+00:00"
+            "support": {
+                "issues": "https://github.com/liip/LiipTestFixturesBundle/issues",
+                "source": "https://github.com/liip/LiipTestFixturesBundle/tree/1.9.1"
+            },
+            "time": "2020-05-15T16:02:44+00:00"
         },
         {
             "name": "myclabs/deep-copy",
