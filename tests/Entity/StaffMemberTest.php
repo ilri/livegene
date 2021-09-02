@@ -2,12 +2,16 @@
 
 namespace App\Tests\Entity;
 
+use App\Entity\{
+    StaffMember,
+    StaffRole,
+};
 use Carbon\Carbon;
+use Doctrine\Persistence\{
+    ObjectManager,
+    ObjectRepository,
+};
 use PHPUnit\Framework\TestCase;
-use Doctrine\Common\Persistence\ObjectManager;
-use Doctrine\Common\Persistence\ObjectRepository;
-use App\Entity\StaffMember;
-use App\Entity\StaffRole;
 
 class StaffMemberTest extends TestCase
 {

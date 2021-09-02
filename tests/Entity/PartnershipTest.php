@@ -2,11 +2,15 @@
 
 namespace App\Tests\Entity;
 
+use App\Entity\{
+    Partnership,
+    Project,
+};
+use Doctrine\Persistence\{
+    ObjectManager,
+    ObjectRepository,
+};
 use PHPUnit\Framework\TestCase;
-use Doctrine\Common\Persistence\ObjectManager;
-use Doctrine\Common\Persistence\ObjectRepository;
-use App\Entity\Partnership;
-use App\Entity\Project;
 
 class PartnershipTest extends TestCase
 {

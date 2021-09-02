@@ -2,16 +2,16 @@
 
 namespace App\Tests\Entity;
 
-use PHPUnit\Framework\TestCase;
-use Carbon\ Carbon;
-use Doctrine\Common\Persistence\{
-    ObjectRepository,
-    ObjectManager
-};
 use App\Entity\{
+    CountryRole,
     Project,
-    CountryRole
 };
+use Carbon\Carbon;
+use Doctrine\Persistence\{
+    ObjectManager,
+    ObjectRepository,
+};
+use PHPUnit\Framework\TestCase;
 
 class ProjectTest extends TestCase
 {
