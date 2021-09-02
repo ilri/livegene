@@ -58,9 +58,9 @@ class ContactAdmin extends AbstractAdmin
         ;
     }
 
-    protected function configureShowFields(ShowMapper $showMapper)
+    protected function configureShowFields(ShowMapper $show)
     {
-        $showMapper
+        $show
             ->add('title')
             ->add('firstName')
 	        ->add('lastName')

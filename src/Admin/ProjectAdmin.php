@@ -203,9 +203,9 @@ class ProjectAdmin extends AbstractAdmin
         }
     }
 
-    protected function configureShowFields(ShowMapper $showMapper)
+    protected function configureShowFields(ShowMapper $show)
     {
-        $showMapper
+        $show
             ->with('Main', ['class' => 'col-md-6'])
                 ->add('ilriCode', null, [
                     'label' => 'ILRI code'

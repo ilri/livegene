@@ -84,9 +84,9 @@ class StaffMemberAdmin extends AbstractAdmin
         }
     }
 
-    protected function configureShowFields(ShowMapper $showMapper)
+    protected function configureShowFields(ShowMapper $show)
     {
-        $showMapper
+        $show
             ->add('username')
             ->add('firstName')
             ->add('lastName')

@@ -67,9 +67,9 @@ class SDGAdmin extends AbstractAdmin
         ;
     }
 
-    protected function configureShowFields(ShowMapper $showMapper)
+    protected function configureShowFields(ShowMapper $show)
     {
-        $showMapper
+        $show
             ->add('headline')
             ->add('fullName')
             ->add('color', null, [

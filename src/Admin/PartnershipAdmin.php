@@ -88,9 +88,9 @@ class PartnershipAdmin extends AbstractAdmin
         ;
     }
 
-    protected function configureShowFields(ShowMapper $showMapper)
+    protected function configureShowFields(ShowMapper $show)
     {
-        $showMapper
+        $show
             ->add('project')
             ->add('partner')
             ->add('startDate')

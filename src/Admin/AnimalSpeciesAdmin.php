@@ -42,9 +42,9 @@ class AnimalSpeciesAdmin extends AbstractAdmin
         ;
     }
 
-    protected function configureShowFields(ShowMapper $showMapper)
+    protected function configureShowFields(ShowMapper $show)
     {
-        $showMapper
+        $show
             ->add('commonName')
             ->add('scientificName')
         ;

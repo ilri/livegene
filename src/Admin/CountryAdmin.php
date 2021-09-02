@@ -55,9 +55,9 @@ class CountryAdmin extends AbstractAdmin
         ;
     }
 
-    protected function configureShowFields(ShowMapper $showMapper)
+    protected function configureShowFields(ShowMapper $show)
     {
-        $showMapper
+        $show
             ->add('country', null,[
                 'label' => 'ISO 3166-1 alpha-2 code'
             ])

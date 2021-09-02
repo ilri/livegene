@@ -76,9 +76,9 @@ class OrganisationAdmin extends AbstractAdmin
         ;
     }
 
-    protected function configureShowFields(ShowMapper $showMapper)
+    protected function configureShowFields(ShowMapper $show)
     {
-        $showMapper
+        $show
             ->add('shortName')
             ->add('fullName')
             ->add('localName')

@@ -55,9 +55,9 @@ class AnimalSpeciesRoleAdmin extends AbstractAdmin
         ;
     }
 
-    protected function configureShowFields(ShowMapper $showMapper)
+    protected function configureShowFields(ShowMapper $show)
     {
-        $showMapper
+        $show
             ->add('project')
             ->add('animalSpecies')
             ->add('percent', 'percent')
