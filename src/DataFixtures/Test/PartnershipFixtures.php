@@ -3,7 +3,12 @@
 namespace App\DataFixtures\Test;
 
 use App\DataFixtures\PartnershipTypeFixtures;
-use App\Entity\Partnership;
+use App\Entity\{
+    Organisation,
+    Partnership,
+    PartnershipType,
+    Project,
+};
 use Doctrine\Bundle\FixturesBundle\{
     Fixture,
     FixtureGroupInterface,
@@ -15,10 +20,17 @@ class PartnershipFixtures extends Fixture implements DependentFixtureInterface, 
 {
     public function load(ObjectManager $manager)
     {
+        /** @var Organisation $organisation */
+        $organisation = $this->getReference('organisation');
+        /** @var Project $project */
+        $project = $this->getReference('project');
+        /** @var PartnershipType $partnerShipType */
+        $partnerShipType = $this->getReference('partnership-type');
+
         $partnership = new Partnership();
-        $partnership->setProject($this->getReference('project'));
-        $partnership->setPartner($this->getReference('organisation'));
-        $partnership->setPartnershipType($this->getReference('partnership-type'));
+        $partnership->setPartner($organisation);
+        $partnership->setProject($project);
+        $partnership->setPartnershipType($partnerShipType);
         $manager->persist($partnership);
 
         $manager->flush();

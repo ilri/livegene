@@ -2,7 +2,6 @@
 
 namespace App\DataFixtures\Test;
 
-use App\Application\Sonata\UserBundle\Entity\Media;
 use Doctrine\Bundle\FixturesBundle\{
     Fixture,
     FixtureGroupInterface,
@@ -13,7 +12,7 @@ use Symfony\Component\HttpFoundation\File\File;
 
 class MediaFixtures extends Fixture implements FixtureGroupInterface
 {
-    private $container;
+    private ContainerInterface $container;
 
     public function __construct(ContainerInterface $container)
     {

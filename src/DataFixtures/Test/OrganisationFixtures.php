@@ -2,7 +2,10 @@
 
 namespace App\DataFixtures\Test;
 
-use App\Entity\Organisation;
+use App\Entity\{
+    Country,
+    Organisation
+};
 use Doctrine\Bundle\FixturesBundle\{
     Fixture,
     FixtureGroupInterface,
@@ -14,13 +17,16 @@ class OrganisationFixtures extends Fixture implements DependentFixtureInterface,
 {
     public function load(ObjectManager $manager)
     {
+        /** @var Country $country */
+        $country = $this->getReference('country');
+
         $organisation = new Organisation();
         $organisation->setShortName('ACME');
         $organisation->setFullName('A Company Making Everything');
         $organisation->setLocalName('A Company Making Everything');
         $organisation->setLink('https://www.acme.co.uk/');
         $organisation->setLogoUrl('https://www.acme.co.uk/images/logo.png');
-        $organisation->setCountry($this->getReference('country'));
+        $organisation->setCountry($country);
         $manager->persist($organisation);
 
         $manager->flush();

@@ -3,7 +3,11 @@
 namespace App\DataFixtures\Test;
 
 use App\DataFixtures\SDGFixtures;
-use App\Entity\SDGRole;
+use App\Entity\{
+    Project,
+    SDG,
+    SDGRole,
+};
 use Doctrine\Bundle\FixturesBundle\{
     Fixture,
     FixtureGroupInterface,
@@ -15,9 +19,14 @@ class SDGRoleFixtures extends Fixture implements DependentFixtureInterface, Fixt
 {
     public function load(ObjectManager $manager)
     {
+        /** @var Project $project */
+        $project = $this->getReference('project');
+        /** @var SDG $sdg */
+        $sdg = $this->getReference('sdg1');
+
         $sdgRole = new SDGRole();
-        $sdgRole->setProject($this->getReference('project'));
-        $sdgRole->setSDG($this->getReference('sdg1'));
+        $sdgRole->setProject($project);
+        $sdgRole->setSDG($sdg);
         $sdgRole->setPercent(0.5);
         $manager->persist($sdgRole);
 
