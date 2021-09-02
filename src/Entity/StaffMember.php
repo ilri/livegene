@@ -2,20 +2,14 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Core\Annotation\{
-    ApiResource,
-    ApiProperty
-};
+use ApiPlatform\Core\Annotation\{ApiResource};
+use App\Entity\Traits\PercentageTrait;
+use App\Entity\Traits\PersonTrait;
+use Doctrine\Common\Collections\{ArrayCollection, Collection};
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Serializer\Annotation\Groups;
-use Doctrine\Common\Collections\{
-    ArrayCollection,
-    Collection
-};
-use App\Entity\Traits\PersonTrait;
-use App\Entity\Traits\PercentageTrait;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ApiResource(
