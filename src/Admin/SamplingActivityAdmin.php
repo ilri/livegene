@@ -23,32 +23,6 @@ use Symfony\Component\Form\Extension\Core\Type\DateType;
 
 class SamplingActivityAdmin extends AbstractAdmin
 {
-    //protected function configureSideMenu(MenuItemInterface $menu, $action, AdminInterface $childAdmin = null)
-    //{
-    //    if (!$childAdmin && !in_array($action, ['edit', 'show'])) {
-    //        return;
-    //    }
-
-    //    $admin = $this->isChild() ? $this->getParent() : $this;
-    //    $id = $admin->getRequest()->get('id');
-
-    //    $menu->addChild('View Sampling Activity', [
-    //        'uri' => $admin->generateUrl('show', ['id' => $id])
-    //    ]);
-
-    //    if ($this->isGranted('EDIT')) {
-    //        $menu->addChild('Edit Sampling Activity', [
-    //            'uri' => $admin->generateUrl('edit', ['id' => $id])
-    //        ]);
-    //    }
-
-    //    if ($this->isGranted('LIST')) {
-    //        $menu->addChild('Manage Sampling Documentations', [
-    //            'uri' => $admin->generateUrl('admin.sampling_documentation.list', ['id' => $id])
-    //        ]);
-    //    }
-    //}
-
     protected function configureListFields(ListMapper $list)
     {
         $list->addIdentifier('id')
