@@ -90,12 +90,7 @@ class StaffRole
     /**
      * @var bool
      *
-     * @Groups({
-     *     "staff_role:collection:get",
-     *     "staff_role:item:get",
-     *     "project:collection:get",
-     *     "project:item:get",
-     * })
+     * @Groups({"staff_role:collection:get", "staff_role:item:get", "project:collection:get", "project:item:get"})
      */
     private $isActive;
 

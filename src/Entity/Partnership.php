@@ -71,8 +71,7 @@ class Partnership
      * @ORM\ManyToOne(targetEntity="App\Entity\Organisation", inversedBy="partnerships")
      * @ORM\JoinColumn(nullable=false)
      * @Assert\NotBlank()
-     * @Groups({"partnership:collection:get", "partnership:item:get"})
-     * @Groups({"project:collection:get", "project:item:get"})
+     * @Groups({"partnership:collection:get", "partnership:item:get", "project:collection:get", "project:item:get"})
      */
     private $partner;
 
@@ -99,8 +98,7 @@ class Partnership
      * @ORM\ManyToOne(targetEntity="App\Entity\PartnershipType", inversedBy="partnerships")
      * @ORM\JoinColumn(nullable=false)
      * @Assert\NotBlank()
-     * @Groups({"partnership:collection:get", "partnership:item:get"})
-     * @Groups({"project:collection:get", "project:item:get"})
+     * @Groups({"partnership:collection:get", "partnership:item:get", "project:collection:get", "project:item:get"})
      */
     private $partnershipType;
 

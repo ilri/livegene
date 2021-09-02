@@ -40,8 +40,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * )
  * @ORM\Entity(repositoryClass="App\Repository\AnimalSpeciesRepository")
  * @ORM\Table(name="app_animal_species")
- * @UniqueEntity("commonName")
- * @UniqueEntity("scientificName")
+ * @UniqueEntity({"commonName", "scientificName"})
  */
 class AnimalSpecies
 {

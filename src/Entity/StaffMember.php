@@ -41,8 +41,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * )
  * @ORM\Entity(repositoryClass="App\Repository\StaffMemberRepository")
  * @ORM\Table(name="app_staff_member")
- * @UniqueEntity("username")
- * @UniqueEntity("email")
+ * @UniqueEntity({"username", "email"})
  */
 class StaffMember
 {

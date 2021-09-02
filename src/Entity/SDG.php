@@ -40,11 +40,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * )
  * @ORM\Entity(repositoryClass="App\Repository\SDGRepository")
  * @ORM\Table(name="app_sdg")
- * @UniqueEntity("headline")
- * @UniqueEntity("fullName")
- * @UniqueEntity("color")
- * @UniqueEntity("link")
- * @UniqueEntity("logoUrl")
+ * @UniqueEntity({"headline", "fullName", "color", "link", "logoUrl"})
  */
 class SDG
 {

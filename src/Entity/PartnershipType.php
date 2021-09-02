@@ -48,16 +48,14 @@ class PartnershipType
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
-     * @Groups({"partnership_type:collection:get", "partnership_type:item:get"})
-     * @Groups({"project:collection:get", "project:item:get"})
+     * @Groups({"partnership_type:collection:get", "partnership_type:item:get", "project:collection:get", "project:item:get"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=30, unique=true)
      * @Assert\NotBlank()
-     * @Groups({"partnership_type:collection:get", "partnership_type:item:get"})
-     * @Groups({"project:collection:get", "project:item:get"})
+     * @Groups({"partnership_type:collection:get", "partnership_type:item:get", "project:collection:get", "project:item:get"})
      */
     private $description;
 
