@@ -25,9 +25,11 @@ class PartnershipTypeAdmin extends AbstractAdmin
         ;
     }
 
-    protected function configureDatagridFilters(DatagridMapper $datagridMapper)
+    protected function configureDatagridFilters(DatagridMapper $filter)
     {
-        $datagridMapper->add('description');
+        $filter
+            ->add('description')
+        ;
     }
 
     protected function configureFormFields(FormMapper $formMapper)

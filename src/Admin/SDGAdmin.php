@@ -42,9 +42,11 @@ class SDGAdmin extends AbstractAdmin
         ;
     }
 
-    protected function configureDatagridFilters(DatagridMapper $datagridMapper)
+    protected function configureDatagridFilters(DatagridMapper $filter)
     {
-        $datagridMapper->add('headline');
+        $filter
+            ->add('headline')
+        ;
     }
 
     protected function configureFormFields(FormMapper $formMapper)

@@ -26,9 +26,9 @@ class AnimalSpeciesAdmin extends AbstractAdmin
         ;
     }
 
-    protected function configureDatagridFilters(DatagridMapper $datagridMapper)
+    protected function configureDatagridFilters(DatagridMapper $filter)
     {
-        $datagridMapper
+        $filter
             ->add('commonName')
             ->add('scientificName')
         ;

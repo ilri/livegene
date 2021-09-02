@@ -39,9 +39,11 @@ class CountryAdmin extends AbstractAdmin
         ;
     }
 
-    protected function configureDatagridFilters(DatagridMapper $datagridMapper)
+    protected function configureDatagridFilters(DatagridMapper $filter)
     {
-        $datagridMapper->add('country');
+        $filter
+            ->add('country')
+        ;
     }
 
     protected function configureFormFields(FormMapper $formMapper)

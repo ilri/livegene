@@ -34,9 +34,9 @@ class SamplingDocumentTypeAdmin extends AbstractAdmin
         ;
     }
 
-    protected function configureFormFields(FormMapper $formMapper)
+    protected function configureFormFields(FormMapper $filter)
     {
-	    $formMapper
+	    $filter
             ->add('shortName')
             ->add('longName')
         ;

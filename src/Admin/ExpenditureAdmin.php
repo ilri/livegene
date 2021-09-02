@@ -49,9 +49,9 @@ class ExpenditureAdmin extends AbstractAdmin
         ;
     }
 
-    protected function configureDatagridFilters(DatagridMapper $datagridMapper)
+    protected function configureDatagridFilters(DatagridMapper $filter)
     {
-        $datagridMapper
+        $filter
             ->add('ilriCode', null, [
                 'label' => 'ILRI code'
             ])

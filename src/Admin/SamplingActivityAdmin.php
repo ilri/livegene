@@ -68,9 +68,9 @@ class SamplingActivityAdmin extends AbstractAdmin
         ;
     }
 
-    protected function configureDatagridFilters(DatagridMapper $datagridMapper)
+    protected function configureDatagridFilters(DatagridMapper $filter)
     {
-        $datagridMapper
+        $filter
             ->add('project')
             ->add('samplingPartners')
             ->add('animalSpecies')
