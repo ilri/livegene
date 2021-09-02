@@ -4,7 +4,7 @@ namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\{
     ApiFilter,
-    ApiResource
+    ApiResource,
 };
 use ApiPlatform\Core\Serializer\Filter\PropertyFilter;
 use App\Entity\Traits\ActiveTrait;
@@ -13,7 +13,7 @@ use App\Validator\Constraints as AppAssert;
 use Carbon\Carbon;
 use Doctrine\Common\Collections\{
     ArrayCollection,
-    Collection
+    Collection,
 };
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;

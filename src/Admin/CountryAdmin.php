@@ -4,8 +4,8 @@ namespace App\Admin;
 
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\{
+    DatagridMapper,
     ListMapper,
-    DatagridMapper
 };
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Show\ShowMapper;
@@ -38,25 +38,27 @@ class CountryAdmin extends AbstractAdmin
 	        ))
         ;
     }
- 
-    protected function configureDatagridFilters(DatagridMapper $datagridMapper)
+
+    protected function configureDatagridFilters(DatagridMapper $filter)
     {
-        $datagridMapper->add('country');
+        $filter
+            ->add('country')
+        ;
     }
 
-    protected function configureFormFields(FormMapper $formMapper)
+    protected function configureFormFields(FormMapper $form)
     {
-        $formMapper
+        $form
             ->add('country', CountryType::class, [
                 'placeholder' => '-- please choose a country --',
             ])
         ;
     }
 
-    protected function configureShowFields(ShowMapper $showMapper)
+    protected function configureShowFields(ShowMapper $show)
     {
-        $showMapper
-            ->add('country', null,[ 
+        $show
+            ->add('country', null,[
                 'label' => 'ISO 3166-1 alpha-2 code'
             ])
             ->add('countryName', null, [
