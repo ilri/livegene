@@ -46,9 +46,9 @@ class StaffMemberAdmin extends AbstractAdmin
         ;
     }
 
-    protected function configureFormFields(FormMapper $formMapper)
+    protected function configureFormFields(FormMapper $form)
     {
-        $formMapper
+        $form
             ->with('Main', [
                 'class' => 'col-md-4'
             ])
@@ -62,7 +62,7 @@ class StaffMemberAdmin extends AbstractAdmin
 
         // roles can be added only to an existing StaffMember
         if ($this->getSubject()->getId()) {
-            $formMapper
+            $form
                 ->with('Roles', [
                     'class' => 'col-md-8'
                 ])

@@ -34,9 +34,9 @@ class AnimalSpeciesAdmin extends AbstractAdmin
         ;
     }
 
-    protected function configureFormFields(FormMapper $formMapper)
+    protected function configureFormFields(FormMapper $form)
     {
-        $formMapper
+        $form
             ->add('commonName')
             ->add('scientificName')
         ;

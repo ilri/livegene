@@ -48,7 +48,7 @@ class OrganisationAdmin extends AbstractAdmin
         ;
     }
 
-    protected function configureFormFields(FormMapper $formMapper)
+    protected function configureFormFields(FormMapper $form)
     {
         $organisation = $this->getSubject();
 
@@ -57,7 +57,7 @@ class OrganisationAdmin extends AbstractAdmin
             $fileFieldOptions['help'] = '<img src="'.$webPath.'" class="admin-preview" />';
         }
 
-        $formMapper
+        $form
             ->add('shortName', null, [
                 'required' => false,
                 'empty_data' => ''

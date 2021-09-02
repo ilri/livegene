@@ -38,15 +38,15 @@ class AnimalSpeciesRoleAdmin extends AbstractAdmin
         ;
     }
 
-    protected function configureFormFields(FormMapper $formMapper)
+    protected function configureFormFields(FormMapper $form)
     {
         if (!$this->hasParentFieldDescription()) {
-            $formMapper
+            $form
                 ->add('project', ModelListType::class)
             ;
         }
 
-        $formMapper
+        $form
             ->add('animalSpecies', ModelListType::class)
             ->add('percent', PercentType::class, [
                 'type' => 'fractional',

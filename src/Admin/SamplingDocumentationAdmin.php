@@ -96,15 +96,15 @@ class SamplingDocumentationAdmin extends AbstractAdmin
         ;
     }
 
-    protected function configureFormFields(FormMapper $formMapper)
+    protected function configureFormFields(FormMapper $form)
     {
         if (!$this->hasParentFieldDescription()) {
-            $formMapper
+            $form
                 ->add('samplingActivity', ModelListType::class)
             ;
         }
 
-	    $formMapper
+	    $form
             ->add('samplingDocumentType', ModelListType::class)
             ->add('document', MediaType::class, [
                 'provider' => 'sonata.media.provider.file',

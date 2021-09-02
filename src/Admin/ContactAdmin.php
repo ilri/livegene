@@ -37,9 +37,9 @@ class ContactAdmin extends AbstractAdmin
         ;
     }
 
-    protected function configureFormFields(FormMapper $formMapper)
+    protected function configureFormFields(FormMapper $form)
     {
-        $formMapper
+        $form
             ->add('title', null, [
                 'required' => false,
                 'empty_data' => '',

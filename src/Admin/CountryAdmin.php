@@ -46,9 +46,9 @@ class CountryAdmin extends AbstractAdmin
         ;
     }
 
-    protected function configureFormFields(FormMapper $formMapper)
+    protected function configureFormFields(FormMapper $form)
     {
-        $formMapper
+        $form
             ->add('country', CountryType::class, [
                 'placeholder' => '-- please choose a country --',
             ])

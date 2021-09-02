@@ -66,9 +66,9 @@ class PartnershipAdmin extends AbstractAdmin
         ;
     }
 
-    protected function configureFormFields(FormMapper $formMapper)
+    protected function configureFormFields(FormMapper $form)
     {
-        $formMapper
+        $form
             ->add('project', ModelListType::class)
             ->add('partner', ModelListType::class)
             ->add('startDate', DatePickerType::class, [

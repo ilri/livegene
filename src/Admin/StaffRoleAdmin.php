@@ -56,12 +56,12 @@ class StaffRoleAdmin extends AbstractAdmin
         ;
     }
 
-    protected function configureFormFields(FormMapper $formMapper)
+    protected function configureFormFields(FormMapper $form)
     {
         $staffRole = $this->getSubject();
         $project = $staffRole->getProject();
 
-        $formMapper
+        $form
             ->add('project', ModelListType::class, [
                 'btn_add' => false,
                 'btn_edit' => false,
@@ -76,7 +76,7 @@ class StaffRoleAdmin extends AbstractAdmin
         // if it is an existing subject add the field project.isActive
         // otherwise add a dummy hidden field to keep the table layout
         if (null !== $id) {
-            $formMapper
+            $form
                 ->add('project.isActive', CheckboxType::class, [
                     'required' => false,
                     'disabled' => true,
@@ -84,7 +84,7 @@ class StaffRoleAdmin extends AbstractAdmin
                 ])
             ;
         } else {
-            $formMapper
+            $form
                 ->add('dummy', HiddenType::class, [
                     'mapped' => false,
                     'required' => false,
@@ -97,12 +97,12 @@ class StaffRoleAdmin extends AbstractAdmin
         // if it is nested within a parent StaffMemberAdmin this field
         // should not be displayed
         if (!$this->hasParentFieldDescription()) {
-            $formMapper
+            $form
                 ->add('staffMember', ModelListType::class)
             ;
         }
 
-        $formMapper
+        $form
             ->add('startDate', DatePickerType::class, [
                 'required' => false,
                 'dp_pick_time' => false,

@@ -49,7 +49,7 @@ class SDGAdmin extends AbstractAdmin
         ;
     }
 
-    protected function configureFormFields(FormMapper $formMapper)
+    protected function configureFormFields(FormMapper $form)
     {
         $sdg = $this->getSubject();
 
@@ -58,7 +58,7 @@ class SDGAdmin extends AbstractAdmin
             $fileFieldOptions['help'] = '<img src="'.$webPath.'" class="admin-preview" />';
         }
 
-        $formMapper
+        $form
             ->add('headline')
             ->add('fullName')
             ->add('color', ColorType::class)

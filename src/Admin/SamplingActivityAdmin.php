@@ -89,9 +89,9 @@ class SamplingActivityAdmin extends AbstractAdmin
     }
 
 
-    protected function configureFormFields(FormMapper $formMapper)
+    protected function configureFormFields(FormMapper $form)
     {
-	    $formMapper
+	    $form
             ->add('project', ModelListType::class)
             ->add('samplingPartners', ModelType::class, [
                 'multiple' => true,
@@ -116,7 +116,7 @@ class SamplingActivityAdmin extends AbstractAdmin
         ;
 
         if ($this->subject->getId()) {
-            $formMapper
+            $form
                 ->add('samplingDocumentations', CollectionType::class, [
                     'by_reference' => false,
                 ], [

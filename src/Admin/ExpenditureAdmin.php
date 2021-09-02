@@ -71,9 +71,9 @@ class ExpenditureAdmin extends AbstractAdmin
         ;
     }
 
-    protected function configureFormFields(FormMapper $formMapper)
+    protected function configureFormFields(FormMapper $form)
     {
-        $formMapper
+        $form
             ->add('ilriCode', null, [
                 'label' => 'ILRI code'
             ])

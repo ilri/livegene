@@ -67,9 +67,9 @@ class ProjectAdmin extends AbstractAdmin
         ;
     }
 
-    protected function configureFormFields(FormMapper $formMapper)
+    protected function configureFormFields(FormMapper $form)
     {
-        $formMapper
+        $form
             ->tab('Main')
                 ->with('Project description', ['class' => 'col-md-8'])
                     ->add('ilriCode', null, [
@@ -160,7 +160,7 @@ class ProjectAdmin extends AbstractAdmin
         ;
 
         if ($this->subject->getId()) {
-            $formMapper
+            $form
                 ->tab('Roles')
                     ->with('Country roles', [
                         'class' => 'col-md-6'
