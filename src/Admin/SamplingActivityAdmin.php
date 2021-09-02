@@ -2,11 +2,7 @@
 
 namespace App\Admin;
 
-use Sonata\AdminBundle\Admin\{
-    AbstractAdmin,
-    AdminInterface
-};
-use Knp\Menu\ItemInterface as MenuItemInterface;
+use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\{
     ListMapper,
     DatagridMapper
@@ -18,7 +14,7 @@ use Sonata\AdminBundle\Form\Type\{
     ModelListType
 };
 use Symfony\Component\Form\Extension\Core\Type\DateType;
-use Sonata\CoreBundle\Form\Type\DatePickerType;
+use Sonata\Form\Type\DatePickerType;
 use Sonata\DoctrineORMAdminBundle\Filter\DateRangeFilter;
 use Sonata\Form\Type\{
     DateRangePickerType,

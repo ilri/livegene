@@ -9,13 +9,11 @@ use Sonata\AdminBundle\Datagrid\{
 };
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Show\ShowMapper;
-use Sonata\DoctrineORMAdminBundle\Datagrid\ProxyQuery;
 use Sonata\DoctrineORMAdminBundle\Filter\DateRangeFilter;
 use Symfony\Component\Form\Extension\Core\Type\{
     DateType,
     PercentType,
     MoneyType,
-    TextareaType,
     CollectionType as SymfonyCollectionType,
     UrlType
 };
