@@ -28,10 +28,10 @@ class SamplingDocumentationAdmin extends AbstractAdmin
         $collection->add('create_multiple');
     }
 
-    public function configureActionButtons($action, $object = null)
+    public function configureActionButtons($action, $object = null): array
     {
         if ($action == 'create_multiple' || $action == 'create') {
-            return;
+            return [];
         } else {
             $list = parent::configureActionButtons($action, $object);
         }
@@ -46,7 +46,7 @@ class SamplingDocumentationAdmin extends AbstractAdmin
         return $list;
     }
 
-    public function getDashboardActions()
+    public function getDashboardActions(): array
     {
         $actions = parent::getDashboardActions();
 
