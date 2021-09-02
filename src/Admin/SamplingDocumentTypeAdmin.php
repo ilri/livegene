@@ -12,9 +12,9 @@ use Sonata\AdminBundle\Show\ShowMapper;
 
 class SamplingDocumentTypeAdmin extends AbstractAdmin
 {
-    protected function configureListFields(ListMapper $listMapper)
+    protected function configureListFields(ListMapper $list)
     {
-        $listMapper->addIdentifier('id')
+        $list->addIdentifier('id')
             ->add('shortName')
             ->add('longName')
             ->add('_action', 'actions', [

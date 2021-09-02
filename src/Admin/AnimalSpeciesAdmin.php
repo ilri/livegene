@@ -12,9 +12,9 @@ use Sonata\AdminBundle\Show\ShowMapper;
 
 class AnimalSpeciesAdmin extends AbstractAdmin
 {
-    protected function configureListFields(ListMapper $listMapper)
+    protected function configureListFields(ListMapper $list)
     {
-        $listMapper->addIdentifier('id')
+        $list->addIdentifier('id')
             ->add('commonName')
             ->add('scientificName')
             ->add('_action', 'actions', [

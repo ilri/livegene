@@ -18,7 +18,7 @@ class SDGAdmin extends AbstractAdmin
 {
     protected $classnameLabel = 'Sustainable Development Goal';
 
-    protected function configureListFields(ListMapper $listMapper)
+    protected function configureListFields(ListMapper $list)
     {
         if ($this->hasRequest()) {
             if ($mode = $this->request->query->get('_list_mode')) {
@@ -28,7 +28,7 @@ class SDGAdmin extends AbstractAdmin
             }
         }
 
-        $listMapper->addIdentifier('id')
+        $list->addIdentifier('id')
             ->add('headline')
             ->add('color', null, [
                 'template' => 'SonataAdmin/CRUD/SDG/list_color.html.twig'

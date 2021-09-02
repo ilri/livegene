@@ -27,9 +27,9 @@ use FOS\CKEditorBundle\Form\Type\CKEditorType;
 
 class ProjectAdmin extends AbstractAdmin
 {
-    protected function configureListFields(ListMapper $listMapper)
+    protected function configureListFields(ListMapper $list)
     {
-        $listMapper->addIdentifier('ilriCode', null, ['label' => 'ILRI code'])
+        $list->addIdentifier('ilriCode', null, ['label' => 'ILRI code'])
             ->add('shortName')
             ->add('fullName', null, [
                 'header_style' => 'width: 35%',

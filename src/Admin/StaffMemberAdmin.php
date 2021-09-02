@@ -19,9 +19,9 @@ class StaffMemberAdmin extends AbstractAdmin
 {
     public $supportsPreviewMode = true;
 
-    protected function configureListFields(ListMapper $listMapper)
+    protected function configureListFields(ListMapper $list)
     {
-        $listMapper->addIdentifier('id')
+        $list->addIdentifier('id')
             ->add('username')
             ->add('firstName')
             ->add('lastName')

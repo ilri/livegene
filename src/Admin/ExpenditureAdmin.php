@@ -23,9 +23,9 @@ use Sonata\Form\Type\{
 
 class ExpenditureAdmin extends AbstractAdmin
 {
-    protected function configureListFields(ListMapper $listMapper)
+    protected function configureListFields(ListMapper $list)
     {
-        $listMapper->addIdentifier('id')
+        $list->addIdentifier('id')
             ->add('ilriCode', null, [
                 'label' => 'ILRI code'
             ])

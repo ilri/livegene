@@ -18,9 +18,9 @@ use Sonata\AdminBundle\Form\Type\{
 
 class PartnershipAdmin extends AbstractAdmin
 {
-    protected function configureListFields(ListMapper $listMapper)
+    protected function configureListFields(ListMapper $list)
     {
-        $listMapper->addIdentifier('id')
+        $list->addIdentifier('id')
             ->add('project', null, [
                 'sortable' => true,
                 'sort_field_mapping' => ['fieldName' => 'fullName'],

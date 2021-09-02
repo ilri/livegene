@@ -49,9 +49,9 @@ class SamplingActivityAdmin extends AbstractAdmin
     //    }
     //}
 
-    protected function configureListFields(ListMapper $listMapper)
+    protected function configureListFields(ListMapper $list)
     {
-        $listMapper->addIdentifier('id')
+        $list->addIdentifier('id')
             ->add('project')
             ->add('samplingPartners')
             ->add('animalSpecies')

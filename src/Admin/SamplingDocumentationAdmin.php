@@ -61,9 +61,9 @@ class SamplingDocumentationAdmin extends AbstractAdmin
         return $actions;
     }
 
-    protected function configureListFields(ListMapper $listMapper)
+    protected function configureListFields(ListMapper $list)
     {
-        $listMapper->addIdentifier('id')
+        $list->addIdentifier('id')
             ->add('samplingActivity')
             ->add('samplingDocumentType')
             ->add('document')

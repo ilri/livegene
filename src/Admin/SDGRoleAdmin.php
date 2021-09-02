@@ -16,9 +16,9 @@ class SDGRoleAdmin extends AbstractAdmin
 {
     protected $classnameLabel = 'Sustainable Development Goal Role';
 
-    protected function configureListFields(ListMapper $listMapper)
+    protected function configureListFields(ListMapper $list)
     {
-        $listMapper->addIdentifier('id')
+        $list->addIdentifier('id')
             ->add('project')
             ->add('sdg', null, [
                 'label' => 'SDG',

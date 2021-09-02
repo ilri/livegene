@@ -14,9 +14,9 @@ use Symfony\Component\Form\Extension\Core\Type\PercentType;
 
 class CountryRoleAdmin extends AbstractAdmin
 {
-    protected function configureListFields(ListMapper $listMapper)
+    protected function configureListFields(ListMapper $list)
     {
-        $listMapper->addIdentifier('id')
+        $list->addIdentifier('id')
             ->add('project')
             ->add('country')
             ->add('percent', 'percent')

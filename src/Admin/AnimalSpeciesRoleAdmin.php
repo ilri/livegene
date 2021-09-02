@@ -14,9 +14,9 @@ use Symfony\Component\Form\Extension\Core\Type\PercentType;
 
 class AnimalSpeciesRoleAdmin extends AbstractAdmin
 {
-    protected function configureListFields(ListMapper $listMapper)
+    protected function configureListFields(ListMapper $list)
     {
-        $listMapper->addIdentifier('id')
+        $list->addIdentifier('id')
             ->add('project')
             ->add('animalSpecies')
             ->add('percent', 'percent')

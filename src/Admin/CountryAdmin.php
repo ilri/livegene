@@ -13,7 +13,7 @@ use Symfony\Component\Form\Extension\Core\Type\CountryType;
 
 class CountryAdmin extends AbstractAdmin
 {
-    protected function configureListFields(ListMapper $listMapper)
+    protected function configureListFields(ListMapper $list)
     {
         if ($this->hasRequest()) {
             if ($mode = $this->request->query->get('_list_mode')) {
@@ -23,7 +23,7 @@ class CountryAdmin extends AbstractAdmin
             }
         }
 
-        $listMapper
+        $list
             ->addIdentifier('country')
             ->add('countryName')
             ->add('flag', null, [

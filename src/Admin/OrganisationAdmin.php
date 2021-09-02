@@ -13,9 +13,9 @@ use Sonata\AdminBundle\Form\Type\ModelListType;
 
 class OrganisationAdmin extends AbstractAdmin
 {
-    protected function configureListFields(ListMapper $listMapper)
+    protected function configureListFields(ListMapper $list)
     {
-        $listMapper->addIdentifier('id')
+        $list->addIdentifier('id')
             ->add('shortName')
             ->add('fullName')
             ->add('logoUrl', null, [

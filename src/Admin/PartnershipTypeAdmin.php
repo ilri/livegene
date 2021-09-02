@@ -12,9 +12,9 @@ use Sonata\AdminBundle\Show\ShowMapper;
 
 class PartnershipTypeAdmin extends AbstractAdmin
 {
-    protected function configureListFields(ListMapper $listMapper)
+    protected function configureListFields(ListMapper $list)
     {
-        $listMapper->addIdentifier('id')
+        $list->addIdentifier('id')
             ->add('description')
             ->add('_action', 'actions', [
                 'actions' => [
