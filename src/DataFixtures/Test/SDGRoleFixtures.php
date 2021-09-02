@@ -2,12 +2,14 @@
 
 namespace App\DataFixtures\Test;
 
-use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\Common\DataFixtures\DependentFixtureInterface;
-use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
-use Doctrine\Persistence\ObjectManager;
-use App\Entity\SDGRole;
 use App\DataFixtures\SDGFixtures;
+use App\Entity\SDGRole;
+use Doctrine\Bundle\FixturesBundle\{
+    Fixture,
+    FixtureGroupInterface,
+};
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
+use Doctrine\Persistence\ObjectManager;
 
 class SDGRoleFixtures extends Fixture implements DependentFixtureInterface, FixtureGroupInterface
 {

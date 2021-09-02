@@ -2,12 +2,14 @@
 
 namespace App\DataFixtures\Test;
 
-use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\Common\DataFixtures\DependentFixtureInterface;
-use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
-use Doctrine\Persistence\ObjectManager;
-use App\Entity\Partnership;
 use App\DataFixtures\PartnershipTypeFixtures;
+use App\Entity\Partnership;
+use Doctrine\Bundle\FixturesBundle\{
+    Fixture,
+    FixtureGroupInterface,
+};
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
+use Doctrine\Persistence\ObjectManager;
 
 class PartnershipFixtures extends Fixture implements DependentFixtureInterface, FixtureGroupInterface
 {

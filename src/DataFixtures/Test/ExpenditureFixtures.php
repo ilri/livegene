@@ -2,10 +2,12 @@
 
 namespace App\DataFixtures\Test;
 
-use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
-use Doctrine\Persistence\ObjectManager;
 use App\Entity\Expenditure;
+use Doctrine\Bundle\FixturesBundle\{
+    Fixture,
+    FixtureGroupInterface,
+};
+use Doctrine\Persistence\ObjectManager;
 
 class ExpenditureFixtures extends Fixture implements FixtureGroupInterface
 {
@@ -21,7 +23,7 @@ class ExpenditureFixtures extends Fixture implements FixtureGroupInterface
         $expenditure->setTotalBudget(10000);
 
         $manager->persist($expenditure);
-        
+
         $manager->flush();
 
         $this->addReference('expenditure', $expenditure);
