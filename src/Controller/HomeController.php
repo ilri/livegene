@@ -2,13 +2,15 @@
 
 namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
-use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface;
 use App\Application\Sonata\UserBundle\Entity\User;
-use Symfony\Component\HttpFoundation\Cookie;
 use Carbon\Carbon;
+use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\{
+    Cookie,
+    Response,
+};
+use Symfony\Component\Routing\Annotation\Route;
 
 class HomeController extends AbstractController
 {
