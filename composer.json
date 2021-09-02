@@ -25,6 +25,7 @@
         "php": "^7.4.3",
         "ext-ctype": "*",
         "ext-iconv": "*",
+        "ext-json": "*",
         "composer-runtime-api": "^2",
         "api-platform/core": "^2.6",
         "composer/package-versions-deprecated": "1.11.99.3",
@@ -80,7 +81,7 @@
         "symfony/phpunit-bridge": "^5.3",
         "symfony/stopwatch": "^4.4",
         "symfony/web-profiler-bundle": "^4.4",
-        "symfony/web-server-bundle": "4.4.*"
+        "symfony/web-server-bundle": "4.4.*",
     },
     "config": {
         "preferred-install": {

@@ -117,6 +117,6 @@ class StaffMemberAPITest extends ApiTestCase
 
     private function getStaffMember(): string
     {
-        return $this->fixtures->getReference('coyote')->getUsername();
+        return $this->fixtures->getReference('coyote')->getId();
     }
 }

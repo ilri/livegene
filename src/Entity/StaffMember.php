@@ -37,7 +37,6 @@ use App\Entity\Traits\PercentageTrait;
  *         "get"={
  *             "method"="GET",
  *             "path"="/staff/{id}",
- *             "requirements"={"id"="[a-z]+"},
  *             "normalization_context"={
  *                 "groups"={
  *                     "staff_member:item:get"
@@ -60,7 +59,6 @@ class StaffMember
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
-     * @ApiProperty(identifier=false)
      * @Groups({"staff_member:collection:get", "staff_member:item:get", "staff_role:collection:get", "staff_role:item:get", "project:collection:get", "project:item:get"})
      */
     private $id;
@@ -68,7 +66,6 @@ class StaffMember
     /**
      * @ORM\Column(type="string", length=15, unique=true)
      * @Assert\NotBlank()
-     * @ApiProperty(identifier=true)
      * @Groups({"staff_member:collection:get", "staff_member:item:get", "staff_role:collection:get", "staff_role:item:get", "project:collection:get", "project:item:get"})
      */
     private $username;
