@@ -26,17 +26,17 @@ class SamplingDocumentTypeAdmin extends AbstractAdmin
         ;
     }
 
-    protected function configureDatagridFilters(DatagridMapper $datagridMapper)
+    protected function configureDatagridFilters(DatagridMapper $filter)
     {
-        $datagridMapper
+        $filter
             ->add('shortName')
             ->add('longName')
         ;
     }
 
-    protected function configureFormFields(FormMapper $filter)
+    protected function configureFormFields(FormMapper $form)
     {
-	    $filter
+	    $form
             ->add('shortName')
             ->add('longName')
         ;
