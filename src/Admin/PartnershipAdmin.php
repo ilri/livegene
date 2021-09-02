@@ -4,17 +4,17 @@ namespace App\Admin;
 
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\{
+    DatagridMapper,
     ListMapper,
-    DatagridMapper
 };
 use Sonata\AdminBundle\Form\FormMapper;
-use Sonata\AdminBundle\Show\ShowMapper;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
-use Sonata\Form\Type\DatePickerType;
 use Sonata\AdminBundle\Form\Type\{
+    ModelListType,
     ModelType,
-    ModelListType
 };
+use Sonata\AdminBundle\Show\ShowMapper;
+use Sonata\Form\Type\DatePickerType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 
 class PartnershipAdmin extends AbstractAdmin
 {

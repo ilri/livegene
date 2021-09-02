@@ -4,12 +4,12 @@ namespace App\Admin;
 
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\{
+    DatagridMapper,
     ListMapper,
-    DatagridMapper
 };
 use Sonata\AdminBundle\Form\FormMapper;
-use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\AdminBundle\Form\Type\ModelListType;
+use Sonata\AdminBundle\Show\ShowMapper;
 use Symfony\Component\Form\Extension\Core\Type\PercentType;
 
 class AnimalSpeciesRoleAdmin extends AbstractAdmin

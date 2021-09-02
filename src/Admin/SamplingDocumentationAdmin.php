@@ -5,7 +5,7 @@ namespace App\Admin;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\{
     DatagridMapper,
-    ListMapper
+    ListMapper,
 };
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Form\Type\ModelListType;
@@ -14,7 +14,7 @@ use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\DoctrineORMAdminBundle\Filter\DateRangeFilter;
 use Sonata\Form\Type\{
     DatePickerType,
-    DateRangePickerType
+    DateRangePickerType,
 };
 use Sonata\MediaBundle\Form\Type\MediaType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
@@ -79,7 +79,7 @@ class SamplingDocumentationAdmin extends AbstractAdmin
             ])
         ;
     }
- 
+
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
         $datagridMapper

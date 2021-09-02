@@ -4,16 +4,16 @@ namespace App\Admin;
 
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\{
+    DatagridMapper,
     ListMapper,
-    DatagridMapper
 };
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Show\ShowMapper;
+use Sonata\Form\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\{
     EmailType,
-    PercentType
+    PercentType,
 };
-use Sonata\Form\Type\CollectionType;
 
 class StaffMemberAdmin extends AbstractAdmin
 {

@@ -4,17 +4,22 @@ namespace App\Admin;
 
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\{
+    DatagridMapper,
     ListMapper,
-    DatagridMapper
 };
 use Sonata\AdminBundle\Form\FormMapper;
-use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\AdminBundle\Form\Type\ModelListType;
-use Symfony\Component\Form\Extension\Core\Type\{CheckboxType, DateType, PercentType, HiddenType};
+use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\DoctrineORMAdminBundle\Filter\DateRangeFilter;
 use Sonata\Form\Type\{
     DatePickerType,
-    DateRangePickerType
+    DateRangePickerType,
+};
+use Symfony\Component\Form\Extension\Core\Type\{
+    CheckboxType,
+    DateType,
+    HiddenType,
+    PercentType,
 };
 
 class StaffRoleAdmin extends AbstractAdmin

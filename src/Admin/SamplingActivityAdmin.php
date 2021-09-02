@@ -4,22 +4,22 @@ namespace App\Admin;
 
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\{
+    DatagridMapper,
     ListMapper,
-    DatagridMapper
 };
 use Sonata\AdminBundle\Form\FormMapper;
-use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\AdminBundle\Form\Type\{
+    ModelListType,
     ModelType,
-    ModelListType
 };
-use Symfony\Component\Form\Extension\Core\Type\DateType;
-use Sonata\Form\Type\DatePickerType;
+use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\DoctrineORMAdminBundle\Filter\DateRangeFilter;
 use Sonata\Form\Type\{
+    CollectionType,
     DateRangePickerType,
-    CollectionType
 };
+use Sonata\Form\Type\DatePickerType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 
 class SamplingActivityAdmin extends AbstractAdmin
 {
@@ -126,7 +126,7 @@ class SamplingActivityAdmin extends AbstractAdmin
             ;
         }
     }
-    
+
     protected function configureShowFields(ShowMapper $showMapper)
     {
         $showMapper
