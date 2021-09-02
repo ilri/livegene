@@ -36,7 +36,7 @@ class SamplingDocumentationAdmin extends AbstractAdmin
             $list = parent::configureActionButtons($action, $object);
         }
 
-        if (\in_array($action, ['tree', 'show', 'edit', 'delete', 'list', 'batch'], true)
+        if (in_array($action, ['tree', 'show', 'edit', 'delete', 'list', 'batch'], true)
             && $this->hasAccess('create')
             && $this->hasRoute('create')
         ) {
