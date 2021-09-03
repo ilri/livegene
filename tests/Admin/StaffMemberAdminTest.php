@@ -8,21 +8,27 @@ use Doctrine\Common\DataFixtures\ReferenceRepository;
 use Liip\FunctionalTestBundle\Test\WebTestCase;
 use Liip\TestFixturesBundle\Services\DatabaseToolCollection;
 use Liip\TestFixturesBundle\Services\DatabaseTools\AbstractDatabaseTool;
-use Symfony\Bundle\FrameworkBundle\Client;
+use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Component\DomCrawler\Crawler;
 use Symfony\Component\DomCrawler\Field\ChoiceFormField;
 
 class StaffMemberAdminTest extends WebTestCase
 {
     protected AbstractDatabaseTool $databaseTool;
-    private ?Client $client = null;
+    private ?KernelBrowser $client = null;
 
+    /**
+     * Set the timezone to UTC.
+     * The fixture objects used in the tests have values which are
+     * calculated based on the current date.
+     * We set a fake value for "now" for the tests.
+     */
     public function setUp(): void
     {
         date_default_timezone_set('UTC');
         $now = Carbon::create(2019, 8, 8, 9);
         Carbon::setTestNow($now);
-        $this->client = $this->makeClient();
+        $this->client = $this->createClient();
         $this->databaseTool = $this->client->getContainer()->get(DatabaseToolCollection::class)->get();
     }
 
