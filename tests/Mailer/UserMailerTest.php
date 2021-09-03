@@ -3,29 +3,29 @@
 namespace App\Tests\Mailer;
 
 use App\DataFixtures\Test\UserFixtures;
-use Liip\TestFixturesBundle\Test\FixturesTrait;
+use Liip\TestFixturesBundle\Services\DatabaseToolCollection;
+use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Symfony\Bundle\SwiftmailerBundle\DataCollector\MessageDataCollector;
 use Symfony\Component\DomCrawler\Crawler;
 
 class UserMailerTest extends WebTestCase
 {
-    use FixturesTrait;
-
-    /**
-     * @var object|null
-     */
-    private $user = null;
+    private ?KernelBrowser $client = null;
+    private ?object $user = null;
 
     /**
      * Load the user fixtures, get one example user and reset the value
      * for passwordRequestedAt to null.
      * The user can request a password reset once in two hours.
-     * By setting the above mentioned value to null we ensure the test
+     * By setting the above-mentioned value to null we ensure the test
      * can run multiple consecutive times with the same expected result.
      */
     public function setUp(): void
     {
-        $fixtures = $this->loadFixtures([
+        $this->client = $this->createClient();
+        $databaseTool = $this->client->getContainer()->get(DatabaseToolCollection::class)->get();
+        $fixtures = $databaseTool->loadFixtures([
             UserFixtures::class
         ])->getReferenceRepository();
         $this->user = $fixtures->getReference('super_admin');
@@ -41,18 +41,18 @@ class UserMailerTest extends WebTestCase
      */
     public function testMailIsSentAndContentIsOk(): void
     {
-        $client = static::createClient();
-        $client->enableProfiler();
-        $client->request(
+        $this->client->enableProfiler();
+        $this->client->request(
             'POST',
             '/admin/resetting/send-email',
             [
                 'username' => $this->user->getUsername()
             ]
         );
-        $mailerUser = $client->getContainer()->getParameter('mailer_user');
+        $mailerUser = $this->client->getContainer()->getParameter('mailer_user');
 
-        $mailCollector = $client->getProfile()->getCollector('swiftmailer');
+        /** @var MessageDataCollector $mailCollector */
+        $mailCollector = $this->client->getProfile()->getCollector('swiftmailer');
 
         $this->assertSame(1, $mailCollector->getMessageCount());
 
