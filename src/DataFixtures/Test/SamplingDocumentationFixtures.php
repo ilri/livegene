@@ -2,22 +2,37 @@
 
 namespace App\DataFixtures\Test;
 
-use Doctrine\Bundle\FixturesBundle\Fixture;
+use App\Application\Sonata\MediaBundle\Entity\Media;
+use App\Entity\{
+    SamplingActivity,
+    SamplingDocumentation,
+    SamplingDocumentType,
+};
+use DateTime;
+use Doctrine\Bundle\FixturesBundle\{
+    Fixture,
+    FixtureGroupInterface,
+};
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
-use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
 use Doctrine\Persistence\ObjectManager;
-use App\Entity\SamplingDocumentation;
 
 class SamplingDocumentationFixtures extends Fixture implements DependentFixtureInterface, FixtureGroupInterface
 {
     public function load(ObjectManager $manager)
     {
+        /** @var SamplingActivity $samplingActivity */
+        $samplingActivity = $this->getReference('activity');
+        /** @var  SamplingDocumentType $samplingDocumentType */
+        $samplingDocumentType = $this->getReference('doctype');
+        /** @var Media $media */
+        $media = $this->getReference('media');
+
         $documentation = new SamplingDocumentation();
-        $documentation->setSamplingActivity($this->getReference('activity'));;
-        $documentation->setSamplingDocumentType($this->getReference('doctype'));
-        $documentation->setDocument($this->getReference('media'));
-        $documentation->setStartDate(new \DateTime('2021-01-01'));
-        $documentation->setEndDate(new \DateTime('2021-12-31'));
+        $documentation->setSamplingActivity($samplingActivity);
+        $documentation->setSamplingDocumentType($samplingDocumentType);
+        $documentation->setDocument($media);
+        $documentation->setStartDate(new DateTime('2021-01-01'));
+        $documentation->setEndDate(new DateTime('2021-12-31'));
         $manager->persist($documentation);
 
         $manager->flush();

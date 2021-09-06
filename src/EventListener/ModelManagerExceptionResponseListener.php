@@ -2,18 +2,18 @@
 
 namespace App\EventListener;
 
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
-use Symfony\Component\HttpFoundation\RedirectResponse;
 use Sonata\AdminBundle\Exception\ModelManagerException;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\HttpKernel\Event\ExceptionEvent;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class ModelManagerExceptionResponseListener
 {
-    private $session;
-    private $router;
-    private $em;
+    private SessionInterface $session;
+    private UrlGeneratorInterface $router;
+    private EntityManagerInterface $em;
 
     public function __construct(SessionInterface $session, UrlGeneratorInterface $router, EntityManagerInterface $em)
     {
@@ -22,10 +22,10 @@ class ModelManagerExceptionResponseListener
         $this->em = $em;
     }
 
-    public function onKernelException(GetResponseForExceptionEvent $event)
+    public function onKernelException(ExceptionEvent $event)
     {
         // get the exception
-        $exception =  $event->getException();
+        $exception =  $event->getThrowable();
         // we proceed only if it is ModelManagerException
         if (!$exception instanceof ModelManagerException) {
             return;

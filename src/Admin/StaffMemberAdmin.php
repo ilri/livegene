@@ -4,16 +4,16 @@ namespace App\Admin;
 
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\{
+    DatagridMapper,
     ListMapper,
-    DatagridMapper
 };
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Show\ShowMapper;
+use Sonata\Form\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\{
     EmailType,
-    PercentType
+    PercentType,
 };
-use Sonata\Form\Type\CollectionType;
 
 class StaffMemberAdmin extends AbstractAdmin
 {
@@ -36,9 +36,9 @@ class StaffMemberAdmin extends AbstractAdmin
         ;
     }
 
-    protected function configureDatagridFilters(DatagridMapper $datagridMapper)
+    protected function configureDatagridFilters(DatagridMapper $filter)
     {
-        $datagridMapper
+        $filter
             ->add('username')
             ->add('firstName')
             ->add('lastName')
@@ -46,9 +46,9 @@ class StaffMemberAdmin extends AbstractAdmin
         ;
     }
 
-    protected function configureFormFields(FormMapper $formMapper)
+    protected function configureFormFields(FormMapper $form)
     {
-        $formMapper
+        $form
             ->with('Main', [
                 'class' => 'col-md-4'
             ])
@@ -62,7 +62,7 @@ class StaffMemberAdmin extends AbstractAdmin
 
         // roles can be added only to an existing StaffMember
         if ($this->getSubject()->getId()) {
-            $formMapper
+            $form
                 ->with('Roles', [
                     'class' => 'col-md-8'
                 ])
@@ -84,9 +84,9 @@ class StaffMemberAdmin extends AbstractAdmin
         }
     }
 
-    protected function configureShowFields(ShowMapper $showMapper)
+    protected function configureShowFields(ShowMapper $show)
     {
-        $showMapper
+        $show
             ->add('username')
             ->add('firstName')
             ->add('lastName')

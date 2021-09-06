@@ -4,8 +4,8 @@ namespace App\Admin;
 
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\{
+    DatagridMapper,
     ListMapper,
-    DatagridMapper
 };
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Show\ShowMapper;
@@ -25,21 +25,23 @@ class PartnershipTypeAdmin extends AbstractAdmin
         ;
     }
 
-    protected function configureDatagridFilters(DatagridMapper $datagridMapper)
+    protected function configureDatagridFilters(DatagridMapper $filter)
     {
-        $datagridMapper->add('description');
-    }
-
-    protected function configureFormFields(FormMapper $formMapper)
-    {
-        $formMapper
+        $filter
             ->add('description')
         ;
     }
 
-    protected function configureShowFields(ShowMapper $showMapper)
+    protected function configureFormFields(FormMapper $form)
     {
-        $showMapper
+        $form
+            ->add('description')
+        ;
+    }
+
+    protected function configureShowFields(ShowMapper $show)
+    {
+        $show
             ->add('id')
             ->add('description')
         ;

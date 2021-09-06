@@ -3,15 +3,15 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
-use Doctrine\ORM\Mapping as ORM;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-use Symfony\Component\Validator\Constraints as Assert;
 use App\Validator\Constraints as AppAssert;
-use Symfony\Component\Serializer\Annotation\Groups;
 use Doctrine\Common\Collections\{
     ArrayCollection,
-    Collection
+    Collection,
 };
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ApiResource(
@@ -72,7 +72,7 @@ class SamplingActivity
      * @Assert\Count(min=1)
      * @Groups({"sampling_activity:collection:get", "sampling_activity:item:get"})
      */
-    private $samplingPartners;
+    private Collection $samplingPartners;
 
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\AnimalSpecies", inversedBy="samplingActivities")
@@ -80,7 +80,7 @@ class SamplingActivity
      * @Assert\Count(min=1)
      * @Groups({"sampling_activity:collection:get", "sampling_activity:item:get"})
      */
-    private $animalSpecies;
+    private Collection $animalSpecies;
 
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Country", inversedBy="samplingActivities")
@@ -88,7 +88,7 @@ class SamplingActivity
      * @Assert\Count(min=1)
      * @Groups({"sampling_activity:collection:get", "sampling_activity:item:get"})
      */
-    private $countries;
+    private Collection $countries;
 
     /**
      * @ORM\Column(type="string", length=100)
@@ -115,7 +115,7 @@ class SamplingActivity
      * @ORM\OneToMany(targetEntity="App\Entity\SamplingDocumentation", mappedBy="samplingActivity", orphanRemoval=true, cascade={"persist"})
      * @Assert\Valid()
      */
-    private $samplingDocumentations;
+    private Collection $samplingDocumentations;
 
     public function __construct()
     {

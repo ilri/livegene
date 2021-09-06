@@ -4,7 +4,7 @@ namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\{
     ApiFilter,
-    ApiResource
+    ApiResource,
 };
 use ApiPlatform\Core\Serializer\Filter\PropertyFilter;
 use App\Entity\Traits\ActiveTrait;
@@ -13,7 +13,7 @@ use App\Validator\Constraints as AppAssert;
 use Carbon\Carbon;
 use Doctrine\Common\Collections\{
     ArrayCollection,
-    Collection
+    Collection,
 };
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -196,37 +196,37 @@ class Project
      * @ORM\OneToMany(targetEntity="App\Entity\Partnership", mappedBy="project")
      * @Groups({"project:collection:get", "project:item:get"})
      */
-    private $partnerships;
+    private Collection $partnerships;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\SamplingActivity", mappedBy="project")
      */
-    private $samplingActivities;
+    private Collection $samplingActivities;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\StaffRole", mappedBy="project", cascade={"persist", "remove"})
      * @Groups({"project:collection:get", "project:item:get"})
      */
-    private $staffRoles;
+    private Collection $staffRoles;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\CountryRole", mappedBy="project", orphanRemoval=true, cascade={"persist", "remove"})
      * @Assert\Valid()
      * @Groups({"project:collection:get", "project:item:get"})
      */
-    private $countryRoles;
+    private Collection $countryRoles;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\SDGRole", mappedBy="project", orphanRemoval=true, cascade={"persist", "remove"})
      * @Assert\Valid()
      */
-    private $sdgRoles;
+    private Collection $sdgRoles;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\AnimalSpeciesRole", mappedBy="project", orphanRemoval=true)
      * @Assert\Valid()
      */
-    private $animalSpeciesRoles;
+    private Collection $animalSpeciesRoles;
 
     /**
      * @ORM\Column(type="text")

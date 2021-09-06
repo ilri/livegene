@@ -4,7 +4,7 @@ namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\{
     ApiProperty,
-    ApiResource
+    ApiResource,
 };
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -77,22 +77,22 @@ class Country
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Organisation", mappedBy="country")
      */
-    private $organisations;
+    private Collection $organisations;
 
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\SamplingActivity", mappedBy="countries")
      */
-    private $samplingActivities;
+    private Collection $samplingActivities;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\CountryRole", mappedBy="country", cascade={"persist", "remove"})
      */
-    private $countryRoles;
+    private Collection $countryRoles;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\SamplingDocumentation", mappedBy="country")
      */
-    private $samplingDocumentations;
+    private Collection $samplingDocumentations;
 
     public function __construct()
     {

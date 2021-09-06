@@ -4,14 +4,14 @@ namespace App\Admin;
 
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\{
+    DatagridMapper,
     ListMapper,
-    DatagridMapper
 };
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Symfony\Component\Form\Extension\Core\Type\{
     ColorType,
-    UrlType
+    UrlType,
 };
 
 class SDGAdmin extends AbstractAdmin
@@ -42,12 +42,14 @@ class SDGAdmin extends AbstractAdmin
         ;
     }
 
-    protected function configureDatagridFilters(DatagridMapper $datagridMapper)
+    protected function configureDatagridFilters(DatagridMapper $filter)
     {
-        $datagridMapper->add('headline');
+        $filter
+            ->add('headline')
+        ;
     }
 
-    protected function configureFormFields(FormMapper $formMapper)
+    protected function configureFormFields(FormMapper $form)
     {
         $sdg = $this->getSubject();
 
@@ -56,7 +58,7 @@ class SDGAdmin extends AbstractAdmin
             $fileFieldOptions['help'] = '<img src="'.$webPath.'" class="admin-preview" />';
         }
 
-        $formMapper
+        $form
             ->add('headline')
             ->add('fullName')
             ->add('color', ColorType::class)
@@ -65,9 +67,9 @@ class SDGAdmin extends AbstractAdmin
         ;
     }
 
-    protected function configureShowFields(ShowMapper $showMapper)
+    protected function configureShowFields(ShowMapper $show)
     {
-        $showMapper
+        $show
             ->add('headline')
             ->add('fullName')
             ->add('color', null, [

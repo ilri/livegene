@@ -2,19 +2,30 @@
 
 namespace App\DataFixtures\Test;
 
-use Doctrine\Bundle\FixturesBundle\Fixture;
+use App\Entity\{
+    Country,
+    CountryRole,
+    Project,
+};
+use Doctrine\Bundle\FixturesBundle\{
+    Fixture,
+    FixtureGroupInterface,
+};
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
-use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
 use Doctrine\Persistence\ObjectManager;
-use App\Entity\CountryRole;
 
 class CountryRoleFixtures extends Fixture implements DependentFixtureInterface, FixtureGroupInterface
 {
     public function load(ObjectManager $manager)
     {
+        /** @var Project $project */
+        $project = $this->getReference('project');
+        /** @var Country $country */
+        $country = $this->getReference('country');
+
         $countryRole = new CountryRole();
-        $countryRole->setProject($this->getReference('project'));
-        $countryRole->setCountry($this->getReference('country'));
+        $countryRole->setProject($project);
+        $countryRole->setCountry($country);
         $countryRole->setPercent(0.5);
         $manager->persist($countryRole);
 

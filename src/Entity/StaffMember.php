@@ -2,20 +2,14 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Core\Annotation\{
-    ApiResource,
-    ApiProperty
-};
+use ApiPlatform\Core\Annotation\{ApiResource};
+use App\Entity\Traits\PercentageTrait;
+use App\Entity\Traits\PersonTrait;
+use Doctrine\Common\Collections\{ArrayCollection, Collection};
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Serializer\Annotation\Groups;
-use Doctrine\Common\Collections\{
-    ArrayCollection,
-    Collection
-};
-use App\Entity\Traits\PersonTrait;
-use App\Entity\Traits\PercentageTrait;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ApiResource(
@@ -47,8 +41,7 @@ use App\Entity\Traits\PercentageTrait;
  * )
  * @ORM\Entity(repositoryClass="App\Repository\StaffMemberRepository")
  * @ORM\Table(name="app_staff_member")
- * @UniqueEntity("username")
- * @UniqueEntity("email")
+ * @UniqueEntity({"username", "email"})
  */
 class StaffMember
 {
@@ -88,13 +81,13 @@ class StaffMember
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Project", mappedBy="principalInvestigator")
      */
-    private $projects;
+    private Collection $projects;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\StaffRole", mappedBy="staffMember", orphanRemoval=true, cascade={"persist", "remove"})
      * @Assert\Valid()
      */
-    private $staffRoles;
+    private Collection $staffRoles;
 
     public function __construct()
     {

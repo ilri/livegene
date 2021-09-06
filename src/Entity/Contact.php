@@ -3,14 +3,14 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
-use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\Serializer\Annotation\Groups;
+use App\Entity\Traits\PersonTrait;
 use Doctrine\Common\Collections\{
     ArrayCollection,
-    Collection
+    Collection,
 };
-use App\Entity\Traits\PersonTrait;
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ApiResource(
@@ -73,7 +73,7 @@ class Contact
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Partnership", mappedBy="contacts")
      */
-    private $partnerships;
+    private Collection $partnerships;
 
     public function __construct()
     {

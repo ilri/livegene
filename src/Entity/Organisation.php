@@ -3,14 +3,14 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
-use Doctrine\ORM\Mapping as ORM;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\Serializer\Annotation\Groups;
 use Doctrine\Common\Collections\{
     ArrayCollection,
-    Collection
+    Collection,
 };
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ApiResource(
@@ -96,17 +96,17 @@ class Organisation
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Project", mappedBy="donor")
      */
-    private $projects;
+    private Collection $projects;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Partnership", mappedBy="partner")
      */
-    private $partnerships;
+    private Collection $partnerships;
 
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\SamplingActivity", mappedBy="samplingPartners")
      */
-    private $samplingActivities;
+    private Collection $samplingActivities;
 
     public function __construct()
     {

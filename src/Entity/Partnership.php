@@ -6,7 +6,7 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use App\Validator\Constraints as AppAssert;
 use Doctrine\Common\Collections\{
     ArrayCollection,
-    Collection
+    Collection,
 };
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -71,8 +71,7 @@ class Partnership
      * @ORM\ManyToOne(targetEntity="App\Entity\Organisation", inversedBy="partnerships")
      * @ORM\JoinColumn(nullable=false)
      * @Assert\NotBlank()
-     * @Groups({"partnership:collection:get", "partnership:item:get"})
-     * @Groups({"project:collection:get", "project:item:get"})
+     * @Groups({"partnership:collection:get", "partnership:item:get", "project:collection:get", "project:item:get"})
      */
     private $partner;
 
@@ -93,14 +92,13 @@ class Partnership
      * @ORM\JoinTable(name="app_partnership_contact")
      * @Groups({"partnership:collection:get", "partnership:item:get"})
      */
-    private $contacts;
+    private Collection $contacts;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\PartnershipType", inversedBy="partnerships")
      * @ORM\JoinColumn(nullable=false)
      * @Assert\NotBlank()
-     * @Groups({"partnership:collection:get", "partnership:item:get"})
-     * @Groups({"project:collection:get", "project:item:get"})
+     * @Groups({"partnership:collection:get", "partnership:item:get", "project:collection:get", "project:item:get"})
      */
     private $partnershipType;
 
