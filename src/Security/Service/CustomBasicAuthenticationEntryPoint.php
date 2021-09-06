@@ -2,12 +2,12 @@
 
 namespace App\Security\Service;
 
-use Symfony\Component\Security\Http\EntryPoint\AuthenticationEntryPointInterface;
 use Symfony\Component\HttpFoundation\{
     Request,
     Response
 };
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
+use Symfony\Component\Security\Http\EntryPoint\AuthenticationEntryPointInterface;
 
 /**
  * CustomBasicAuthenticationEntryPoint starts an HTTP Basic authentication.
@@ -18,7 +18,7 @@ use Symfony\Component\Security\Core\Exception\AuthenticationException;
  */
 class CustomBasicAuthenticationEntryPoint implements AuthenticationEntryPointInterface
 {
-    private $realmName;
+    private string $realmName;
 
     public function __construct(string $realmName)
     {
@@ -28,7 +28,7 @@ class CustomBasicAuthenticationEntryPoint implements AuthenticationEntryPointInt
     /**
      * {@inheritdoc}
      */
-    public function start(Request $request, AuthenticationException $authException = null)
+    public function start(Request $request, AuthenticationException $authException = null): Response
     {
         $response = new Response();
         if ($request->headers->get('x-requested-with') == 'XMLHttpRequest') {

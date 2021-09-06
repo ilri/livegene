@@ -14,11 +14,11 @@ class VoterSecurityHandler implements SecurityHandlerInterface
     /**
      * @var AuthorizationCheckerInterface
      */
-    private $authorizationChecker;
+    private AuthorizationCheckerInterface $authorizationChecker;
     /**
      * @var array
      */
-    private $superAdminRoles;
+    private array $superAdminRoles;
 
     /**
      * @param AuthorizationCheckerInterface $authorizationChecker
@@ -30,9 +30,9 @@ class VoterSecurityHandler implements SecurityHandlerInterface
         $this->superAdminRoles = $superAdminRoles;
     }
 
-    public function isGranted(AdminInterface $admin, $attributes, $object = null)
+    public function isGranted(AdminInterface $admin, $attributes, $object = null): bool
     {
-        if (!\is_array($attributes)) {
+        if (!is_array($attributes)) {
             $attributes = [$attributes];
         }
 
@@ -52,12 +52,12 @@ class VoterSecurityHandler implements SecurityHandlerInterface
         }
     }
 
-    public function getBaseRole(AdminInterface $admin)
+    public function getBaseRole(AdminInterface $admin): string
     {
         return 'ROLE_'.str_replace('.', '_', strtoupper($admin->getCode())).'_%s';
     }
 
-    public function buildSecurityInformation(AdminInterface $admin)
+    public function buildSecurityInformation(AdminInterface $admin): array
     {
         return [];
     }
