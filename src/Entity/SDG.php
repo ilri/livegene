@@ -92,7 +92,7 @@ class SDG
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\SDGRole", mappedBy="sdg", cascade={"persist", "remove"})
      */
-    private $sdgRoles;
+    private Collection $sdgRoles;
 
     public function __construct()
     {

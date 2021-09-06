@@ -62,7 +62,7 @@ class PartnershipType
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Partnership", mappedBy="partnershipType")
      */
-    private $partnerships;
+    private Collection $partnerships;
 
     public function __construct()
     {

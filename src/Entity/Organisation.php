@@ -96,17 +96,17 @@ class Organisation
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Project", mappedBy="donor")
      */
-    private $projects;
+    private Collection $projects;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Partnership", mappedBy="partner")
      */
-    private $partnerships;
+    private Collection $partnerships;
 
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\SamplingActivity", mappedBy="samplingPartners")
      */
-    private $samplingActivities;
+    private Collection $samplingActivities;
 
     public function __construct()
     {

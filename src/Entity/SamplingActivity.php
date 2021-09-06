@@ -72,7 +72,7 @@ class SamplingActivity
      * @Assert\Count(min=1)
      * @Groups({"sampling_activity:collection:get", "sampling_activity:item:get"})
      */
-    private $samplingPartners;
+    private Collection $samplingPartners;
 
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\AnimalSpecies", inversedBy="samplingActivities")
@@ -80,7 +80,7 @@ class SamplingActivity
      * @Assert\Count(min=1)
      * @Groups({"sampling_activity:collection:get", "sampling_activity:item:get"})
      */
-    private $animalSpecies;
+    private Collection $animalSpecies;
 
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Country", inversedBy="samplingActivities")
@@ -88,7 +88,7 @@ class SamplingActivity
      * @Assert\Count(min=1)
      * @Groups({"sampling_activity:collection:get", "sampling_activity:item:get"})
      */
-    private $countries;
+    private Collection $countries;
 
     /**
      * @ORM\Column(type="string", length=100)
@@ -115,7 +115,7 @@ class SamplingActivity
      * @ORM\OneToMany(targetEntity="App\Entity\SamplingDocumentation", mappedBy="samplingActivity", orphanRemoval=true, cascade={"persist"})
      * @Assert\Valid()
      */
-    private $samplingDocumentations;
+    private Collection $samplingDocumentations;
 
     public function __construct()
     {

@@ -72,7 +72,7 @@ class SamplingDocumentType
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\SamplingDocumentation", mappedBy="samplingDocumentType")
      */
-    private $samplingDocumentations;
+    private Collection $samplingDocumentations;
 
     public function __construct()
     {

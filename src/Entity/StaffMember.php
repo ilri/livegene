@@ -81,13 +81,13 @@ class StaffMember
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Project", mappedBy="principalInvestigator")
      */
-    private $projects;
+    private Collection $projects;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\StaffRole", mappedBy="staffMember", orphanRemoval=true, cascade={"persist", "remove"})
      * @Assert\Valid()
      */
-    private $staffRoles;
+    private Collection $staffRoles;
 
     public function __construct()
     {

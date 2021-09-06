@@ -92,7 +92,7 @@ class Partnership
      * @ORM\JoinTable(name="app_partnership_contact")
      * @Groups({"partnership:collection:get", "partnership:item:get"})
      */
-    private $contacts;
+    private Collection $contacts;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\PartnershipType", inversedBy="partnerships")

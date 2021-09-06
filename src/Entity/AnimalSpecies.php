@@ -69,12 +69,12 @@ class AnimalSpecies
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\SamplingActivity", mappedBy="animalSpecies")
      */
-    private $samplingActivities;
+    private Collection $samplingActivities;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\AnimalSpeciesRole", mappedBy="animalSpecies", orphanRemoval=true)
      */
-    private $animalSpeciesRoles;
+    private Collection $animalSpeciesRoles;
 
     public function __construct()
     {

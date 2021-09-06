@@ -73,7 +73,7 @@ class Contact
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Partnership", mappedBy="contacts")
      */
-    private $partnerships;
+    private Collection $partnerships;
 
     public function __construct()
     {
