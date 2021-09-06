@@ -50,21 +50,21 @@ class AnimalSpecies
      * @ORM\Column(type="integer")
      * @Groups({"animal_species:collection:get", "animal_species:item:get", "sampling_activity:collection:get", "sampling_activity:item:get"})
      */
-    private $id;
+    private int $id;
 
     /**
      * @ORM\Column(type="string", length=30, unique=true)
      * @Assert\NotBlank()
      * @Groups({"animal_species:collection:get", "animal_species:item:get", "sampling_activity:collection:get", "sampling_activity:item:get"})
      */
-    private $commonName;
+    private ?string $commonName;
 
     /**
      * @ORM\Column(type="string", length=50, unique=true)
      * @Assert\NotBlank()
      * @Groups({"animal_species:collection:get", "animal_species:item:get", "sampling_activity:collection:get", "sampling_activity:item:get"})
      */
-    private $scientificName;
+    private ?string $scientificName;
 
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\SamplingActivity", mappedBy="animalSpecies")

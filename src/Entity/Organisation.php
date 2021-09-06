@@ -50,40 +50,40 @@ class Organisation
      * @ORM\Column(type="integer")
      * @Groups({"organisation:collection:get", "organisation:item:get", "project:collection:get", "project:item:get"})
      */
-    private $id;
+    private int $id;
 
     /**
      * @ORM\Column(type="string", length=20)
      * @Groups({"organisation:collection:get", "organisation:item:get", "project:collection:get", "project:item:get"})
      */
-    private $shortName = '';
+    private string $shortName = '';
 
     /**
      * @ORM\Column(type="string", length=200)
      * @Assert\NotBlank()
      * @Groups({"organisation:collection:get", "organisation:item:get", "project:collection:get", "project:item:get"})
      */
-    private $fullName;
+    private ?string $fullName;
 
     /**
      * @ORM\Column(type="string", length=200)
      * @Groups({"organisation:collection:get", "organisation:item:get", "project:collection:get", "project:item:get"})
      */
-    private $localName = '';
+    private string $localName = '';
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Assert\Url()
      * @Groups({"organisation:collection:get", "organisation:item:get", "project:collection:get", "project:item:get"})
      */
-    private $link = '';
+    private string $link = '';
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Assert\Url()
      * @Groups({"organisation:collection:get", "organisation:item:get", "project:collection:get", "project:item:get"})
      */
-    private $logoUrl = '';
+    private string $logoUrl = '';
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Country", inversedBy="organisations")
@@ -91,7 +91,7 @@ class Organisation
      * @Assert\NotBlank()
      * @Groups({"organisation:collection:get", "organisation:item:get", "project:collection:get", "project:item:get"})
      */
-    private $country;
+    private ?Country $country;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Project", mappedBy="donor")

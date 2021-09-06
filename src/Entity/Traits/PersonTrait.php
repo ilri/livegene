@@ -30,7 +30,7 @@ trait PersonTrait
      *     "contact:collection:get", "contact:item:get",
      * })
      */
-    private $lastName;
+    private ?string $lastName;
 
     public function getFirstName(): ?string
     {

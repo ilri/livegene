@@ -61,7 +61,7 @@ class StaffMember
      * @Assert\NotBlank()
      * @Groups({"staff_member:collection:get", "staff_member:item:get", "staff_role:collection:get", "staff_role:item:get", "project:collection:get", "project:item:get"})
      */
-    private $username;
+    private ?string $username;
 
     /**
      * @ORM\Column(type="string", length=100, unique=true)
@@ -69,14 +69,14 @@ class StaffMember
      * @Assert\Email(mode="strict")
      * @Groups({"staff_member:collection:get", "staff_member:item:get", "staff_role:collection:get", "staff_role:item:get", "project:collection:get", "project:item:get"})
      */
-    private $email;
+    private ?string $email;
 
     /**
      * @ORM\Column(type="string", length=30)
      * @Assert\NotBlank()
      * @Groups({"staff_member:collection:get", "staff_member:item:get", "staff_role:collection:get", "staff_role:item:get", "project:collection:get", "project:item:get"})
      */
-    private $homeProgram;
+    private ?string $homeProgram;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Project", mappedBy="principalInvestigator")

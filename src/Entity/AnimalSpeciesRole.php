@@ -53,21 +53,21 @@ class AnimalSpeciesRole
      * @ORM\Column(type="integer")
      * @Groups({"animal_species_role:collection:get", "animal_species_role:item:get"})
      */
-    private $id;
+    private int $id;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Project", inversedBy="animalSpeciesRoles")
      * @ORM\JoinColumn(nullable=false)
      * @Groups({"animal_species_role:collection:get", "animal_species_role:item:get"})
      */
-    private $project;
+    private ?Project $project;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\AnimalSpecies", inversedBy="animalSpeciesRoles")
      * @ORM\JoinColumn(nullable=false)
      * @Groups({"animal_species_role:collection:get", "animal_species_role:item:get"})
      */
-    private $animalSpecies;
+    private ?AnimalSpecies $animalSpecies;
 
     public function getId(): ?int
     {

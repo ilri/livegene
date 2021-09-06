@@ -58,7 +58,7 @@ class Country
      *     "sampling_activity:collection:get", "sampling_activity:item:get",
      * })
      */
-    private $id;
+    private int $id;
 
     /**
      * @ORM\Column(type="string", length=2, unique=true)
@@ -72,7 +72,7 @@ class Country
      *     "sampling_activity:collection:get", "sampling_activity:item:get"
      * })
      */
-    private $country;
+    private ?string $country;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Organisation", mappedBy="country")

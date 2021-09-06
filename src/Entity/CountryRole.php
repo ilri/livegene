@@ -36,14 +36,14 @@ class CountryRole
      * @ORM\Column(type="integer")
      * @Groups({"project:collection:get", "project:item:get"})
      */
-    private $id;
+    private int $id;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Project", inversedBy="countryRoles")
      * @ORM\JoinColumn(nullable=false)
      * @Assert\NotBlank()
      */
-    private $project;
+    private ?Project $project;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Country", inversedBy="countryRoles")
@@ -51,7 +51,7 @@ class CountryRole
      * @Assert\NotBlank()
      * @Groups({"project:collection:get", "project:item:get"})
      */
-    private $country;
+    private ?Country $country;
 
     public function __toString()
     {

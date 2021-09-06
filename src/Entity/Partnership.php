@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\{
     ArrayCollection,
     Collection,
 };
+use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Serializer\Annotation\Groups;
@@ -57,7 +58,7 @@ class Partnership
      * @Groups({"partnership:collection:get", "partnership:item:get"})
      * @Groups({"project:collection:get", "project:item:get"})
      */
-    private $id;
+    private int $id;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Project", inversedBy="partnerships")
@@ -73,7 +74,7 @@ class Partnership
      * @Assert\NotBlank()
      * @Groups({"partnership:collection:get", "partnership:item:get", "project:collection:get", "project:item:get"})
      */
-    private $partner;
+    private ?Organisation $partner;
 
     /**
      * @ORM\Column(type="date", nullable=true)
@@ -100,7 +101,7 @@ class Partnership
      * @Assert\NotBlank()
      * @Groups({"partnership:collection:get", "partnership:item:get", "project:collection:get", "project:item:get"})
      */
-    private $partnershipType;
+    private ?PartnershipType $partnershipType;
 
     public function __construct()
     {
@@ -144,7 +145,7 @@ class Partnership
         return $this;
     }
 
-    public function getStartDate(): ?\DateTimeInterface
+    public function getStartDate(): ?DateTimeInterface
     {
         if ($this->getProject()) {
             return $this->startDate ?: $this->project->getStartDate();
@@ -153,14 +154,14 @@ class Partnership
         return $this->startDate;
     }
 
-    public function setStartDate(?\DateTimeInterface $startDate): self
+    public function setStartDate(?DateTimeInterface $startDate): self
     {
         $this->startDate = $startDate;
 
         return $this;
     }
 
-    public function getEndDate(): ?\DateTimeInterface
+    public function getEndDate(): ?DateTimeInterface
     {
         if ($this->getProject()) {
             return $this->endDate ?: $this->project->getEndDate();
@@ -169,7 +170,7 @@ class Partnership
         return $this->endDate;
     }
 
-    public function setEndDate(?\DateTimeInterface $endDate): self
+    public function setEndDate(?DateTimeInterface $endDate): self
     {
         $this->endDate = $endDate;
 

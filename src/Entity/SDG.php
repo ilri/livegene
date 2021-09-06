@@ -50,28 +50,28 @@ class SDG
      * @ORM\Column(type="integer")
      * @Groups({"sdg:collection:get", "sdg:item:get"})
      */
-    private $id;
+    private int $id;
 
     /**
      * @ORM\Column(type="string", length=50, unique=true)
      * @Assert\NotBlank()
      * @Groups({"sdg:collection:get", "sdg:item:get"})
      */
-    private $headline;
+    private ?string $headline;
 
     /**
      * @ORM\Column(type="string", length=190, unique=true)
      * @Assert\NotBlank()
      * @Groups({"sdg:collection:get", "sdg:item:get"})
      */
-    private $fullName;
+    private ?string $fullName;
 
     /**
      * @ORM\Column(type="string", length=7, unique=true)
      * @Assert\NotBlank()
      * @Groups({"sdg:collection:get", "sdg:item:get"})
      */
-    private $color;
+    private ?string $color;
 
     /**
      * @ORM\Column(type="string", length=50, unique=true)
@@ -79,7 +79,7 @@ class SDG
      * @Assert\Url()
      * @Groups({"sdg:collection:get", "sdg:item:get"})
      */
-    private $link;
+    private ?string $link;
 
     /**
      * @ORM\Column(type="string", length=80, unique=true)
