@@ -15,8 +15,7 @@ use PHPUnit\Framework\TestCase;
 
 class ProjectTest extends TestCase
 {
-    private $now;
-    private $project;
+    private Project $project;
 
     public function setUp(): void
     {
