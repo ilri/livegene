@@ -7,7 +7,7 @@ use Carbon\Carbon;
 use Symfony\Component\HttpFoundation\Response;
 use App\DataFixtures\Test\UserFixtures;
 
-class ProjectAPITest extends ApiTestCase
+class ProjectOldAPITest extends OldApiTestCase
 {
     use FixturesTrait;
 

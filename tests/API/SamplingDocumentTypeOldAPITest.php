@@ -6,7 +6,7 @@ use Liip\TestFixturesBundle\Test\FixturesTrait;
 use Symfony\Component\HttpFoundation\Response;
 use App\DataFixtures\Test\UserFixtures;
 
-class CountryRoleAPITest extends ApiTestCase
+class SamplingDocumentTypeOldAPITest extends OldApiTestCase
 {
     use FixturesTrait;
 
@@ -17,7 +17,7 @@ class CountryRoleAPITest extends ApiTestCase
     {
         $this->fixtures = $this->loadFixtures([
             'App\DataFixtures\Test\UserFixtures',
-            'App\DataFixtures\Test\CountryRoleFixtures',
+            'App\DataFixtures\Test\SamplingDocumentTypeFixtures',
         ])->getReferenceRepository();
         $username = $this->fixtures->getReference('api_user')->getUsername();
         $credentials = [
@@ -30,7 +30,7 @@ class CountryRoleAPITest extends ApiTestCase
 
     public function testGetCollectionIsAvailable(): void
     {
-        $this->client->request('GET', '/api/country_roles', [], [], [
+        $this->client->request('GET', '/api/sampling_document_types', [], [], [
             'HTTP_ACCEPT' => 'application/json',
         ]);
         $this->assertSame(
@@ -49,7 +49,7 @@ class CountryRoleAPITest extends ApiTestCase
 
     public function testPostIsNotAllowed(): void
     {
-        $this->client->request('POST', '/api/country_roles', [], [], [
+        $this->client->request('POST', '/api/sampling_document_types', [], [], [
             'CONTENT_TYPE' => 'application/json',
         ]);
         $this->assertSame(
@@ -60,8 +60,8 @@ class CountryRoleAPITest extends ApiTestCase
 
     public function testGetItemIsAvailable(): void
     {
-        $countryRole = $this->getCountryRole();
-        $this->client->request('GET', sprintf('/api/country_roles/%s', $countryRole), [], [], [
+        $doctype = $this->getSamplingDocumentType();
+        $this->client->request('GET', sprintf('/api/sampling_document_types/%s', $doctype), [], [], [
             'HTTP_ACCEPT' => 'application/json'
         ]);
         $this->assertSame(
@@ -75,24 +75,22 @@ class CountryRoleAPITest extends ApiTestCase
             )
         );
         $data = json_decode($this->client->getResponse()->getContent(), true);
-        $this->assertArrayHasKey('project', $data);
-        $this->assertArrayHasKey('country', $data);
-        $this->assertArrayHasKey('percent', $data);
+        $this->assertArrayHasKey('shortName', $data);
+        $this->assertArrayHasKey('longName', $data);
         $this->assertSame(
             $data,
             [
                 'id' => 1,
-                'project' => '/api/projects/1',
-                'country' => '/api/countries/GB',
-                'percent' => '0.5',
+                'shortName' => 'ATA',
+                'longName' => 'A test agreement'
             ]
         );
     }
 
     public function testPutIsNotAllowed(): void
     {
-        $countryRole = $this->getCountryRole();
-        $this->client->request('PUT', sprintf('/api/country_roles/%s', $countryRole), [], [], [
+        $doctype = $this->getSamplingDocumentType();
+        $this->client->request('PUT', sprintf('/api/sampling_document_types/%s', $doctype), [], [], [
             'CONTENT_TYPE' => 'application/json',
         ]);
         $this->assertSame(
@@ -103,8 +101,8 @@ class CountryRoleAPITest extends ApiTestCase
 
     public function testDeleteIsNotAllowed(): void
     {
-        $countryRole = $this->getCountryRole();
-        $this->client->request('DELETE', sprintf('/api/country_roles/%s', $countryRole), [], [], [
+        $doctype = $this->getSamplingDocumentType();
+        $this->client->request('DELETE', sprintf('/api/sampling_document_types/%s', $doctype), [], [], [
             'CONTENT_TYPE' => 'application/json',
         ]);
         $this->assertSame(
@@ -113,8 +111,8 @@ class CountryRoleAPITest extends ApiTestCase
         );
     }
 
-    private function getCountryRole(): int
+    private function getSamplingDocumentType(): int
     {
-        return $this->fixtures->getReference('country-role')->getId();
+        return $this->fixtures->getReference('doctype')->getId();
     }
 }

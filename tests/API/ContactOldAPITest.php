@@ -6,7 +6,7 @@ use Liip\TestFixturesBundle\Test\FixturesTrait;
 use Symfony\Component\HttpFoundation\Response;
 use App\DataFixtures\Test\UserFixtures;
 
-class CountryAPITest extends ApiTestCase
+class ContactOldAPITest extends OldApiTestCase
 {
     use FixturesTrait;
 
@@ -17,7 +17,7 @@ class CountryAPITest extends ApiTestCase
     {
         $this->fixtures = $this->loadFixtures([
             'App\DataFixtures\Test\UserFixtures',
-            'App\DataFixtures\Test\CountryFixtures',
+            'App\DataFixtures\Test\ContactFixtures',
         ])->getReferenceRepository();
         $username = $this->fixtures->getReference('api_user')->getUsername();
         $credentials = [
@@ -30,7 +30,7 @@ class CountryAPITest extends ApiTestCase
 
     public function testGetCollectionIsAvailable(): void
     {
-        $this->client->request('GET', '/api/countries', [], [], [
+        $this->client->request('GET', '/api/contacts', [], [], [
             'HTTP_ACCEPT' => 'application/json',
         ]);
         $this->assertSame(
@@ -49,7 +49,7 @@ class CountryAPITest extends ApiTestCase
 
     public function testPostIsNotAllowed(): void
     {
-        $this->client->request('POST', '/api/countries', [], [], [
+        $this->client->request('POST', '/api/contacts', [], [], [
             'CONTENT_TYPE' => 'application/json',
         ]);
         $this->assertSame(
@@ -60,8 +60,8 @@ class CountryAPITest extends ApiTestCase
 
     public function testGetItemIsAvailable(): void
     {
-        $country = $this->getCountry();
-        $this->client->request('GET', sprintf('/api/countries/%s', $country), [], [], [
+        $contact = $this->getContact();
+        $this->client->request('GET', sprintf('/api/contacts/%s', $contact), [], [], [
             'HTTP_ACCEPT' => 'application/json'
         ]);
         $this->assertSame(
@@ -75,21 +75,23 @@ class CountryAPITest extends ApiTestCase
             )
         );
         $data = json_decode($this->client->getResponse()->getContent(), true);
-        $this->assertArrayHasKey('country', $data);
+        $this->assertArrayHasKey('firstName', $data);
+        $this->assertArrayHasKey('lastName', $data);
         $this->assertSame(
             $data,
             [
                 'id' => 1,
-                'country' => 'GB',
-                'countryName' => 'United Kingdom'
+                'title' => 'Dr.',
+                'firstName' => 'Max',
+                'lastName' => 'Mustermann'
             ]
         );
     }
 
     public function testPutIsNotAllowed(): void
     {
-        $country = $this->getCountry();
-        $this->client->request('PUT', sprintf('/api/countries/%s', $country), [], [], [
+        $contact = $this->getContact();
+        $this->client->request('PUT', sprintf('/api/contacts/%s', $contact), [], [], [
             'CONTENT_TYPE' => 'application/json',
         ]);
         $this->assertSame(
@@ -98,10 +100,10 @@ class CountryAPITest extends ApiTestCase
         );
     }
 
-    public function testDeleteIsNotAllowed(): void
+    public function testDeleteIsNotAllowed()
     {
-        $country = $this->getCountry();
-        $this->client->request('DELETE', sprintf('/api/countries/%s', $country), [], [], [
+        $contact = $this->getContact();
+        $this->client->request('DELETE', sprintf('/api/contacts/%s', $contact), [], [], [
             'CONTENT_TYPE' => 'application/json',
         ]);
         $this->assertSame(
@@ -110,8 +112,8 @@ class CountryAPITest extends ApiTestCase
         );
     }
 
-    private function getCountry(): string
+    private function getContact(): int
     {
-        return $this->fixtures->getReference('country')->getCountry();
+        return $this->fixtures->getReference('contact')->getId();
     }
 }

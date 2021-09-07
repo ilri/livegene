@@ -6,7 +6,7 @@ use Liip\TestFixturesBundle\Test\FixturesTrait;
 use Symfony\Component\HttpFoundation\Response;
 use App\DataFixtures\Test\UserFixtures;
 
-class SDGAPITest extends ApiTestCase
+class SamplingActivityOldAPITest extends OldApiTestCase
 {
     use FixturesTrait;
 
@@ -17,7 +17,7 @@ class SDGAPITest extends ApiTestCase
     {
         $this->fixtures = $this->loadFixtures([
             'App\DataFixtures\Test\UserFixtures',
-            'App\DataFixtures\SDGFixtures',
+            'App\DataFixtures\Test\SamplingActivityFixtures',
         ])->getReferenceRepository();
         $username = $this->fixtures->getReference('api_user')->getUsername();
         $credentials = [
@@ -30,7 +30,7 @@ class SDGAPITest extends ApiTestCase
 
     public function testGetCollectionIsAvailable(): void
     {
-        $this->client->request('GET', '/api/sdgs', [], [], [
+        $this->client->request('GET', '/api/sampling_activities', [], [], [
             'HTTP_ACCEPT' => 'application/json',
         ]);
         $this->assertSame(
@@ -44,12 +44,12 @@ class SDGAPITest extends ApiTestCase
             )
         );
         $data = json_decode($this->client->getResponse()->getContent(), true);
-        $this->assertCount(17, $data);
+        $this->assertCount(1, $data);
     }
 
     public function testPostIsNotAllowed(): void
     {
-        $this->client->request('POST', '/api/sdgs', [], [], [
+        $this->client->request('POST', '/api/sampling_activities', [], [], [
             'CONTENT_TYPE' => 'application/json',
         ]);
         $this->assertSame(
@@ -60,8 +60,8 @@ class SDGAPITest extends ApiTestCase
 
     public function testGetItemIsAvailable(): void
     {
-        $sdg = $this->getSDG();
-        $this->client->request('GET', sprintf('/api/sdgs/%s', $sdg), [], [], [
+        $activity = $this->getSamplingActivity();
+        $this->client->request('GET', sprintf('/api/sampling_activities/%s', $activity), [], [], [
             'HTTP_ACCEPT' => 'application/json'
         ]);
         $this->assertSame(
@@ -75,36 +75,41 @@ class SDGAPITest extends ApiTestCase
             )
         );
         $data = json_decode($this->client->getResponse()->getContent(), true);
-        $this->assertArrayHasKey('headline', $data);
-        $this->assertArrayHasKey('fullName', $data);
+        $this->assertArrayHasKey('description', $data);
+        $this->assertArrayHasKey('project', $data);
         $this->assertSame(
             $data,
             [
                 'id' => 1,
-                'headline' => 'NO POVERTY',
-                'fullName' => 'End poverty in all its forms everywhere',
-                'color' => '#E5243B',
-                'link' => 'https://sustainabledevelopment.un.org/sdg1',
-                'logoUrl' => 'https://sustainabledevelopment.un.org/content/images/E_SDG_Icons-01.jpg'
+                'project' => '/api/projects/1',
+                'samplingPartners' => [
+                    '/api/organisations/1'
+                ],
+                'animalSpecies' => [
+                    [
+                        'id' => 1,
+                        'commonName' => 'Cattle',
+                        'scientificName' => 'Bos taurus'
+                    ]
+                ],
+                'countries' => [
+                    [
+                        'id' => 1,
+                        'country' => 'GB',
+                        'countryName' => 'United Kingdom'
+                    ]
+                ],
+                'description' => 'Sampling activity',
+                'startDate' => '2018-01-01T00:00:00+00:00',
+                'endDate' => '2019-12-31T00:00:00+00:00'
             ]
-        );
-    }
-
-    public function testGetItemIsNotAvailable(): void
-    {
-        $this->client->request('GET', '/api/sdgs/18', [], [], [
-            'HTTP_ACCEPT' => 'application/json'
-        ]);
-        $this->assertSame(
-            Response::HTTP_NOT_FOUND,
-            $this->client->getResponse()->getStatusCode()
         );
     }
 
     public function testPutIsNotAllowed(): void
     {
-        $sdg = $this->getSDG();
-        $this->client->request('PUT', sprintf('/api/sdgs/%s', $sdg), [], [], [
+        $activity = $this->getSamplingActivity();
+        $this->client->request('PUT', sprintf('/api/sampling_activities/%s', $activity), [], [], [
             'CONTENT_TYPE' => 'application/json',
         ]);
         $this->assertSame(
@@ -115,8 +120,8 @@ class SDGAPITest extends ApiTestCase
 
     public function testDeleteIsNotAllowed(): void
     {
-        $sdg = $this->getSDG();
-        $this->client->request('DELETE', sprintf('/api/sdgs/%s', $sdg), [], [], [
+        $activity = $this->getSamplingActivity();
+        $this->client->request('DELETE', sprintf('/api/sampling_activities/%s', $activity), [], [], [
             'CONTENT_TYPE' => 'application/json',
         ]);
         $this->assertSame(
@@ -125,8 +130,8 @@ class SDGAPITest extends ApiTestCase
         );
     }
 
-    private function getSDG(): int
+    private function getSamplingActivity(): int
     {
-        return $this->fixtures->getReference('sdg1')->getId();
+        return $this->fixtures->getReference('activity')->getId();
     }
 }

@@ -6,7 +6,7 @@ use Liip\TestFixturesBundle\Test\FixturesTrait;
 use Symfony\Component\HttpFoundation\Response;
 use App\DataFixtures\Test\UserFixtures;
 
-class PartnershipAPITest extends ApiTestCase
+class OrganisationOldAPITest extends OldApiTestCase
 {
     use FixturesTrait;
 
@@ -17,7 +17,7 @@ class PartnershipAPITest extends ApiTestCase
     {
         $this->fixtures = $this->loadFixtures([
             'App\DataFixtures\Test\UserFixtures',
-            'App\DataFixtures\Test\PartnershipFixtures',
+            'App\DataFixtures\Test\OrganisationFixtures',
         ])->getReferenceRepository();
         $username = $this->fixtures->getReference('api_user')->getUsername();
         $credentials = [
@@ -30,7 +30,7 @@ class PartnershipAPITest extends ApiTestCase
 
     public function testGetCollectionIsAvailable(): void
     {
-        $this->client->request('GET', '/api/partnerships', [], [], [
+        $this->client->request('GET', '/api/organisations', [], [], [
             'HTTP_ACCEPT' => 'application/json',
         ]);
         $this->assertSame(
@@ -49,7 +49,7 @@ class PartnershipAPITest extends ApiTestCase
 
     public function testPostIsNotAllowed(): void
     {
-        $this->client->request('POST', '/api/partnerships', [], [], [
+        $this->client->request('POST', '/api/organisations', [], [], [
             'CONTENT_TYPE' => 'application/json',
         ]);
         $this->assertSame(
@@ -60,8 +60,8 @@ class PartnershipAPITest extends ApiTestCase
 
     public function testGetItemIsAvailable(): void
     {
-        $partnership = $this->getPartnership();
-        $this->client->request('GET', sprintf('/api/partnerships/%s', $partnership), [], [], [
+        $organisation = $this->getOrganisation();
+        $this->client->request('GET', sprintf('/api/organisations/%s', $organisation), [], [], [
             'HTTP_ACCEPT' => 'application/json'
         ]);
         $this->assertSame(
@@ -75,27 +75,30 @@ class PartnershipAPITest extends ApiTestCase
             )
         );
         $data = json_decode($this->client->getResponse()->getContent(), true);
-        $this->assertArrayHasKey('project', $data);
-        $this->assertArrayHasKey('partner', $data);
-        $this->assertArrayHasKey('partnershipType', $data);
+        $this->assertArrayHasKey('shortName', $data);
+        $this->assertArrayHasKey('fullName', $data);
         $this->assertSame(
             $data,
             [
                 'id' => 1,
-                'project' => '/api/projects/1',
-                'partner' => '/api/organisations/1',
-                'startDate' => '2018-01-01T00:00:00+00:00',
-                'endDate' => '2019-12-31T00:00:00+00:00',
-                'contacts' => [],
-                'partnershipType' => '/api/partnership_types/5'
+                'shortName' => 'ACME',
+                'fullName' => 'A Company Making Everything',
+                'localName' => 'A Company Making Everything',
+                'link' => 'https://www.acme.co.uk/',
+                'logoUrl' => 'https://www.acme.co.uk/images/logo.png',
+                'country' => [
+                    'id' => 1,
+                    'country' => 'GB',
+                    'countryName' => 'United Kingdom'
+                ]
             ]
         );
     }
 
     public function testPutIsNotAllowed(): void
     {
-        $partnership = $this->getPartnership();
-        $this->client->request('PUT', sprintf('/api/partnerships/%s', $partnership), [], [], [
+        $organisation = $this->getOrganisation();
+        $this->client->request('PUT', sprintf('/api/organisations/%s', $organisation), [], [], [
             'CONTENT_TYPE' => 'application/json',
         ]);
         $this->assertSame(
@@ -106,8 +109,8 @@ class PartnershipAPITest extends ApiTestCase
 
     public function testDeleteIsNotAllowed(): void
     {
-        $partnership = $this->getPartnership();
-        $this->client->request('DELETE', sprintf('/api/partnerships/%s', $partnership), [], [], [
+        $organisation = $this->getOrganisation();
+        $this->client->request('DELETE', sprintf('/api/organisations/%s', $organisation), [], [], [
             'CONTENT_TYPE' => 'application/json',
         ]);
         $this->assertSame(
@@ -116,8 +119,8 @@ class PartnershipAPITest extends ApiTestCase
         );
     }
 
-    private function getPartnership(): int
+    private function getOrganisation(): int
     {
-        return $this->fixtures->getReference('partnership')->getId();
+        return $this->fixtures->getReference('organisation')->getId();
     }
 }

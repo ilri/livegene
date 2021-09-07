@@ -10,7 +10,7 @@ class AuthenticationTest extends ApiTestCase
 {
     public function testLogin()
     {
-        $client = self::createClient();
+        $client = static::createClient();
 
         $databaseTool = $client->getContainer()->get(DatabaseToolCollection::class)->get();
         $fixtures = $databaseTool->loadFixtures([
@@ -26,7 +26,7 @@ class AuthenticationTest extends ApiTestCase
             ],
         ]);
 
-        $json = $response->toArray();
+        $json = json_decode($response->getContent(), true);
         $this->assertResponseIsSuccessful();
         $this->assertArrayHasKey('token', $json);
     }

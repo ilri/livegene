@@ -5,9 +5,8 @@ namespace App\Tests\API;
 use Liip\TestFixturesBundle\Test\FixturesTrait;
 use Symfony\Component\HttpFoundation\Response;
 use App\DataFixtures\Test\UserFixtures;
-use App\Entity\PartnershipType;
 
-class PartnershipTypeAPITest extends ApiTestCase
+class SDGRoleOldAPITest extends OldApiTestCase
 {
     use FixturesTrait;
 
@@ -18,7 +17,7 @@ class PartnershipTypeAPITest extends ApiTestCase
     {
         $this->fixtures = $this->loadFixtures([
             'App\DataFixtures\Test\UserFixtures',
-            'App\DataFixtures\PartnershipTypeFixtures',
+            'App\DataFixtures\Test\SDGRoleFixtures',
         ])->getReferenceRepository();
         $username = $this->fixtures->getReference('api_user')->getUsername();
         $credentials = [
@@ -27,13 +26,11 @@ class PartnershipTypeAPITest extends ApiTestCase
         ];
 
         $this->client = $this->createAuthenticatedClient($credentials);
-
-        $this->em = self::$container->get('doctrine.orm.entity_manager');
     }
 
     public function testGetCollectionIsAvailable(): void
     {
-        $this->client->request('GET', '/api/partnership_types', [], [], [
+        $this->client->request('GET', '/api/sdg_roles', [], [], [
             'HTTP_ACCEPT' => 'application/json',
         ]);
         $this->assertSame(
@@ -47,12 +44,12 @@ class PartnershipTypeAPITest extends ApiTestCase
             )
         );
         $data = json_decode($this->client->getResponse()->getContent(), true);
-        $this->assertCount(5, $data);
+        $this->assertCount(1, $data);
     }
 
     public function testPostIsNotAllowed(): void
     {
-        $this->client->request('POST', '/api/partnership_types', [], [], [
+        $this->client->request('POST', '/api/sdg_roles', [], [], [
             'CONTENT_TYPE' => 'application/json',
         ]);
         $this->assertSame(
@@ -63,8 +60,8 @@ class PartnershipTypeAPITest extends ApiTestCase
 
     public function testGetItemIsAvailable(): void
     {
-        $partnership_type = $this->getPartnershipType();
-        $this->client->request('GET', sprintf('/api/partnership_types/%s', $partnership_type), [], [], [
+        $sdgRole = $this->getSDGRole();
+        $this->client->request('GET', sprintf('/api/sdg_roles/%s', $sdgRole), [], [], [
             'HTTP_ACCEPT' => 'application/json'
         ]);
         $this->assertSame(
@@ -78,20 +75,24 @@ class PartnershipTypeAPITest extends ApiTestCase
             )
         );
         $data = json_decode($this->client->getResponse()->getContent(), true);
-        $this->assertArrayHasKey('description', $data);
+        $this->assertArrayHasKey('project', $data);
+        $this->assertArrayHasKey('SDG', $data);
+        $this->assertArrayHasKey('percent', $data);
         $this->assertSame(
             $data,
             [
                 'id' => 1,
-                'description' => 'Unspecified',
+                'project' => '/api/projects/1',
+                'SDG' => '/api/sdgs/1',
+                'percent' => '0.5',
             ]
         );
     }
 
     public function testPutIsNotAllowed(): void
     {
-        $partnership_type = $this->getPartnershipType();
-        $this->client->request('PUT', sprintf('/api/partnership_types/%s', $partnership_type), [], [], [
+        $sdgRole = $this->getSDGRole();
+        $this->client->request('PUT', sprintf('/api/sdg_roles/%s', $sdgRole), [], [], [
             'CONTENT_TYPE' => 'application/json',
         ]);
         $this->assertSame(
@@ -102,8 +103,8 @@ class PartnershipTypeAPITest extends ApiTestCase
 
     public function testDeleteIsNotAllowed(): void
     {
-        $partnership_type = $this->getPartnershipType();
-        $this->client->request('DELETE', sprintf('/api/partnership_types/%s', $partnership_type), [], [], [
+        $sdgRole = $this->getSDGRole();
+        $this->client->request('DELETE', sprintf('/api/sdg_roles/%s', $sdgRole), [], [], [
             'CONTENT_TYPE' => 'application/json',
         ]);
         $this->assertSame(
@@ -112,8 +113,8 @@ class PartnershipTypeAPITest extends ApiTestCase
         );
     }
 
-    private function getPartnershipType(): int
+    private function getSDGRole(): int
     {
-        return $this->em->getRepository(PartnershipType::class)->findOneByDescription('Unspecified')->getId();
+        return $this->fixtures->getReference('sdg-role')->getId();
     }
 }
