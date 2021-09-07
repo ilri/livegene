@@ -6,13 +6,13 @@ use ApiPlatform\Core\Bridge\Symfony\Bundle\Test\{
     ApiTestCase,
     Client,
 };
-use App\Entity\Contact;
+use App\Entity\Country;
 use Doctrine\Common\DataFixtures\ReferenceRepository;
 use Liip\TestFixturesBundle\Services\DatabaseToolCollection;
 use Symfony\Component\HttpFoundation\Response;
 use App\DataFixtures\Test\UserFixtures;
 
-class ContactAPITest extends ApiTestCase
+class CountryAPITest extends ApiTestCase
 {
     private Client $client;
     private ReferenceRepository $fixtures;
@@ -23,7 +23,7 @@ class ContactAPITest extends ApiTestCase
         $databaseTool = $this->client->getContainer()->get(DatabaseToolCollection::class)->get();
         $this->fixtures = $databaseTool->loadFixtures([
             'App\DataFixtures\Test\UserFixtures',
-            'App\DataFixtures\Test\ContactFixtures',
+            'App\DataFixtures\Test\CountryFixtures',
         ])->getReferenceRepository();
         $username = $this->fixtures->getReference('api_user')->getUsername();
         $credentials = [
@@ -41,64 +41,62 @@ class ContactAPITest extends ApiTestCase
 
     public function testGetCollectionIsAvailable(): void
     {
-        $response = $this->client->request('GET', '/api/contacts');
+        $response = $this->client->request('GET', '/api/countries');
         $this->assertResponseIsSuccessful();
         $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
         $this->assertJsonContains([
-            '@context' => '/api/contexts/Contact',
-            '@id' => '/api/contacts',
+            '@context' => '/api/contexts/Country',
+            '@id' => '/api/countries',
             '@type' => 'hydra:Collection',
             'hydra:member' => [
                 [
                     'id' => 1,
-                    'title' => 'Dr.',
-                    'firstName' => 'Max',
-                    'lastName' => 'Mustermann',
+                    'country' => 'GB',
+                    'countryName' => 'United Kingdom',
                 ]
             ],
             'hydra:totalItems' => 1,
         ]);
         $this->assertCount(1, $response->toArray()['hydra:member']);
-        $this->assertMatchesResourceCollectionJsonSchema(Contact::class);
+        $this->assertMatchesResourceCollectionJsonSchema(Country::class);
     }
 
     public function testPostIsNotAllowed(): void
     {
-        $this->client->request('POST', '/api/contacts');
+        $this->client->request('POST', '/api/countries');
         $this->assertResponseStatusCodeSame(Response::HTTP_METHOD_NOT_ALLOWED);
     }
 
     public function testGetItemIsAvailable(): void
     {
-        $contact = $this->getContact();
-        $response = $this->client->request('GET', sprintf('/api/contacts/%s', $contact));
+        $country = $this->getCountry();
+        $response = $this->client->request('GET', sprintf('/api/countries/%s', $country));
         $this->assertResponseIsSuccessful();
         $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
         $this->assertJsonContains([
-                'id' => 1,
-                'title' => 'Dr.',
-                'firstName' => 'Max',
-                'lastName' => 'Mustermann'
+            'id' => 1,
+            'country' => 'GB',
+            'countryName' => 'United Kingdom',
         ]);
-        $this->assertMatchesResourceItemJsonSchema(Contact::class);
+        $this->assertMatchesResourceItemJsonSchema(Country::class);
     }
 
     public function testPutIsNotAllowed(): void
     {
-        $contact = $this->getContact();
-        $this->client->request('PUT', sprintf('/api/contacts/%s', $contact));
+        $country = $this->getCountry();
+        $this->client->request('PUT', sprintf('/api/countries/%s', $country));
         $this->assertResponseStatusCodeSame(Response::HTTP_METHOD_NOT_ALLOWED);
     }
 
-    public function testDeleteIsNotAllowed()
+    public function testDeleteIsNotAllowed(): void
     {
-        $contact = $this->getContact();
-        $this->client->request('DELETE', sprintf('/api/contacts/%s', $contact));
+        $country = $this->getCountry();
+        $this->client->request('DELETE', sprintf('/api/countries/%s', $country));
         $this->assertResponseStatusCodeSame(Response::HTTP_METHOD_NOT_ALLOWED);
     }
 
-    private function getContact(): int
+    private function getCountry(): string
     {
-        return $this->fixtures->getReference('contact')->getId();
+        return $this->fixtures->getReference('country')->getCountry();
     }
 }
