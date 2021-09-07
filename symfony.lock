@@ -182,6 +182,9 @@
             "ref": "fe60ce509ef04a3f40da96e3979bc8d9b13b2372"
         }
     },
+    "justinrainbow/json-schema": {
+        "version": "5.2.11"
+    },
     "knplabs/gaufrette": {
         "version": "v0.8.1"
     },
