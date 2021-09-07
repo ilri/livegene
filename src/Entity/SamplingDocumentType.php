@@ -53,7 +53,7 @@ class SamplingDocumentType
      * @ORM\Column(type="integer")
      * @Groups({"sampling_document_type:collection:get", "sampling_document_type:item:get"})
      */
-    private ?int $id;
+    private ?int $id = null;
 
     /**
      * @ORM\Column(type="string", length=30, unique=true)

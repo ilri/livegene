@@ -66,7 +66,7 @@ class Project
      * @ORM\Column(type="integer")
      * @Groups({"project:collection:get", "project:item:get", "staff_role:collection:get", "staff_role:item:get"})
      */
-    private ?int $id;
+    private ?int $id = null;
 
     /**
      * @ORM\Column(type="string", length=20, unique=true)

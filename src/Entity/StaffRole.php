@@ -58,7 +58,7 @@ class StaffRole
      * @ORM\Column(type="integer")
      * @Groups({"staff_role:collection:get", "staff_role:item:get", "project:collection:get", "project:item:get"})
      */
-    private ?int $id;
+    private ?int $id = null;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Project", inversedBy="staffRoles")

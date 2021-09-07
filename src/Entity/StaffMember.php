@@ -57,7 +57,7 @@ class StaffMember
      * @ORM\Column(type="integer")
      * @Groups({"staff_member:collection:get", "staff_member:item:get", "staff_role:collection:get", "staff_role:item:get", "project:collection:get", "project:item:get"})
      */
-    private ?int $id;
+    private ?int $id = null;
 
     /**
      * @ORM\Column(type="string", length=15, unique=true)

@@ -57,7 +57,7 @@ class Partnership
      * @Groups({"partnership:collection:get", "partnership:item:get"})
      * @Groups({"project:collection:get", "project:item:get"})
      */
-    private ?int $id;
+    private ?int $id = null;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Project", inversedBy="partnerships")

@@ -49,7 +49,7 @@ class SamplingDocumentation
      * @ORM\Column(type="integer")
      * @Groups({"sampling_documentation:collection:get", "sampling_collection:item:get"})
      */
-    private ?int $id;
+    private ?int $id = null;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\SamplingActivity", inversedBy="samplingDocumentations")
