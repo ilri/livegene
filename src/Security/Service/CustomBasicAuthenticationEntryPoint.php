@@ -20,6 +20,9 @@ class CustomBasicAuthenticationEntryPoint implements AuthenticationEntryPointInt
 {
     private string $realmName;
 
+    /**
+     * @param string $realmName
+     */
     public function __construct(string $realmName)
     {
         $this->realmName = $realmName;

@@ -21,6 +21,9 @@ class MultipleFileType extends AbstractType
         ]);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getParent(): string
     {
         return FileType::class;

@@ -16,9 +16,13 @@ use Symfony\Component\Serializer\Normalizer\{
 
 class SamplingDocumentationNormalizer implements NormalizerInterface, DenormalizerInterface, SerializerAwareInterface
 {
-    private $decorated;
+    private NormalizerInterface $decorated;
     private UrlGeneratorInterface $router;
 
+    /**
+     * @param NormalizerInterface $decorated
+     * @param UrlGeneratorInterface $router
+     */
     public function __construct(NormalizerInterface $decorated, UrlGeneratorInterface $router)
     {
         if (!$decorated instanceof DenormalizerInterface) {
@@ -31,11 +35,17 @@ class SamplingDocumentationNormalizer implements NormalizerInterface, Denormaliz
         $this->router = $router;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function supportsNormalization($data, $format = null): bool
     {
         return $data instanceof SamplingDocumentation;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function normalize($object, $format = null, array $context = []): array
     {
         $data = $this->decorated->normalize($object, $format, $context);
@@ -50,16 +60,25 @@ class SamplingDocumentationNormalizer implements NormalizerInterface, Denormaliz
         return $data;
     }
 
-    public function supportsDenormalization($data, $type, $format = null)
+    /**
+     * {@inheritdoc}
+     */
+    public function supportsDenormalization($data, $type, $format = null): bool
     {
         return $this->decorated->supportsDenormalization($data, $type, $format);
     }
 
-    public function denormalize($data, $class, $format = null, array $context = [])
+    /**
+     * {@inheritdoc}
+     */
+    public function denormalize($data, $type, $format = null, array $context = [])
     {
-        return $this->decorated->denormalize($data, $class, $format, $context);
+        return $this->decorated->denormalize($data, $type, $format, $context);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function setSerializer(SerializerInterface $serializer)
     {
         if ($this->decorated instanceof SerializerAwareInterface) {
