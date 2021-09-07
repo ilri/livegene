@@ -95,11 +95,6 @@ class CountryRoleAPITest extends ApiTestCase
         $this->assertMatchesResourceItemJsonSchema(CountryRole::class);
     }
 
-    private function getCountryRole(): int
-    {
-        return $this->fixtures->getReference('country-role')->getId();
-    }
-
     public function testPutIsNotAllowed(): void
     {
         $countryRole = $this->getCountryRole();
@@ -112,5 +107,10 @@ class CountryRoleAPITest extends ApiTestCase
         $countryRole = $this->getCountryRole();
         $this->client->request('DELETE', sprintf('/api/country_roles/%s', $countryRole));
         $this->assertResponseStatusCodeSame(Response::HTTP_METHOD_NOT_ALLOWED);
+    }
+
+    private function getCountryRole(): int
+    {
+        return $this->fixtures->getReference('country-role')->getId();
     }
 }

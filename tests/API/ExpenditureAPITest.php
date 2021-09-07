@@ -85,7 +85,7 @@ class ExpenditureAPITest extends ApiTestCase
 
     public function testGetItemIsAvailable(): void
     {
-        $expenditures = $this->getExpenditure();
+        $expenditures = $this->getExpenditures();
         $this->client->request('GET', sprintf('/api/expenditures/%s', $expenditures));
         $this->assertResponseIsSuccessful();
         $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
@@ -105,22 +105,22 @@ class ExpenditureAPITest extends ApiTestCase
         $this->assertMatchesResourceItemJsonSchema(Expenditure::class);
     }
 
-    private function getExpenditure(): int
-    {
-        return $this->fixtures->getReference('expenditure')->getId();
-    }
-
     public function testPutIsNotAllowed(): void
     {
-        $expenditures = $this->getExpenditure();
+        $expenditures = $this->getExpenditures();
         $this->client->request('PUT', sprintf('/api/expenditures/%s', $expenditures));
         $this->assertResponseStatusCodeSame(Response::HTTP_METHOD_NOT_ALLOWED);
     }
 
     public function testDeleteIsNotAllowed(): void
     {
-        $expenditures = $this->getExpenditure();
+        $expenditures = $this->getExpenditures();
         $this->client->request('DELETE', sprintf('/api/expenditures/%s', $expenditures));
         $this->assertResponseStatusCodeSame(Response::HTTP_METHOD_NOT_ALLOWED);
+    }
+
+    private function getExpenditures(): int
+    {
+        return $this->fixtures->getReference('expenditure')->getId();
     }
 }
