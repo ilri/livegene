@@ -6,7 +6,7 @@ use Liip\TestFixturesBundle\Test\FixturesTrait;
 use Symfony\Component\HttpFoundation\Response;
 use App\DataFixtures\Test\UserFixtures;
 
-class SDGRoleAPITest extends ApiTestCase
+class ExpenditureOldAPITest extends OldApiTestCase
 {
     use FixturesTrait;
 
@@ -17,7 +17,7 @@ class SDGRoleAPITest extends ApiTestCase
     {
         $this->fixtures = $this->loadFixtures([
             'App\DataFixtures\Test\UserFixtures',
-            'App\DataFixtures\Test\SDGRoleFixtures',
+            'App\DataFixtures\Test\ExpenditureFixtures',
         ])->getReferenceRepository();
         $username = $this->fixtures->getReference('api_user')->getUsername();
         $credentials = [
@@ -30,7 +30,7 @@ class SDGRoleAPITest extends ApiTestCase
 
     public function testGetCollectionIsAvailable(): void
     {
-        $this->client->request('GET', '/api/sdg_roles', [], [], [
+        $this->client->request('GET', '/api/expenditures', [], [], [
             'HTTP_ACCEPT' => 'application/json',
         ]);
         $this->assertSame(
@@ -49,7 +49,7 @@ class SDGRoleAPITest extends ApiTestCase
 
     public function testPostIsNotAllowed(): void
     {
-        $this->client->request('POST', '/api/sdg_roles', [], [], [
+        $this->client->request('POST', '/api/expenditures', [], [], [
             'CONTENT_TYPE' => 'application/json',
         ]);
         $this->assertSame(
@@ -60,8 +60,8 @@ class SDGRoleAPITest extends ApiTestCase
 
     public function testGetItemIsAvailable(): void
     {
-        $sdgRole = $this->getSDGRole();
-        $this->client->request('GET', sprintf('/api/sdg_roles/%s', $sdgRole), [], [], [
+        $expenditure = $this->getId();
+        $this->client->request('GET', sprintf('/api/expenditures/%s', $expenditure), [], [], [
             'HTTP_ACCEPT' => 'application/json'
         ]);
         $this->assertSame(
@@ -75,24 +75,28 @@ class SDGRoleAPITest extends ApiTestCase
             )
         );
         $data = json_decode($this->client->getResponse()->getContent(), true);
-        $this->assertArrayHasKey('project', $data);
-        $this->assertArrayHasKey('SDG', $data);
-        $this->assertArrayHasKey('percent', $data);
+        $this->assertArrayHasKey('ilriCode', $data);
+        $this->assertArrayHasKey('name', $data);
         $this->assertSame(
             $data,
             [
                 'id' => 1,
-                'project' => '/api/projects/1',
-                'SDG' => '/api/sdgs/1',
-                'percent' => '0.5',
+                'ilriCode' => 'ACME001',
+                'name' => 'Looney Tunes',
+                'homeProgram' => 'ACME',
+                'startDate' => '2019-03-01T00:00:00+00:00',
+                'endDate' => '2019-12-31T00:00:00+00:00',
+                'reportDate' => '2019-11-01T12:00:00+00:00',
+                'totalBudget' => 10000,
+                'amount' => null
             ]
         );
     }
 
     public function testPutIsNotAllowed(): void
     {
-        $sdgRole = $this->getSDGRole();
-        $this->client->request('PUT', sprintf('/api/sdg_roles/%s', $sdgRole), [], [], [
+        $expenditure = $this->getId();
+        $this->client->request('PUT', sprintf('/api/expenditures/%s', $expenditure), [], [], [
             'CONTENT_TYPE' => 'application/json',
         ]);
         $this->assertSame(
@@ -103,8 +107,8 @@ class SDGRoleAPITest extends ApiTestCase
 
     public function testDeleteIsNotAllowed(): void
     {
-        $sdgRole = $this->getSDGRole();
-        $this->client->request('DELETE', sprintf('/api/sdg_roles/%s', $sdgRole), [], [], [
+        $expenditure = $this->getId();
+        $this->client->request('DELETE', sprintf('/api/expenditures/%s', $expenditure), [], [], [
             'CONTENT_TYPE' => 'application/json',
         ]);
         $this->assertSame(
@@ -113,8 +117,8 @@ class SDGRoleAPITest extends ApiTestCase
         );
     }
 
-    private function getSDGRole(): int
+    private function getId(): int
     {
-        return $this->fixtures->getReference('sdg-role')->getId();
+        return $this->fixtures->getReference('expenditure')->getId();
     }
 }

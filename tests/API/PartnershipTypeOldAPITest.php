@@ -5,8 +5,9 @@ namespace App\Tests\API;
 use Liip\TestFixturesBundle\Test\FixturesTrait;
 use Symfony\Component\HttpFoundation\Response;
 use App\DataFixtures\Test\UserFixtures;
+use App\Entity\PartnershipType;
 
-class CountryRoleAPITest extends ApiTestCase
+class PartnershipTypeOldAPITest extends OldApiTestCase
 {
     use FixturesTrait;
 
@@ -17,7 +18,7 @@ class CountryRoleAPITest extends ApiTestCase
     {
         $this->fixtures = $this->loadFixtures([
             'App\DataFixtures\Test\UserFixtures',
-            'App\DataFixtures\Test\CountryRoleFixtures',
+            'App\DataFixtures\PartnershipTypeFixtures',
         ])->getReferenceRepository();
         $username = $this->fixtures->getReference('api_user')->getUsername();
         $credentials = [
@@ -26,11 +27,13 @@ class CountryRoleAPITest extends ApiTestCase
         ];
 
         $this->client = $this->createAuthenticatedClient($credentials);
+
+        $this->em = self::$container->get('doctrine.orm.entity_manager');
     }
 
     public function testGetCollectionIsAvailable(): void
     {
-        $this->client->request('GET', '/api/country_roles', [], [], [
+        $this->client->request('GET', '/api/partnership_types', [], [], [
             'HTTP_ACCEPT' => 'application/json',
         ]);
         $this->assertSame(
@@ -44,12 +47,12 @@ class CountryRoleAPITest extends ApiTestCase
             )
         );
         $data = json_decode($this->client->getResponse()->getContent(), true);
-        $this->assertCount(1, $data);
+        $this->assertCount(5, $data);
     }
 
     public function testPostIsNotAllowed(): void
     {
-        $this->client->request('POST', '/api/country_roles', [], [], [
+        $this->client->request('POST', '/api/partnership_types', [], [], [
             'CONTENT_TYPE' => 'application/json',
         ]);
         $this->assertSame(
@@ -60,8 +63,8 @@ class CountryRoleAPITest extends ApiTestCase
 
     public function testGetItemIsAvailable(): void
     {
-        $countryRole = $this->getCountryRole();
-        $this->client->request('GET', sprintf('/api/country_roles/%s', $countryRole), [], [], [
+        $partnership_type = $this->getPartnershipType();
+        $this->client->request('GET', sprintf('/api/partnership_types/%s', $partnership_type), [], [], [
             'HTTP_ACCEPT' => 'application/json'
         ]);
         $this->assertSame(
@@ -75,24 +78,20 @@ class CountryRoleAPITest extends ApiTestCase
             )
         );
         $data = json_decode($this->client->getResponse()->getContent(), true);
-        $this->assertArrayHasKey('project', $data);
-        $this->assertArrayHasKey('country', $data);
-        $this->assertArrayHasKey('percent', $data);
+        $this->assertArrayHasKey('description', $data);
         $this->assertSame(
             $data,
             [
                 'id' => 1,
-                'project' => '/api/projects/1',
-                'country' => '/api/countries/GB',
-                'percent' => '0.5',
+                'description' => 'Unspecified',
             ]
         );
     }
 
     public function testPutIsNotAllowed(): void
     {
-        $countryRole = $this->getCountryRole();
-        $this->client->request('PUT', sprintf('/api/country_roles/%s', $countryRole), [], [], [
+        $partnership_type = $this->getPartnershipType();
+        $this->client->request('PUT', sprintf('/api/partnership_types/%s', $partnership_type), [], [], [
             'CONTENT_TYPE' => 'application/json',
         ]);
         $this->assertSame(
@@ -103,8 +102,8 @@ class CountryRoleAPITest extends ApiTestCase
 
     public function testDeleteIsNotAllowed(): void
     {
-        $countryRole = $this->getCountryRole();
-        $this->client->request('DELETE', sprintf('/api/country_roles/%s', $countryRole), [], [], [
+        $partnership_type = $this->getPartnershipType();
+        $this->client->request('DELETE', sprintf('/api/partnership_types/%s', $partnership_type), [], [], [
             'CONTENT_TYPE' => 'application/json',
         ]);
         $this->assertSame(
@@ -113,8 +112,8 @@ class CountryRoleAPITest extends ApiTestCase
         );
     }
 
-    private function getCountryRole(): int
+    private function getPartnershipType(): int
     {
-        return $this->fixtures->getReference('country-role')->getId();
+        return $this->em->getRepository(PartnershipType::class)->findOneByDescription('Unspecified')->getId();
     }
 }

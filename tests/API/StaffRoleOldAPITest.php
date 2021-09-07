@@ -2,11 +2,12 @@
 
 namespace App\Tests\API;
 
+use Carbon\Carbon;
 use Liip\TestFixturesBundle\Test\FixturesTrait;
 use Symfony\Component\HttpFoundation\Response;
 use App\DataFixtures\Test\UserFixtures;
 
-class SamplingActivityAPITest extends ApiTestCase
+class StaffRoleOldAPITest extends OldApiTestCase
 {
     use FixturesTrait;
 
@@ -15,9 +16,12 @@ class SamplingActivityAPITest extends ApiTestCase
 
     public function setUp(): void
     {
+        date_default_timezone_set('UTC');
+        $now = Carbon::create(2019, 8, 8, 9);
+        Carbon::setTestNow($now);
         $this->fixtures = $this->loadFixtures([
             'App\DataFixtures\Test\UserFixtures',
-            'App\DataFixtures\Test\SamplingActivityFixtures',
+            'App\DataFixtures\Test\StaffRoleFixtures',
         ])->getReferenceRepository();
         $username = $this->fixtures->getReference('api_user')->getUsername();
         $credentials = [
@@ -30,7 +34,7 @@ class SamplingActivityAPITest extends ApiTestCase
 
     public function testGetCollectionIsAvailable(): void
     {
-        $this->client->request('GET', '/api/sampling_activities', [], [], [
+        $this->client->request('GET', '/api/staff_roles', [], [], [
             'HTTP_ACCEPT' => 'application/json',
         ]);
         $this->assertSame(
@@ -49,7 +53,7 @@ class SamplingActivityAPITest extends ApiTestCase
 
     public function testPostIsNotAllowed(): void
     {
-        $this->client->request('POST', '/api/sampling_activities', [], [], [
+        $this->client->request('POST', '/api/staff_roles', [], [], [
             'CONTENT_TYPE' => 'application/json',
         ]);
         $this->assertSame(
@@ -60,8 +64,8 @@ class SamplingActivityAPITest extends ApiTestCase
 
     public function testGetItemIsAvailable(): void
     {
-        $activity = $this->getSamplingActivity();
-        $this->client->request('GET', sprintf('/api/sampling_activities/%s', $activity), [], [], [
+        $staffRole = $this->getStaffRole();
+        $this->client->request('GET', sprintf('/api/staff_roles/%s', $staffRole), [], [], [
             'HTTP_ACCEPT' => 'application/json'
         ]);
         $this->assertSame(
@@ -75,41 +79,41 @@ class SamplingActivityAPITest extends ApiTestCase
             )
         );
         $data = json_decode($this->client->getResponse()->getContent(), true);
-        $this->assertArrayHasKey('description', $data);
         $this->assertArrayHasKey('project', $data);
+        $this->assertArrayHasKey('staffMember', $data);
+        $this->assertArrayHasKey('percent', $data);
         $this->assertSame(
             $data,
             [
                 'id' => 1,
-                'project' => '/api/projects/1',
-                'samplingPartners' => [
-                    '/api/organisations/1'
+                'project' => [
+                    'id' => 1,
+                    'ilriCode' => 'ACME001',
+                    'fullName' => 'Wile E. Coyote and the Road Runner',
+                    'shortName' => 'Looney Tunes',
+                    'team' => 'LiveGene',
+                    'isActive' => true,
                 ],
-                'animalSpecies' => [
-                    [
-                        'id' => 1,
-                        'commonName' => 'Cattle',
-                        'scientificName' => 'Bos taurus'
-                    ]
+                'staffMember' => [
+                    'id' => 1,
+                    'username' => 'coyote',
+                    'email' => 'coyote@example.com',
+                    'homeProgram' => 'Cartoon',
+                    'firstName' => 'Wile E.',
+                    'lastName' => 'Coyote',
                 ],
-                'countries' => [
-                    [
-                        'id' => 1,
-                        'country' => 'GB',
-                        'countryName' => 'United Kingdom'
-                    ]
-                ],
-                'description' => 'Sampling activity',
                 'startDate' => '2018-01-01T00:00:00+00:00',
-                'endDate' => '2019-12-31T00:00:00+00:00'
+                'endDate' => '2019-12-31T00:00:00+00:00',
+                'isActive' => true,
+                'percent' => '0.5',
             ]
         );
     }
 
     public function testPutIsNotAllowed(): void
     {
-        $activity = $this->getSamplingActivity();
-        $this->client->request('PUT', sprintf('/api/sampling_activities/%s', $activity), [], [], [
+        $staffRole = $this->getStaffRole();
+        $this->client->request('PUT', sprintf('/api/staff_roles/%s', $staffRole), [], [], [
             'CONTENT_TYPE' => 'application/json',
         ]);
         $this->assertSame(
@@ -120,8 +124,8 @@ class SamplingActivityAPITest extends ApiTestCase
 
     public function testDeleteIsNotAllowed(): void
     {
-        $activity = $this->getSamplingActivity();
-        $this->client->request('DELETE', sprintf('/api/sampling_activities/%s', $activity), [], [], [
+        $staffRole = $this->getStaffRole();
+        $this->client->request('DELETE', sprintf('/api/staff_roles/%s', $staffRole), [], [], [
             'CONTENT_TYPE' => 'application/json',
         ]);
         $this->assertSame(
@@ -130,8 +134,8 @@ class SamplingActivityAPITest extends ApiTestCase
         );
     }
 
-    private function getSamplingActivity(): int
+    private function getStaffRole(): int
     {
-        return $this->fixtures->getReference('activity')->getId();
+        return $this->fixtures->getReference('staff-role')->getId();
     }
 }

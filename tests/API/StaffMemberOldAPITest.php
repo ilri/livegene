@@ -6,7 +6,7 @@ use Liip\TestFixturesBundle\Test\FixturesTrait;
 use Symfony\Component\HttpFoundation\Response;
 use App\DataFixtures\Test\UserFixtures;
 
-class SamplingDocumentTypeAPITest extends ApiTestCase
+class StaffMemberOldAPITest extends OldApiTestCase
 {
     use FixturesTrait;
 
@@ -17,7 +17,7 @@ class SamplingDocumentTypeAPITest extends ApiTestCase
     {
         $this->fixtures = $this->loadFixtures([
             'App\DataFixtures\Test\UserFixtures',
-            'App\DataFixtures\Test\SamplingDocumentTypeFixtures',
+            'App\DataFixtures\Test\StaffMemberFixtures',
         ])->getReferenceRepository();
         $username = $this->fixtures->getReference('api_user')->getUsername();
         $credentials = [
@@ -30,7 +30,7 @@ class SamplingDocumentTypeAPITest extends ApiTestCase
 
     public function testGetCollectionIsAvailable(): void
     {
-        $this->client->request('GET', '/api/sampling_document_types', [], [], [
+        $this->client->request('GET', '/api/staff', [], [], [
             'HTTP_ACCEPT' => 'application/json',
         ]);
         $this->assertSame(
@@ -49,7 +49,7 @@ class SamplingDocumentTypeAPITest extends ApiTestCase
 
     public function testPostIsNotAllowed(): void
     {
-        $this->client->request('POST', '/api/sampling_document_types', [], [], [
+        $this->client->request('POST', '/api/staff', [], [], [
             'CONTENT_TYPE' => 'application/json',
         ]);
         $this->assertSame(
@@ -60,8 +60,8 @@ class SamplingDocumentTypeAPITest extends ApiTestCase
 
     public function testGetItemIsAvailable(): void
     {
-        $doctype = $this->getSamplingDocumentType();
-        $this->client->request('GET', sprintf('/api/sampling_document_types/%s', $doctype), [], [], [
+        $coyote = $this->getStaffMember();
+        $this->client->request('GET', sprintf('/api/staff/%s', $coyote), [], [], [
             'HTTP_ACCEPT' => 'application/json'
         ]);
         $this->assertSame(
@@ -75,22 +75,26 @@ class SamplingDocumentTypeAPITest extends ApiTestCase
             )
         );
         $data = json_decode($this->client->getResponse()->getContent(), true);
-        $this->assertArrayHasKey('shortName', $data);
-        $this->assertArrayHasKey('longName', $data);
+        $this->assertArrayHasKey('firstName', $data);
+        $this->assertArrayHasKey('lastName', $data);
         $this->assertSame(
             $data,
             [
                 'id' => 1,
-                'shortName' => 'ATA',
-                'longName' => 'A test agreement'
+                'username' => 'coyote',
+                'email' => 'coyote@example.com',
+                'homeProgram' => 'Cartoon',
+                'firstName' => 'Wile E.',
+                'lastName' => 'Coyote',
+                'totalStaffRolesPercent' => 0
             ]
         );
     }
 
     public function testPutIsNotAllowed(): void
     {
-        $doctype = $this->getSamplingDocumentType();
-        $this->client->request('PUT', sprintf('/api/sampling_document_types/%s', $doctype), [], [], [
+        $coyote = $this->getStaffMember();
+        $this->client->request('PUT', sprintf('/api/staff/%s', $coyote), [], [], [
             'CONTENT_TYPE' => 'application/json',
         ]);
         $this->assertSame(
@@ -101,8 +105,8 @@ class SamplingDocumentTypeAPITest extends ApiTestCase
 
     public function testDeleteIsNotAllowed(): void
     {
-        $doctype = $this->getSamplingDocumentType();
-        $this->client->request('DELETE', sprintf('/api/sampling_document_types/%s', $doctype), [], [], [
+        $coyote = $this->getStaffMember();
+        $this->client->request('DELETE', sprintf('/api/staff/%s', $coyote), [], [], [
             'CONTENT_TYPE' => 'application/json',
         ]);
         $this->assertSame(
@@ -111,8 +115,8 @@ class SamplingDocumentTypeAPITest extends ApiTestCase
         );
     }
 
-    private function getSamplingDocumentType(): int
+    private function getStaffMember(): string
     {
-        return $this->fixtures->getReference('doctype')->getId();
+        return $this->fixtures->getReference('coyote')->getId();
     }
 }

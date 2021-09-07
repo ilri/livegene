@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6b3da40535dd7e1897b5e4edd56f5ca7",
+    "content-hash": "cbea14fc922ba43edde24273b54efb3a",
     "packages": [
         {
             "name": "api-platform/core",
@@ -4109,83 +4109,6 @@
             "time": "2020-08-25T19:10:18+00:00"
         },
         {
-            "name": "simplethings/entity-audit-bundle",
-            "version": "1.4.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/sonata-project/EntityAuditBundle.git",
-                "reference": "b49a81bc944cd186cda6970120fb1e0517162587"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/sonata-project/EntityAuditBundle/zipball/b49a81bc944cd186cda6970120fb1e0517162587",
-                "reference": "b49a81bc944cd186cda6970120fb1e0517162587",
-                "shasum": ""
-            },
-            "require": {
-                "doctrine/dbal": "^2.11",
-                "doctrine/orm": "^2.9",
-                "php": "^7.3 || ^8.0",
-                "symfony/config": "^4.4 || ^5.2",
-                "twig/twig": "^2.6 || ^3.0"
-            },
-            "conflict": {
-                "doctrine/doctrine-bundle": "<1.4",
-                "gedmo/doctrine-extensions": "<2.3.1",
-                "symfony/framework-bundle": "<4.4"
-            },
-            "require-dev": {
-                "doctrine/cache": "^1.11 || ^2.0",
-                "doctrine/doctrine-bundle": "^1.4 || ^2.2",
-                "gedmo/doctrine-extensions": "^3.0",
-                "matthiasnoback/symfony-dependency-injection-test": "^4.2.1",
-                "symfony/cache": "^4.4 || ^5.2",
-                "symfony/framework-bundle": "^4.4 || ^5.2",
-                "symfony/phpunit-bridge": "^5.2",
-                "symfony/var-dumper": "^4.4 || ^5.2"
-            },
-            "type": "symfony-bundle",
-            "autoload": {
-                "psr-4": {
-                    "SimpleThings\\EntityAudit\\": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "LGPL-2.1"
-            ],
-            "description": "Audit for Doctrine Entities",
-            "keywords": [
-                "Audit",
-                "database",
-                "persistence"
-            ],
-            "support": {
-                "issues": "https://github.com/sonata-project/EntityAuditBundle/issues",
-                "source": "https://github.com/sonata-project/EntityAuditBundle/tree/1.4.0"
-            },
-            "funding": [
-                {
-                    "url": "https://github.com/OskarStark",
-                    "type": "github"
-                },
-                {
-                    "url": "https://github.com/VincentLanglet",
-                    "type": "github"
-                },
-                {
-                    "url": "https://github.com/core23",
-                    "type": "github"
-                },
-                {
-                    "url": "https://github.com/wbloszyk",
-                    "type": "github"
-                }
-            ],
-            "abandoned": "sonata-project/entity-audit-bundle",
-            "time": "2021-07-21T15:59:34+00:00"
-        },
-        {
             "name": "sonata-project/admin-bundle",
             "version": "3.105.0",
             "source": {
@@ -4850,6 +4773,82 @@
                 }
             ],
             "time": "2021-07-20T10:23:22+00:00"
+        },
+        {
+            "name": "sonata-project/entity-audit-bundle",
+            "version": "1.4.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/sonata-project/EntityAuditBundle.git",
+                "reference": "b49a81bc944cd186cda6970120fb1e0517162587"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/sonata-project/EntityAuditBundle/zipball/b49a81bc944cd186cda6970120fb1e0517162587",
+                "reference": "b49a81bc944cd186cda6970120fb1e0517162587",
+                "shasum": ""
+            },
+            "require": {
+                "doctrine/dbal": "^2.11",
+                "doctrine/orm": "^2.9",
+                "php": "^7.3 || ^8.0",
+                "symfony/config": "^4.4 || ^5.2",
+                "twig/twig": "^2.6 || ^3.0"
+            },
+            "conflict": {
+                "doctrine/doctrine-bundle": "<1.4",
+                "gedmo/doctrine-extensions": "<2.3.1",
+                "symfony/framework-bundle": "<4.4"
+            },
+            "require-dev": {
+                "doctrine/cache": "^1.11 || ^2.0",
+                "doctrine/doctrine-bundle": "^1.4 || ^2.2",
+                "gedmo/doctrine-extensions": "^3.0",
+                "matthiasnoback/symfony-dependency-injection-test": "^4.2.1",
+                "symfony/cache": "^4.4 || ^5.2",
+                "symfony/framework-bundle": "^4.4 || ^5.2",
+                "symfony/phpunit-bridge": "^5.2",
+                "symfony/var-dumper": "^4.4 || ^5.2"
+            },
+            "type": "symfony-bundle",
+            "autoload": {
+                "psr-4": {
+                    "SimpleThings\\EntityAudit\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "LGPL-2.1"
+            ],
+            "description": "Audit for Doctrine Entities",
+            "keywords": [
+                "Audit",
+                "database",
+                "persistence"
+            ],
+            "support": {
+                "issues": "https://github.com/sonata-project/EntityAuditBundle/issues",
+                "source": "https://github.com/sonata-project/EntityAuditBundle/tree/1.4.0"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/OskarStark",
+                    "type": "github"
+                },
+                {
+                    "url": "https://github.com/VincentLanglet",
+                    "type": "github"
+                },
+                {
+                    "url": "https://github.com/core23",
+                    "type": "github"
+                },
+                {
+                    "url": "https://github.com/wbloszyk",
+                    "type": "github"
+                }
+            ],
+            "time": "2021-07-21T15:59:34+00:00"
         },
         {
             "name": "sonata-project/exporter",
@@ -11176,45 +11175,122 @@
     ],
     "packages-dev": [
         {
-            "name": "liip/functional-test-bundle",
-            "version": "3.3.0",
+            "name": "justinrainbow/json-schema",
+            "version": "5.2.11",
             "source": {
                 "type": "git",
-                "url": "https://github.com/liip/LiipFunctionalTestBundle.git",
-                "reference": "d3f7238feea43fa2bffa76a6c5b189b550c074da"
+                "url": "https://github.com/justinrainbow/json-schema.git",
+                "reference": "2ab6744b7296ded80f8cc4f9509abbff393399aa"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/liip/LiipFunctionalTestBundle/zipball/d3f7238feea43fa2bffa76a6c5b189b550c074da",
-                "reference": "d3f7238feea43fa2bffa76a6c5b189b550c074da",
+                "url": "https://api.github.com/repos/justinrainbow/json-schema/zipball/2ab6744b7296ded80f8cc4f9509abbff393399aa",
+                "reference": "2ab6744b7296ded80f8cc4f9509abbff393399aa",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "~2.2.20||~2.15.1",
+                "json-schema/json-schema-test-suite": "1.2.0",
+                "phpunit/phpunit": "^4.8.35"
+            },
+            "bin": [
+                "bin/validate-json"
+            ],
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "5.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "JsonSchema\\": "src/JsonSchema/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Bruno Prieto Reis",
+                    "email": "bruno.p.reis@gmail.com"
+                },
+                {
+                    "name": "Justin Rainbow",
+                    "email": "justin.rainbow@gmail.com"
+                },
+                {
+                    "name": "Igor Wiedler",
+                    "email": "igor@wiedler.ch"
+                },
+                {
+                    "name": "Robert Schönthal",
+                    "email": "seroscho@googlemail.com"
+                }
+            ],
+            "description": "A library to validate a json schema.",
+            "homepage": "https://github.com/justinrainbow/json-schema",
+            "keywords": [
+                "json",
+                "schema"
+            ],
+            "support": {
+                "issues": "https://github.com/justinrainbow/json-schema/issues",
+                "source": "https://github.com/justinrainbow/json-schema/tree/5.2.11"
+            },
+            "time": "2021-07-22T09:24:00+00:00"
+        },
+        {
+            "name": "liip/functional-test-bundle",
+            "version": "4.4.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/liip/LiipFunctionalTestBundle.git",
+                "reference": "e37469daa8f63205948f5576c100fd8080d612e7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/liip/LiipFunctionalTestBundle/zipball/e37469daa8f63205948f5576c100fd8080d612e7",
+                "reference": "e37469daa8f63205948f5576c100fd8080d612e7",
                 "shasum": ""
             },
             "require": {
                 "doctrine/annotations": "^1.3",
-                "php": "^7.1",
-                "phpunit/phpunit": "^7.5.0 || ^8.0",
-                "symfony/browser-kit": "^3.4 || ^4.1",
-                "symfony/framework-bundle": "^3.4 || ^4.1"
+                "php": "^7.2 || ^8.0",
+                "phpunit/phpunit": "^7.5.0 || ^8.0 || ^9.0",
+                "symfony/browser-kit": "^4.4 || ^5.1",
+                "symfony/framework-bundle": "^4.4 || ^5.1"
             },
             "conflict": {
                 "symfony/framework-bundle": "4.3.0"
             },
             "require-dev": {
-                "doctrine/doctrine-bundle": "^1.8",
-                "doctrine/orm": "^2.6",
-                "symfony/monolog-bundle": "^3.2",
-                "symfony/phpunit-bridge": "^3.4 || ^4.1",
-                "symfony/symfony": "^3.4 || ^4.1",
-                "twig/twig": "^2.0"
+                "doctrine/doctrine-bundle": "^2.1",
+                "doctrine/orm": "^2.7",
+                "monolog/monolog": "~1.11",
+                "symfony/css-selector": "^4.4 || ^5.1",
+                "symfony/doctrine-bridge": "^4.4 || ^5.1",
+                "symfony/form": "^4.4 || ^5.1",
+                "symfony/http-kernel": "^4.4 || ^5.1",
+                "symfony/monolog-bundle": "^3.4",
+                "symfony/phpunit-bridge": "^4.4 || ^5.1",
+                "symfony/security-bundle": "^4.4 || ^5.1",
+                "symfony/twig-bundle": "^4.4 || ^5.1",
+                "symfony/validator": "^4.4 || ^5.1",
+                "symfony/yaml": "^4.4 || ^5.1",
+                "twig/twig": "^2.0 || ^3.0"
             },
             "suggest": {
-                "brianium/paratest": "Required when using paratest to parallelize tests",
                 "liip/test-fixtures-bundle": "Efficient loading of Doctrine fixtures in functional test-cases for Symfony applications"
             },
             "type": "symfony-bundle",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "3.x-dev"
+                    "dev-master": "4.x-dev"
                 }
             },
             "autoload": {
@@ -11243,43 +11319,47 @@
             ],
             "support": {
                 "issues": "https://github.com/liip/LiipFunctionalTestBundle/issues",
-                "source": "https://github.com/liip/LiipFunctionalTestBundle/tree/3.3.0"
+                "source": "https://github.com/liip/LiipFunctionalTestBundle/tree/4.4.3"
             },
-            "time": "2019-11-03T19:05:31+00:00"
+            "time": "2021-08-20T15:48:47+00:00"
         },
         {
             "name": "liip/test-fixtures-bundle",
-            "version": "1.12.0",
+            "version": "2.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/liip/LiipTestFixturesBundle.git",
-                "reference": "252ab82556e2468780255b5c1893d8c9401624ea"
+                "reference": "54d797af9871d9feaba4fe1ad5536b978a86bdaa"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/liip/LiipTestFixturesBundle/zipball/252ab82556e2468780255b5c1893d8c9401624ea",
-                "reference": "252ab82556e2468780255b5c1893d8c9401624ea",
+                "url": "https://api.github.com/repos/liip/LiipTestFixturesBundle/zipball/54d797af9871d9feaba4fe1ad5536b978a86bdaa",
+                "reference": "54d797af9871d9feaba4fe1ad5536b978a86bdaa",
                 "shasum": ""
             },
             "require": {
                 "doctrine/common": "^2.13 || ^3.0",
                 "php": "^7.2 || ^8.0",
-                "symfony/framework-bundle": "^3.4 || ^4.4 || ^5.0",
-                "symfony/yaml": "^3.4 || ^4.4 || ^5.0"
+                "symfony/event-dispatcher": "^4.4 || ^5.0",
+                "symfony/event-dispatcher-contracts": "^1 || ^2",
+                "symfony/framework-bundle": "^4.4 || ^5.0",
+                "symfony/yaml": "^4.4 || ^5.0"
             },
             "require-dev": {
+                "doctrine/cache": "^1.10.0",
                 "doctrine/data-fixtures": "^1.3",
-                "doctrine/doctrine-bundle": "^1.8 || ^2.0",
+                "doctrine/doctrine-bundle": "^2.1",
                 "doctrine/doctrine-fixtures-bundle": "^3.0.2",
-                "doctrine/orm": "^2.6",
-                "doctrine/phpcr-bundle": "^2.0",
+                "doctrine/orm": "^2.7",
+                "doctrine/phpcr-bundle": "^2.0.2",
                 "doctrine/phpcr-odm": "^1.3",
                 "jackalope/jackalope-doctrine-dbal": "^1.5",
-                "monolog/monolog": "^1.11 || ^2.0",
+                "monolog/monolog": "^1.25.1 || ^2.0",
                 "phpunit/phpunit": "^7.5 || ^8.0",
-                "symfony/monolog-bridge": ">=3",
+                "symfony/doctrine-bridge": "^4.4 || ^5.0",
+                "symfony/monolog-bridge": "^4.4 || ^5.0",
                 "symfony/monolog-bundle": "^3.2",
-                "symfony/phpunit-bridge": "^3.4 || ^4.4 || ^5.0",
+                "symfony/phpunit-bridge": "^4.4 || ^5.0",
                 "theofidry/alice-data-fixtures": "^1.0.1"
             },
             "suggest": {
@@ -11292,7 +11372,7 @@
             "type": "symfony-bundle",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.x-dev"
+                    "dev-master": "2.x-dev"
                 }
             },
             "autoload": {
@@ -11322,9 +11402,9 @@
             ],
             "support": {
                 "issues": "https://github.com/liip/LiipTestFixturesBundle/issues",
-                "source": "https://github.com/liip/LiipTestFixturesBundle/tree/1.12.0"
+                "source": "https://github.com/liip/LiipTestFixturesBundle/tree/2.0.1"
             },
-            "time": "2021-07-17T16:52:27+00:00"
+            "time": "2021-08-19T11:22:21+00:00"
         },
         {
             "name": "myclabs/deep-copy",
@@ -12742,70 +12822,6 @@
             "time": "2016-10-03T07:35:21+00:00"
         },
         {
-            "name": "sonata-project/easy-extends-bundle",
-            "version": "2.5.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/sonata-project/SonataEasyExtendsBundle.git",
-                "reference": "c62fb4f7e74f7fc5f32f122ffa8131d7cf05a1db"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/sonata-project/SonataEasyExtendsBundle/zipball/c62fb4f7e74f7fc5f32f122ffa8131d7cf05a1db",
-                "reference": "c62fb4f7e74f7fc5f32f122ffa8131d7cf05a1db",
-                "shasum": ""
-            },
-            "require": {
-                "php": "^5.6 || ^7.0",
-                "symfony/console": "^2.8 || ^3.2 || ^4.0",
-                "symfony/dependency-injection": "^2.8 || ^3.2 || ^4.0",
-                "symfony/finder": "^2.8 || ^3.2 || ^4.0",
-                "symfony/framework-bundle": "^2.8 || ^3.2 || ^4.0",
-                "symfony/http-kernel": "^2.8 || ^3.2 || ^4.0"
-            },
-            "require-dev": {
-                "doctrine/orm": "^2.2",
-                "symfony/phpunit-bridge": "^4.0"
-            },
-            "type": "symfony-bundle",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "2.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Sonata\\EasyExtendsBundle\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Sonata Community",
-                    "homepage": "https://github.com/sonata-project/SonataEasyExtendsBundle/contributors"
-                },
-                {
-                    "name": "Thomas Rabaix",
-                    "email": "thomas.rabaix@sonata-project.org",
-                    "homepage": "https://sonata-project.org"
-                }
-            ],
-            "description": "Symfony SonataEasyExtendsBundle",
-            "homepage": "https://sonata-project.org/bundles/easy-extends",
-            "keywords": [
-                "Easy Extends",
-                "sonata"
-            ],
-            "support": {
-                "issues": "https://github.com/sonata-project/SonataEasyExtendsBundle/issues",
-                "source": "https://github.com/sonata-project/SonataEasyExtendsBundle/tree/2.x"
-            },
-            "time": "2018-02-11T12:21:41+00:00"
-        },
-        {
             "name": "symfony/browser-kit",
             "version": "v4.4.27",
             "source": {
@@ -13347,78 +13363,6 @@
             "time": "2021-07-26T19:30:25+00:00"
         },
         {
-            "name": "symfony/web-server-bundle",
-            "version": "v4.4.27",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/web-server-bundle.git",
-                "reference": "c283d46b40b1c9dee20771433a19fa7f4a9bb97a"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/web-server-bundle/zipball/c283d46b40b1c9dee20771433a19fa7f4a9bb97a",
-                "reference": "c283d46b40b1c9dee20771433a19fa7f4a9bb97a",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=7.1.3",
-                "symfony/config": "^3.4|^4.0|^5.0",
-                "symfony/console": "^3.4|^4.0|^5.0",
-                "symfony/dependency-injection": "^3.4|^4.0|^5.0",
-                "symfony/http-kernel": "^3.4|^4.0|^5.0",
-                "symfony/polyfill-ctype": "~1.8",
-                "symfony/polyfill-php80": "^1.16",
-                "symfony/process": "^3.4.2|^4.0.2|^5.0"
-            },
-            "suggest": {
-                "symfony/expression-language": "For using the filter option of the log server.",
-                "symfony/monolog-bridge": "For using the log server."
-            },
-            "type": "symfony-bundle",
-            "autoload": {
-                "psr-4": {
-                    "Symfony\\Bundle\\WebServerBundle\\": ""
-                },
-                "exclude-from-classmap": [
-                    "/Tests/"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Fabien Potencier",
-                    "email": "fabien@symfony.com"
-                },
-                {
-                    "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
-                }
-            ],
-            "description": "Provides commands for running applications using the PHP built-in web server",
-            "homepage": "https://symfony.com",
-            "support": {
-                "source": "https://github.com/symfony/web-server-bundle/tree/v4.4.27"
-            },
-            "funding": [
-                {
-                    "url": "https://symfony.com/sponsor",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://github.com/fabpot",
-                    "type": "github"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
-                    "type": "tidelift"
-                }
-            ],
-            "time": "2021-07-21T12:19:41+00:00"
-        },
-        {
             "name": "theseer/tokenizer",
             "version": "1.2.1",
             "source": {
@@ -13478,6 +13422,7 @@
         "php": "^7.4.3",
         "ext-ctype": "*",
         "ext-iconv": "*",
+        "ext-json": "*",
         "composer-runtime-api": "^2"
     },
     "platform-dev": [],

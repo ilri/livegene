@@ -6,7 +6,7 @@ use Liip\TestFixturesBundle\Test\FixturesTrait;
 use Symfony\Component\HttpFoundation\Response;
 use App\DataFixtures\Test\UserFixtures;
 
-class StaffMemberAPITest extends ApiTestCase
+class SDGAPITestOld extends OldApiTestCase
 {
     use FixturesTrait;
 
@@ -17,7 +17,7 @@ class StaffMemberAPITest extends ApiTestCase
     {
         $this->fixtures = $this->loadFixtures([
             'App\DataFixtures\Test\UserFixtures',
-            'App\DataFixtures\Test\StaffMemberFixtures',
+            'App\DataFixtures\SDGFixtures',
         ])->getReferenceRepository();
         $username = $this->fixtures->getReference('api_user')->getUsername();
         $credentials = [
@@ -30,7 +30,7 @@ class StaffMemberAPITest extends ApiTestCase
 
     public function testGetCollectionIsAvailable(): void
     {
-        $this->client->request('GET', '/api/staff', [], [], [
+        $this->client->request('GET', '/api/sdgs', [], [], [
             'HTTP_ACCEPT' => 'application/json',
         ]);
         $this->assertSame(
@@ -44,12 +44,12 @@ class StaffMemberAPITest extends ApiTestCase
             )
         );
         $data = json_decode($this->client->getResponse()->getContent(), true);
-        $this->assertCount(1, $data);
+        $this->assertCount(17, $data);
     }
 
     public function testPostIsNotAllowed(): void
     {
-        $this->client->request('POST', '/api/staff', [], [], [
+        $this->client->request('POST', '/api/sdgs', [], [], [
             'CONTENT_TYPE' => 'application/json',
         ]);
         $this->assertSame(
@@ -60,8 +60,8 @@ class StaffMemberAPITest extends ApiTestCase
 
     public function testGetItemIsAvailable(): void
     {
-        $coyote = $this->getStaffMember();
-        $this->client->request('GET', sprintf('/api/staff/%s', $coyote), [], [], [
+        $sdg = $this->getSDG();
+        $this->client->request('GET', sprintf('/api/sdgs/%s', $sdg), [], [], [
             'HTTP_ACCEPT' => 'application/json'
         ]);
         $this->assertSame(
@@ -75,26 +75,36 @@ class StaffMemberAPITest extends ApiTestCase
             )
         );
         $data = json_decode($this->client->getResponse()->getContent(), true);
-        $this->assertArrayHasKey('firstName', $data);
-        $this->assertArrayHasKey('lastName', $data);
+        $this->assertArrayHasKey('headline', $data);
+        $this->assertArrayHasKey('fullName', $data);
         $this->assertSame(
             $data,
             [
                 'id' => 1,
-                'username' => 'coyote',
-                'email' => 'coyote@example.com',
-                'homeProgram' => 'Cartoon',
-                'firstName' => 'Wile E.',
-                'lastName' => 'Coyote',
-                'totalStaffRolesPercent' => 0
+                'headline' => 'NO POVERTY',
+                'fullName' => 'End poverty in all its forms everywhere',
+                'color' => '#E5243B',
+                'link' => 'https://sustainabledevelopment.un.org/sdg1',
+                'logoUrl' => 'https://sustainabledevelopment.un.org/content/images/E_SDG_Icons-01.jpg'
             ]
+        );
+    }
+
+    public function testGetItemIsNotAvailable(): void
+    {
+        $this->client->request('GET', '/api/sdgs/18', [], [], [
+            'HTTP_ACCEPT' => 'application/json'
+        ]);
+        $this->assertSame(
+            Response::HTTP_NOT_FOUND,
+            $this->client->getResponse()->getStatusCode()
         );
     }
 
     public function testPutIsNotAllowed(): void
     {
-        $coyote = $this->getStaffMember();
-        $this->client->request('PUT', sprintf('/api/staff/%s', $coyote), [], [], [
+        $sdg = $this->getSDG();
+        $this->client->request('PUT', sprintf('/api/sdgs/%s', $sdg), [], [], [
             'CONTENT_TYPE' => 'application/json',
         ]);
         $this->assertSame(
@@ -105,8 +115,8 @@ class StaffMemberAPITest extends ApiTestCase
 
     public function testDeleteIsNotAllowed(): void
     {
-        $coyote = $this->getStaffMember();
-        $this->client->request('DELETE', sprintf('/api/staff/%s', $coyote), [], [], [
+        $sdg = $this->getSDG();
+        $this->client->request('DELETE', sprintf('/api/sdgs/%s', $sdg), [], [], [
             'CONTENT_TYPE' => 'application/json',
         ]);
         $this->assertSame(
@@ -115,8 +125,8 @@ class StaffMemberAPITest extends ApiTestCase
         );
     }
 
-    private function getStaffMember(): string
+    private function getSDG(): int
     {
-        return $this->fixtures->getReference('coyote')->getId();
+        return $this->fixtures->getReference('sdg1')->getId();
     }
 }

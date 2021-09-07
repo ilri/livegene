@@ -2,26 +2,24 @@
 
 namespace App\Tests\API;
 
-use Carbon\Carbon;
 use Liip\TestFixturesBundle\Test\FixturesTrait;
 use Symfony\Component\HttpFoundation\Response;
 use App\DataFixtures\Test\UserFixtures;
 
-class StaffRoleAPITest extends ApiTestCase
+class SamplingDocumentationOldAPITest extends OldApiTestCase
 {
     use FixturesTrait;
 
+    private $entityManager;
     private $fixtures = null;
     private $client;
 
     public function setUp(): void
     {
-        date_default_timezone_set('UTC');
-        $now = Carbon::create(2019, 8, 8, 9);
-        Carbon::setTestNow($now);
+        $this->entityManager = $this->getContainer()->get('doctrine')->getManager();
         $this->fixtures = $this->loadFixtures([
             'App\DataFixtures\Test\UserFixtures',
-            'App\DataFixtures\Test\StaffRoleFixtures',
+            'App\DataFixtures\Test\SamplingDocumentationFixtures',
         ])->getReferenceRepository();
         $username = $this->fixtures->getReference('api_user')->getUsername();
         $credentials = [
@@ -32,9 +30,18 @@ class StaffRoleAPITest extends ApiTestCase
         $this->client = $this->createAuthenticatedClient($credentials);
     }
 
+    public function tearDown(): void
+    {
+        $media = $this->fixtures->getReference('documentation')->getDocument();
+        $this->entityManager->remove($media);
+        $this->entityManager->flush();
+
+        parent::tearDown();
+    }
+
     public function testGetCollectionIsAvailable(): void
     {
-        $this->client->request('GET', '/api/staff_roles', [], [], [
+        $this->client->request('GET', '/api/sampling_documentations', [], [], [
             'HTTP_ACCEPT' => 'application/json',
         ]);
         $this->assertSame(
@@ -53,7 +60,7 @@ class StaffRoleAPITest extends ApiTestCase
 
     public function testPostIsNotAllowed(): void
     {
-        $this->client->request('POST', '/api/staff_roles', [], [], [
+        $this->client->request('POST', '/api/sampling_documentations', [], [], [
             'CONTENT_TYPE' => 'application/json',
         ]);
         $this->assertSame(
@@ -64,8 +71,8 @@ class StaffRoleAPITest extends ApiTestCase
 
     public function testGetItemIsAvailable(): void
     {
-        $staffRole = $this->getStaffRole();
-        $this->client->request('GET', sprintf('/api/staff_roles/%s', $staffRole), [], [], [
+        $documentation = $this->getSamplingDocumentation();
+        $this->client->request('GET', sprintf('/api/sampling_documentations/%s', $documentation), [], [], [
             'HTTP_ACCEPT' => 'application/json'
         ]);
         $this->assertSame(
@@ -79,41 +86,32 @@ class StaffRoleAPITest extends ApiTestCase
             )
         );
         $data = json_decode($this->client->getResponse()->getContent(), true);
-        $this->assertArrayHasKey('project', $data);
-        $this->assertArrayHasKey('staffMember', $data);
-        $this->assertArrayHasKey('percent', $data);
-        $this->assertSame(
-            $data,
-            [
-                'id' => 1,
-                'project' => [
-                    'id' => 1,
-                    'ilriCode' => 'ACME001',
-                    'fullName' => 'Wile E. Coyote and the Road Runner',
-                    'shortName' => 'Looney Tunes',
-                    'team' => 'LiveGene',
-                    'isActive' => true,
-                ],
-                'staffMember' => [
-                    'id' => 1,
-                    'username' => 'coyote',
-                    'email' => 'coyote@example.com',
-                    'homeProgram' => 'Cartoon',
-                    'firstName' => 'Wile E.',
-                    'lastName' => 'Coyote',
-                ],
-                'startDate' => '2018-01-01T00:00:00+00:00',
-                'endDate' => '2019-12-31T00:00:00+00:00',
-                'isActive' => true,
-                'percent' => '0.5',
-            ]
+        $this->assertArrayHasKey('samplingActivity', $data);
+        $this->assertArrayHasKey('samplingDocumentType', $data);
+        $this->assertArrayHasKey('document', $data);
+        $this->assertArrayHasKey('startDate', $data);
+        $this->assertArrayHasKey('endDate', $data);
+        $this->assertArrayHasKey('isActive', $data);
+
+        $url = $data['document'];
+        ob_start();
+        $this->client->request('GET', $url);
+        ob_end_clean();
+        $this->assertTrue(
+            $this->client->getResponse()->isSuccessful()
+        );
+        $this->assertTrue(
+            $this->client->getResponse()->headers->contains(
+                'Content-Type',
+                'application/pdf'
+            )
         );
     }
 
     public function testPutIsNotAllowed(): void
     {
-        $staffRole = $this->getStaffRole();
-        $this->client->request('PUT', sprintf('/api/staff_roles/%s', $staffRole), [], [], [
+        $documentation = $this->getSamplingDocumentation();
+        $this->client->request('PUT', sprintf('/api/sampling_documentations/%s', $documentation), [], [], [
             'CONTENT_TYPE' => 'application/json',
         ]);
         $this->assertSame(
@@ -124,8 +122,8 @@ class StaffRoleAPITest extends ApiTestCase
 
     public function testDeleteIsNotAllowed(): void
     {
-        $staffRole = $this->getStaffRole();
-        $this->client->request('DELETE', sprintf('/api/staff_roles/%s', $staffRole), [], [], [
+        $documentation = $this->getSamplingDocumentation();
+        $this->client->request('DELETE', sprintf('/api/sampling_documentations/%s', $documentation), [], [], [
             'CONTENT_TYPE' => 'application/json',
         ]);
         $this->assertSame(
@@ -134,8 +132,8 @@ class StaffRoleAPITest extends ApiTestCase
         );
     }
 
-    private function getStaffRole(): int
+    private function getSamplingDocumentation(): int
     {
-        return $this->fixtures->getReference('staff-role')->getId();
+        return $this->fixtures->getReference('documentation')->getId();
     }
 }

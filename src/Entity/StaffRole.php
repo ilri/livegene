@@ -159,14 +159,16 @@ class StaffRole
     public function getIsActive(): bool
     {
         $now = Carbon::now();
-        if (!$this->getStartDate() && !$this->getEndDate()) {
+        if ($this->getProject() && !$this->getStartDate() && !$this->getEndDate()) {
             return $this->getProject()->getIsActive();
         } elseif (!$this->getStartDate() && $this->getEndDate()) {
             return $this->getEndDate() >= $now;
         } elseif ($this->getStartDate() && !$this->getEndDate()) {
             return $this->getStartDate() <= $now;
-        } else {
+        } elseif ($this->getStartDate() && $this->getEndDate()) {
             return $this->getEndDate() >= $now && $this->getStartDate() <= $now;
+        } else {
+            return false;
         }
     }
 }

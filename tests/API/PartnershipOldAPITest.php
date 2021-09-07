@@ -6,7 +6,7 @@ use Liip\TestFixturesBundle\Test\FixturesTrait;
 use Symfony\Component\HttpFoundation\Response;
 use App\DataFixtures\Test\UserFixtures;
 
-class ExpenditureAPITest extends ApiTestCase
+class PartnershipOldAPITest extends OldApiTestCase
 {
     use FixturesTrait;
 
@@ -17,7 +17,7 @@ class ExpenditureAPITest extends ApiTestCase
     {
         $this->fixtures = $this->loadFixtures([
             'App\DataFixtures\Test\UserFixtures',
-            'App\DataFixtures\Test\ExpenditureFixtures',
+            'App\DataFixtures\Test\PartnershipFixtures',
         ])->getReferenceRepository();
         $username = $this->fixtures->getReference('api_user')->getUsername();
         $credentials = [
@@ -30,7 +30,7 @@ class ExpenditureAPITest extends ApiTestCase
 
     public function testGetCollectionIsAvailable(): void
     {
-        $this->client->request('GET', '/api/expenditures', [], [], [
+        $this->client->request('GET', '/api/partnerships', [], [], [
             'HTTP_ACCEPT' => 'application/json',
         ]);
         $this->assertSame(
@@ -49,7 +49,7 @@ class ExpenditureAPITest extends ApiTestCase
 
     public function testPostIsNotAllowed(): void
     {
-        $this->client->request('POST', '/api/expenditures', [], [], [
+        $this->client->request('POST', '/api/partnerships', [], [], [
             'CONTENT_TYPE' => 'application/json',
         ]);
         $this->assertSame(
@@ -60,8 +60,8 @@ class ExpenditureAPITest extends ApiTestCase
 
     public function testGetItemIsAvailable(): void
     {
-        $expenditure = $this->getId();
-        $this->client->request('GET', sprintf('/api/expenditures/%s', $expenditure), [], [], [
+        $partnership = $this->getPartnership();
+        $this->client->request('GET', sprintf('/api/partnerships/%s', $partnership), [], [], [
             'HTTP_ACCEPT' => 'application/json'
         ]);
         $this->assertSame(
@@ -75,28 +75,27 @@ class ExpenditureAPITest extends ApiTestCase
             )
         );
         $data = json_decode($this->client->getResponse()->getContent(), true);
-        $this->assertArrayHasKey('ilriCode', $data);
-        $this->assertArrayHasKey('name', $data);
+        $this->assertArrayHasKey('project', $data);
+        $this->assertArrayHasKey('partner', $data);
+        $this->assertArrayHasKey('partnershipType', $data);
         $this->assertSame(
             $data,
             [
                 'id' => 1,
-                'ilriCode' => 'ACME001',
-                'name' => 'Looney Tunes',
-                'homeProgram' => 'ACME',
-                'startDate' => '2019-03-01T00:00:00+00:00',
+                'project' => '/api/projects/1',
+                'partner' => '/api/organisations/1',
+                'startDate' => '2018-01-01T00:00:00+00:00',
                 'endDate' => '2019-12-31T00:00:00+00:00',
-                'reportDate' => '2019-11-01T12:00:00+00:00',
-                'totalBudget' => 10000,
-                'amount' => null
+                'contacts' => [],
+                'partnershipType' => '/api/partnership_types/5'
             ]
         );
     }
 
     public function testPutIsNotAllowed(): void
     {
-        $expenditure = $this->getId();
-        $this->client->request('PUT', sprintf('/api/expenditures/%s', $expenditure), [], [], [
+        $partnership = $this->getPartnership();
+        $this->client->request('PUT', sprintf('/api/partnerships/%s', $partnership), [], [], [
             'CONTENT_TYPE' => 'application/json',
         ]);
         $this->assertSame(
@@ -107,8 +106,8 @@ class ExpenditureAPITest extends ApiTestCase
 
     public function testDeleteIsNotAllowed(): void
     {
-        $expenditure = $this->getId();
-        $this->client->request('DELETE', sprintf('/api/expenditures/%s', $expenditure), [], [], [
+        $partnership = $this->getPartnership();
+        $this->client->request('DELETE', sprintf('/api/partnerships/%s', $partnership), [], [], [
             'CONTENT_TYPE' => 'application/json',
         ]);
         $this->assertSame(
@@ -117,8 +116,8 @@ class ExpenditureAPITest extends ApiTestCase
         );
     }
 
-    private function getId(): int
+    private function getPartnership(): int
     {
-        return $this->fixtures->getReference('expenditure')->getId();
+        return $this->fixtures->getReference('partnership')->getId();
     }
 }

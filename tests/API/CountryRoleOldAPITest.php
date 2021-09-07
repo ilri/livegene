@@ -6,7 +6,7 @@ use Liip\TestFixturesBundle\Test\FixturesTrait;
 use Symfony\Component\HttpFoundation\Response;
 use App\DataFixtures\Test\UserFixtures;
 
-class OrganisationAPITest extends ApiTestCase
+class CountryRoleOldAPITest extends OldApiTestCase
 {
     use FixturesTrait;
 
@@ -17,7 +17,7 @@ class OrganisationAPITest extends ApiTestCase
     {
         $this->fixtures = $this->loadFixtures([
             'App\DataFixtures\Test\UserFixtures',
-            'App\DataFixtures\Test\OrganisationFixtures',
+            'App\DataFixtures\Test\CountryRoleFixtures',
         ])->getReferenceRepository();
         $username = $this->fixtures->getReference('api_user')->getUsername();
         $credentials = [
@@ -30,7 +30,7 @@ class OrganisationAPITest extends ApiTestCase
 
     public function testGetCollectionIsAvailable(): void
     {
-        $this->client->request('GET', '/api/organisations', [], [], [
+        $this->client->request('GET', '/api/country_roles', [], [], [
             'HTTP_ACCEPT' => 'application/json',
         ]);
         $this->assertSame(
@@ -49,7 +49,7 @@ class OrganisationAPITest extends ApiTestCase
 
     public function testPostIsNotAllowed(): void
     {
-        $this->client->request('POST', '/api/organisations', [], [], [
+        $this->client->request('POST', '/api/country_roles', [], [], [
             'CONTENT_TYPE' => 'application/json',
         ]);
         $this->assertSame(
@@ -60,8 +60,8 @@ class OrganisationAPITest extends ApiTestCase
 
     public function testGetItemIsAvailable(): void
     {
-        $organisation = $this->getOrganisation();
-        $this->client->request('GET', sprintf('/api/organisations/%s', $organisation), [], [], [
+        $countryRole = $this->getCountryRole();
+        $this->client->request('GET', sprintf('/api/country_roles/%s', $countryRole), [], [], [
             'HTTP_ACCEPT' => 'application/json'
         ]);
         $this->assertSame(
@@ -75,30 +75,24 @@ class OrganisationAPITest extends ApiTestCase
             )
         );
         $data = json_decode($this->client->getResponse()->getContent(), true);
-        $this->assertArrayHasKey('shortName', $data);
-        $this->assertArrayHasKey('fullName', $data);
+        $this->assertArrayHasKey('project', $data);
+        $this->assertArrayHasKey('country', $data);
+        $this->assertArrayHasKey('percent', $data);
         $this->assertSame(
             $data,
             [
                 'id' => 1,
-                'shortName' => 'ACME',
-                'fullName' => 'A Company Making Everything',
-                'localName' => 'A Company Making Everything',
-                'link' => 'https://www.acme.co.uk/',
-                'logoUrl' => 'https://www.acme.co.uk/images/logo.png',
-                'country' => [
-                    'id' => 1,
-                    'country' => 'GB',
-                    'countryName' => 'United Kingdom'
-                ]
+                'project' => '/api/projects/1',
+                'country' => '/api/countries/GB',
+                'percent' => '0.5',
             ]
         );
     }
 
     public function testPutIsNotAllowed(): void
     {
-        $organisation = $this->getOrganisation();
-        $this->client->request('PUT', sprintf('/api/organisations/%s', $organisation), [], [], [
+        $countryRole = $this->getCountryRole();
+        $this->client->request('PUT', sprintf('/api/country_roles/%s', $countryRole), [], [], [
             'CONTENT_TYPE' => 'application/json',
         ]);
         $this->assertSame(
@@ -109,8 +103,8 @@ class OrganisationAPITest extends ApiTestCase
 
     public function testDeleteIsNotAllowed(): void
     {
-        $organisation = $this->getOrganisation();
-        $this->client->request('DELETE', sprintf('/api/organisations/%s', $organisation), [], [], [
+        $countryRole = $this->getCountryRole();
+        $this->client->request('DELETE', sprintf('/api/country_roles/%s', $countryRole), [], [], [
             'CONTENT_TYPE' => 'application/json',
         ]);
         $this->assertSame(
@@ -119,8 +113,8 @@ class OrganisationAPITest extends ApiTestCase
         );
     }
 
-    private function getOrganisation(): int
+    private function getCountryRole(): int
     {
-        return $this->fixtures->getReference('organisation')->getId();
+        return $this->fixtures->getReference('country-role')->getId();
     }
 }

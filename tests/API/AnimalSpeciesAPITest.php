@@ -2,20 +2,26 @@
 
 namespace App\Tests\API;
 
-use Liip\TestFixturesBundle\Test\FixturesTrait;
+use ApiPlatform\Core\Bridge\Symfony\Bundle\Test\{
+    ApiTestCase,
+    Client,
+};
+use App\Entity\AnimalSpecies;
+use Doctrine\Common\DataFixtures\ReferenceRepository;
+use Liip\TestFixturesBundle\Services\DatabaseToolCollection;
 use Symfony\Component\HttpFoundation\Response;
 use App\DataFixtures\Test\UserFixtures;
 
 class AnimalSpeciesAPITest extends ApiTestCase
 {
-    use FixturesTrait;
-
-    private $fixtures = null;
-    private $client;
+    private Client $client;
+    private ReferenceRepository $fixtures;
 
     public function setUp(): void
     {
-        $this->fixtures = $this->loadFixtures([
+        $this->client = static::createClient();
+        $databaseTool = $this->client->getContainer()->get(DatabaseToolCollection::class)->get();
+        $this->fixtures = $databaseTool->loadFixtures([
             'App\DataFixtures\Test\UserFixtures',
             'App\DataFixtures\Test\AnimalSpeciesFixtures',
         ])->getReferenceRepository();
@@ -24,91 +30,69 @@ class AnimalSpeciesAPITest extends ApiTestCase
             'username' => $username,
             'password' => UserFixtures::PASSWORD
         ];
-
-        $this->client = $this->createAuthenticatedClient($credentials);
+        $response = $this->client->request('POST', '/authentication_token', [
+            'headers' => ['Content-Type' => 'application/json'],
+            'json' => $credentials,
+        ]);
+        $this->client->setDefaultOptions([
+            'auth_bearer' => json_decode($response->getContent(), true)['token'],
+        ]);
     }
 
     public function testGetCollectionIsAvailable(): void
     {
-        $this->client->request('GET', '/api/animal_species', [], [], [
-            'HTTP_ACCEPT' => 'application/json',
+        $response = $this->client->request('GET', '/api/animal_species');
+        $this->assertResponseIsSuccessful();
+        $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
+        $this->assertJsonContains([
+            '@context' => '/api/contexts/AnimalSpecies',
+            '@id' => '/api/animal_species',
+            '@type' => 'hydra:Collection',
+            'hydra:member' => [
+                [
+                    'id' => 1,
+                    'commonName' => 'Cattle',
+                    'scientificName' => 'Bos taurus',
+                ]
+            ],
+            'hydra:totalItems' => 1,
         ]);
-        $this->assertSame(
-            Response::HTTP_OK,
-            $this->client->getResponse()->getStatusCode()
-        );
-        $this->assertTrue(
-            $this->client->getResponse()->headers->contains(
-                'Content-Type',
-                'application/json; charset=utf-8'
-            )
-        );
-        $data = json_decode($this->client->getResponse()->getContent(), true);
-        $this->assertCount(1, $data);
+        $this->assertCount(1, $response->toArray()['hydra:member']);
+        $this->assertMatchesResourceCollectionJsonSchema(AnimalSpecies::class);
     }
 
     public function testPostIsNotAllowed(): void
     {
-        $this->client->request('POST', '/api/animal_species', [], [], [
-            'CONTENT_TYPE' => 'application/json',
-        ]);
-        $this->assertSame(
-            Response::HTTP_METHOD_NOT_ALLOWED,
-            $this->client->getResponse()->getStatusCode()
-        );
+        $this->client->request('POST', '/api/animal_species');
+        $this->assertResponseStatusCodeSame(Response::HTTP_METHOD_NOT_ALLOWED);
     }
 
     public function testGetItemIsAvailable(): void
     {
         $animal = $this->getAnimal();
-        $this->client->request('GET', sprintf('/api/animal_species/%s', $animal), [], [], [
-            'HTTP_ACCEPT' => 'application/json'
+        $response = $this->client->request('GET', sprintf('/api/animal_species/%s', $animal));
+        $this->assertResponseIsSuccessful();
+        $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
+        $this->assertJsonContains([
+            'id' => 1,
+            'commonName' => 'Cattle',
+            'scientificName' => 'Bos taurus',
         ]);
-        $this->assertSame(
-            Response::HTTP_OK,
-            $this->client->getResponse()->getStatusCode()
-        );
-        $this->assertTrue(
-            $this->client->getResponse()->headers->contains(
-                'Content-Type',
-                'application/json; charset=utf-8'
-            )
-        );
-        $data = json_decode($this->client->getResponse()->getContent(), true);
-        $this->assertArrayHasKey('commonName', $data);
-        $this->assertArrayHasKey('scientificName', $data);
-        $this->assertSame(
-            $data,
-            [
-                'id' => 1,
-                'commonName' => 'Cattle',
-                'scientificName' => 'Bos taurus'
-            ]
-        );
+        $this->assertMatchesResourceItemJsonSchema(AnimalSpecies::class);
     }
 
     public function testPutIsNotAllowed(): void
     {
         $animal = $this->getAnimal();
-        $this->client->request('PUT', sprintf('/api/animal_species/%s', $animal), [], [], [
-            'CONTENT_TYPE' => 'application/json',
-        ]);
-        $this->assertSame(
-            Response::HTTP_METHOD_NOT_ALLOWED,
-            $this->client->getResponse()->getStatusCode()
-        );
+        $this->client->request('PUT', sprintf('/api/animal_species/%s', $animal));
+        $this->assertResponseStatusCodeSame(Response::HTTP_METHOD_NOT_ALLOWED);
     }
 
     public function testDeleteIsNotAllowed(): void
     {
         $animal = $this->getAnimal();
-        $this->client->request('DELETE', sprintf('/api/animal_species/%s', $animal), [], [], [
-            'CONTENT_TYPE' => 'application/json',
-        ]);
-        $this->assertSame(
-            Response::HTTP_METHOD_NOT_ALLOWED,
-            $this->client->getResponse()->getStatusCode()
-        );
+        $this->client->request('DELETE', sprintf('/api/animal_species/%s', $animal));
+        $this->assertResponseStatusCodeSame(Response::HTTP_METHOD_NOT_ALLOWED);
     }
 
     private function getAnimal(): int

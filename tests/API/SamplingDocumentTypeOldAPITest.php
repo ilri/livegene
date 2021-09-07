@@ -6,20 +6,18 @@ use Liip\TestFixturesBundle\Test\FixturesTrait;
 use Symfony\Component\HttpFoundation\Response;
 use App\DataFixtures\Test\UserFixtures;
 
-class SamplingDocumentationAPITest extends ApiTestCase
+class SamplingDocumentTypeOldAPITest extends OldApiTestCase
 {
     use FixturesTrait;
 
-    private $entityManager;
     private $fixtures = null;
     private $client;
 
     public function setUp(): void
     {
-        $this->entityManager = $this->getContainer()->get('doctrine')->getManager();
         $this->fixtures = $this->loadFixtures([
             'App\DataFixtures\Test\UserFixtures',
-            'App\DataFixtures\Test\SamplingDocumentationFixtures',
+            'App\DataFixtures\Test\SamplingDocumentTypeFixtures',
         ])->getReferenceRepository();
         $username = $this->fixtures->getReference('api_user')->getUsername();
         $credentials = [
@@ -30,18 +28,9 @@ class SamplingDocumentationAPITest extends ApiTestCase
         $this->client = $this->createAuthenticatedClient($credentials);
     }
 
-    public function tearDown(): void
-    {
-        $media = $this->fixtures->getReference('documentation')->getDocument();
-        $this->entityManager->remove($media);
-        $this->entityManager->flush();
-
-        parent::tearDown();
-    }
-
     public function testGetCollectionIsAvailable(): void
     {
-        $this->client->request('GET', '/api/sampling_documentations', [], [], [
+        $this->client->request('GET', '/api/sampling_document_types', [], [], [
             'HTTP_ACCEPT' => 'application/json',
         ]);
         $this->assertSame(
@@ -60,7 +49,7 @@ class SamplingDocumentationAPITest extends ApiTestCase
 
     public function testPostIsNotAllowed(): void
     {
-        $this->client->request('POST', '/api/sampling_documentations', [], [], [
+        $this->client->request('POST', '/api/sampling_document_types', [], [], [
             'CONTENT_TYPE' => 'application/json',
         ]);
         $this->assertSame(
@@ -71,8 +60,8 @@ class SamplingDocumentationAPITest extends ApiTestCase
 
     public function testGetItemIsAvailable(): void
     {
-        $documentation = $this->getSamplingDocumentation();
-        $this->client->request('GET', sprintf('/api/sampling_documentations/%s', $documentation), [], [], [
+        $doctype = $this->getSamplingDocumentType();
+        $this->client->request('GET', sprintf('/api/sampling_document_types/%s', $doctype), [], [], [
             'HTTP_ACCEPT' => 'application/json'
         ]);
         $this->assertSame(
@@ -86,32 +75,22 @@ class SamplingDocumentationAPITest extends ApiTestCase
             )
         );
         $data = json_decode($this->client->getResponse()->getContent(), true);
-        $this->assertArrayHasKey('samplingActivity', $data);
-        $this->assertArrayHasKey('samplingDocumentType', $data);
-        $this->assertArrayHasKey('document', $data);
-        $this->assertArrayHasKey('startDate', $data);
-        $this->assertArrayHasKey('endDate', $data);
-        $this->assertArrayHasKey('isActive', $data);
-
-        $url = $data['document'];
-        ob_start();
-        $this->client->request('GET', $url);
-        ob_end_clean();
-        $this->assertTrue(
-            $this->client->getResponse()->isSuccessful()
-        );
-        $this->assertTrue(
-            $this->client->getResponse()->headers->contains(
-                'Content-Type',
-                'application/pdf'
-            )
+        $this->assertArrayHasKey('shortName', $data);
+        $this->assertArrayHasKey('longName', $data);
+        $this->assertSame(
+            $data,
+            [
+                'id' => 1,
+                'shortName' => 'ATA',
+                'longName' => 'A test agreement'
+            ]
         );
     }
 
     public function testPutIsNotAllowed(): void
     {
-        $documentation = $this->getSamplingDocumentation();
-        $this->client->request('PUT', sprintf('/api/sampling_documentations/%s', $documentation), [], [], [
+        $doctype = $this->getSamplingDocumentType();
+        $this->client->request('PUT', sprintf('/api/sampling_document_types/%s', $doctype), [], [], [
             'CONTENT_TYPE' => 'application/json',
         ]);
         $this->assertSame(
@@ -122,8 +101,8 @@ class SamplingDocumentationAPITest extends ApiTestCase
 
     public function testDeleteIsNotAllowed(): void
     {
-        $documentation = $this->getSamplingDocumentation();
-        $this->client->request('DELETE', sprintf('/api/sampling_documentations/%s', $documentation), [], [], [
+        $doctype = $this->getSamplingDocumentType();
+        $this->client->request('DELETE', sprintf('/api/sampling_document_types/%s', $doctype), [], [], [
             'CONTENT_TYPE' => 'application/json',
         ]);
         $this->assertSame(
@@ -132,8 +111,8 @@ class SamplingDocumentationAPITest extends ApiTestCase
         );
     }
 
-    private function getSamplingDocumentation(): int
+    private function getSamplingDocumentType(): int
     {
-        return $this->fixtures->getReference('documentation')->getId();
+        return $this->fixtures->getReference('doctype')->getId();
     }
 }

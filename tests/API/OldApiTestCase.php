@@ -4,7 +4,7 @@ namespace App\Tests\API;
 
 use Liip\FunctionalTestBundle\Test\WebTestCase;
 
-class ApiTestCase extends WebTestCase
+class OldApiTestCase extends WebTestCase
 {
 
     public function createAuthenticatedClient($credentials): object

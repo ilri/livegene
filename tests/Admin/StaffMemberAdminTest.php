@@ -2,32 +2,43 @@
 
 namespace App\Tests\Admin;
 
-use Carbon\Carbon;
-use Liip\FunctionalTestBundle\Test\WebTestCase;
-use Liip\TestFixturesBundle\Test\FixturesTrait;
-use Symfony\Component\HttpFoundation\Response;
 use App\DataFixtures\Test\UserFixtures;
+use Carbon\Carbon;
+use Doctrine\Common\DataFixtures\ReferenceRepository;
+use Liip\FunctionalTestBundle\Test\WebTestCase;
+use Liip\TestFixturesBundle\Services\DatabaseToolCollection;
+use Liip\TestFixturesBundle\Services\DatabaseTools\AbstractDatabaseTool;
+use Symfony\Bundle\FrameworkBundle\KernelBrowser;
+use Symfony\Component\DomCrawler\Crawler;
+use Symfony\Component\DomCrawler\Field\ChoiceFormField;
 
 class StaffMemberAdminTest extends WebTestCase
 {
-    use FixturesTrait;
+    protected AbstractDatabaseTool $databaseTool;
+    private ?KernelBrowser $client = null;
 
-    private $client;
-    private $fixtures = null;
-
+    /**
+     * Set the timezone to UTC.
+     * The fixture objects used in the tests have values which are
+     * calculated based on the current date.
+     * We set a fake value for "now" for the tests.
+     */
     public function setUp(): void
     {
         date_default_timezone_set('UTC');
         $now = Carbon::create(2019, 8, 8, 9);
         Carbon::setTestNow($now);
         $this->client = $this->createClient();
+        $this->databaseTool = $this->client->getContainer()->get(DatabaseToolCollection::class)->get();
     }
 
     /**
      * Helper method.
      * Log in the user through the admin login form.
+     *
+     * @param string $username
      */
-    private function formLogIn($username): void
+    private function formLogIn(string $username): void
     {
         $crawler = $this->client->request('GET', '/admin/login');
         $form = $crawler->filter('button.btn-primary')->form();
@@ -41,9 +52,9 @@ class StaffMemberAdminTest extends WebTestCase
      * Test that the form for creating StaffMember can be accessed.
      * It should not display the box for managing staff roles.
      */
-    public function testNewStaffMemberFormDoesNotDisplayRoles(): void
+    public function testCreateStaffMemberFormDoesNotDisplayStaffRoles(): void
     {
-        $fixtures = $this->loadFixtures([
+        $fixtures = $this->databaseTool->loadFixtures([
             'App\DataFixtures\Test\UserFixtures',
         ])->getReferenceRepository();
         $username = $fixtures->getReference('super_admin')->getUsername();
@@ -64,9 +75,9 @@ class StaffMemberAdminTest extends WebTestCase
      * It should display the box for managing staff roles.
      * There are no staff roles yet, so no table is displayed.
      */
-    public function testExistingStaffMemberWithoutRolesDisplaysEmptyBox(): void
+    public function testEditStaffMemberFormWithoutStaffRolesDisplaysEmptyBox(): void
     {
-        $fixtures = $this->loadFixtures([
+        $fixtures = $this->databaseTool->loadFixtures([
             'App\DataFixtures\Test\UserFixtures',
             'App\DataFixtures\Test\CountryFixtures',
             'App\DataFixtures\Test\OrganisationFixtures',
@@ -74,7 +85,7 @@ class StaffMemberAdminTest extends WebTestCase
             'App\DataFixtures\Test\ProjectFixtures',
         ])->getReferenceRepository();
 
-        $crawler = $this->existingStaffMemberCanManageRoles($fixtures);
+        $crawler = $this->editStaffMemberFormCanManageStaffRoles($fixtures);
 
         $this->assertSame(
             0,
@@ -87,9 +98,9 @@ class StaffMemberAdminTest extends WebTestCase
      * It should display the box for managing staff roles.
      * It should display a table with the existing staff roles.
      */
-    public function testExistingStaffMemberWithRolesDisplaysTable(): void
+    public function testEditStaffMemberFormWithStaffRolesDisplaysTable(): void
     {
-        $fixtures = $this->loadFixtures([
+        $fixtures = $this->databaseTool->loadFixtures([
             'App\DataFixtures\Test\UserFixtures',
             'App\DataFixtures\Test\CountryFixtures',
             'App\DataFixtures\Test\OrganisationFixtures',
@@ -98,7 +109,7 @@ class StaffMemberAdminTest extends WebTestCase
             'App\DataFixtures\Test\StaffRoleFixtures',
         ])->getReferenceRepository();
 
-        $crawler = $this->existingStaffMemberCanManageRoles($fixtures);
+        $crawler = $this->editStaffMemberFormCanManageStaffRoles($fixtures);
 
         $this->assertSame(
             1,
@@ -132,7 +143,9 @@ class StaffMemberAdminTest extends WebTestCase
         // delete the staff role
         $form = $crawler->selectButton('Update')->form();
         $deleteCheckbox = $crawler->filter('table.table.table-bordered tr td')->eq(0)->filter('input[type="checkbox"]')->attr('name');
-        $form[$deleteCheckbox]->tick();
+        /** @var ChoiceFormField $formDeleteCheckbox */
+        $formDeleteCheckbox = $form[$deleteCheckbox];
+        $formDeleteCheckbox->tick();
         $this->client->submit($form);
         $this->client->followRedirect();
         $this->assertTrue(
@@ -140,7 +153,16 @@ class StaffMemberAdminTest extends WebTestCase
         );
     }
 
-    private function existingStaffMemberCanManageRoles($fixtures): object
+    /**
+     * Common part for both tests for the Edit Staff Member Form.
+     * It performs form authentication and gets the edit form.
+     * The form should contain two boxes, one for the staff member itself,
+     * and another for managing the staff roles.
+     *
+     * @param ReferenceRepository $fixtures
+     * @return Crawler
+     */
+    private function editStaffMemberFormCanManageStaffRoles(ReferenceRepository $fixtures): Crawler
     {
         $username = $fixtures->getReference('super_admin')->getUsername();
         $this->formLogin($username);
