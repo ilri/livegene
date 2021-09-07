@@ -17,15 +17,18 @@ class ChildDateRangeWithinParentDateRangeValidator extends ConstraintValidator
         $this->em = $em;
     }
 
-    public function validate($entity, Constraint $constraint)
+    /**
+     * {@inheritdoc }
+     */
+    public function validate($value, Constraint $constraint)
     {
         /* @var $constraint ChildDateRangeWithinParentDateRange */
 
-        if (null === $entity->getStartDate() || null === $entity->getEndDate() || null === $entity->getProject()) {
+        if (null === $value->getStartDate() || null === $value->getEndDate() || null === $value->getProject()) {
             return;
         }
 
-        if ($entity->getStartDate() < $entity->getProject()->getStartDate()) {
+        if ($value->getStartDate() < $value->getProject()->getStartDate()) {
             $this->context->buildViolation($constraint->message)
                 ->setParameter('{{ entity }}', $this->getEntityName($entity))
                 ->setParameter('{{ position }}', 'start')
@@ -36,7 +39,7 @@ class ChildDateRangeWithinParentDateRangeValidator extends ConstraintValidator
                 ->addViolation();
         }
 
-        if ($entity->getEndDate() > $entity->getProject()->getEndDate()) {
+        if ($value->getEndDate() > $value->getProject()->getEndDate()) {
             $this->context->buildViolation($constraint->message)
                 ->setParameter('{{ entity }}', $this->getEntityName($entity))
                 ->setParameter('{{ position }}', 'end')
@@ -48,6 +51,10 @@ class ChildDateRangeWithinParentDateRangeValidator extends ConstraintValidator
         }
     }
 
+    /**
+     * @param $entity
+     * @return string
+     */
     private function getEntityName($entity): string
     {
         $fqcn = get_class($entity);

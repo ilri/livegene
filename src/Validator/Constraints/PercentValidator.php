@@ -9,26 +9,28 @@ use Symfony\Component\Validator\{
 
 class PercentValidator extends ConstraintValidator
 {
-    public function validate($entity, Constraint $constraint)
+    /**
+     * {@inheritdoc }
+     */
+    public function validate($value, Constraint $constraint)
     {
         /* @var $constraint Percent */
 
-        switch (get_class($entity)) {
+        switch (get_class($value)) {
             case 'App\Entity\StaffRole':
-                $subject = $entity->getStaffMember();
+                $subject = $value->getStaffMember();
                 $totalPercent = $subject ? $subject->getTotalStaffRolesPercent() : null;
                 break;
             case 'App\Entity\SDGRole':
-                $subject = $entity->getProject();
-                dump($subject);
+                $subject = $value->getProject();
                 $totalPercent = $subject ? $subject->getTotalSDGRolesPercent() : null;
                 break;
             case 'App\Entity\CountryRole':
-                $subject = $entity->getProject();
+                $subject = $value->getProject();
                 $totalPercent = $subject ? $subject->getTotalCountryRolesPercent() : null;
                 break;
             case 'App\Entity\AnimalSpeciesRole':
-                $subject = $entity->getProject();
+                $subject = $value->getProject();
                 $totalPercent = $subject ? $subject->getTotalAnimalSpeciesRolesPercent() : null;
                 break;
             default:
