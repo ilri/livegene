@@ -130,12 +130,6 @@ class ProjectAPITest extends ApiTestCase
         // $this->assertMatchesResourceCollectionJsonSchema(Project::class);
     }
 
-    public function testPostIsNotAllowed(): void
-    {
-        $this->client->request('POST', '/api/projects');
-        $this->assertResponseStatusCodeSame(Response::HTTP_METHOD_NOT_ALLOWED);
-    }
-
     public function testGetItemIsAvailable(): void
     {
         $project = $this->getProject();
@@ -208,9 +202,10 @@ class ProjectAPITest extends ApiTestCase
         );
     }
 
-    private function getProject(): int
+    public function testPostIsNotAllowed(): void
     {
-        return $this->fixtures->getReference('project')->getId();
+        $this->client->request('POST', '/api/projects');
+        $this->assertResponseStatusCodeSame(Response::HTTP_METHOD_NOT_ALLOWED);
     }
 
     public function testPutIsNotAllowed(): void
@@ -225,5 +220,10 @@ class ProjectAPITest extends ApiTestCase
         $project = $this->getProject();
         $this->client->request('DELETE', sprintf('/api/projects/%s', $project));
         $this->assertResponseStatusCodeSame(Response::HTTP_METHOD_NOT_ALLOWED);
+    }
+
+    private function getProject(): int
+    {
+        return $this->fixtures->getReference('project')->getId();
     }
 }

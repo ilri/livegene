@@ -72,12 +72,6 @@ class ContactAPITest extends ApiTestCase
         $this->assertMatchesResourceCollectionJsonSchema(Contact::class);
     }
 
-    public function testPostIsNotAllowed(): void
-    {
-        $this->client->request('POST', '/api/contacts');
-        $this->assertResponseStatusCodeSame(Response::HTTP_METHOD_NOT_ALLOWED);
-    }
-
     public function testGetItemIsAvailable(): void
     {
         $contact = $this->getContact();
@@ -95,9 +89,10 @@ class ContactAPITest extends ApiTestCase
         $this->assertMatchesResourceItemJsonSchema(Contact::class);
     }
 
-    private function getContact(): int
+    public function testPostIsNotAllowed(): void
     {
-        return $this->fixtures->getReference('contact')->getId();
+        $this->client->request('POST', '/api/contacts');
+        $this->assertResponseStatusCodeSame(Response::HTTP_METHOD_NOT_ALLOWED);
     }
 
     public function testPutIsNotAllowed(): void
@@ -112,5 +107,10 @@ class ContactAPITest extends ApiTestCase
         $contact = $this->getContact();
         $this->client->request('DELETE', sprintf('/api/contacts/%s', $contact));
         $this->assertResponseStatusCodeSame(Response::HTTP_METHOD_NOT_ALLOWED);
+    }
+
+    private function getContact(): int
+    {
+        return $this->fixtures->getReference('contact')->getId();
     }
 }

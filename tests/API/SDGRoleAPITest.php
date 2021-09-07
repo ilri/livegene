@@ -72,12 +72,6 @@ class SDGRoleAPITest extends ApiTestCase
         $this->assertMatchesResourceCollectionJsonSchema(SDGRole::class);
     }
 
-    public function testPostIsNotAllowed(): void
-    {
-        $this->client->request('POST', '/api/sdg_roles');
-        $this->assertResponseStatusCodeSame(Response::HTTP_METHOD_NOT_ALLOWED);
-    }
-
     public function testGetItemIsAvailable(): void
     {
         $sdgRole = $this->getSDGRole();
@@ -93,9 +87,10 @@ class SDGRoleAPITest extends ApiTestCase
         );
     }
 
-    private function getSDGRole(): int
+    public function testPostIsNotAllowed(): void
     {
-        return $this->fixtures->getReference('sdg-role')->getId();
+        $this->client->request('POST', '/api/sdg_roles');
+        $this->assertResponseStatusCodeSame(Response::HTTP_METHOD_NOT_ALLOWED);
     }
 
     public function testPutIsNotAllowed(): void
@@ -110,5 +105,10 @@ class SDGRoleAPITest extends ApiTestCase
         $sdgRole = $this->getSDGRole();
         $this->client->request('DELETE', sprintf('/api/sdg_roles/%s', $sdgRole));
         $this->assertResponseStatusCodeSame(Response::HTTP_METHOD_NOT_ALLOWED);
+    }
+
+    private function getSDGRole(): int
+    {
+        return $this->fixtures->getReference('sdg-role')->getId();
     }
 }

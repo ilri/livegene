@@ -71,16 +71,10 @@ class AnimalSpeciesAPITest extends ApiTestCase
         $this->assertMatchesResourceCollectionJsonSchema(AnimalSpecies::class);
     }
 
-    public function testPostIsNotAllowed(): void
-    {
-        $this->client->request('POST', '/api/animal_species');
-        $this->assertResponseStatusCodeSame(Response::HTTP_METHOD_NOT_ALLOWED);
-    }
-
     public function testGetItemIsAvailable(): void
     {
         $animal = $this->getAnimal();
-        $response = $this->client->request('GET', sprintf('/api/animal_species/%s', $animal));
+        $this->client->request('GET', sprintf('/api/animal_species/%s', $animal));
         $this->assertResponseIsSuccessful();
         $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
         $this->assertJsonContains(
@@ -93,9 +87,10 @@ class AnimalSpeciesAPITest extends ApiTestCase
         $this->assertMatchesResourceItemJsonSchema(AnimalSpecies::class);
     }
 
-    private function getAnimal(): int
+    public function testPostIsNotAllowed(): void
     {
-        return $this->fixtures->getReference('animal')->getId();
+        $this->client->request('POST', '/api/animal_species');
+        $this->assertResponseStatusCodeSame(Response::HTTP_METHOD_NOT_ALLOWED);
     }
 
     public function testPutIsNotAllowed(): void
@@ -110,5 +105,10 @@ class AnimalSpeciesAPITest extends ApiTestCase
         $animal = $this->getAnimal();
         $this->client->request('DELETE', sprintf('/api/animal_species/%s', $animal));
         $this->assertResponseStatusCodeSame(Response::HTTP_METHOD_NOT_ALLOWED);
+    }
+
+    private function getAnimal(): int
+    {
+        return $this->fixtures->getReference('animal')->getId();
     }
 }

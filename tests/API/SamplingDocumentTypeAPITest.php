@@ -71,12 +71,6 @@ class SamplingDocumentTypeAPITest extends ApiTestCase
         $this->assertMatchesResourceCollectionJsonSchema(SamplingDocumentType::class);
     }
 
-    public function testPostIsNotAllowed(): void
-    {
-        $this->client->request('POST', '/api/sampling_document_types');
-        $this->assertResponseStatusCodeSame(Response::HTTP_METHOD_NOT_ALLOWED);
-    }
-
     public function testGetItemIsAvailable(): void
     {
         $doctype = $this->getSamplingDocumentType();
@@ -92,9 +86,10 @@ class SamplingDocumentTypeAPITest extends ApiTestCase
         );
     }
 
-    private function getSamplingDocumentType(): int
+    public function testPostIsNotAllowed(): void
     {
-        return $this->fixtures->getReference('doctype')->getId();
+        $this->client->request('POST', '/api/sampling_document_types');
+        $this->assertResponseStatusCodeSame(Response::HTTP_METHOD_NOT_ALLOWED);
     }
 
     public function testPutIsNotAllowed(): void
@@ -109,5 +104,10 @@ class SamplingDocumentTypeAPITest extends ApiTestCase
         $doctype = $this->getSamplingDocumentType();
         $this->client->request('DELETE', sprintf('/api/sampling_document_types/%s', $doctype));
         $this->assertResponseStatusCodeSame(Response::HTTP_METHOD_NOT_ALLOWED);
+    }
+
+    private function getSamplingDocumentType(): int
+    {
+        return $this->fixtures->getReference('doctype')->getId();
     }
 }

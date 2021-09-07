@@ -73,12 +73,6 @@ class AnimalSpeciesRoleAPITest extends ApiTestCase
 
     }
 
-    public function testPostIsNotAllowed(): void
-    {
-        $this->client->request('POST', '/api/animal_species_roles');
-        $this->assertResponseStatusCodeSame(Response::HTTP_METHOD_NOT_ALLOWED);
-    }
-
     public function testGetItemIsAvailable(): void
     {
         $animalSpeciesRole = $this->getAnimalSpeciesRole();
@@ -97,9 +91,10 @@ class AnimalSpeciesRoleAPITest extends ApiTestCase
 
     }
 
-    private function getAnimalSpeciesRole(): int
+    public function testPostIsNotAllowed(): void
     {
-        return $this->fixtures->getReference('animal-species-role')->getId();
+        $this->client->request('POST', '/api/animal_species_roles');
+        $this->assertResponseStatusCodeSame(Response::HTTP_METHOD_NOT_ALLOWED);
     }
 
     public function testPutIsNotAllowed(): void
@@ -115,5 +110,10 @@ class AnimalSpeciesRoleAPITest extends ApiTestCase
         $this->client->request('DELETE', sprintf('/api/animal_species_roles/%s', $animalSpeciesRole));
         $this->assertResponseStatusCodeSame(Response::HTTP_METHOD_NOT_ALLOWED);
 
+    }
+
+    private function getAnimalSpeciesRole(): int
+    {
+        return $this->fixtures->getReference('animal-species-role')->getId();
     }
 }

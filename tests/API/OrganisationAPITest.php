@@ -75,14 +75,7 @@ class OrganisationAPITest extends ApiTestCase
             ]
         );
         $this->assertCount(1, $response->toArray()['hydra:member']);
-        // need to check why this is not working
         //$this->assertMatchesResourceCollectionJsonSchema(Organisation::class);
-    }
-
-    public function testPostIsNotAllowed(): void
-    {
-        $this->client->request('POST', '/api/organisations');
-        $this->assertResponseStatusCodeSame(Response::HTTP_METHOD_NOT_ALLOWED);
     }
 
     public function testGetItemIsAvailable(): void
@@ -107,9 +100,10 @@ class OrganisationAPITest extends ApiTestCase
         );
     }
 
-    private function getOrganisation(): int
+    public function testPostIsNotAllowed(): void
     {
-        return $this->fixtures->getReference('organisation')->getId();
+        $this->client->request('POST', '/api/organisations');
+        $this->assertResponseStatusCodeSame(Response::HTTP_METHOD_NOT_ALLOWED);
     }
 
     public function testPutIsNotAllowed(): void
@@ -124,5 +118,10 @@ class OrganisationAPITest extends ApiTestCase
         $organisation = $this->getOrganisation();
         $this->client->request('DELETE', sprintf('/api/organisations/%s', $organisation));
         $this->assertResponseStatusCodeSame(Response::HTTP_METHOD_NOT_ALLOWED);
+    }
+
+    private function getOrganisation(): int
+    {
+        return $this->fixtures->getReference('organisation')->getId();
     }
 }

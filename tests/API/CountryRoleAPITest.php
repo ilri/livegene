@@ -72,12 +72,6 @@ class CountryRoleAPITest extends ApiTestCase
         $this->assertMatchesResourceCollectionJsonSchema(CountryRole::class);
     }
 
-    public function testPostIsNotAllowed(): void
-    {
-        $this->client->request('POST', '/api/country_roles');
-        $this->assertResponseStatusCodeSame(Response::HTTP_METHOD_NOT_ALLOWED);
-    }
-
     public function testGetItemIsAvailable(): void
     {
         $countryRole = $this->getCountryRole();
@@ -95,9 +89,10 @@ class CountryRoleAPITest extends ApiTestCase
         $this->assertMatchesResourceItemJsonSchema(CountryRole::class);
     }
 
-    private function getCountryRole(): int
+    public function testPostIsNotAllowed(): void
     {
-        return $this->fixtures->getReference('country-role')->getId();
+        $this->client->request('POST', '/api/country_roles');
+        $this->assertResponseStatusCodeSame(Response::HTTP_METHOD_NOT_ALLOWED);
     }
 
     public function testPutIsNotAllowed(): void
@@ -112,5 +107,10 @@ class CountryRoleAPITest extends ApiTestCase
         $countryRole = $this->getCountryRole();
         $this->client->request('DELETE', sprintf('/api/country_roles/%s', $countryRole));
         $this->assertResponseStatusCodeSame(Response::HTTP_METHOD_NOT_ALLOWED);
+    }
+
+    private function getCountryRole(): int
+    {
+        return $this->fixtures->getReference('country-role')->getId();
     }
 }

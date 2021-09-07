@@ -19,7 +19,6 @@ class AuthenticationTest extends ApiTestCase
             ]
         )->getReferenceRepository();
 
-
         $response = $client->request(
             'POST',
             '/authentication_token',

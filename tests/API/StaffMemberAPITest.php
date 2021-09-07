@@ -74,12 +74,6 @@ class StaffMemberAPITest extends ApiTestCase
         $this->assertMatchesResourceCollectionJsonSchema(StaffMember::class);
     }
 
-    public function testPostIsNotAllowed(): void
-    {
-        $this->client->request('POST', '/api/staff');
-        $this->assertResponseStatusCodeSame(Response::HTTP_METHOD_NOT_ALLOWED);
-    }
-
     public function testGetItemIsAvailable(): void
     {
         $coyote = $this->getStaffMember();
@@ -98,9 +92,10 @@ class StaffMemberAPITest extends ApiTestCase
         );
     }
 
-    private function getStaffMember(): string
+    public function testPostIsNotAllowed(): void
     {
-        return $this->fixtures->getReference('coyote')->getId();
+        $this->client->request('POST', '/api/staff');
+        $this->assertResponseStatusCodeSame(Response::HTTP_METHOD_NOT_ALLOWED);
     }
 
     public function testPutIsNotAllowed(): void
@@ -115,5 +110,10 @@ class StaffMemberAPITest extends ApiTestCase
         $coyote = $this->getStaffMember();
         $this->client->request('DELETE', sprintf('/api/staff/%s', $coyote));
         $this->assertResponseStatusCodeSame(Response::HTTP_METHOD_NOT_ALLOWED);
+    }
+
+    private function getStaffMember(): string
+    {
+        return $this->fixtures->getReference('coyote')->getId();
     }
 }

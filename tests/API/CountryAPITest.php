@@ -71,12 +71,6 @@ class CountryAPITest extends ApiTestCase
         $this->assertMatchesResourceCollectionJsonSchema(Country::class);
     }
 
-    public function testPostIsNotAllowed(): void
-    {
-        $this->client->request('POST', '/api/countries');
-        $this->assertResponseStatusCodeSame(Response::HTTP_METHOD_NOT_ALLOWED);
-    }
-
     public function testGetItemIsAvailable(): void
     {
         $country = $this->getCountry();
@@ -93,9 +87,10 @@ class CountryAPITest extends ApiTestCase
         $this->assertMatchesResourceItemJsonSchema(Country::class);
     }
 
-    private function getCountry(): string
+    public function testPostIsNotAllowed(): void
     {
-        return $this->fixtures->getReference('country')->getCountry();
+        $this->client->request('POST', '/api/countries');
+        $this->assertResponseStatusCodeSame(Response::HTTP_METHOD_NOT_ALLOWED);
     }
 
     public function testPutIsNotAllowed(): void
@@ -110,5 +105,10 @@ class CountryAPITest extends ApiTestCase
         $country = $this->getCountry();
         $this->client->request('DELETE', sprintf('/api/countries/%s', $country));
         $this->assertResponseStatusCodeSame(Response::HTTP_METHOD_NOT_ALLOWED);
+    }
+
+    private function getCountry(): string
+    {
+        return $this->fixtures->getReference('country')->getCountry();
     }
 }

@@ -75,12 +75,6 @@ class SDGAPITest extends ApiTestCase
         $this->assertMatchesResourceCollectionJsonSchema(SDG::class);
     }
 
-    public function testPostIsNotAllowed(): void
-    {
-        $this->client->request('POST', '/api/sdgs');
-        $this->assertResponseStatusCodeSame(Response::HTTP_METHOD_NOT_ALLOWED);
-    }
-
     public function testGetItemIsAvailable(): void
     {
         $sdg = $this->getSDG();
@@ -98,15 +92,16 @@ class SDGAPITest extends ApiTestCase
         );
     }
 
-    private function getSDG(): int
-    {
-        return $this->fixtures->getReference('sdg1')->getId();
-    }
-
     public function testGetItemIsNotAvailable(): void
     {
         $this->client->request('GET', '/api/sdgs/18');
         $this->assertResponseStatusCodeSame(Response::HTTP_NOT_FOUND);
+    }
+
+    public function testPostIsNotAllowed(): void
+    {
+        $this->client->request('POST', '/api/sdgs');
+        $this->assertResponseStatusCodeSame(Response::HTTP_METHOD_NOT_ALLOWED);
     }
 
     public function testPutIsNotAllowed(): void
@@ -121,5 +116,10 @@ class SDGAPITest extends ApiTestCase
         $sdg = $this->getSDG();
         $this->client->request('DELETE', sprintf('/api/sdgs/%s', $sdg));
         $this->assertResponseStatusCodeSame(Response::HTTP_METHOD_NOT_ALLOWED);
+    }
+
+    private function getSDG(): int
+    {
+        return $this->fixtures->getReference('sdg1')->getId();
     }
 }

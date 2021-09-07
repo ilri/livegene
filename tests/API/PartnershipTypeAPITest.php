@@ -86,13 +86,6 @@ class PartnershipTypeAPITest extends ApiTestCase
         $this->assertMatchesResourceCollectionJsonSchema(PartnershipType::class);
     }
 
-    public function testPostIsNotAllowed(): void
-    {
-        $this->client->request('POST', '/api/partnership_types');
-        $this->assertResponseStatusCodeSame(Response::HTTP_METHOD_NOT_ALLOWED);
-    }
-
-
     public function testGetItemIsAvailable(): void
     {
         $partnership_type = $this->getPartnershipType();
@@ -106,10 +99,10 @@ class PartnershipTypeAPITest extends ApiTestCase
         );
     }
 
-    private function getPartnershipType(): int
+    public function testPostIsNotAllowed(): void
     {
-        return $this->entityManager->getRepository(PartnershipType::class)->findOneByDescription('Unspecified')->getId(
-        );
+        $this->client->request('POST', '/api/partnership_types');
+        $this->assertResponseStatusCodeSame(Response::HTTP_METHOD_NOT_ALLOWED);
     }
 
     public function testPutIsNotAllowed(): void
@@ -124,5 +117,11 @@ class PartnershipTypeAPITest extends ApiTestCase
         $partnership_type = $this->getPartnershipType();
         $this->client->request('DELETE', sprintf('/api/partnership_types/%s', $partnership_type));
         $this->assertResponseStatusCodeSame(Response::HTTP_METHOD_NOT_ALLOWED);
+    }
+
+    private function getPartnershipType(): int
+    {
+        return $this->entityManager->getRepository(PartnershipType::class)->findOneByDescription('Unspecified')->getId(
+        );
     }
 }

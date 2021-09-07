@@ -76,12 +76,6 @@ class SamplingDocumentationAPITest extends ApiTestCase
         //$this->assertMatchesResourceCollectionJsonSchema(SamplingDocumentation::class);
     }
 
-    public function testPostIsNotAllowed(): void
-    {
-        $this->client->request('POST', '/api/sampling_documentations');
-        $this->assertResponseStatusCodeSame(Response::HTTP_METHOD_NOT_ALLOWED);
-    }
-
     public function testGetItemIsAvailable(): void
     {
         $documentation = $this->getSamplingDocumentation();
@@ -101,9 +95,10 @@ class SamplingDocumentationAPITest extends ApiTestCase
         );
     }
 
-    private function getSamplingDocumentation(): int
+    public function testPostIsNotAllowed(): void
     {
-        return $this->fixtures->getReference('documentation')->getId();
+        $this->client->request('POST', '/api/sampling_documentations');
+        $this->assertResponseStatusCodeSame(Response::HTTP_METHOD_NOT_ALLOWED);
     }
 
     public function testPutIsNotAllowed(): void
@@ -118,5 +113,10 @@ class SamplingDocumentationAPITest extends ApiTestCase
         $documentation = $this->getSamplingDocumentation();
         $this->client->request('DELETE', sprintf('/api/sampling_documentations/%s', $documentation));
         $this->assertResponseStatusCodeSame(Response::HTTP_METHOD_NOT_ALLOWED);
+    }
+
+    private function getSamplingDocumentation(): int
+    {
+        return $this->fixtures->getReference('documentation')->getId();
     }
 }

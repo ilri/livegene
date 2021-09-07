@@ -75,12 +75,6 @@ class PartnershipAPITest extends ApiTestCase
         $this->assertMatchesResourceCollectionJsonSchema(Partnership::class);
     }
 
-    public function testPostIsNotAllowed(): void
-    {
-        $this->client->request('POST', '/api/partnerships');
-        $this->assertResponseStatusCodeSame(Response::HTTP_METHOD_NOT_ALLOWED);
-    }
-
     public function testGetItemIsAvailable(): void
     {
         $partnership = $this->getPartnership();
@@ -99,9 +93,10 @@ class PartnershipAPITest extends ApiTestCase
         );
     }
 
-    private function getPartnership(): int
+    public function testPostIsNotAllowed(): void
     {
-        return $this->fixtures->getReference('partnership')->getId();
+        $this->client->request('POST', '/api/partnerships');
+        $this->assertResponseStatusCodeSame(Response::HTTP_METHOD_NOT_ALLOWED);
     }
 
     public function testPutIsNotAllowed(): void
@@ -116,5 +111,10 @@ class PartnershipAPITest extends ApiTestCase
         $partnership = $this->getPartnership();
         $this->client->request('DELETE', sprintf('/api/partnerships/%s', $partnership));
         $this->assertResponseStatusCodeSame(Response::HTTP_METHOD_NOT_ALLOWED);
+    }
+
+    private function getPartnership(): int
+    {
+        return $this->fixtures->getReference('partnership')->getId();
     }
 }

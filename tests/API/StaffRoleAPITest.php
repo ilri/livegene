@@ -88,13 +88,6 @@ class StaffRoleAPITest extends ApiTestCase
         //$this->assertMatchesResourceCollectionJsonSchema(StaffRole::class);
     }
 
-    public function testPostIsNotAllowed(): void
-    {
-        $this->client->request('POST', '/api/staff_roles');
-        $this->assertResponseStatusCodeSame(Response::HTTP_METHOD_NOT_ALLOWED);
-
-    }
-
     public function testGetItemIsAvailable(): void
     {
         $staffRole = $this->getStaffRole();
@@ -127,9 +120,11 @@ class StaffRoleAPITest extends ApiTestCase
         );
     }
 
-    private function getStaffRole(): int
+    public function testPostIsNotAllowed(): void
     {
-        return $this->fixtures->getReference('staff-role')->getId();
+        $this->client->request('POST', '/api/staff_roles');
+        $this->assertResponseStatusCodeSame(Response::HTTP_METHOD_NOT_ALLOWED);
+
     }
 
     public function testPutIsNotAllowed(): void
@@ -144,5 +139,10 @@ class StaffRoleAPITest extends ApiTestCase
         $staffRole = $this->getStaffRole();
         $this->client->request('DELETE', sprintf('/api/staff_roles/%s', $staffRole));
         $this->assertResponseStatusCodeSame(Response::HTTP_METHOD_NOT_ALLOWED);
+    }
+
+    private function getStaffRole(): int
+    {
+        return $this->fixtures->getReference('staff-role')->getId();
     }
 }
