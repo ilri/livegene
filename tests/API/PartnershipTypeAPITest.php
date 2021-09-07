@@ -14,6 +14,7 @@ use App\DataFixtures\Test\UserFixtures;
 class PartnershipTypeAPITest extends ApiTestCase
 {
     private Client $client;
+    private ?object $entityManager;
 
     public function setUp(): void
     {
@@ -35,6 +36,7 @@ class PartnershipTypeAPITest extends ApiTestCase
         $this->client->setDefaultOptions([
             'auth_bearer' => json_decode($response->getContent(), true)['token'],
         ]);
+        $this->entityManager = self::$container->get('doctrine.orm.entity_manager');
     }
 
     public function testGetCollectionIsAvailable(): void
@@ -109,7 +111,6 @@ class PartnershipTypeAPITest extends ApiTestCase
 
     private function getPartnershipType(): int
     {
-        $em = self::$container->get('doctrine.orm.entity_manager');
-        return $em->getRepository(PartnershipType::class)->findOneByDescription('Unspecified')->getId();
+        return $this->entityManager->getRepository(PartnershipType::class)->findOneByDescription('Unspecified')->getId();
     }
 }
