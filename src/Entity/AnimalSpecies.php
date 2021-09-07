@@ -50,7 +50,7 @@ class AnimalSpecies
      * @ORM\Column(type="integer")
      * @Groups({"animal_species:collection:get", "animal_species:item:get", "sampling_activity:collection:get", "sampling_activity:item:get"})
      */
-    private int $id;
+    private ?int $id;
 
     /**
      * @ORM\Column(type="string", length=30, unique=true)

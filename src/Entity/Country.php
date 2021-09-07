@@ -58,7 +58,7 @@ class Country
      *     "sampling_activity:collection:get", "sampling_activity:item:get",
      * })
      */
-    private int $id;
+    private ?int $id;
 
     /**
      * @ORM\Column(type="string", length=2, unique=true)

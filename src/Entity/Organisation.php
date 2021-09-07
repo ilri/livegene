@@ -50,7 +50,7 @@ class Organisation
      * @ORM\Column(type="integer")
      * @Groups({"organisation:collection:get", "organisation:item:get", "project:collection:get", "project:item:get"})
      */
-    private int $id;
+    private ?int $id;
 
     /**
      * @ORM\Column(type="string", length=20)

@@ -51,7 +51,7 @@ class Contact
      * @ORM\Column(type="integer")
      * @Groups({"contact:collection:get", "contact:item:get"})
      */
-    private int $id;
+    private ?int $id;
 
     /**
      * @ORM\Column(type="string", length=20)

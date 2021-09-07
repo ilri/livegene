@@ -58,7 +58,7 @@ class StaffRole
      * @ORM\Column(type="integer")
      * @Groups({"staff_role:collection:get", "staff_role:item:get", "project:collection:get", "project:item:get"})
      */
-    private $id;
+    private ?int $id;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Project", inversedBy="staffRoles")
@@ -66,7 +66,7 @@ class StaffRole
      * @Assert\NotBlank()
      * @Groups({"staff_role:collection:get", "staff_role:item:get"})
      */
-    private $project;
+    private ?Project $project = null;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\StaffMember", inversedBy="staffRoles")
