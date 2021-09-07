@@ -66,7 +66,7 @@ class Project
      * @ORM\Column(type="integer")
      * @Groups({"project:collection:get", "project:item:get", "staff_role:collection:get", "staff_role:item:get"})
      */
-    private $id;
+    private ?int $id;
 
     /**
      * @ORM\Column(type="string", length=20, unique=true)
@@ -158,7 +158,7 @@ class Project
      * )
      * @Groups({"project:collection:get", "project:item:get"})
      */
-    private $totalIlriValue;
+    private ?int $totalIlriValue;
 
     /**
      * @ORM\Column(type="integer", options={"unsigned": true})
@@ -171,7 +171,7 @@ class Project
      * )
      * @Groups({"project:collection:get", "project:item:get"})
      */
-    private $totalLivegeneValue;
+    private ?int $totalLivegeneValue;
 
     /**
      * @ORM\Column(type="smallint", options={"unsigned": true, "default": 0})
@@ -181,7 +181,7 @@ class Project
      * )
      * @Groups({"project:collection:get", "project:item:get"})
      */
-    private $status;
+    private ?int $status;
 
     /**
      * @ORM\Column(type="integer", options={"unsigned": true, "default": 0})
@@ -191,7 +191,7 @@ class Project
      * )
      * @Groups({"project:collection:get", "project:item:get"})
      */
-    private $capacityDevelopment;
+    private ?int $capacityDevelopment;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Partnership", mappedBy="project")
@@ -236,7 +236,7 @@ class Project
      *     maxMessage="Please provide maximum {{ limit }} characters for the abstract"
      * )
      */
-    private $abstract = '';
+    private string $abstract = '';
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -244,7 +244,7 @@ class Project
      *      checkDNS="ANY"
      * )
      */
-    private $proposalLink = '';
+    private string $proposalLink = '';
 
     /**
      * @ORM\Column(type="simple_array", nullable=true)
@@ -255,7 +255,7 @@ class Project
      *     )
      * )
      */
-    private $donorReports = [];
+    private array $donorReports = [];
 
     public function __construct()
     {
