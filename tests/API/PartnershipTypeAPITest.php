@@ -6,10 +6,10 @@ use ApiPlatform\Core\Bridge\Symfony\Bundle\Test\{
     ApiTestCase,
     Client,
 };
+use App\DataFixtures\Test\UserFixtures;
 use App\Entity\PartnershipType;
 use Liip\TestFixturesBundle\Services\DatabaseToolCollection;
 use Symfony\Component\HttpFoundation\Response;
-use App\DataFixtures\Test\UserFixtures;
 
 class PartnershipTypeAPITest extends ApiTestCase
 {

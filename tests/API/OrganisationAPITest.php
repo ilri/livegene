@@ -6,11 +6,10 @@ use ApiPlatform\Core\Bridge\Symfony\Bundle\Test\{
     ApiTestCase,
     Client,
 };
-use App\Entity\Organisation;
+use App\DataFixtures\Test\UserFixtures;
 use Doctrine\Common\DataFixtures\ReferenceRepository;
 use Liip\TestFixturesBundle\Services\DatabaseToolCollection;
 use Symfony\Component\HttpFoundation\Response;
-use App\DataFixtures\Test\UserFixtures;
 
 class OrganisationAPITest extends ApiTestCase
 {
