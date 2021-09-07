@@ -6,6 +6,8 @@ use App\Entity\{
     Partnership,
     Project,
 };
+use DateInterval;
+use DateTime;
 use Doctrine\Persistence\{
     ObjectManager,
     ObjectRepository,
@@ -14,16 +16,16 @@ use PHPUnit\Framework\TestCase;
 
 class PartnershipTest extends TestCase
 {
-    private static $startDate;
-    private static $endDate;
-    private static $partnership;
-    private static $project;
+    private static DateTime $startDate;
+    private static DateTime $endDate;
+    private static Partnership $partnership;
+    private static Project $project;
 
     public static function setUpBeforeClass(): void
     {
-        $today = new \DateTime('today');
-        self::$startDate = $today->sub(new \DateInterval('P10D'));
-        self::$endDate = $today->add(new \DateInterval('P10D'));
+        $today = new DateTime('today');
+        self::$startDate = $today->sub(new DateInterval('P10D'));
+        self::$endDate = $today->add(new DateInterval('P10D'));
         self::$partnership = new Partnership();
         self::$project = new Project();
     }
@@ -58,8 +60,8 @@ class PartnershipTest extends TestCase
 
     public function testPartnershipDatesAreDisplayed(): void
     {
-        $yesterday = new \DateTime('yesterday');
-        $tomorrow = new \DateTime('tomorrow');
+        $yesterday = new DateTime('yesterday');
+        $tomorrow = new DateTime('tomorrow');
         self::$partnership->setStartDate($yesterday);
         self::$partnership->setEndDate($tomorrow);
         $this->assertSame($yesterday, self::$partnership->getStartDate());

@@ -4,7 +4,7 @@ namespace App\Validator\Constraints;
 
 use Symfony\Component\Validator\{
     Constraint,
-    ConstraintValidator
+    ConstraintValidator,
 };
 
 class PercentValidator extends ConstraintValidator
@@ -26,11 +26,11 @@ class PercentValidator extends ConstraintValidator
             case 'App\Entity\CountryRole':
                 $subject = $entity->getProject();
                 $totalPercent = $subject ? $subject->getTotalCountryRolesPercent() : null;
-            break;
+                break;
             case 'App\Entity\AnimalSpeciesRole':
                 $subject = $entity->getProject();
                 $totalPercent = $subject ? $subject->getTotalAnimalSpeciesRolesPercent() : null;
-            break;
+                break;
             default:
                 return;
         }

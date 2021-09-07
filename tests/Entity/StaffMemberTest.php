@@ -15,13 +15,13 @@ use PHPUnit\Framework\TestCase;
 
 class StaffMemberTest extends TestCase
 {
-    private static $email = 'Cezar.Pendarovski@ROSLIN.ed.ac.uk';
-    private static $username = 'Cpendaro';
-    private static $staffMember;
-    private static $staffRole1;
-    private static $staffRole2;
-    private static $staffRole3;
-    private static $totalPercent;
+    private static string $email = 'Cezar.Pendarovski@ROSLIN.ed.ac.uk';
+    private static string $username = 'Cpendaro';
+    private static StaffMember $staffMember;
+    private static StaffRole $staffRole1;
+    private static StaffRole $staffRole2;
+    private static StaffRole $staffRole3;
+    private static float $totalPercent;
 
     public static function setUpBeforeClass(): void
     {

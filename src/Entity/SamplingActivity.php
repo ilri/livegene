@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\{
     ArrayCollection,
     Collection,
 };
+use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Serializer\Annotation\Groups;
@@ -64,7 +65,7 @@ class SamplingActivity
      * @Assert\NotBlank()
      * @Groups({"sampling_activity:collection:get", "sampling_activity:item:get"})
      */
-    private $project;
+    private ?Project $project;
 
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Organisation", inversedBy="samplingActivities")
@@ -95,21 +96,21 @@ class SamplingActivity
      * @Assert\NotBlank()
      * @Groups({"sampling_activity:collection:get", "sampling_activity:item:get"})
      */
-    private $description;
+    private ?string $description;
 
     /**
      * @ORM\Column(type="date")
      * @Assert\NotBlank()
      * @Groups({"sampling_activity:collection:get", "sampling_activity:item:get"})
      */
-    private $startDate;
+    private ?DateTimeInterface $startDate;
 
     /**
      * @ORM\Column(type="date")
      * @Assert\NotBlank()
      * @Groups({"sampling_activity:collection:get", "sampling_activity:item:get"})
      */
-    private $endDate;
+    private ?DateTimeInterface $endDate;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\SamplingDocumentation", mappedBy="samplingActivity", orphanRemoval=true, cascade={"persist"})
@@ -237,24 +238,24 @@ class SamplingActivity
         return $this;
     }
 
-    public function getStartDate(): ?\DateTimeInterface
+    public function getStartDate(): ?DateTimeInterface
     {
         return $this->startDate;
     }
 
-    public function setStartDate(?\DateTimeInterface $startDate): self
+    public function setStartDate(?DateTimeInterface $startDate): self
     {
         $this->startDate = $startDate;
 
         return $this;
     }
 
-    public function getEndDate(): ?\DateTimeInterface
+    public function getEndDate(): ?DateTimeInterface
     {
         return $this->endDate;
     }
 
-    public function setEndDate(?\DateTimeInterface $endDate): self
+    public function setEndDate(?DateTimeInterface $endDate): self
     {
         $this->endDate = $endDate;
 

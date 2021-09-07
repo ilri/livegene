@@ -53,21 +53,21 @@ class SamplingDocumentType
      * @ORM\Column(type="integer")
      * @Groups({"sampling_document_type:collection:get", "sampling_document_type:item:get"})
      */
-    private $id;
+    private int $id;
 
     /**
      * @ORM\Column(type="string", length=30, unique=true)
      * @Assert\NotBlank()
      * @Groups({"sampling_document_type:collection:get", "sampling_document_type:item:get"})
      */
-    private $shortName;
+    private ?string $shortName;
 
     /**
      * @ORM\Column(type="string", length=100)
      * @Assert\NotBlank()
      * @Groups({"sampling_document_type:collection:get", "sampling_document_type:item:get"})
      */
-    private $longName;
+    private ?string $longName;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\SamplingDocumentation", mappedBy="samplingDocumentType")

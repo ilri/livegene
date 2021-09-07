@@ -9,7 +9,7 @@ use Symfony\Component\Validator\Constraint;
  */
 class ChildDateRangeWithinParentDateRange extends Constraint
 {
-    public $message = 'The {{ entity }} {{ position }} date ({{ childDate }}) must not be {{ comparator }} the project {{ position }} date ({{ parentDate }}).';
+    public string $message = 'The {{ entity }} {{ position }} date ({{ childDate }}) must not be {{ comparator }} the project {{ position }} date ({{ parentDate }}).';
 
     public function getTargets()
     {

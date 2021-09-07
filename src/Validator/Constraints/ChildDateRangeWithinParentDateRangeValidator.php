@@ -5,12 +5,12 @@ namespace App\Validator\Constraints;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Validator\{
     Constraint,
-    ConstraintValidator
+    ConstraintValidator,
 };
 
 class ChildDateRangeWithinParentDateRangeValidator extends ConstraintValidator
 {
-    private $em;
+    private EntityManagerInterface $em;
 
     public function __construct(EntityManagerInterface $em)
     {
@@ -33,8 +33,7 @@ class ChildDateRangeWithinParentDateRangeValidator extends ConstraintValidator
                 ->setParameter('{{ parentDate }}', $entity->getProject()->getStartDate()->format('Y-m-d'))
                 ->setParameter('{{ comparator }}', 'before')
                 ->atPath('startDate')
-                ->addViolation()
-            ;
+                ->addViolation();
         }
 
         if ($entity->getEndDate() > $entity->getProject()->getEndDate()) {
@@ -45,8 +44,7 @@ class ChildDateRangeWithinParentDateRangeValidator extends ConstraintValidator
                 ->setParameter('{{ parentDate }}', $entity->getProject()->getEndDate()->format('Y-m-d'))
                 ->setParameter('{{ comparator }}', 'after')
                 ->atPath('endDate')
-                ->addViolation()
-            ;
+                ->addViolation();
         }
     }
 
@@ -54,6 +52,7 @@ class ChildDateRangeWithinParentDateRangeValidator extends ConstraintValidator
     {
         $fqcn = get_class($entity);
         $tableName = $this->em->getClassMetadata($fqcn)->getTableName();
+
         return str_replace('_', ' ', substr($tableName, 4));
     }
 }

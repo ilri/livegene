@@ -9,7 +9,7 @@ use Symfony\Component\Validator\Constraint;
  */
 class StartDateBeforeEndDate extends Constraint
 {
-    public $message = 'The start date "{{ startDate }}" must be before the "{{ endDate }}".';
+    public string $message = 'The start date "{{ startDate }}" must be before the "{{ endDate }}".';
 
     public function getTargets()
     {

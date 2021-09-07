@@ -2,22 +2,29 @@
 
 namespace App\Serializer\Normalizer;
 
-use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
-use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
-use Symfony\Component\Serializer\SerializerAwareInterface;
-use Symfony\Component\Serializer\SerializerInterface;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use App\Entity\SamplingDocumentation;
+use InvalidArgumentException;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Component\Serializer\{
+    SerializerAwareInterface,
+    SerializerInterface,
+};
+use Symfony\Component\Serializer\Normalizer\{
+    DenormalizerInterface,
+    NormalizerInterface,
+};
 
 class SamplingDocumentationNormalizer implements NormalizerInterface, DenormalizerInterface, SerializerAwareInterface
 {
     private $decorated;
-    private $router;
+    private UrlGeneratorInterface $router;
 
     public function __construct(NormalizerInterface $decorated, UrlGeneratorInterface $router)
     {
         if (!$decorated instanceof DenormalizerInterface) {
-            throw new \InvalidArgumentException(sprintf('The decorated normalizer must implement the %s.', DenormalizerInterface::class));
+            throw new InvalidArgumentException(
+                sprintf('The decorated normalizer must implement the %s.', DenormalizerInterface::class)
+            );
         }
 
         $this->decorated = $decorated;
@@ -55,7 +62,7 @@ class SamplingDocumentationNormalizer implements NormalizerInterface, Denormaliz
 
     public function setSerializer(SerializerInterface $serializer)
     {
-        if($this->decorated instanceof SerializerAwareInterface) {
+        if ($this->decorated instanceof SerializerAwareInterface) {
             $this->decorated->setSerializer($serializer);
         }
     }
