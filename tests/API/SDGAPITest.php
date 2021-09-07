@@ -12,7 +12,6 @@ use Doctrine\Common\DataFixtures\ReferenceRepository;
 use Liip\TestFixturesBundle\Services\DatabaseToolCollection;
 use Symfony\Component\HttpFoundation\Response;
 
-
 class SDGAPITest extends ApiTestCase
 {
     private Client $client;
