@@ -105,6 +105,11 @@ class ExpenditureAPITest extends ApiTestCase
         $this->assertMatchesResourceItemJsonSchema(Expenditure::class);
     }
 
+    private function getExpenditures(): int
+    {
+        return $this->fixtures->getReference('expenditure')->getId();
+    }
+
     public function testPutIsNotAllowed(): void
     {
         $expenditures = $this->getExpenditures();
@@ -117,10 +122,5 @@ class ExpenditureAPITest extends ApiTestCase
         $expenditures = $this->getExpenditures();
         $this->client->request('DELETE', sprintf('/api/expenditures/%s', $expenditures));
         $this->assertResponseStatusCodeSame(Response::HTTP_METHOD_NOT_ALLOWED);
-    }
-
-    private function getExpenditures(): int
-    {
-        return $this->fixtures->getReference('expenditure')->getId();
     }
 }

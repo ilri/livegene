@@ -20,22 +20,30 @@ class PartnershipTypeAPITest extends ApiTestCase
     {
         $this->client = static::createClient();
         $databaseTool = $this->client->getContainer()->get(DatabaseToolCollection::class)->get();
-        $fixtures = $databaseTool->loadFixtures([
-            'App\DataFixtures\Test\UserFixtures',
-            'App\DataFixtures\PartnershipTypeFixtures',
-        ])->getReferenceRepository();
+        $fixtures = $databaseTool->loadFixtures(
+            [
+                'App\DataFixtures\Test\UserFixtures',
+                'App\DataFixtures\PartnershipTypeFixtures',
+            ]
+        )->getReferenceRepository();
         $username = $fixtures->getReference('api_user')->getUsername();
         $credentials = [
             'username' => $username,
-            'password' => UserFixtures::PASSWORD
+            'password' => UserFixtures::PASSWORD,
         ];
-        $response = $this->client->request('POST', '/authentication_token', [
-            'headers' => ['Content-Type' => 'application/json'],
-            'json' => $credentials,
-        ]);
-        $this->client->setDefaultOptions([
-            'auth_bearer' => json_decode($response->getContent(), true)['token'],
-        ]);
+        $response = $this->client->request(
+            'POST',
+            '/authentication_token',
+            [
+                'headers' => ['Content-Type' => 'application/json'],
+                'json' => $credentials,
+            ]
+        );
+        $this->client->setDefaultOptions(
+            [
+                'auth_bearer' => json_decode($response->getContent(), true)['token'],
+            ]
+        );
         $this->entityManager = self::$container->get('doctrine.orm.entity_manager');
     }
 
@@ -44,11 +52,12 @@ class PartnershipTypeAPITest extends ApiTestCase
         $response = $this->client->request('GET', '/api/partnership_types');
         $this->assertResponseIsSuccessful();
         $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
-        $this->assertJsonContains([
-            '@context' => '/api/contexts/PartnershipType',
-            '@id' => '/api/partnership_types',
-            '@type' => 'hydra:Collection',
-            'hydra:member' => [
+        $this->assertJsonContains(
+            [
+                '@context' => '/api/contexts/PartnershipType',
+                '@id' => '/api/partnership_types',
+                '@type' => 'hydra:Collection',
+                'hydra:member' => [
                     [
                         'id' => 1,
                         'description' => 'Unspecified',
@@ -68,10 +77,11 @@ class PartnershipTypeAPITest extends ApiTestCase
                     [
                         'id' => 5,
                         'description' => 'Sub-contractee',
-                    ]
-            ],
-            'hydra:totalItems' => 5,
-        ]);
+                    ],
+                ],
+                'hydra:totalItems' => 5,
+            ]
+        );
         $this->assertCount(5, $response->toArray()['hydra:member']);
         $this->assertMatchesResourceCollectionJsonSchema(PartnershipType::class);
     }
@@ -88,10 +98,17 @@ class PartnershipTypeAPITest extends ApiTestCase
         $partnership_type = $this->getPartnershipType();
         $this->client->request('GET', sprintf('/api/partnership_types/%s', $partnership_type));
         $this->assertResponseIsSuccessful();
-        $this->assertJsonContains([
+        $this->assertJsonContains(
+            [
                 'id' => 1,
                 'description' => 'Unspecified',
             ]
+        );
+    }
+
+    private function getPartnershipType(): int
+    {
+        return $this->entityManager->getRepository(PartnershipType::class)->findOneByDescription('Unspecified')->getId(
         );
     }
 
@@ -107,10 +124,5 @@ class PartnershipTypeAPITest extends ApiTestCase
         $partnership_type = $this->getPartnershipType();
         $this->client->request('DELETE', sprintf('/api/partnership_types/%s', $partnership_type));
         $this->assertResponseStatusCodeSame(Response::HTTP_METHOD_NOT_ALLOWED);
-    }
-
-    private function getPartnershipType(): int
-    {
-        return $this->entityManager->getRepository(PartnershipType::class)->findOneByDescription('Unspecified')->getId();
     }
 }

@@ -21,22 +21,30 @@ class StaffMemberAPITest extends ApiTestCase
     {
         $this->client = static::createClient();
         $databaseTool = $this->client->getContainer()->get(DatabaseToolCollection::class)->get();
-        $this->fixtures = $databaseTool->loadFixtures([
-            'App\DataFixtures\Test\UserFixtures',
-            'App\DataFixtures\Test\StaffMemberFixtures',
-        ])->getReferenceRepository();
+        $this->fixtures = $databaseTool->loadFixtures(
+            [
+                'App\DataFixtures\Test\UserFixtures',
+                'App\DataFixtures\Test\StaffMemberFixtures',
+            ]
+        )->getReferenceRepository();
         $username = $this->fixtures->getReference('api_user')->getUsername();
         $credentials = [
             'username' => $username,
-            'password' => UserFixtures::PASSWORD
+            'password' => UserFixtures::PASSWORD,
         ];
-        $response = $this->client->request('POST', '/authentication_token', [
-            'headers' => ['Content-Type' => 'application/json'],
-            'json' => $credentials,
-        ]);
-        $this->client->setDefaultOptions([
-            'auth_bearer' => json_decode($response->getContent(), true)['token'],
-        ]);
+        $response = $this->client->request(
+            'POST',
+            '/authentication_token',
+            [
+                'headers' => ['Content-Type' => 'application/json'],
+                'json' => $credentials,
+            ]
+        );
+        $this->client->setDefaultOptions(
+            [
+                'auth_bearer' => json_decode($response->getContent(), true)['token'],
+            ]
+        );
     }
 
     public function testGetCollectionIsAvailable(): void
@@ -44,22 +52,24 @@ class StaffMemberAPITest extends ApiTestCase
         $response = $this->client->request('GET', '/api/staff');
         $this->assertResponseIsSuccessful();
         $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
-        $this->assertJsonContains([
-            '@context' => '/api/contexts/StaffMember',
-            '@id' => '/api/staff',
-            '@type' => 'hydra:Collection',
-            'hydra:member' => [
-                [
-                    'id' => 1,
-                    'username' => 'coyote',
-                    'email' => 'coyote@example.com',
-                    'homeProgram' => 'Cartoon',
-                    'firstName' => 'Wile E.',
-                    'lastName' => 'Coyote',
-                ]
-            ],
-            'hydra:totalItems' => 1,
-        ]);
+        $this->assertJsonContains(
+            [
+                '@context' => '/api/contexts/StaffMember',
+                '@id' => '/api/staff',
+                '@type' => 'hydra:Collection',
+                'hydra:member' => [
+                    [
+                        'id' => 1,
+                        'username' => 'coyote',
+                        'email' => 'coyote@example.com',
+                        'homeProgram' => 'Cartoon',
+                        'firstName' => 'Wile E.',
+                        'lastName' => 'Coyote',
+                    ],
+                ],
+                'hydra:totalItems' => 1,
+            ]
+        );
         $this->assertCount(1, $response->toArray()['hydra:member']);
         $this->assertMatchesResourceCollectionJsonSchema(StaffMember::class);
     }
@@ -75,16 +85,22 @@ class StaffMemberAPITest extends ApiTestCase
         $coyote = $this->getStaffMember();
         $this->client->request('GET', sprintf('/api/staff/%s', $coyote));
         $this->assertResponseIsSuccessful();
-        $this->assertJsonContains([
+        $this->assertJsonContains(
+            [
                 'id' => 1,
                 'username' => 'coyote',
                 'email' => 'coyote@example.com',
                 'homeProgram' => 'Cartoon',
                 'firstName' => 'Wile E.',
                 'lastName' => 'Coyote',
-                'totalStaffRolesPercent' => 0
+                'totalStaffRolesPercent' => 0,
             ]
         );
+    }
+
+    private function getStaffMember(): string
+    {
+        return $this->fixtures->getReference('coyote')->getId();
     }
 
     public function testPutIsNotAllowed(): void
@@ -99,10 +115,5 @@ class StaffMemberAPITest extends ApiTestCase
         $coyote = $this->getStaffMember();
         $this->client->request('DELETE', sprintf('/api/staff/%s', $coyote));
         $this->assertResponseStatusCodeSame(Response::HTTP_METHOD_NOT_ALLOWED);
-    }
-
-    private function getStaffMember(): string
-    {
-        return $this->fixtures->getReference('coyote')->getId();
     }
 }
