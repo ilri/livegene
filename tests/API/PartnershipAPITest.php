@@ -80,6 +80,7 @@ class PartnershipAPITest extends ApiTestCase
         $partnership = $this->getPartnership();
         $this->client->request('GET', sprintf('/api/partnerships/%s', $partnership));
         $this->assertResponseIsSuccessful();
+        $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
         $this->assertJsonContains(
             [
                 'id' => 1,
@@ -91,6 +92,7 @@ class PartnershipAPITest extends ApiTestCase
                 'partnershipType' => '/api/partnership_types/5',
             ]
         );
+        $this->assertMatchesResourceItemJsonSchema(Partnership::class);
     }
 
     public function testPostIsNotAllowed(): void

@@ -79,6 +79,7 @@ class SDGAPITest extends ApiTestCase
         $sdg = $this->getSDG();
         $this->client->request('GET', sprintf('/api/sdgs/%s', $sdg));
         $this->assertResponseIsSuccessful();
+        $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
         $this->assertJsonContains(
             [
                 'id' => 1,
@@ -89,6 +90,7 @@ class SDGAPITest extends ApiTestCase
                 'logoUrl' => 'https://sustainabledevelopment.un.org/content/images/E_SDG_Icons-01.jpg',
             ]
         );
+        $this->assertMatchesResourceItemJsonSchema(SDG::class);
     }
 
     public function testGetItemIsNotAvailable(): void

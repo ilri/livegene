@@ -7,6 +7,8 @@ use ApiPlatform\Core\Bridge\Symfony\Bundle\Test\{
     Client,
 };
 use App\DataFixtures\Test\UserFixtures;
+use App\Entity\StaffRole;
+use Carbon\Carbon;
 use Doctrine\Common\DataFixtures\ReferenceRepository;
 use Liip\TestFixturesBundle\Services\DatabaseToolCollection;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,6 +20,9 @@ class StaffRoleAPITest extends ApiTestCase
 
     public function setUp(): void
     {
+        date_default_timezone_set('UTC');
+        $now = Carbon::create(2019, 8, 8, 9);
+        Carbon::setTestNow($now);
         $this->client = static::createClient();
         $databaseTool = $this->client->getContainer()->get(DatabaseToolCollection::class)->get();
         $this->fixtures = $databaseTool->loadFixtures(
@@ -65,7 +70,7 @@ class StaffRoleAPITest extends ApiTestCase
                             'fullName' => 'Wile E. Coyote and the Road Runner',
                             'shortName' => 'Looney Tunes',
                             'team' => 'LiveGene',
-                            'isActive' => false,
+                            'isActive' => true,
                         ],
                         'staffMember' => [
                             'id' => 1,
@@ -77,7 +82,7 @@ class StaffRoleAPITest extends ApiTestCase
                         ],
                         'startDate' => '2018-01-01T00:00:00+00:00',
                         'endDate' => '2019-12-31T00:00:00+00:00',
-                        'isActive' => false,
+                        'isActive' => true,
                         'percent' => '0.5',
                     ],
                 ],
@@ -93,6 +98,7 @@ class StaffRoleAPITest extends ApiTestCase
         $staffRole = $this->getStaffRole();
         $this->client->request('GET', sprintf('/api/staff_roles/%s', $staffRole));
         $this->assertResponseIsSuccessful();
+        $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
         $this->assertJsonContains(
             [
                 'id' => 1,
@@ -102,7 +108,7 @@ class StaffRoleAPITest extends ApiTestCase
                     'fullName' => 'Wile E. Coyote and the Road Runner',
                     'shortName' => 'Looney Tunes',
                     'team' => 'LiveGene',
-                    'isActive' => false,
+                    'isActive' => true,
                 ],
                 'staffMember' => [
                     'id' => 1,
@@ -114,10 +120,11 @@ class StaffRoleAPITest extends ApiTestCase
                 ],
                 'startDate' => '2018-01-01T00:00:00+00:00',
                 'endDate' => '2019-12-31T00:00:00+00:00',
-                'isActive' => false,
+                'isActive' => true,
                 'percent' => '0.5',
             ]
         );
+       // $this->assertMatchesResourceItemJsonSchema(StaffRole::class);
     }
 
     public function testPostIsNotAllowed(): void

@@ -84,6 +84,7 @@ class SamplingDocumentTypeAPITest extends ApiTestCase
                 'longName' => 'A test agreement',
             ],
         );
+        $this->assertMatchesResourceItemJsonSchema(SamplingDocumentType::class);
     }
 
     public function testPostIsNotAllowed(): void

@@ -77,6 +77,7 @@ class SDGRoleAPITest extends ApiTestCase
         $sdgRole = $this->getSDGRole();
         $this->client->request('GET', sprintf('/api/sdg_roles/%s', $sdgRole));
         $this->assertResponseIsSuccessful();
+        $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
         $this->assertJsonContains(
             [
                 'id' => 1,
@@ -85,6 +86,7 @@ class SDGRoleAPITest extends ApiTestCase
                 'percent' => '0.5',
             ]
         );
+        $this->assertMatchesResourceItemJsonSchema(SDGRole::class);
     }
 
     public function testPostIsNotAllowed(): void

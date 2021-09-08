@@ -7,6 +7,7 @@ use ApiPlatform\Core\Bridge\Symfony\Bundle\Test\{
     Client,
 };
 use App\DataFixtures\Test\UserFixtures;
+use App\Entity\SamplingDocumentation;
 use Doctrine\Common\DataFixtures\ReferenceRepository;
 use Liip\TestFixturesBundle\Services\DatabaseToolCollection;
 use Symfony\Component\HttpFoundation\Response;
@@ -81,6 +82,7 @@ class SamplingDocumentationAPITest extends ApiTestCase
         $documentation = $this->getSamplingDocumentation();
         $this->client->request('GET', sprintf('/api/sampling_documentations/%s', $documentation));
         $this->assertResponseIsSuccessful();
+        $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
         $this->assertJsonContains(
             [
                 '@id' => '/api/sampling_documentations/1',
@@ -93,6 +95,7 @@ class SamplingDocumentationAPITest extends ApiTestCase
                 'isActive' => true,
             ],
         );
+        // $this->assertMatchesResourceItemJsonSchema(SamplingDocumentation::class);
     }
 
     public function testPostIsNotAllowed(): void

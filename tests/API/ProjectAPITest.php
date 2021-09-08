@@ -7,6 +7,8 @@ use ApiPlatform\Core\Bridge\Symfony\Bundle\Test\{
     Client,
 };
 use App\DataFixtures\Test\UserFixtures;
+use App\Entity\Project;
+use Carbon\Carbon;
 use Doctrine\Common\DataFixtures\ReferenceRepository;
 use Liip\TestFixturesBundle\Services\DatabaseToolCollection;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,6 +20,9 @@ class ProjectAPITest extends ApiTestCase
 
     public function setUp(): void
     {
+        date_default_timezone_set('UTC');
+        $now = Carbon::create(2019, 8, 8, 9);
+        Carbon::setTestNow($now);
         $this->client = static::createClient();
         $databaseTool = $this->client->getContainer()->get(DatabaseToolCollection::class)->get();
         $this->fixtures = $databaseTool->loadFixtures(
@@ -135,6 +140,7 @@ class ProjectAPITest extends ApiTestCase
         $project = $this->getProject();
         $this->client->request('GET', sprintf('/api/projects/%s', $project));
         $this->assertResponseIsSuccessful();
+        $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
         $this->assertJsonContains(
             [
                 'id' => 1,
@@ -200,6 +206,7 @@ class ProjectAPITest extends ApiTestCase
                 'isActive' => true,
             ]
         );
+        // $this->assertMatchesResourceItemJsonSchema(Project::class);
     }
 
     public function testPostIsNotAllowed(): void

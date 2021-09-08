@@ -91,12 +91,14 @@ class PartnershipTypeAPITest extends ApiTestCase
         $partnership_type = $this->getPartnershipType();
         $this->client->request('GET', sprintf('/api/partnership_types/%s', $partnership_type));
         $this->assertResponseIsSuccessful();
+        $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
         $this->assertJsonContains(
             [
                 'id' => 1,
                 'description' => 'Unspecified',
             ]
         );
+        $this->assertMatchesResourceItemJsonSchema(PartnershipType::class);
     }
 
     public function testPostIsNotAllowed(): void
