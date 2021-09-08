@@ -7,6 +7,7 @@ use ApiPlatform\Core\Bridge\Symfony\Bundle\Test\{
     Client,
 };
 use App\DataFixtures\Test\UserFixtures;
+use Carbon\Carbon;
 use Doctrine\Common\DataFixtures\ReferenceRepository;
 use Liip\TestFixturesBundle\Services\DatabaseToolCollection;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,6 +19,9 @@ class ProjectAPITest extends ApiTestCase
 
     public function setUp(): void
     {
+        date_default_timezone_set('UTC');
+        $now = Carbon::create(2019, 8, 8, 9);
+        Carbon::setTestNow($now);
         $this->client = static::createClient();
         $databaseTool = $this->client->getContainer()->get(DatabaseToolCollection::class)->get();
         $this->fixtures = $databaseTool->loadFixtures(
