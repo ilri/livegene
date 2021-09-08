@@ -34,21 +34,21 @@ class SDGRole
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private ?int $id = null;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Project", inversedBy="sdgRoles")
      * @ORM\JoinColumn(nullable=false)
      * @Assert\NotBlank()
      */
-    private $project;
+    private ?Project $project;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\SDG", inversedBy="sdgRoles")
      * @ORM\JoinColumn(nullable=false)
      * @Assert\NotBlank()
      */
-    private $sdg;
+    private ?SDG $sdg;
 
     public function __toString()
     {

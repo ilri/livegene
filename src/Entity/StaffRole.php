@@ -6,6 +6,7 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use App\Entity\Traits\RoleTrait;
 use App\Validator\Constraints as AppAssert;
 use Carbon\Carbon;
+use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Serializer\Annotation\Groups;
@@ -57,7 +58,7 @@ class StaffRole
      * @ORM\Column(type="integer")
      * @Groups({"staff_role:collection:get", "staff_role:item:get", "project:collection:get", "project:item:get"})
      */
-    private $id;
+    private ?int $id = null;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Project", inversedBy="staffRoles")
@@ -65,7 +66,7 @@ class StaffRole
      * @Assert\NotBlank()
      * @Groups({"staff_role:collection:get", "staff_role:item:get"})
      */
-    private $project;
+    private ?Project $project = null;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\StaffMember", inversedBy="staffRoles")
@@ -73,31 +74,26 @@ class StaffRole
      * @Assert\NotBlank()
      * @Groups({"staff_role:collection:get", "staff_role:item:get", "project:collection:get", "project:item:get"})
      */
-    private $staffMember;
+    private ?StaffMember $staffMember;
 
     /**
      * @ORM\Column(type="date", nullable=true)
      * @Groups({"staff_role:collection:get", "staff_role:item:get", "project:collection:get", "project:item:get"})
      */
-    private $startDate;
+    private ?DateTimeInterface $startDate;
 
     /**
      * @ORM\Column(type="date", nullable=true)
      * @Groups({"staff_role:collection:get", "staff_role:item:get", "project:collection:get", "project:item:get"})
      */
-    private $endDate;
+    private ?DateTimeInterface $endDate;
 
     /**
      * @var bool
      *
-     * @Groups({
-     *     "staff_role:collection:get",
-     *     "staff_role:item:get",
-     *     "project:collection:get",
-     *     "project:item:get",
-     * })
+     * @Groups({"staff_role:collection:get", "staff_role:item:get", "project:collection:get", "project:item:get"})
      */
-    private $isActive;
+    private bool $isActive;
 
     public function __toString()
     {
@@ -136,24 +132,24 @@ class StaffRole
         return $this;
     }
 
-    public function getStartDate(): ?\DateTimeInterface
+    public function getStartDate(): ?DateTimeInterface
     {
         return $this->startDate;
     }
 
-    public function setStartDate(?\DateTimeInterface $startDate): self
+    public function setStartDate(?DateTimeInterface $startDate): self
     {
         $this->startDate = $startDate;
 
         return $this;
     }
 
-    public function getEndDate(): ?\DateTimeInterface
+    public function getEndDate(): ?DateTimeInterface
     {
         return $this->endDate;
     }
 
-    public function setEndDate(?\DateTimeInterface $endDate): self
+    public function setEndDate(?DateTimeInterface $endDate): self
     {
         $this->endDate = $endDate;
 
@@ -163,14 +159,16 @@ class StaffRole
     public function getIsActive(): bool
     {
         $now = Carbon::now();
-        if (!$this->getStartDate() && !$this->getEndDate()) {
+        if ($this->getProject() && !$this->getStartDate() && !$this->getEndDate()) {
             return $this->getProject()->getIsActive();
         } elseif (!$this->getStartDate() && $this->getEndDate()) {
             return $this->getEndDate() >= $now;
         } elseif ($this->getStartDate() && !$this->getEndDate()) {
             return $this->getStartDate() <= $now;
-        } else {
+        } elseif ($this->getStartDate() && $this->getEndDate()) {
             return $this->getEndDate() >= $now && $this->getStartDate() <= $now;
+        } else {
+            return false;
         }
     }
 }

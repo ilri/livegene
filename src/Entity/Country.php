@@ -58,7 +58,7 @@ class Country
      *     "sampling_activity:collection:get", "sampling_activity:item:get",
      * })
      */
-    private $id;
+    private ?int $id = null;
 
     /**
      * @ORM\Column(type="string", length=2, unique=true)
@@ -72,27 +72,27 @@ class Country
      *     "sampling_activity:collection:get", "sampling_activity:item:get"
      * })
      */
-    private $country;
+    private ?string $country;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Organisation", mappedBy="country")
      */
-    private $organisations;
+    private Collection $organisations;
 
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\SamplingActivity", mappedBy="countries")
      */
-    private $samplingActivities;
+    private Collection $samplingActivities;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\CountryRole", mappedBy="country", cascade={"persist", "remove"})
      */
-    private $countryRoles;
+    private Collection $countryRoles;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\SamplingDocumentation", mappedBy="country")
      */
-    private $samplingDocumentations;
+    private Collection $samplingDocumentations;
 
     public function __construct()
     {

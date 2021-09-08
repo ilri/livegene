@@ -3,8 +3,8 @@
 namespace App\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class MultipleFileType extends AbstractType
 {
@@ -21,7 +21,10 @@ class MultipleFileType extends AbstractType
         ]);
     }
 
-    public function getParent()
+    /**
+     * {@inheritdoc}
+     */
+    public function getParent(): string
     {
         return FileType::class;
     }
@@ -29,7 +32,7 @@ class MultipleFileType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function getBlockPrefix()
+    public function getBlockPrefix(): string
     {
         return 'multiple_file';
     }

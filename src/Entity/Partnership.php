@@ -57,7 +57,7 @@ class Partnership
      * @Groups({"partnership:collection:get", "partnership:item:get"})
      * @Groups({"project:collection:get", "project:item:get"})
      */
-    private $id;
+    private ?int $id = null;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Project", inversedBy="partnerships")
@@ -65,44 +65,42 @@ class Partnership
      * @Assert\NotBlank()
      * @Groups({"partnership:collection:get", "partnership:item:get"})
      */
-    private $project;
+    private ?Project $project = null;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Organisation", inversedBy="partnerships")
      * @ORM\JoinColumn(nullable=false)
      * @Assert\NotBlank()
-     * @Groups({"partnership:collection:get", "partnership:item:get"})
-     * @Groups({"project:collection:get", "project:item:get"})
+     * @Groups({"partnership:collection:get", "partnership:item:get", "project:collection:get", "project:item:get"})
      */
-    private $partner;
+    private ?Organisation $partner;
 
     /**
      * @ORM\Column(type="date", nullable=true)
      * @Groups({"partnership:collection:get", "partnership:item:get"})
      */
-    private $startDate;
+    private ?\DateTimeInterface $startDate = null;
 
     /**
      * @ORM\Column(type="date", nullable=true)
      * @Groups({"partnership:collection:get", "partnership:item:get"})
      */
-    private $endDate;
+    private ?\DateTimeInterface $endDate = null;
 
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Contact", inversedBy="partnerships")
      * @ORM\JoinTable(name="app_partnership_contact")
      * @Groups({"partnership:collection:get", "partnership:item:get"})
      */
-    private $contacts;
+    private Collection $contacts;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\PartnershipType", inversedBy="partnerships")
      * @ORM\JoinColumn(nullable=false)
      * @Assert\NotBlank()
-     * @Groups({"partnership:collection:get", "partnership:item:get"})
-     * @Groups({"project:collection:get", "project:item:get"})
+     * @Groups({"partnership:collection:get", "partnership:item:get", "project:collection:get", "project:item:get"})
      */
-    private $partnershipType;
+    private ?PartnershipType $partnershipType;
 
     public function __construct()
     {

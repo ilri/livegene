@@ -40,11 +40,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * )
  * @ORM\Entity(repositoryClass="App\Repository\SDGRepository")
  * @ORM\Table(name="app_sdg")
- * @UniqueEntity("headline")
- * @UniqueEntity("fullName")
- * @UniqueEntity("color")
- * @UniqueEntity("link")
- * @UniqueEntity("logoUrl")
+ * @UniqueEntity({"headline", "fullName", "color", "link", "logoUrl"})
  */
 class SDG
 {
@@ -54,28 +50,28 @@ class SDG
      * @ORM\Column(type="integer")
      * @Groups({"sdg:collection:get", "sdg:item:get"})
      */
-    private $id;
+    private ?int $id = null;
 
     /**
      * @ORM\Column(type="string", length=50, unique=true)
      * @Assert\NotBlank()
      * @Groups({"sdg:collection:get", "sdg:item:get"})
      */
-    private $headline;
+    private ?string $headline;
 
     /**
      * @ORM\Column(type="string", length=190, unique=true)
      * @Assert\NotBlank()
      * @Groups({"sdg:collection:get", "sdg:item:get"})
      */
-    private $fullName;
+    private ?string $fullName;
 
     /**
      * @ORM\Column(type="string", length=7, unique=true)
      * @Assert\NotBlank()
      * @Groups({"sdg:collection:get", "sdg:item:get"})
      */
-    private $color;
+    private ?string $color;
 
     /**
      * @ORM\Column(type="string", length=50, unique=true)
@@ -83,7 +79,7 @@ class SDG
      * @Assert\Url()
      * @Groups({"sdg:collection:get", "sdg:item:get"})
      */
-    private $link;
+    private ?string $link;
 
     /**
      * @ORM\Column(type="string", length=80, unique=true)
@@ -91,12 +87,12 @@ class SDG
      * @Assert\Url()
      * @Groups({"sdg:collection:get", "sdg:item:get"})
      */
-    private $logoUrl;
+    private ?string $logoUrl = null;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\SDGRole", mappedBy="sdg", cascade={"persist", "remove"})
      */
-    private $sdgRoles;
+    private Collection $sdgRoles;
 
     public function __construct()
     {

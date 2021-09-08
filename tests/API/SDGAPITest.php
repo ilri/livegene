@@ -2,127 +2,121 @@
 
 namespace App\Tests\API;
 
-use Liip\TestFixturesBundle\Test\FixturesTrait;
-use Symfony\Component\HttpFoundation\Response;
+use ApiPlatform\Core\Bridge\Symfony\Bundle\Test\{
+    ApiTestCase,
+    Client,
+};
 use App\DataFixtures\Test\UserFixtures;
+use App\Entity\SDG;
+use Doctrine\Common\DataFixtures\ReferenceRepository;
+use Liip\TestFixturesBundle\Services\DatabaseToolCollection;
+use Symfony\Component\HttpFoundation\Response;
 
 class SDGAPITest extends ApiTestCase
 {
-    use FixturesTrait;
-
-    private $fixtures = null;
-    private $client;
+    private Client $client;
+    private ReferenceRepository $fixtures;
 
     public function setUp(): void
     {
-        $this->fixtures = $this->loadFixtures([
-            'App\DataFixtures\Test\UserFixtures',
-            'App\DataFixtures\SDGFixtures',
-        ])->getReferenceRepository();
+        $this->client = static::createClient();
+        $databaseTool = $this->client->getContainer()->get(DatabaseToolCollection::class)->get();
+        $this->fixtures = $databaseTool->loadFixtures(
+            [
+                'App\DataFixtures\Test\UserFixtures',
+                'App\DataFixtures\SDGFixtures',
+            ]
+        )->getReferenceRepository();
         $username = $this->fixtures->getReference('api_user')->getUsername();
         $credentials = [
             'username' => $username,
-            'password' => UserFixtures::PASSWORD
+            'password' => UserFixtures::PASSWORD,
         ];
-
-        $this->client = $this->createAuthenticatedClient($credentials);
+        $response = $this->client->request(
+            'POST',
+            '/authentication_token',
+            [
+                'headers' => ['Content-Type' => 'application/json'],
+                'json' => $credentials,
+            ]
+        );
+        $this->client->setDefaultOptions(
+            [
+                'auth_bearer' => json_decode($response->getContent(), true)['token'],
+            ]
+        );
     }
 
     public function testGetCollectionIsAvailable(): void
     {
-        $this->client->request('GET', '/api/sdgs', [], [], [
-            'HTTP_ACCEPT' => 'application/json',
-        ]);
-        $this->assertSame(
-            Response::HTTP_OK,
-            $this->client->getResponse()->getStatusCode()
+        $response = $this->client->request('GET', '/api/sdgs');
+        $this->assertResponseIsSuccessful();
+        $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
+        $this->assertJsonContains(
+            [
+                '@context' => '/api/contexts/SDG',
+                '@id' => '/api/sdgs',
+                '@type' => 'hydra:Collection',
+                'hydra:member' => [
+                    [
+                        'id' => 1,
+                        'headline' => 'NO POVERTY',
+                        'fullName' => 'End poverty in all its forms everywhere',
+                        'color' => '#E5243B',
+                        'link' => 'https://sustainabledevelopment.un.org/sdg1',
+                        'logoUrl' => 'https://sustainabledevelopment.un.org/content/images/E_SDG_Icons-01.jpg',
+                    ],
+                ],
+                'hydra:totalItems' => 17,
+            ]
         );
-        $this->assertTrue(
-            $this->client->getResponse()->headers->contains(
-                'Content-Type',
-                'application/json; charset=utf-8'
-            )
-        );
-        $data = json_decode($this->client->getResponse()->getContent(), true);
-        $this->assertCount(17, $data);
-    }
-
-    public function testPostIsNotAllowed(): void
-    {
-        $this->client->request('POST', '/api/sdgs', [], [], [
-            'CONTENT_TYPE' => 'application/json',
-        ]);
-        $this->assertSame(
-            Response::HTTP_METHOD_NOT_ALLOWED,
-            $this->client->getResponse()->getStatusCode()
-        );
+        $this->assertCount(17, $response->toArray()['hydra:member']);
+        $this->assertMatchesResourceCollectionJsonSchema(SDG::class);
     }
 
     public function testGetItemIsAvailable(): void
     {
         $sdg = $this->getSDG();
-        $this->client->request('GET', sprintf('/api/sdgs/%s', $sdg), [], [], [
-            'HTTP_ACCEPT' => 'application/json'
-        ]);
-        $this->assertSame(
-            Response::HTTP_OK,
-            $this->client->getResponse()->getStatusCode()
-        );
-        $this->assertTrue(
-            $this->client->getResponse()->headers->contains(
-                'Content-Type',
-                'application/json; charset=utf-8'
-            )
-        );
-        $data = json_decode($this->client->getResponse()->getContent(), true);
-        $this->assertArrayHasKey('headline', $data);
-        $this->assertArrayHasKey('fullName', $data);
-        $this->assertSame(
-            $data,
+        $this->client->request('GET', sprintf('/api/sdgs/%s', $sdg));
+        $this->assertResponseIsSuccessful();
+        $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
+        $this->assertJsonContains(
             [
                 'id' => 1,
                 'headline' => 'NO POVERTY',
                 'fullName' => 'End poverty in all its forms everywhere',
                 'color' => '#E5243B',
                 'link' => 'https://sustainabledevelopment.un.org/sdg1',
-                'logoUrl' => 'https://sustainabledevelopment.un.org/content/images/E_SDG_Icons-01.jpg'
+                'logoUrl' => 'https://sustainabledevelopment.un.org/content/images/E_SDG_Icons-01.jpg',
             ]
         );
+        $this->assertMatchesResourceItemJsonSchema(SDG::class);
     }
 
     public function testGetItemIsNotAvailable(): void
     {
-        $this->client->request('GET', '/api/sdgs/18', [], [], [
-            'HTTP_ACCEPT' => 'application/json'
-        ]);
-        $this->assertSame(
-            Response::HTTP_NOT_FOUND,
-            $this->client->getResponse()->getStatusCode()
-        );
+        $this->client->request('GET', '/api/sdgs/18');
+        $this->assertResponseStatusCodeSame(Response::HTTP_NOT_FOUND);
+    }
+
+    public function testPostIsNotAllowed(): void
+    {
+        $this->client->request('POST', '/api/sdgs');
+        $this->assertResponseStatusCodeSame(Response::HTTP_METHOD_NOT_ALLOWED);
     }
 
     public function testPutIsNotAllowed(): void
     {
         $sdg = $this->getSDG();
-        $this->client->request('PUT', sprintf('/api/sdgs/%s', $sdg), [], [], [
-            'CONTENT_TYPE' => 'application/json',
-        ]);
-        $this->assertSame(
-            Response::HTTP_METHOD_NOT_ALLOWED,
-            $this->client->getResponse()->getStatusCode()
-        );
+        $this->client->request('PUT', sprintf('/api/sdgs/%s', $sdg));
+        $this->assertResponseStatusCodeSame(Response::HTTP_METHOD_NOT_ALLOWED);
     }
 
     public function testDeleteIsNotAllowed(): void
     {
         $sdg = $this->getSDG();
-        $this->client->request('DELETE', sprintf('/api/sdgs/%s', $sdg), [], [], [
-            'CONTENT_TYPE' => 'application/json',
-        ]);
-        $this->assertSame(
-            Response::HTTP_METHOD_NOT_ALLOWED,
-            $this->client->getResponse()->getStatusCode()
-        );
+        $this->client->request('DELETE', sprintf('/api/sdgs/%s', $sdg));
+        $this->assertResponseStatusCodeSame(Response::HTTP_METHOD_NOT_ALLOWED);
     }
 
     private function getSDG(): int

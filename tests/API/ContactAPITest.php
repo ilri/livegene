@@ -2,114 +2,111 @@
 
 namespace App\Tests\API;
 
-use Liip\TestFixturesBundle\Test\FixturesTrait;
-use Symfony\Component\HttpFoundation\Response;
+use ApiPlatform\Core\Bridge\Symfony\Bundle\Test\{
+    ApiTestCase,
+    Client,
+};
 use App\DataFixtures\Test\UserFixtures;
+use App\Entity\Contact;
+use Doctrine\Common\DataFixtures\ReferenceRepository;
+use Liip\TestFixturesBundle\Services\DatabaseToolCollection;
+use Symfony\Component\HttpFoundation\Response;
 
 class ContactAPITest extends ApiTestCase
 {
-    use FixturesTrait;
-
-    private $fixtures = null;
-    private $client;
+    private Client $client;
+    private ReferenceRepository $fixtures;
 
     public function setUp(): void
     {
-        $this->fixtures = $this->loadFixtures([
-            'App\DataFixtures\Test\UserFixtures',
-            'App\DataFixtures\Test\ContactFixtures',
-        ])->getReferenceRepository();
+        $this->client = static::createClient();
+        $databaseTool = $this->client->getContainer()->get(DatabaseToolCollection::class)->get();
+        $this->fixtures = $databaseTool->loadFixtures(
+            [
+                'App\DataFixtures\Test\UserFixtures',
+                'App\DataFixtures\Test\ContactFixtures',
+            ]
+        )->getReferenceRepository();
         $username = $this->fixtures->getReference('api_user')->getUsername();
         $credentials = [
             'username' => $username,
-            'password' => UserFixtures::PASSWORD
+            'password' => UserFixtures::PASSWORD,
         ];
-
-        $this->client = $this->createAuthenticatedClient($credentials);
+        $response = $this->client->request(
+            'POST',
+            '/authentication_token',
+            [
+                'headers' => ['Content-Type' => 'application/json'],
+                'json' => $credentials,
+            ]
+        );
+        $this->client->setDefaultOptions(
+            [
+                'auth_bearer' => json_decode($response->getContent(), true)['token'],
+            ]
+        );
     }
 
     public function testGetCollectionIsAvailable(): void
     {
-        $this->client->request('GET', '/api/contacts', [], [], [
-            'HTTP_ACCEPT' => 'application/json',
-        ]);
-        $this->assertSame(
-            Response::HTTP_OK,
-            $this->client->getResponse()->getStatusCode()
+        $response = $this->client->request('GET', '/api/contacts');
+        $this->assertResponseIsSuccessful();
+        $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
+        $this->assertJsonContains(
+            [
+                '@context' => '/api/contexts/Contact',
+                '@id' => '/api/contacts',
+                '@type' => 'hydra:Collection',
+                'hydra:member' => [
+                    [
+                        'id' => 1,
+                        'title' => 'Dr.',
+                        'firstName' => 'Max',
+                        'lastName' => 'Mustermann',
+                    ],
+                ],
+                'hydra:totalItems' => 1,
+            ]
         );
-        $this->assertTrue(
-            $this->client->getResponse()->headers->contains(
-                'Content-Type',
-                'application/json; charset=utf-8'
-            )
-        );
-        $data = json_decode($this->client->getResponse()->getContent(), true);
-        $this->assertCount(1, $data);
-    }
-
-    public function testPostIsNotAllowed(): void
-    {
-        $this->client->request('POST', '/api/contacts', [], [], [
-            'CONTENT_TYPE' => 'application/json',
-        ]);
-        $this->assertSame(
-            Response::HTTP_METHOD_NOT_ALLOWED,
-            $this->client->getResponse()->getStatusCode()
-        );
+        $this->assertCount(1, $response->toArray()['hydra:member']);
+        $this->assertMatchesResourceCollectionJsonSchema(Contact::class);
     }
 
     public function testGetItemIsAvailable(): void
     {
         $contact = $this->getContact();
-        $this->client->request('GET', sprintf('/api/contacts/%s', $contact), [], [], [
-            'HTTP_ACCEPT' => 'application/json'
-        ]);
-        $this->assertSame(
-            Response::HTTP_OK,
-            $this->client->getResponse()->getStatusCode()
-        );
-        $this->assertTrue(
-            $this->client->getResponse()->headers->contains(
-                'Content-Type',
-                'application/json; charset=utf-8'
-            )
-        );
-        $data = json_decode($this->client->getResponse()->getContent(), true);
-        $this->assertArrayHasKey('firstName', $data);
-        $this->assertArrayHasKey('lastName', $data);
-        $this->assertSame(
-            $data,
+        $response = $this->client->request('GET', sprintf('/api/contacts/%s', $contact));
+        $this->assertResponseIsSuccessful();
+        $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
+        $this->assertJsonContains(
             [
                 'id' => 1,
                 'title' => 'Dr.',
                 'firstName' => 'Max',
-                'lastName' => 'Mustermann'
+                'lastName' => 'Mustermann',
             ]
         );
+        $this->assertMatchesResourceItemJsonSchema(Contact::class);
+    }
+
+    public function testPostIsNotAllowed(): void
+    {
+        $this->client->request('POST', '/api/contacts');
+        $this->assertResponseStatusCodeSame(Response::HTTP_METHOD_NOT_ALLOWED);
     }
 
     public function testPutIsNotAllowed(): void
     {
         $contact = $this->getContact();
-        $this->client->request('PUT', sprintf('/api/contacts/%s', $contact), [], [], [
-            'CONTENT_TYPE' => 'application/json',
-        ]);
-        $this->assertSame(
-            Response::HTTP_METHOD_NOT_ALLOWED,
-            $this->client->getResponse()->getStatusCode()
-        );
+        $this->client->request('PUT', sprintf('/api/contacts/%s', $contact));
+        $this->assertResponseStatusCodeSame(Response::HTTP_METHOD_NOT_ALLOWED);
     }
 
     public function testDeleteIsNotAllowed()
     {
         $contact = $this->getContact();
-        $this->client->request('DELETE', sprintf('/api/contacts/%s', $contact), [], [], [
-            'CONTENT_TYPE' => 'application/json',
-        ]);
-        $this->assertSame(
-            Response::HTTP_METHOD_NOT_ALLOWED,
-            $this->client->getResponse()->getStatusCode()
-        );
+        $this->client->request('DELETE', sprintf('/api/contacts/%s', $contact));
+        $this->assertResponseStatusCodeSame(Response::HTTP_METHOD_NOT_ALLOWED);
     }
 
     private function getContact(): int

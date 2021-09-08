@@ -2,10 +2,12 @@
 
 namespace App\DataFixtures\Test;
 
-use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
-use Doctrine\Persistence\ObjectManager;
 use App\Entity\Country;
+use Doctrine\Bundle\FixturesBundle\{
+    Fixture,
+    FixtureGroupInterface,
+};
+use Doctrine\Persistence\ObjectManager;
 
 class CountryFixtures extends Fixture implements FixtureGroupInterface
 {
@@ -14,7 +16,7 @@ class CountryFixtures extends Fixture implements FixtureGroupInterface
         $country = new Country();
         $country->setCountry('GB');
         $manager->persist($country);
-        
+
         $manager->flush();
 
         $this->addReference('country', $country);

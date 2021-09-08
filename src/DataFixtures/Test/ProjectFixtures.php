@@ -2,25 +2,36 @@
 
 namespace App\DataFixtures\Test;
 
-use Doctrine\Bundle\FixturesBundle\Fixture;
+use App\Entity\{
+    Organisation,
+    Project,
+    StaffMember,
+};
+use Doctrine\Bundle\FixturesBundle\{
+    Fixture,
+    FixtureGroupInterface,
+};
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
-use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
 use Doctrine\Persistence\ObjectManager;
-use App\Entity\Project;
 
 class ProjectFixtures extends Fixture implements DependentFixtureInterface, FixtureGroupInterface
 {
     public function load(ObjectManager $manager)
     {
+        /** @var Organisation $organisation */
+        $organisation = $this->getReference('organisation');
+        /** @var StaffMember $staffMember */
+        $staffMember = $this->getReference('coyote');
+
         $project = new Project();
         $project->setIlriCode('ACME001');
         $project->setFullName('Wile E. Coyote and the Road Runner');
         $project->setShortName('Looney Tunes');
         $project->setTeam('LiveGene');
-        $project->setPrincipalInvestigator($this->getReference('coyote'));
+        $project->setPrincipalInvestigator($staffMember);
         $project->setStartDate(new \DateTime('2018-01-01'));
         $project->setEndDate(new \DateTime('2019-12-31'));
-        $project->setDonor($this->getReference('organisation'));
+        $project->setDonor($organisation);
         $project->setDonorReference('');
         $project->setDonorProjectName('');
         $project->setTotalProjectValue(100000);

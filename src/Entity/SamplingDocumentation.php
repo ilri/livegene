@@ -5,6 +5,7 @@ namespace App\Entity;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Application\Sonata\MediaBundle\Entity\Media;
 use App\Entity\Traits\ActiveTrait;
+use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -48,7 +49,7 @@ class SamplingDocumentation
      * @ORM\Column(type="integer")
      * @Groups({"sampling_documentation:collection:get", "sampling_collection:item:get"})
      */
-    private $id;
+    private ?int $id = null;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\SamplingActivity", inversedBy="samplingDocumentations")
@@ -56,7 +57,7 @@ class SamplingDocumentation
      * @Assert\NotBlank()
      * @Groups({"sampling_documentation:collection:get", "sampling_documentation:item:get"})
      */
-    private $samplingActivity;
+    private ?SamplingActivity $samplingActivity;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\SamplingDocumentType", inversedBy="samplingDocumentations")
@@ -64,7 +65,7 @@ class SamplingDocumentation
      * @Assert\NotBlank()
      * @Groups({"sampling_documentation:collection:get", "sampling_documentation:item:get"})
      */
-    private $samplingDocumentType;
+    private ?SamplingDocumentType $samplingDocumentType;
 
     /**
      * @ORM\OneToOne(targetEntity="App\Application\Sonata\MediaBundle\Entity\Media", cascade={"persist", "remove"})
@@ -72,25 +73,25 @@ class SamplingDocumentation
      * @Assert\NotBlank()
      * @Groups({"sampling_documentation:collection:get", "sampling_documentation:item:get"})
      */
-    private $document;
+    private ?Media $document;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Country", inversedBy="samplingDocumentations")
      * @ORM\JoinColumn(nullable=true)
      */
-    private $country;
+    private ?Country $country;
 
     /**
      * @ORM\Column(type="date", nullable=true)
      * @Groups({"sampling_documentation:collection:get", "sampling_documentation:item:get"})
      */
-    private $startDate;
+    private ?DateTimeInterface $startDate;
 
     /**
      * @ORM\Column(type="date", nullable=true)
      * @Groups({"sampling_documentation:collection:get", "sampling_documentation:item:get"})
      */
-    private $endDate;
+    private ?DateTimeInterface $endDate;
 
     public function __toString()
     {
@@ -150,24 +151,24 @@ class SamplingDocumentation
         return $this;
     }
 
-    public function getStartDate(): ?\DateTimeInterface
+    public function getStartDate(): ?DateTimeInterface
     {
         return $this->startDate;
     }
 
-    public function setStartDate(?\DateTimeInterface $startDate): self
+    public function setStartDate(?DateTimeInterface $startDate): self
     {
         $this->startDate = $startDate;
 
         return $this;
     }
 
-    public function getEndDate(): ?\DateTimeInterface
+    public function getEndDate(): ?DateTimeInterface
     {
         return $this->endDate;
     }
 
-    public function setEndDate(?\DateTimeInterface $endDate): self
+    public function setEndDate(?DateTimeInterface $endDate): self
     {
         $this->endDate = $endDate;
 

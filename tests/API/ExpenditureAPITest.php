@@ -2,83 +2,88 @@
 
 namespace App\Tests\API;
 
-use Liip\TestFixturesBundle\Test\FixturesTrait;
-use Symfony\Component\HttpFoundation\Response;
+use ApiPlatform\Core\Bridge\Symfony\Bundle\Test\{
+    ApiTestCase,
+    Client,
+};
 use App\DataFixtures\Test\UserFixtures;
+use App\Entity\Expenditure;
+use Doctrine\Common\DataFixtures\ReferenceRepository;
+use Liip\TestFixturesBundle\Services\DatabaseToolCollection;
+use Symfony\Component\HttpFoundation\Response;
 
 class ExpenditureAPITest extends ApiTestCase
 {
-    use FixturesTrait;
-
-    private $fixtures = null;
-    private $client;
+    private Client $client;
+    private ReferenceRepository $fixtures;
 
     public function setUp(): void
     {
-        $this->fixtures = $this->loadFixtures([
-            'App\DataFixtures\Test\UserFixtures',
-            'App\DataFixtures\Test\ExpenditureFixtures',
-        ])->getReferenceRepository();
+        $this->client = static::createClient();
+        $databaseTool = $this->client->getContainer()->get(DatabaseToolCollection::class)->get();
+        $this->fixtures = $databaseTool->loadFixtures(
+            [
+                'App\DataFixtures\Test\UserFixtures',
+                'App\DataFixtures\Test\ExpenditureFixtures',
+            ]
+        )->getReferenceRepository();
         $username = $this->fixtures->getReference('api_user')->getUsername();
         $credentials = [
             'username' => $username,
-            'password' => UserFixtures::PASSWORD
+            'password' => UserFixtures::PASSWORD,
         ];
-
-        $this->client = $this->createAuthenticatedClient($credentials);
+        $response = $this->client->request(
+            'POST',
+            '/authentication_token',
+            [
+                'headers' => ['Content-Type' => 'application/json'],
+                'json' => $credentials,
+            ]
+        );
+        $this->client->setDefaultOptions(
+            [
+                'auth_bearer' => json_decode($response->getContent(), true)['token'],
+            ]
+        );
     }
 
     public function testGetCollectionIsAvailable(): void
     {
-        $this->client->request('GET', '/api/expenditures', [], [], [
-            'HTTP_ACCEPT' => 'application/json',
-        ]);
-        $this->assertSame(
-            Response::HTTP_OK,
-            $this->client->getResponse()->getStatusCode()
+        $response = $this->client->request('GET', '/api/expenditures');
+        $this->assertResponseIsSuccessful();
+        $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
+        $this->assertJsonContains(
+            [
+                '@context' => '/api/contexts/Expenditure',
+                '@id' => '/api/expenditures',
+                '@type' => 'hydra:Collection',
+                'hydra:member' => [
+                    [
+                        'id' => 1,
+                        'ilriCode' => 'ACME001',
+                        'name' => 'Looney Tunes',
+                        'homeProgram' => 'ACME',
+                        'startDate' => '2019-03-01T00:00:00+00:00',
+                        'endDate' => '2019-12-31T00:00:00+00:00',
+                        'reportDate' => '2019-11-01T12:00:00+00:00',
+                        'totalBudget' => 10000,
+                        'amount' => null,
+                    ],
+                ],
+                'hydra:totalItems' => 1,
+            ]
         );
-        $this->assertTrue(
-            $this->client->getResponse()->headers->contains(
-                'Content-Type',
-                'application/json; charset=utf-8'
-            )
-        );
-        $data = json_decode($this->client->getResponse()->getContent(), true);
-        $this->assertCount(1, $data);
-    }
-
-    public function testPostIsNotAllowed(): void
-    {
-        $this->client->request('POST', '/api/expenditures', [], [], [
-            'CONTENT_TYPE' => 'application/json',
-        ]);
-        $this->assertSame(
-            Response::HTTP_METHOD_NOT_ALLOWED,
-            $this->client->getResponse()->getStatusCode()
-        );
+        $this->assertCount(1, $response->toArray()['hydra:member']);
+        $this->assertMatchesResourceCollectionJsonSchema(Expenditure::class);
     }
 
     public function testGetItemIsAvailable(): void
     {
-        $expenditure = $this->getId();
-        $this->client->request('GET', sprintf('/api/expenditures/%s', $expenditure), [], [], [
-            'HTTP_ACCEPT' => 'application/json'
-        ]);
-        $this->assertSame(
-            Response::HTTP_OK,
-            $this->client->getResponse()->getStatusCode()
-        );
-        $this->assertTrue(
-            $this->client->getResponse()->headers->contains(
-                'Content-Type',
-                'application/json; charset=utf-8'
-            )
-        );
-        $data = json_decode($this->client->getResponse()->getContent(), true);
-        $this->assertArrayHasKey('ilriCode', $data);
-        $this->assertArrayHasKey('name', $data);
-        $this->assertSame(
-            $data,
+        $expenditures = $this->getExpenditures();
+        $this->client->request('GET', sprintf('/api/expenditures/%s', $expenditures));
+        $this->assertResponseIsSuccessful();
+        $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
+        $this->assertJsonContains(
             [
                 'id' => 1,
                 'ilriCode' => 'ACME001',
@@ -88,36 +93,33 @@ class ExpenditureAPITest extends ApiTestCase
                 'endDate' => '2019-12-31T00:00:00+00:00',
                 'reportDate' => '2019-11-01T12:00:00+00:00',
                 'totalBudget' => 10000,
-                'amount' => null
+                'amount' => null,
             ]
         );
+        $this->assertMatchesResourceItemJsonSchema(Expenditure::class);
+    }
+
+    public function testPostIsNotAllowed(): void
+    {
+        $this->client->request('POST', '/api/expenditures');
+        $this->assertResponseStatusCodeSame(Response::HTTP_METHOD_NOT_ALLOWED);
     }
 
     public function testPutIsNotAllowed(): void
     {
-        $expenditure = $this->getId();
-        $this->client->request('PUT', sprintf('/api/expenditures/%s', $expenditure), [], [], [
-            'CONTENT_TYPE' => 'application/json',
-        ]);
-        $this->assertSame(
-            Response::HTTP_METHOD_NOT_ALLOWED,
-            $this->client->getResponse()->getStatusCode()
-        );
+        $expenditures = $this->getExpenditures();
+        $this->client->request('PUT', sprintf('/api/expenditures/%s', $expenditures));
+        $this->assertResponseStatusCodeSame(Response::HTTP_METHOD_NOT_ALLOWED);
     }
 
     public function testDeleteIsNotAllowed(): void
     {
-        $expenditure = $this->getId();
-        $this->client->request('DELETE', sprintf('/api/expenditures/%s', $expenditure), [], [], [
-            'CONTENT_TYPE' => 'application/json',
-        ]);
-        $this->assertSame(
-            Response::HTTP_METHOD_NOT_ALLOWED,
-            $this->client->getResponse()->getStatusCode()
-        );
+        $expenditures = $this->getExpenditures();
+        $this->client->request('DELETE', sprintf('/api/expenditures/%s', $expenditures));
+        $this->assertResponseStatusCodeSame(Response::HTTP_METHOD_NOT_ALLOWED);
     }
 
-    private function getId(): int
+    private function getExpenditures(): int
     {
         return $this->fixtures->getReference('expenditure')->getId();
     }

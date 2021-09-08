@@ -4,23 +4,26 @@ namespace App\Validator\Constraints;
 
 use Symfony\Component\Validator\{
     Constraint,
-    ConstraintValidator
+    ConstraintValidator,
 };
 
 class StartDateBeforeEndDateValidator extends ConstraintValidator
 {
-    public function validate($entity, Constraint $constraint)
+    /**
+     * {@inheritdoc }
+     */
+    public function validate($value, Constraint $constraint)
     {
         /* @var $constraint StartDateBeforeEndDate */
 
-        if (null === $entity->getStartDate() || null === $entity->getEndDate()) {
+        if (null === $value->getStartDate() || null === $value->getEndDate()) {
             return;
         }
 
-        if ($entity->getStartDate() >= $entity->getEndDate()) {
+        if ($value->getStartDate() >= $value->getEndDate()) {
             $this->context->buildViolation($constraint->message)
-                ->setParameter('{{ startDate }}', $entity->getStartDate()->format('Y-m-d'))
-                ->setParameter('{{ endDate }}', $entity->getEndDate()->format('Y-m-d'))
+                ->setParameter('{{ startDate }}', $value->getStartDate()->format('Y-m-d'))
+                ->setParameter('{{ endDate }}', $value->getEndDate()->format('Y-m-d'))
                 ->addViolation()
             ;
         }

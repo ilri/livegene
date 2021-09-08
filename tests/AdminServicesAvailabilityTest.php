@@ -2,21 +2,22 @@
 
 namespace App\Tests;
 
-use Liip\FunctionalTestBundle\Test\WebTestCase;
-use Liip\TestFixturesBundle\Test\FixturesTrait;
 use App\DataFixtures\Test\UserFixtures;
+use Doctrine\Common\DataFixtures\ReferenceRepository;
+use Liip\FunctionalTestBundle\Test\WebTestCase;
+use Liip\TestFixturesBundle\Services\DatabaseToolCollection;
+use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 
 class AdminServicesAvailabilityTest extends WebTestCase
 {
-    use FixturesTrait;
-
-    private $client;
-    private $fixtures = null;
+    private KernelBrowser $client;
+    private ?ReferenceRepository $fixtures = null;
 
     public function setUp(): void
     {
         $this->client = $this->createClient();
-        $this->fixtures = $this->loadFixtures([
+        $databaseTool = $this->client->getContainer()->get(DatabaseToolCollection::class)->get();
+        $this->fixtures = $databaseTool->loadFixtures([
             'App\DataFixtures\Test\UserFixtures',
         ])->getReferenceRepository();
     }

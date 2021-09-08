@@ -2,10 +2,13 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Core\Annotation\{ApiResource};
+use ApiPlatform\Core\Annotation\ApiResource;
 use App\Entity\Traits\PercentageTrait;
 use App\Entity\Traits\PersonTrait;
-use Doctrine\Common\Collections\{ArrayCollection, Collection};
+use Doctrine\Common\Collections\{
+    ArrayCollection,
+    Collection,
+};
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Serializer\Annotation\Groups;
@@ -41,8 +44,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * )
  * @ORM\Entity(repositoryClass="App\Repository\StaffMemberRepository")
  * @ORM\Table(name="app_staff_member")
- * @UniqueEntity("username")
- * @UniqueEntity("email")
+ * @UniqueEntity({"username", "email"})
  */
 class StaffMember
 {
@@ -55,14 +57,14 @@ class StaffMember
      * @ORM\Column(type="integer")
      * @Groups({"staff_member:collection:get", "staff_member:item:get", "staff_role:collection:get", "staff_role:item:get", "project:collection:get", "project:item:get"})
      */
-    private $id;
+    private ?int $id = null;
 
     /**
      * @ORM\Column(type="string", length=15, unique=true)
      * @Assert\NotBlank()
      * @Groups({"staff_member:collection:get", "staff_member:item:get", "staff_role:collection:get", "staff_role:item:get", "project:collection:get", "project:item:get"})
      */
-    private $username;
+    private ?string $username;
 
     /**
      * @ORM\Column(type="string", length=100, unique=true)
@@ -70,25 +72,25 @@ class StaffMember
      * @Assert\Email(mode="strict")
      * @Groups({"staff_member:collection:get", "staff_member:item:get", "staff_role:collection:get", "staff_role:item:get", "project:collection:get", "project:item:get"})
      */
-    private $email;
+    private ?string $email;
 
     /**
      * @ORM\Column(type="string", length=30)
      * @Assert\NotBlank()
      * @Groups({"staff_member:collection:get", "staff_member:item:get", "staff_role:collection:get", "staff_role:item:get", "project:collection:get", "project:item:get"})
      */
-    private $homeProgram;
+    private ?string $homeProgram;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Project", mappedBy="principalInvestigator")
      */
-    private $projects;
+    private Collection $projects;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\StaffRole", mappedBy="staffMember", orphanRemoval=true, cascade={"persist", "remove"})
      * @Assert\Valid()
      */
-    private $staffRoles;
+    private Collection $staffRoles;
 
     public function __construct()
     {

@@ -51,29 +51,29 @@ class Contact
      * @ORM\Column(type="integer")
      * @Groups({"contact:collection:get", "contact:item:get"})
      */
-    private $id;
+    private ?int $id = null;
 
     /**
      * @ORM\Column(type="string", length=20)
      * @Groups({"contact:collection:get", "contact:item:get"})
      */
-    private $title;
+    private ?string $title;
 
     /**
      * @ORM\Column(type="string", length=100)
      * @Assert\Email(mode="strict")
      */
-    private $email = '';
+    private string $email = '';
 
     /**
      * @ORM\Column(type="string", length=30)
      */
-    private $phone = '';
+    private string $phone = '';
 
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Partnership", mappedBy="contacts")
      */
-    private $partnerships;
+    private Collection $partnerships;
 
     public function __construct()
     {

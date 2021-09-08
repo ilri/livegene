@@ -2,11 +2,18 @@
 
 namespace App\Tests;
 
-use Liip\FunctionalTestBundle\Test\WebTestCase;
-use Liip\TestFixturesBundle\Test\FixturesTrait;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\DomCrawler\Crawler;
 use App\DataFixtures\Test\UserFixtures;
+use Doctrine\Common\DataFixtures\ReferenceRepository;
+use Doctrine\ORM\{
+    EntityManager,
+    OptimisticLockException,
+    ORMException,
+};
+use Liip\FunctionalTestBundle\Test\WebTestCase;
+use Liip\TestFixturesBundle\Services\DatabaseToolCollection;
+use Symfony\Bundle\FrameworkBundle\KernelBrowser;
+use Symfony\Component\DomCrawler\Crawler;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Test that all routes are accessible as anticipated.
@@ -20,26 +27,35 @@ use App\DataFixtures\Test\UserFixtures;
  */
 class ApplicationSecurityTest extends WebTestCase
 {
-    use FixturesTrait;
-
-    private $client;
-    private $entityManager;
-    private $fixtures = null;
+    private KernelBrowser $client;
+    private EntityManager $entityManager;
+    private ?ReferenceRepository $fixtures = null;
 
     public function setUp(): void
     {
         $this->client = $this->createClient();
         $this->entityManager = $this->getContainer()->get('doctrine')->getManager();
-        $this->fixtures = $this->loadFixtures([
+        $databaseTool = $this->client->getContainer()->get(DatabaseToolCollection::class)->get();
+        $this->fixtures = $databaseTool->loadFixtures([
             'App\DataFixtures\Test\UserFixtures',
             'App\DataFixtures\Test\MediaFixtures',
             'App\DataFixtures\Test\GalleryFixtures',
         ])->getReferenceRepository();
     }
 
+    /**
+     * TODO: this method has to be refactored.
+     * The deprecated method has no replacement. Another logic should
+     * be implemented.
+     * The exceptions should be handled in the method body.
+     *
+     * @throws ORMException
+     * @throws OptimisticLockException
+     */
     public function tearDown(): void
     {
         $media = $this->fixtures->getReference('media');
+        $media = $this->entityManager->merge($media);
         $this->entityManager->remove($media);
         $this->entityManager->flush();
 
@@ -58,19 +74,6 @@ class ApplicationSecurityTest extends WebTestCase
             '_username' => $username,
             '_password' => UserFixtures::PASSWORD
         ]);
-    }
-
-    /**
-     * Helper method.
-     * Log in the user through HTTP Basic Auth
-     */
-    private function httpBasicLogIn($username): void
-    {
-        $credentials = [
-            'username' => $username,
-            'password' => UserFixtures::PASSWORD
-        ];
-        $this->client = $this->makeClient($credentials);
     }
 
     /**

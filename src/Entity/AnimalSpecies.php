@@ -40,8 +40,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * )
  * @ORM\Entity(repositoryClass="App\Repository\AnimalSpeciesRepository")
  * @ORM\Table(name="app_animal_species")
- * @UniqueEntity("commonName")
- * @UniqueEntity("scientificName")
+ * @UniqueEntity({"commonName", "scientificName"})
  */
 class AnimalSpecies
 {
@@ -51,31 +50,31 @@ class AnimalSpecies
      * @ORM\Column(type="integer")
      * @Groups({"animal_species:collection:get", "animal_species:item:get", "sampling_activity:collection:get", "sampling_activity:item:get"})
      */
-    private $id;
+    private ?int $id = null;
 
     /**
      * @ORM\Column(type="string", length=30, unique=true)
      * @Assert\NotBlank()
      * @Groups({"animal_species:collection:get", "animal_species:item:get", "sampling_activity:collection:get", "sampling_activity:item:get"})
      */
-    private $commonName;
+    private ?string $commonName;
 
     /**
      * @ORM\Column(type="string", length=50, unique=true)
      * @Assert\NotBlank()
      * @Groups({"animal_species:collection:get", "animal_species:item:get", "sampling_activity:collection:get", "sampling_activity:item:get"})
      */
-    private $scientificName;
+    private ?string $scientificName;
 
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\SamplingActivity", mappedBy="animalSpecies")
      */
-    private $samplingActivities;
+    private Collection $samplingActivities;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\AnimalSpeciesRole", mappedBy="animalSpecies", orphanRemoval=true)
      */
-    private $animalSpeciesRoles;
+    private Collection $animalSpeciesRoles;
 
     public function __construct()
     {

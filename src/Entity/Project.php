@@ -15,6 +15,7 @@ use Doctrine\Common\Collections\{
     ArrayCollection,
     Collection,
 };
+use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Serializer\Annotation\Groups;
@@ -65,35 +66,35 @@ class Project
      * @ORM\Column(type="integer")
      * @Groups({"project:collection:get", "project:item:get", "staff_role:collection:get", "staff_role:item:get"})
      */
-    private $id;
+    private ?int $id = null;
 
     /**
      * @ORM\Column(type="string", length=20, unique=true)
      * @Assert\NotBlank()
      * @Groups({"project:collection:get", "project:item:get", "staff_role:collection:get", "staff_role:item:get"})
      */
-    private $ilriCode;
+    private ?string $ilriCode;
 
     /**
      * @ORM\Column(type="string", length=200)
      * @Assert\NotBlank()
      * @Groups({"project:collection:get", "project:item:get", "staff_role:collection:get", "staff_role:item:get"})
      */
-    private $fullName;
+    private ?string $fullName;
 
     /**
      * @ORM\Column(type="string", length=50)
      * @Assert\NotBlank()
      * @Groups({"project:collection:get", "project:item:get", "staff_role:collection:get", "staff_role:item:get"})
      */
-    private $shortName;
+    private ?string $shortName;
 
     /**
      * @ORM\Column(type="string", length=20)
      * @Assert\NotBlank()
      * @Groups({"project:collection:get", "project:item:get", "staff_role:collection:get", "staff_role:item:get"})
      */
-    private $team;
+    private ?string $team;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\StaffMember", inversedBy="projects")
@@ -101,21 +102,21 @@ class Project
      * @Assert\NotBlank()
      * @Groups({"project:collection:get", "project:item:get"})
      */
-    private $principalInvestigator;
+    private ?StaffMember $principalInvestigator;
 
     /**
      * @ORM\Column(type="date")
      * @Assert\NotBlank()
      * @Groups({"project:collection:get", "project:item:get"})
      */
-    private $startDate;
+    private ?DateTimeInterface $startDate;
 
     /**
      * @ORM\Column(type="date")
      * @Assert\NotBlank()
      * @Groups({"project:collection:get", "project:item:get"})
      */
-    private $endDate;
+    private ?DateTimeInterface $endDate;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Organisation", inversedBy="projects")
@@ -123,19 +124,19 @@ class Project
      * @Assert\NotBlank()
      * @Groups({"project:collection:get", "project:item:get"})
      */
-    private $donor;
+    private ?Organisation $donor;
 
     /**
      * @ORM\Column(type="string", length=50)
      * @Groups({"project:collection:get", "project:item:get"})
      */
-    private $donorReference = '';
+    private string $donorReference = '';
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Groups({"project:collection:get", "project:item:get"})
      */
-    private $donorProjectName = '';
+    private string $donorProjectName = '';
 
     /**
      * @ORM\Column(type="integer", options={"unsigned": true})
@@ -144,7 +145,7 @@ class Project
      * )
      * @Groups({"project:collection:get", "project:item:get"})
      */
-    private $totalProjectValue;
+    private ?int $totalProjectValue;
 
     /**
      * @ORM\Column(type="integer", options={"unsigned": true})
@@ -157,7 +158,7 @@ class Project
      * )
      * @Groups({"project:collection:get", "project:item:get"})
      */
-    private $totalIlriValue;
+    private ?int $totalIlriValue;
 
     /**
      * @ORM\Column(type="integer", options={"unsigned": true})
@@ -170,7 +171,7 @@ class Project
      * )
      * @Groups({"project:collection:get", "project:item:get"})
      */
-    private $totalLivegeneValue;
+    private ?int $totalLivegeneValue;
 
     /**
      * @ORM\Column(type="smallint", options={"unsigned": true, "default": 0})
@@ -180,7 +181,7 @@ class Project
      * )
      * @Groups({"project:collection:get", "project:item:get"})
      */
-    private $status;
+    private ?int $status;
 
     /**
      * @ORM\Column(type="integer", options={"unsigned": true, "default": 0})
@@ -190,43 +191,43 @@ class Project
      * )
      * @Groups({"project:collection:get", "project:item:get"})
      */
-    private $capacityDevelopment;
+    private ?int $capacityDevelopment;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Partnership", mappedBy="project")
      * @Groups({"project:collection:get", "project:item:get"})
      */
-    private $partnerships;
+    private Collection $partnerships;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\SamplingActivity", mappedBy="project")
      */
-    private $samplingActivities;
+    private Collection $samplingActivities;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\StaffRole", mappedBy="project", cascade={"persist", "remove"})
      * @Groups({"project:collection:get", "project:item:get"})
      */
-    private $staffRoles;
+    private Collection $staffRoles;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\CountryRole", mappedBy="project", orphanRemoval=true, cascade={"persist", "remove"})
      * @Assert\Valid()
      * @Groups({"project:collection:get", "project:item:get"})
      */
-    private $countryRoles;
+    private Collection $countryRoles;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\SDGRole", mappedBy="project", orphanRemoval=true, cascade={"persist", "remove"})
      * @Assert\Valid()
      */
-    private $sdgRoles;
+    private Collection $sdgRoles;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\AnimalSpeciesRole", mappedBy="project", orphanRemoval=true)
      * @Assert\Valid()
      */
-    private $animalSpeciesRoles;
+    private Collection $animalSpeciesRoles;
 
     /**
      * @ORM\Column(type="text")
@@ -235,7 +236,7 @@ class Project
      *     maxMessage="Please provide maximum {{ limit }} characters for the abstract"
      * )
      */
-    private $abstract = '';
+    private string $abstract = '';
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -243,7 +244,7 @@ class Project
      *      checkDNS="ANY"
      * )
      */
-    private $proposalLink = '';
+    private string $proposalLink = '';
 
     /**
      * @ORM\Column(type="simple_array", nullable=true)
@@ -254,7 +255,7 @@ class Project
      *     )
      * )
      */
-    private $donorReports = [];
+    private array $donorReports = [];
 
     public function __construct()
     {
@@ -339,24 +340,24 @@ class Project
         return $this;
     }
 
-    public function getStartDate(): ?\DateTimeInterface
+    public function getStartDate(): ?DateTimeInterface
     {
         return $this->startDate;
     }
 
-    public function setStartDate(\DateTimeInterface $startDate): self
+    public function setStartDate(DateTimeInterface $startDate): self
     {
         $this->startDate = $startDate;
 
         return $this;
     }
 
-    public function getEndDate(): ?\DateTimeInterface
+    public function getEndDate(): ?DateTimeInterface
     {
         return $this->endDate;
     }
 
-    public function setEndDate(\DateTimeInterface $endDate): self
+    public function setEndDate(DateTimeInterface $endDate): self
     {
         $this->endDate = $endDate;
 

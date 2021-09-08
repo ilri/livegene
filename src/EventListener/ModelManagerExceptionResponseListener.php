@@ -2,19 +2,30 @@
 
 namespace App\EventListener;
 
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
-use Symfony\Component\HttpFoundation\RedirectResponse;
 use Sonata\AdminBundle\Exception\ModelManagerException;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\HttpKernel\Event\ExceptionEvent;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
+/**
+ * This listener checks if a "to be deleted" object in the admin has
+ * relations to existing objects of other entities.
+ * In that case the deleting is prevented and the user is redirected
+ * to the edit form with an appropriate flash message.
+ */
 class ModelManagerExceptionResponseListener
 {
-    private $session;
-    private $router;
-    private $em;
+    private SessionInterface $session;
+    private UrlGeneratorInterface $router;
+    private EntityManagerInterface $em;
 
+    /**
+     * @param SessionInterface $session
+     * @param UrlGeneratorInterface $router
+     * @param EntityManagerInterface $em
+     */
     public function __construct(SessionInterface $session, UrlGeneratorInterface $router, EntityManagerInterface $em)
     {
         $this->session = $session;
@@ -22,17 +33,20 @@ class ModelManagerExceptionResponseListener
         $this->em = $em;
     }
 
-    public function onKernelException(GetResponseForExceptionEvent $event)
+    /**
+     * @param ExceptionEvent $event
+     */
+    public function onKernelException(ExceptionEvent $event)
     {
         // get the exception
-        $exception =  $event->getException();
+        $exception =  $event->getThrowable();
         // we proceed only if it is ModelManagerException
         if (!$exception instanceof ModelManagerException) {
             return;
         }
 
         // get the route and id
-        // if it wasn't a delete route we don't want to proceed
+        // if it wasn't a "delete" route we don't want to proceed
         $request = $event->getRequest();
         $route = $request->get('_route');
         $id = $request->get('id');
