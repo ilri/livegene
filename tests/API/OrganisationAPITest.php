@@ -7,6 +7,7 @@ use ApiPlatform\Core\Bridge\Symfony\Bundle\Test\{
     Client,
 };
 use App\DataFixtures\Test\UserFixtures;
+use App\Entity\Organisation;
 use Doctrine\Common\DataFixtures\ReferenceRepository;
 use Liip\TestFixturesBundle\Services\DatabaseToolCollection;
 use Symfony\Component\HttpFoundation\Response;
@@ -83,6 +84,7 @@ class OrganisationAPITest extends ApiTestCase
         $organisation = $this->getOrganisation();
         $this->client->request('GET', sprintf('/api/organisations/%s', $organisation));
         $this->assertResponseIsSuccessful();
+        $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
         $this->assertJsonContains(
             [
                 'id' => 1,
@@ -98,6 +100,7 @@ class OrganisationAPITest extends ApiTestCase
                 ],
             ]
         );
+        // $this->assertMatchesResourceItemJsonSchema(Organisation::class);
     }
 
     public function testPostIsNotAllowed(): void

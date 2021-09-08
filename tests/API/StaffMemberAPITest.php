@@ -79,6 +79,7 @@ class StaffMemberAPITest extends ApiTestCase
         $coyote = $this->getStaffMember();
         $this->client->request('GET', sprintf('/api/staff/%s', $coyote));
         $this->assertResponseIsSuccessful();
+        $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
         $this->assertJsonContains(
             [
                 'id' => 1,
@@ -90,6 +91,7 @@ class StaffMemberAPITest extends ApiTestCase
                 'totalStaffRolesPercent' => 0,
             ]
         );
+        $this->assertMatchesResourceItemJsonSchema(StaffMember::class);
     }
 
     public function testPostIsNotAllowed(): void

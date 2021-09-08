@@ -7,6 +7,7 @@ use ApiPlatform\Core\Bridge\Symfony\Bundle\Test\{
     Client,
 };
 use App\DataFixtures\Test\UserFixtures;
+use App\Entity\StaffRole;
 use Doctrine\Common\DataFixtures\ReferenceRepository;
 use Liip\TestFixturesBundle\Services\DatabaseToolCollection;
 use Symfony\Component\HttpFoundation\Response;
@@ -93,6 +94,7 @@ class StaffRoleAPITest extends ApiTestCase
         $staffRole = $this->getStaffRole();
         $this->client->request('GET', sprintf('/api/staff_roles/%s', $staffRole));
         $this->assertResponseIsSuccessful();
+        $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
         $this->assertJsonContains(
             [
                 'id' => 1,
@@ -118,6 +120,7 @@ class StaffRoleAPITest extends ApiTestCase
                 'percent' => '0.5',
             ]
         );
+       // $this->assertMatchesResourceItemJsonSchema(StaffRole::class);
     }
 
     public function testPostIsNotAllowed(): void

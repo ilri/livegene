@@ -88,7 +88,6 @@ class AnimalSpeciesRoleAPITest extends ApiTestCase
             ]
         );
         $this->assertMatchesResourceItemJsonSchema(AnimalSpeciesRole::class);
-
     }
 
     public function testPostIsNotAllowed(): void
