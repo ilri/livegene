@@ -30,3 +30,5 @@ Entity Relationship Model
 The application uses MySQL for the data storage. The data model consists of 16 entities.
 
 ![erm](docs/assets/erm.png)
+
+![pictograms](docs/assets/drawing.png)
