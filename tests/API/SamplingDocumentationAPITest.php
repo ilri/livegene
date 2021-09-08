@@ -7,9 +7,10 @@ use ApiPlatform\Core\Bridge\Symfony\Bundle\Test\{
     Client,
 };
 use App\DataFixtures\Test\UserFixtures;
-use App\Entity\SamplingDocumentation;
+// use App\Entity\SamplingDocumentation;
 use Carbon\Carbon;
 use Doctrine\Common\DataFixtures\ReferenceRepository;
+use Doctrine\ORM\EntityManager;
 use Liip\TestFixturesBundle\Services\DatabaseToolCollection;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -17,7 +18,6 @@ class SamplingDocumentationAPITest extends ApiTestCase
 {
     private Client $client;
     private ReferenceRepository $fixtures;
-    private ?object $entityManager;
 
     public function setUp(): void
     {
@@ -50,14 +50,17 @@ class SamplingDocumentationAPITest extends ApiTestCase
                 'auth_bearer' => json_decode($response->getContent(), true)['token'],
             ]
         );
-        $this->entityManager = self::$container->get('doctrine.orm.entity_manager');
     }
 
     public function tearDown(): void
     {
+        /** @var EntityManager $entityManager */
+        $entityManager = self::$container->get('doctrine')->getManager();
         $documentation = $this->fixtures->getReference('documentation')->getDocument();
-        $this->entityManager->remove($documentation);
-        $this->entityManager->flush();
+
+        $documentation = $entityManager->merge($documentation);
+        $entityManager->remove($documentation);
+        $entityManager->flush();
 
         parent::tearDown();
     }
@@ -85,7 +88,7 @@ class SamplingDocumentationAPITest extends ApiTestCase
                         'isActive' => true,
                     ],
                 ],
-                'hydra:totalItems' => 1,
+                'hydra:totalItems' => 1
             ]
         );
         $this->assertCount(1, $response->toArray()['hydra:member']);
