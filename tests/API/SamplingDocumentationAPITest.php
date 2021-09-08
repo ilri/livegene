@@ -17,6 +17,7 @@ class SamplingDocumentationAPITest extends ApiTestCase
 {
     private Client $client;
     private ReferenceRepository $fixtures;
+    private ?object $entityManager;
 
     public function setUp(): void
     {
@@ -49,6 +50,16 @@ class SamplingDocumentationAPITest extends ApiTestCase
                 'auth_bearer' => json_decode($response->getContent(), true)['token'],
             ]
         );
+        $this->entityManager = self::$container->get('doctrine.orm.entity_manager');
+    }
+
+    public function tearDown(): void
+    {
+        $documentation = $this->fixtures->getReference('documentation')->getDocument();
+        $this->entityManager->remove($documentation);
+        $this->entityManager->flush();
+
+        parent::tearDown();
     }
 
     public function testGetCollectionIsAvailable(): void
