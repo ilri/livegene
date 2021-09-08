@@ -3,8 +3,8 @@
 namespace App\Entity\Traits;
 
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 trait PersonTrait
 {
@@ -30,7 +30,7 @@ trait PersonTrait
      *     "contact:collection:get", "contact:item:get",
      * })
      */
-    private $lastName;
+    private ?string $lastName;
 
     public function getFirstName(): ?string
     {

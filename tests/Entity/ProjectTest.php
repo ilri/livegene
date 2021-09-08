@@ -2,23 +2,22 @@
 
 namespace App\Tests\Entity;
 
-use PHPUnit\Framework\TestCase;
-use Carbon\ Carbon;
-use Doctrine\Common\Persistence\{
-    ObjectRepository,
-    ObjectManager
-};
 use App\Entity\{
+    CountryRole,
     Project,
-    CountryRole
 };
+use Carbon\Carbon;
+use Doctrine\Persistence\{
+    ObjectManager,
+    ObjectRepository,
+};
+use PHPUnit\Framework\TestCase;
 
 class ProjectTest extends TestCase
 {
-    private $now;
-    private $project;
+    private Project $project;
 
-    public function setUp()
+    public function setUp(): void
     {
         date_default_timezone_set('UTC');
         $now = Carbon::create(2019, 8, 7, 12);
@@ -36,7 +35,7 @@ class ProjectTest extends TestCase
             ->willReturn($projectRepository);
     }
 
-    public function testCurrentProjectIsActive()
+    public function testCurrentProjectIsActive(): void
     {
         $this->project->setStartDate(new Carbon('yesterday'));
         $this->project->setEndDate(new Carbon('tomorrow'));
@@ -45,7 +44,7 @@ class ProjectTest extends TestCase
         );
     }
 
-    public function testPastProjectIsNotActive()
+    public function testPastProjectIsNotActive(): void
     {
         $this->project->setStartDate(
             Carbon::now()->sub('30 days')
@@ -58,7 +57,7 @@ class ProjectTest extends TestCase
         );
     }
 
-    public function testFutureProjectIsNotActive()
+    public function testFutureProjectIsNotActive(): void
     {
         $this->project->setStartDate(
             Carbon::now()->add('10 days')
@@ -71,7 +70,7 @@ class ProjectTest extends TestCase
         );
     }
 
-    public function testProjectEndsSameYearIsActiveThisYear()
+    public function testProjectEndsSameYearIsActiveThisYear(): void
     {
         $this->project->setStartDate(
             new Carbon('first day of January 2015')
@@ -84,7 +83,7 @@ class ProjectTest extends TestCase
         );
     }
 
-    public function testProjectStartsSameYearIsActiveThisYear()
+    public function testProjectStartsSameYearIsActiveThisYear(): void
     {
         $this->project->setStartDate(
             new Carbon('last day of December 2019')
@@ -97,7 +96,7 @@ class ProjectTest extends TestCase
         );
     }
 
-    public function testActiveProjectIsActiveThisYear()
+    public function testActiveProjectIsActiveThisYear(): void
     {
         $this->project->setStartDate(
             new Carbon('first day of April 2015')
@@ -110,7 +109,7 @@ class ProjectTest extends TestCase
         );
     }
 
-    public function testPastYearsProjectIsNotActiveThisYear()
+    public function testPastYearsProjectIsNotActiveThisYear(): void
     {
         $this->project->setStartDate(
             new Carbon('first Monday of April 2015')
@@ -123,7 +122,7 @@ class ProjectTest extends TestCase
         );
     }
 
-    public function testNextYearsProjectIsNotActiveThisYear()
+    public function testNextYearsProjectIsNotActiveThisYear(): void
     {
         $this->project->setStartDate(
             new Carbon('first day of January 2020')
@@ -136,7 +135,7 @@ class ProjectTest extends TestCase
         );
     }
 
-    public function testTotalCountryRolesPercent()
+    public function testTotalCountryRolesPercent(): void
     {
         $this->assertEquals(
             0,

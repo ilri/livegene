@@ -3,9 +3,10 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
+use App\Validator\Constraints as AppAssert;
+use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
-use App\Validator\Constraints as AppAssert;
 
 /**
  * @ApiResource(
@@ -26,42 +27,42 @@ class Expenditure
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private ?int $id = null;
 
     /**
      * @ORM\Column(type="string", length=20)
      * @Assert\NotBlank()
      */
-    private $ilriCode;
+    private ?string $ilriCode;
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Assert\NotBlank()
      */
-    private $name;
+    private ?string $name;
 
     /**
      * @ORM\Column(type="string", length=20)
      * @Assert\NotBlank()
      */
-    private $homeProgram;
+    private ?string $homeProgram;
 
     /**
      * @ORM\Column(type="date")
      * @Assert\NotBlank()
      */
-    private $startDate;
+    private ?DateTimeInterface $startDate;
 
     /**
      * @ORM\Column(type="date", nullable=true)
      */
-    private $endDate;
+    private ?DateTimeInterface $endDate;
 
     /**
      * @ORM\Column(type="datetime")
      * @Assert\NotBlank()
      */
-    private $reportDate;
+    private ?DateTimeInterface $reportDate;
 
     /**
      * @ORM\Column(type="integer", nullable=true, options={"unsigned": true})
@@ -69,7 +70,7 @@ class Expenditure
      *     min=0
      * )
      */
-    private $totalBudget;
+    private ?int $totalBudget;
 
     /**
      * @ORM\Column(type="integer", nullable=true, options={"unsigned": true})
@@ -77,7 +78,7 @@ class Expenditure
      *     min=0
      * )
      */
-    private $amount;
+    private ?int $amount;
 
     public function __toString()
     {
@@ -128,36 +129,36 @@ class Expenditure
         return $this;
     }
 
-    public function getStartDate(): ?\DateTimeInterface
+    public function getStartDate(): ?DateTimeInterface
     {
         return $this->startDate;
     }
 
-    public function setStartDate(\DateTimeInterface $startDate): self
+    public function setStartDate(DateTimeInterface $startDate): self
     {
         $this->startDate = $startDate;
 
         return $this;
     }
 
-    public function getEndDate(): ?\DateTimeInterface
+    public function getEndDate(): ?DateTimeInterface
     {
         return $this->endDate;
     }
 
-    public function setEndDate(?\DateTimeInterface $endDate): self
+    public function setEndDate(?DateTimeInterface $endDate): self
     {
         $this->endDate = $endDate;
 
         return $this;
     }
 
-    public function getReportDate(): ?\DateTimeInterface
+    public function getReportDate(): ?DateTimeInterface
     {
         return $this->reportDate;
     }
 
-    public function setReportDate(\DateTimeInterface $reportDate): self
+    public function setReportDate(DateTimeInterface $reportDate): self
     {
         $this->reportDate = $reportDate;
 

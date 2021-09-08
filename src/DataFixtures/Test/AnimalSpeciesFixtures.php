@@ -2,10 +2,12 @@
 
 namespace App\DataFixtures\Test;
 
-use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
-use Doctrine\Common\Persistence\ObjectManager;
 use App\Entity\AnimalSpecies;
+use Doctrine\Bundle\FixturesBundle\{
+    Fixture,
+    FixtureGroupInterface,
+};
+use Doctrine\Persistence\ObjectManager;
 
 class AnimalSpeciesFixtures extends Fixture implements FixtureGroupInterface
 {
@@ -15,7 +17,7 @@ class AnimalSpeciesFixtures extends Fixture implements FixtureGroupInterface
         $animal->setCommonName('Cattle');
         $animal->setScientificName('Bos taurus');
         $manager->persist($animal);
-        
+
         $manager->flush();
 
         $this->addReference('animal', $animal);

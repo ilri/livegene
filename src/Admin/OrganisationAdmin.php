@@ -4,18 +4,18 @@ namespace App\Admin;
 
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\{
+    DatagridMapper,
     ListMapper,
-    DatagridMapper
 };
 use Sonata\AdminBundle\Form\FormMapper;
-use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\AdminBundle\Form\Type\ModelListType;
+use Sonata\AdminBundle\Show\ShowMapper;
 
 class OrganisationAdmin extends AbstractAdmin
 {
-    protected function configureListFields(ListMapper $listMapper)
+    protected function configureListFields(ListMapper $list)
     {
-        $listMapper->addIdentifier('id')
+        $list->addIdentifier('id')
             ->add('shortName')
             ->add('fullName')
             ->add('logoUrl', null, [
@@ -39,16 +39,16 @@ class OrganisationAdmin extends AbstractAdmin
         ;
     }
 
-    protected function configureDatagridFilters(DatagridMapper $datagridMapper)
+    protected function configureDatagridFilters(DatagridMapper $filter)
     {
-        $datagridMapper
+        $filter
             ->add('shortName')
             ->add('fullName')
             ->add('country')
         ;
     }
 
-    protected function configureFormFields(FormMapper $formMapper)
+    protected function configureFormFields(FormMapper $form)
     {
         $organisation = $this->getSubject();
 
@@ -57,7 +57,7 @@ class OrganisationAdmin extends AbstractAdmin
             $fileFieldOptions['help'] = '<img src="'.$webPath.'" class="admin-preview" />';
         }
 
-        $formMapper
+        $form
             ->add('shortName', null, [
                 'required' => false,
                 'empty_data' => ''
@@ -76,9 +76,9 @@ class OrganisationAdmin extends AbstractAdmin
         ;
     }
 
-    protected function configureShowFields(ShowMapper $showMapper)
+    protected function configureShowFields(ShowMapper $show)
     {
-        $showMapper
+        $show
             ->add('shortName')
             ->add('fullName')
             ->add('localName')

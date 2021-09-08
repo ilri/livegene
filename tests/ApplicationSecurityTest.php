@@ -2,11 +2,18 @@
 
 namespace App\Tests;
 
-use Liip\FunctionalTestBundle\Test\WebTestCase;
-use Liip\TestFixturesBundle\Test\FixturesTrait;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\DomCrawler\Crawler;
 use App\DataFixtures\Test\UserFixtures;
+use Doctrine\Common\DataFixtures\ReferenceRepository;
+use Doctrine\ORM\{
+    EntityManager,
+    OptimisticLockException,
+    ORMException,
+};
+use Liip\FunctionalTestBundle\Test\WebTestCase;
+use Liip\TestFixturesBundle\Services\DatabaseToolCollection;
+use Symfony\Bundle\FrameworkBundle\KernelBrowser;
+use Symfony\Component\DomCrawler\Crawler;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Test that all routes are accessible as anticipated.
@@ -20,26 +27,35 @@ use App\DataFixtures\Test\UserFixtures;
  */
 class ApplicationSecurityTest extends WebTestCase
 {
-    use FixturesTrait;
+    private KernelBrowser $client;
+    private EntityManager $entityManager;
+    private ?ReferenceRepository $fixtures = null;
 
-    private $client;
-    private $entityManager;
-    private $fixtures = null;
-
-    public function setUp()
+    public function setUp(): void
     {
         $this->client = $this->createClient();
         $this->entityManager = $this->getContainer()->get('doctrine')->getManager();
-        $this->fixtures = $this->loadFixtures([
+        $databaseTool = $this->client->getContainer()->get(DatabaseToolCollection::class)->get();
+        $this->fixtures = $databaseTool->loadFixtures([
             'App\DataFixtures\Test\UserFixtures',
             'App\DataFixtures\Test\MediaFixtures',
             'App\DataFixtures\Test\GalleryFixtures',
         ])->getReferenceRepository();
     }
 
+    /**
+     * TODO: this method has to be refactored.
+     * The deprecated method has no replacement. Another logic should
+     * be implemented.
+     * The exceptions should be handled in the method body.
+     *
+     * @throws ORMException
+     * @throws OptimisticLockException
+     */
     public function tearDown(): void
     {
         $media = $this->fixtures->getReference('media');
+        $media = $this->entityManager->merge($media);
         $this->entityManager->remove($media);
         $this->entityManager->flush();
 
@@ -50,7 +66,7 @@ class ApplicationSecurityTest extends WebTestCase
      * Helper method.
      * Log in the user through the admin login form.
      */
-    private function formLogIn($username)
+    private function formLogIn($username): void
     {
         $crawler = $this->client->request('GET', '/admin/login');
         $form = $crawler->filter('button.btn-primary')->form();
@@ -62,22 +78,9 @@ class ApplicationSecurityTest extends WebTestCase
 
     /**
      * Helper method.
-     * Log in the user through HTTP Basic Auth
-     */
-    private function httpBasicLogIn($username)
-    {
-        $credentials = [
-            'username' => $username,
-            'password' => UserFixtures::PASSWORD
-        ];
-        $this->client = $this->makeClient($credentials);
-    }
-
-    /**
-     * Helper method.
      * Get token for JWT authentication.
      */
-    private function getJsonWebToken($username)
+    private function getJsonWebToken($username): void
     {
         $credentials = [
             'username' => $username,
@@ -100,7 +103,7 @@ class ApplicationSecurityTest extends WebTestCase
      * It should prove that the username of the user is displayed in
      * the user block.
      */
-    private function accessAdminArea(Crawler $crawler, $username)
+    private function accessAdminArea(Crawler $crawler, $username): void
     {
         $this->assertSame(
             'LiveGene',
@@ -117,7 +120,7 @@ class ApplicationSecurityTest extends WebTestCase
      * If the user hits the route /admin they should be redirected to
      * the admin login form (/admin/login).
      */
-    public function testAdminLoginForm()
+    public function testAdminLoginForm(): void
     {
         $this->client->request('GET', '/admin/dashboard');
         $this->assertTrue(
@@ -137,7 +140,7 @@ class ApplicationSecurityTest extends WebTestCase
     /**
      * Test that ROLE_USER can not access the admin area.
      */
-    public function testUserCannotAccessAdminDashboard()
+    public function testUserCannotAccessAdminDashboard(): void
     {
         $username = $this->fixtures->getReference('user')->getUsername();
         $this->formLogIn($username);
@@ -151,7 +154,7 @@ class ApplicationSecurityTest extends WebTestCase
     /**
      * Test that ROLE_SONATA_ADMIN can access the admin area.
      */
-    public function testSonataAdminCanAccessAdminDashboard()
+    public function testSonataAdminCanAccessAdminDashboard(): void
     {
         $username = $this->fixtures->getReference('sonata_admin')->getUsername();
         $this->formLogIn($username);
@@ -166,7 +169,7 @@ class ApplicationSecurityTest extends WebTestCase
     /**
      * Test that ROLE_ADMIN can access the admin area.
      */
-    public function testAdminCanAccessAdminDashboard()
+    public function testAdminCanAccessAdminDashboard(): void
     {
         $username = $this->fixtures->getReference('admin')->getUsername();
         $this->formLogIn($username);
@@ -187,19 +190,19 @@ class ApplicationSecurityTest extends WebTestCase
      * We check that the admin groups 'Media Library' and 'Users' are
      * present.
      */
-    public function testSuperAdminCanAccessAdminDashboard()
+    public function testSuperAdminCanAccessAdminDashboard(): void
     {
         $username = $this->fixtures->getReference('super_admin')->getUsername();
         $this->formLogIn($username);
         $crawler = $this->client->request('GET', '/admin/dashboard');
-        
+
         $this->assertSame(
             Response::HTTP_OK,
             $this->client->getResponse()->getStatusCode()
         );
-        
+
         $this->accessAdminArea($crawler, $username);
-        
+
         $this->assertGreaterThan(
             0,
             $crawler->filter('ul.sidebar-menu > li')->children()->count()
@@ -220,7 +223,7 @@ class ApplicationSecurityTest extends WebTestCase
      *
      * @dataProvider sonataMediaBundleMediaRoutes
      */
-    public function testSuperAdminCanAccessSonataMediaMediaRoutes($route)
+    public function testSuperAdminCanAccessSonataMediaMediaRoutes($route): void
     {
         $username = $this->fixtures->getReference('super_admin')->getUsername();
         $this->formLogIn($username);
@@ -232,7 +235,7 @@ class ApplicationSecurityTest extends WebTestCase
         );
     }
 
-    public function sonataMediaBundleMediaRoutes()
+    public function sonataMediaBundleMediaRoutes(): \Generator
     {
         yield ['/admin/sonata/media/media/list'];
         yield ['/admin/sonata/media/media/create'];
@@ -247,7 +250,7 @@ class ApplicationSecurityTest extends WebTestCase
      *
      * @dataProvider sonataMediaBundleGalleryRoutes
      */
-    public function testSuperAdminCanAccessSonataMediaGalleryRoutes($route)
+    public function testSuperAdminCanAccessSonataMediaGalleryRoutes($route): void
     {
         $username = $this->fixtures->getReference('super_admin')->getUsername();
         $this->formLogIn($username);
@@ -259,7 +262,7 @@ class ApplicationSecurityTest extends WebTestCase
         );
     }
 
-    public function sonataMediaBundleGalleryRoutes()
+    public function sonataMediaBundleGalleryRoutes(): \Generator
     {
         yield ['/admin/sonata/media/gallery/list'];
         yield ['/admin/sonata/media/gallery/create'];
@@ -274,7 +277,7 @@ class ApplicationSecurityTest extends WebTestCase
      *
      * @dataProvider sonataUserBundleUserRoutes
      */
-    public function testSuperAdminCanAccessSonataUserRoutes($route)
+    public function testSuperAdminCanAccessSonataUserRoutes($route): void
     {
         $username = $this->fixtures->getReference('super_admin')->getUsername();
         $this->formLogIn($username);
@@ -286,7 +289,7 @@ class ApplicationSecurityTest extends WebTestCase
         );
     }
 
-    public function sonataUserBundleUserRoutes()
+    public function sonataUserBundleUserRoutes(): \Generator
     {
         yield ['/admin/sonata/user/user/create'];
         yield ['/admin/sonata/user/user/%s/show'];
@@ -300,7 +303,7 @@ class ApplicationSecurityTest extends WebTestCase
      *
      * @dataProvider adminExportRoutes
      */
-    public function testSuperAdminCanAccessExportRoutes($route)
+    public function testSuperAdminCanAccessExportRoutes($route): void
     {
         $username = $this->fixtures->getReference('super_admin')->getUsername();
         $this->formLogIn($username);
@@ -314,7 +317,7 @@ class ApplicationSecurityTest extends WebTestCase
         );
     }
 
-    public function adminExportRoutes()
+    public function adminExportRoutes(): \Generator
     {
         yield ['/admin/sonata/media/media/export?format=json'];
         yield ['/admin/sonata/media/gallery/export?format=json'];
@@ -325,7 +328,7 @@ class ApplicationSecurityTest extends WebTestCase
      * Test that ROLE_SUPER_ADMIN has the right to impersonate other
      * users (ROLE_ALLOWED_TO_SWITCH).
      */
-    public function testSuperAdminCanImpersonateUser()
+    public function testSuperAdminCanImpersonateUser(): void
     {
         $username = $this->fixtures->getReference('super_admin')->getUsername();
         $this->formLogIn($username);
@@ -346,7 +349,7 @@ class ApplicationSecurityTest extends WebTestCase
      *
      * @dataProvider apiFormats
      */
-    public function testAnonymousCannotAccessApiPlatform($format)
+    public function testAnonymousCannotAccessApiPlatform($format): void
     {
         $this->client->request('GET', sprintf('/api/index.%s', $format));
         $this->assertSame(
@@ -366,7 +369,7 @@ class ApplicationSecurityTest extends WebTestCase
      *
      * @dataProvider apiFormats
      */
-    public function testUserCanAccessApiPlatform($format)
+    public function testUserCanAccessApiPlatform($format): void
     {
         $username = $this->fixtures->getReference('api_user')->getUsername();
         $this->getJsonWebToken($username);
@@ -383,7 +386,7 @@ class ApplicationSecurityTest extends WebTestCase
         );
     }
 
-    public function apiFormats()
+    public function apiFormats(): \Generator
     {
         yield ['jsonld'];
         yield ['json'];
@@ -394,7 +397,7 @@ class ApplicationSecurityTest extends WebTestCase
      * Test that an anonymous user can't access the routes provided by
      * SonataMediaBundle.
      */
-    public function testAnonymousCannotAccessMedia()
+    public function testAnonymousCannotAccessMedia(): void
     {
         $galleryId = $this->fixtures->getReference('gallery')->getId();
         $mediaId = $this->fixtures->getReference('media')->getId();
@@ -425,7 +428,7 @@ class ApplicationSecurityTest extends WebTestCase
      * Test that ROLE_USER can access the routes provided by
      * SonataMediaBundle.
      */
-    public function testUserCanAccessMedia()
+    public function testUserCanAccessMedia(): void
     {
         $galleryId = $this->fixtures->getReference('gallery')->getId();
         $mediaId = $this->fixtures->getReference('media')->getId();
@@ -443,13 +446,13 @@ class ApplicationSecurityTest extends WebTestCase
             Response::HTTP_OK,
             $this->client->getResponse()->getStatusCode()
         );
-        
+
         $this->client->request('GET', sprintf('/media/view/%s', $mediaId));
         $this->assertSame(
             Response::HTTP_OK,
             $this->client->getResponse()->getStatusCode()
         );
-        
+
         ob_start();
         $this->client->request('GET', sprintf('/media/download/%s', $mediaId));
         ob_end_clean();

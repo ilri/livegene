@@ -11,14 +11,9 @@ use Symfony\Component\Security\Core\Exception\AuthenticationCredentialsNotFoundE
 
 class VoterSecurityHandler implements SecurityHandlerInterface
 {
-    /**
-     * @var AuthorizationCheckerInterface
-     */
-    private $authorizationChecker;
-    /**
-     * @var array
-     */
-    private $superAdminRoles;
+    private AuthorizationCheckerInterface $authorizationChecker;
+
+    private array $superAdminRoles;
 
     /**
      * @param AuthorizationCheckerInterface $authorizationChecker
@@ -30,9 +25,15 @@ class VoterSecurityHandler implements SecurityHandlerInterface
         $this->superAdminRoles = $superAdminRoles;
     }
 
-    public function isGranted(AdminInterface $admin, $attributes, $object = null)
+    /**
+     * @param AdminInterface $admin
+     * @param array|string $attributes
+     * @param null $object
+     * @return bool
+     */
+    public function isGranted(AdminInterface $admin, $attributes, $object = null): bool
     {
-        if (!\is_array($attributes)) {
+        if (!is_array($attributes)) {
             $attributes = [$attributes];
         }
 
@@ -52,20 +53,36 @@ class VoterSecurityHandler implements SecurityHandlerInterface
         }
     }
 
-    public function getBaseRole(AdminInterface $admin)
+    /**
+     * @param AdminInterface $admin
+     * @return string
+     */
+    public function getBaseRole(AdminInterface $admin): string
     {
         return 'ROLE_'.str_replace('.', '_', strtoupper($admin->getCode())).'_%s';
     }
 
-    public function buildSecurityInformation(AdminInterface $admin)
+    /**
+     * @param AdminInterface $admin
+     * @return array
+     */
+    public function buildSecurityInformation(AdminInterface $admin): array
     {
         return [];
     }
 
+    /**
+     * @param AdminInterface $admin
+     * @param object $object
+     */
     public function createObjectSecurity(AdminInterface $admin, $object)
     {
     }
 
+    /**
+     * @param AdminInterface $admin
+     * @param object $object
+     */
     public function deleteObjectSecurity(AdminInterface $admin, $object)
     {
     }

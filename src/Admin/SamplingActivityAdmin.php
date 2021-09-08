@@ -2,60 +2,30 @@
 
 namespace App\Admin;
 
-use Sonata\AdminBundle\Admin\{
-    AbstractAdmin,
-    AdminInterface
-};
-use Knp\Menu\ItemInterface as MenuItemInterface;
+use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\{
+    DatagridMapper,
     ListMapper,
-    DatagridMapper
 };
 use Sonata\AdminBundle\Form\FormMapper;
-use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\AdminBundle\Form\Type\{
+    ModelListType,
     ModelType,
-    ModelListType
 };
-use Symfony\Component\Form\Extension\Core\Type\DateType;
-use Sonata\CoreBundle\Form\Type\DatePickerType;
+use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\DoctrineORMAdminBundle\Filter\DateRangeFilter;
 use Sonata\Form\Type\{
+    CollectionType,
     DateRangePickerType,
-    CollectionType
 };
+use Sonata\Form\Type\DatePickerType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 
 class SamplingActivityAdmin extends AbstractAdmin
 {
-    //protected function configureSideMenu(MenuItemInterface $menu, $action, AdminInterface $childAdmin = null)
-    //{
-    //    if (!$childAdmin && !in_array($action, ['edit', 'show'])) {
-    //        return;
-    //    }
-
-    //    $admin = $this->isChild() ? $this->getParent() : $this;
-    //    $id = $admin->getRequest()->get('id');
-
-    //    $menu->addChild('View Sampling Activity', [
-    //        'uri' => $admin->generateUrl('show', ['id' => $id])
-    //    ]);
-
-    //    if ($this->isGranted('EDIT')) {
-    //        $menu->addChild('Edit Sampling Activity', [
-    //            'uri' => $admin->generateUrl('edit', ['id' => $id])
-    //        ]);
-    //    }
-
-    //    if ($this->isGranted('LIST')) {
-    //        $menu->addChild('Manage Sampling Documentations', [
-    //            'uri' => $admin->generateUrl('admin.sampling_documentation.list', ['id' => $id])
-    //        ]);
-    //    }
-    //}
-
-    protected function configureListFields(ListMapper $listMapper)
+    protected function configureListFields(ListMapper $list)
     {
-        $listMapper->addIdentifier('id')
+        $list->addIdentifier('id')
             ->add('project')
             ->add('samplingPartners')
             ->add('animalSpecies')
@@ -72,9 +42,9 @@ class SamplingActivityAdmin extends AbstractAdmin
         ;
     }
 
-    protected function configureDatagridFilters(DatagridMapper $datagridMapper)
+    protected function configureDatagridFilters(DatagridMapper $filter)
     {
-        $datagridMapper
+        $filter
             ->add('project')
             ->add('samplingPartners')
             ->add('animalSpecies')
@@ -93,9 +63,9 @@ class SamplingActivityAdmin extends AbstractAdmin
     }
 
 
-    protected function configureFormFields(FormMapper $formMapper)
+    protected function configureFormFields(FormMapper $form)
     {
-	    $formMapper
+	    $form
             ->add('project', ModelListType::class)
             ->add('samplingPartners', ModelType::class, [
                 'multiple' => true,
@@ -120,7 +90,7 @@ class SamplingActivityAdmin extends AbstractAdmin
         ;
 
         if ($this->subject->getId()) {
-            $formMapper
+            $form
                 ->add('samplingDocumentations', CollectionType::class, [
                     'by_reference' => false,
                 ], [
@@ -130,10 +100,10 @@ class SamplingActivityAdmin extends AbstractAdmin
             ;
         }
     }
-    
-    protected function configureShowFields(ShowMapper $showMapper)
+
+    protected function configureShowFields(ShowMapper $show)
     {
-        $showMapper
+        $show
             ->add('id')
             ->add('project')
             ->add('samplingPartners')

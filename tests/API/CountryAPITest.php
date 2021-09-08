@@ -2,115 +2,112 @@
 
 namespace App\Tests\API;
 
-use Liip\TestFixturesBundle\Test\FixturesTrait;
-use Symfony\Component\HttpFoundation\Response;
+use ApiPlatform\Core\Bridge\Symfony\Bundle\Test\{
+    ApiTestCase,
+    Client,
+};
 use App\DataFixtures\Test\UserFixtures;
+use App\Entity\Country;
+use Doctrine\Common\DataFixtures\ReferenceRepository;
+use Liip\TestFixturesBundle\Services\DatabaseToolCollection;
+use Symfony\Component\HttpFoundation\Response;
 
 class CountryAPITest extends ApiTestCase
 {
-    use FixturesTrait;
+    private Client $client;
+    private ReferenceRepository $fixtures;
 
-    private $fixtures = null;
-    private $client;
-
-    public function setUp()
+    public function setUp(): void
     {
-        $this->fixtures = $this->loadFixtures([
-            'App\DataFixtures\Test\UserFixtures',
-            'App\DataFixtures\Test\CountryFixtures',
-        ])->getReferenceRepository();
+        $this->client = static::createClient();
+        $databaseTool = $this->client->getContainer()->get(DatabaseToolCollection::class)->get();
+        $this->fixtures = $databaseTool->loadFixtures(
+            [
+                'App\DataFixtures\Test\UserFixtures',
+                'App\DataFixtures\Test\CountryFixtures',
+            ]
+        )->getReferenceRepository();
         $username = $this->fixtures->getReference('api_user')->getUsername();
         $credentials = [
             'username' => $username,
-            'password' => UserFixtures::PASSWORD
+            'password' => UserFixtures::PASSWORD,
         ];
-
-        $this->client = $this->createAuthenticatedClient($credentials);
-    }
-
-    public function testGetCollectionIsAvailable()
-    {
-        $this->client->request('GET', '/api/countries', [], [], [
-            'HTTP_ACCEPT' => 'application/json',
-        ]);
-        $this->assertSame(
-            Response::HTTP_OK,
-            $this->client->getResponse()->getStatusCode()
-        );
-        $this->assertTrue(
-            $this->client->getResponse()->headers->contains(
-                'Content-Type',
-                'application/json; charset=utf-8'
-            )
-        );
-        $data = json_decode($this->client->getResponse()->getContent(), true);
-        $this->assertCount(1, $data);
-    }
-
-    public function testPostIsNotAllowed()
-    {
-        $this->client->request('POST', '/api/countries', [], [], [
-            'CONTENT_TYPE' => 'application/json',
-        ]);
-        $this->assertSame(
-            Response::HTTP_METHOD_NOT_ALLOWED,
-            $this->client->getResponse()->getStatusCode()
-        );
-    }
-
-    public function testGetItemIsAvailable()
-    {
-        $country = $this->getCountry();
-        $this->client->request('GET', sprintf('/api/countries/%s', $country), [], [], [
-            'HTTP_ACCEPT' => 'application/json'
-        ]);
-        $this->assertSame(
-            Response::HTTP_OK,
-            $this->client->getResponse()->getStatusCode()
-        );
-        $this->assertTrue(
-            $this->client->getResponse()->headers->contains(
-                'Content-Type',
-                'application/json; charset=utf-8'
-            )
-        );
-        $data = json_decode($this->client->getResponse()->getContent(), true);
-        $this->assertArrayHasKey('country', $data);
-        $this->assertSame(
-            $data,
+        $response = $this->client->request(
+            'POST',
+            '/authentication_token',
             [
-                'id' => 1,
-                'country' => 'GB',
-                'countryName' => 'United Kingdom'
+                'headers' => ['Content-Type' => 'application/json'],
+                'json' => $credentials,
+            ]
+        );
+        $this->client->setDefaultOptions(
+            [
+                'auth_bearer' => json_decode($response->getContent(), true)['token'],
             ]
         );
     }
 
-    public function testPutIsNotAllowed()
+    public function testGetCollectionIsAvailable(): void
     {
-        $country = $this->getCountry();
-        $this->client->request('PUT', sprintf('/api/countries/%s', $country), [], [], [
-            'CONTENT_TYPE' => 'application/json',
-        ]);
-        $this->assertSame(
-            Response::HTTP_METHOD_NOT_ALLOWED,
-            $this->client->getResponse()->getStatusCode()
+        $response = $this->client->request('GET', '/api/countries');
+        $this->assertResponseIsSuccessful();
+        $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
+        $this->assertJsonContains(
+            [
+                '@context' => '/api/contexts/Country',
+                '@id' => '/api/countries',
+                '@type' => 'hydra:Collection',
+                'hydra:member' => [
+                    [
+                        'id' => 1,
+                        'country' => 'GB',
+                        'countryName' => 'United Kingdom',
+                    ],
+                ],
+                'hydra:totalItems' => 1,
+            ]
         );
+        $this->assertCount(1, $response->toArray()['hydra:member']);
+        $this->assertMatchesResourceCollectionJsonSchema(Country::class);
     }
 
-    public function testDeleteIsNotAllowed()
+    public function testGetItemIsAvailable(): void
     {
         $country = $this->getCountry();
-        $this->client->request('DELETE', sprintf('/api/countries/%s', $country), [], [], [
-            'CONTENT_TYPE' => 'application/json',
-        ]);
-        $this->assertSame(
-            Response::HTTP_METHOD_NOT_ALLOWED,
-            $this->client->getResponse()->getStatusCode()
+        $response = $this->client->request('GET', sprintf('/api/countries/%s', $country));
+        $this->assertResponseIsSuccessful();
+        $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
+        $this->assertJsonContains(
+            [
+                'id' => 1,
+                'country' => 'GB',
+                'countryName' => 'United Kingdom',
+            ]
         );
+        $this->assertMatchesResourceItemJsonSchema(Country::class);
     }
 
-    private function getCountry()
+    public function testPostIsNotAllowed(): void
+    {
+        $this->client->request('POST', '/api/countries');
+        $this->assertResponseStatusCodeSame(Response::HTTP_METHOD_NOT_ALLOWED);
+    }
+
+    public function testPutIsNotAllowed(): void
+    {
+        $country = $this->getCountry();
+        $this->client->request('PUT', sprintf('/api/countries/%s', $country));
+        $this->assertResponseStatusCodeSame(Response::HTTP_METHOD_NOT_ALLOWED);
+    }
+
+    public function testDeleteIsNotAllowed(): void
+    {
+        $country = $this->getCountry();
+        $this->client->request('DELETE', sprintf('/api/countries/%s', $country));
+        $this->assertResponseStatusCodeSame(Response::HTTP_METHOD_NOT_ALLOWED);
+    }
+
+    private function getCountry(): string
     {
         return $this->fixtures->getReference('country')->getCountry();
     }

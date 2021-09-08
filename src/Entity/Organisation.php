@@ -3,14 +3,14 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
-use Doctrine\ORM\Mapping as ORM;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\Serializer\Annotation\Groups;
 use Doctrine\Common\Collections\{
     ArrayCollection,
-    Collection
+    Collection,
 };
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ApiResource(
@@ -50,40 +50,40 @@ class Organisation
      * @ORM\Column(type="integer")
      * @Groups({"organisation:collection:get", "organisation:item:get", "project:collection:get", "project:item:get"})
      */
-    private $id;
+    private ?int $id = null;
 
     /**
      * @ORM\Column(type="string", length=20)
      * @Groups({"organisation:collection:get", "organisation:item:get", "project:collection:get", "project:item:get"})
      */
-    private $shortName = '';
+    private string $shortName = '';
 
     /**
      * @ORM\Column(type="string", length=200)
      * @Assert\NotBlank()
      * @Groups({"organisation:collection:get", "organisation:item:get", "project:collection:get", "project:item:get"})
      */
-    private $fullName;
+    private ?string $fullName;
 
     /**
      * @ORM\Column(type="string", length=200)
      * @Groups({"organisation:collection:get", "organisation:item:get", "project:collection:get", "project:item:get"})
      */
-    private $localName = '';
+    private string $localName = '';
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Assert\Url()
      * @Groups({"organisation:collection:get", "organisation:item:get", "project:collection:get", "project:item:get"})
      */
-    private $link = '';
+    private string $link = '';
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Assert\Url()
      * @Groups({"organisation:collection:get", "organisation:item:get", "project:collection:get", "project:item:get"})
      */
-    private $logoUrl = '';
+    private string $logoUrl = '';
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Country", inversedBy="organisations")
@@ -91,22 +91,22 @@ class Organisation
      * @Assert\NotBlank()
      * @Groups({"organisation:collection:get", "organisation:item:get", "project:collection:get", "project:item:get"})
      */
-    private $country;
+    private ?Country $country;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Project", mappedBy="donor")
      */
-    private $projects;
+    private Collection $projects;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Partnership", mappedBy="partner")
      */
-    private $partnerships;
+    private Collection $partnerships;
 
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\SamplingActivity", mappedBy="samplingPartners")
      */
-    private $samplingActivities;
+    private Collection $samplingActivities;
 
     public function __construct()
     {

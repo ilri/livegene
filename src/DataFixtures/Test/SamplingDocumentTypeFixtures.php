@@ -2,10 +2,12 @@
 
 namespace App\DataFixtures\Test;
 
-use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
-use Doctrine\Common\Persistence\ObjectManager;
 use App\Entity\SamplingDocumentType;
+use Doctrine\Bundle\FixturesBundle\{
+    Fixture,
+    FixtureGroupInterface,
+};
+use Doctrine\Persistence\ObjectManager;
 
 class SamplingDocumentTypeFixtures extends Fixture implements FixtureGroupInterface
 {
@@ -15,7 +17,7 @@ class SamplingDocumentTypeFixtures extends Fixture implements FixtureGroupInterf
         $samplingDocumentType->setShortName('ATA');
         $samplingDocumentType->setLongName('A test agreement');
         $manager->persist($samplingDocumentType);
-        
+
         $manager->flush();
 
         $this->addReference('doctype', $samplingDocumentType);

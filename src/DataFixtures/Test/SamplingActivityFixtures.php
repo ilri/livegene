@@ -2,24 +2,42 @@
 
 namespace App\DataFixtures\Test;
 
-use Doctrine\Bundle\FixturesBundle\Fixture;
+use App\Entity\{
+    AnimalSpecies,
+    Country,
+    Organisation,
+    Project,
+    SamplingActivity,
+};
+use DateTime;
+use Doctrine\Bundle\FixturesBundle\{
+    Fixture,
+    FixtureGroupInterface,
+};
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
-use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
-use Doctrine\Common\Persistence\ObjectManager;
-use App\Entity\SamplingActivity;
+use Doctrine\Persistence\ObjectManager;
 
 class SamplingActivityFixtures extends Fixture implements DependentFixtureInterface, FixtureGroupInterface
 {
     public function load(ObjectManager $manager)
     {
+        /** @var Project $project */
+        $project = $this->getReference('project');
+        /** @var Organisation $organisation */
+        $organisation = $this->getReference('organisation');
+        /** @var AnimalSpecies $animalSpecies */
+        $animalSpecies = $this->getReference('animal');
+        /** @var Country $country */
+        $country = $this->getReference('country');
+
         $activity = new SamplingActivity();
-        $activity->setProject($this->getReference('project'));
-        $activity->addSamplingPartner($this->getReference('organisation'));
-        $activity->addAnimalSpecies($this->getReference('animal'));
-        $activity->addCountry($this->getReference('country'));
+        $activity->setProject($project);
+        $activity->addSamplingPartner($organisation);
+        $activity->addAnimalSpecies($animalSpecies);
+        $activity->addCountry($country);
         $activity->setDescription('Sampling activity');
-        $activity->setStartDate(new \DateTime('2018-01-01'));
-        $activity->setEndDate(new \DateTime('2019-12-31'));
+        $activity->setStartDate(new DateTime('2018-01-01'));
+        $activity->setEndDate(new DateTime('2019-12-31'));
         $manager->persist($activity);
 
         $manager->flush();

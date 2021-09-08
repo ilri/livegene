@@ -5,7 +5,7 @@ namespace App\Admin;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\{
     DatagridMapper,
-    ListMapper
+    ListMapper,
 };
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Form\Type\ModelListType;
@@ -14,7 +14,7 @@ use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\DoctrineORMAdminBundle\Filter\DateRangeFilter;
 use Sonata\Form\Type\{
     DatePickerType,
-    DateRangePickerType
+    DateRangePickerType,
 };
 use Sonata\MediaBundle\Form\Type\MediaType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
@@ -28,15 +28,15 @@ class SamplingDocumentationAdmin extends AbstractAdmin
         $collection->add('create_multiple');
     }
 
-    public function configureActionButtons($action, $object = null)
+    public function configureActionButtons($action, $object = null): array
     {
         if ($action == 'create_multiple' || $action == 'create') {
-            return;
+            return [];
         } else {
             $list = parent::configureActionButtons($action, $object);
         }
 
-        if (\in_array($action, ['tree', 'show', 'edit', 'delete', 'list', 'batch'], true)
+        if (in_array($action, ['tree', 'show', 'edit', 'delete', 'list', 'batch'], true)
             && $this->hasAccess('create')
             && $this->hasRoute('create')
         ) {
@@ -46,7 +46,7 @@ class SamplingDocumentationAdmin extends AbstractAdmin
         return $list;
     }
 
-    public function getDashboardActions()
+    public function getDashboardActions(): array
     {
         $actions = parent::getDashboardActions();
 
@@ -61,9 +61,9 @@ class SamplingDocumentationAdmin extends AbstractAdmin
         return $actions;
     }
 
-    protected function configureListFields(ListMapper $listMapper)
+    protected function configureListFields(ListMapper $list)
     {
-        $listMapper->addIdentifier('id')
+        $list->addIdentifier('id')
             ->add('samplingActivity')
             ->add('samplingDocumentType')
             ->add('document')
@@ -79,10 +79,10 @@ class SamplingDocumentationAdmin extends AbstractAdmin
             ])
         ;
     }
- 
-    protected function configureDatagridFilters(DatagridMapper $datagridMapper)
+
+    protected function configureDatagridFilters(DatagridMapper $filter)
     {
-        $datagridMapper
+        $filter
             ->add('samplingActivity')
             ->add('samplingDocumentType')
             ->add('document')
@@ -96,15 +96,15 @@ class SamplingDocumentationAdmin extends AbstractAdmin
         ;
     }
 
-    protected function configureFormFields(FormMapper $formMapper)
+    protected function configureFormFields(FormMapper $form)
     {
         if (!$this->hasParentFieldDescription()) {
-            $formMapper
+            $form
                 ->add('samplingActivity', ModelListType::class)
             ;
         }
 
-	    $formMapper
+	    $form
             ->add('samplingDocumentType', ModelListType::class)
             ->add('document', MediaType::class, [
                 'provider' => 'sonata.media.provider.file',
@@ -126,9 +126,9 @@ class SamplingDocumentationAdmin extends AbstractAdmin
         ;
     }
 
-    protected function configureShowFields(ShowMapper $showMapper)
+    protected function configureShowFields(ShowMapper $show)
     {
-        $showMapper
+        $show
             ->add('samplingActivity')
             ->add('samplingDocumentType')
             ->add('document')

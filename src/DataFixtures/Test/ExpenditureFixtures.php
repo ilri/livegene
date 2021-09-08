@@ -2,10 +2,13 @@
 
 namespace App\DataFixtures\Test;
 
-use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
-use Doctrine\Common\Persistence\ObjectManager;
 use App\Entity\Expenditure;
+use DateTime;
+use Doctrine\Bundle\FixturesBundle\{
+    Fixture,
+    FixtureGroupInterface,
+};
+use Doctrine\Persistence\ObjectManager;
 
 class ExpenditureFixtures extends Fixture implements FixtureGroupInterface
 {
@@ -15,13 +18,13 @@ class ExpenditureFixtures extends Fixture implements FixtureGroupInterface
         $expenditure->setIlriCode('ACME001');
         $expenditure->setName('Looney Tunes');
         $expenditure->setHomeProgram('ACME');
-        $expenditure->setStartDate(new \DateTime('2019-03-01'));
-        $expenditure->setEndDate(new \DateTime('2019-12-31'));
-        $expenditure->setReportDate(new \DateTime('2019-11-01 12:00:00'));
+        $expenditure->setStartDate(new DateTime('2019-03-01'));
+        $expenditure->setEndDate(new DateTime('2019-12-31'));
+        $expenditure->setReportDate(new DateTime('2019-11-01 12:00:00'));
         $expenditure->setTotalBudget(10000);
 
         $manager->persist($expenditure);
-        
+
         $manager->flush();
 
         $this->addReference('expenditure', $expenditure);

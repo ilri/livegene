@@ -2,135 +2,151 @@
 
 namespace App\Tests\API;
 
-use Liip\TestFixturesBundle\Test\FixturesTrait;
-use Symfony\Component\HttpFoundation\Response;
+use ApiPlatform\Core\Bridge\Symfony\Bundle\Test\{
+    ApiTestCase,
+    Client,
+};
 use App\DataFixtures\Test\UserFixtures;
+use App\Entity\SamplingActivity;
+use Doctrine\Common\DataFixtures\ReferenceRepository;
+use Liip\TestFixturesBundle\Services\DatabaseToolCollection;
+use Symfony\Component\HttpFoundation\Response;
 
 class SamplingActivityAPITest extends ApiTestCase
 {
-    use FixturesTrait;
+    private Client $client;
+    private ReferenceRepository $fixtures;
 
-    private $fixtures = null;
-    private $client;
-
-    public function setUp()
+    public function setUp(): void
     {
-        $this->fixtures = $this->loadFixtures([
-            'App\DataFixtures\Test\UserFixtures',
-            'App\DataFixtures\Test\SamplingActivityFixtures',
-        ])->getReferenceRepository();
+        $this->client = static::createClient();
+        $databaseTool = $this->client->getContainer()->get(DatabaseToolCollection::class)->get();
+        $this->fixtures = $databaseTool->loadFixtures(
+            [
+                'App\DataFixtures\Test\UserFixtures',
+                'App\DataFixtures\Test\SamplingActivityFixtures',
+            ]
+        )->getReferenceRepository();
         $username = $this->fixtures->getReference('api_user')->getUsername();
         $credentials = [
             'username' => $username,
-            'password' => UserFixtures::PASSWORD
+            'password' => UserFixtures::PASSWORD,
         ];
-
-        $this->client = $this->createAuthenticatedClient($credentials);
+        $response = $this->client->request(
+            'POST',
+            '/authentication_token',
+            [
+                'headers' => ['Content-Type' => 'application/json'],
+                'json' => $credentials,
+            ]
+        );
+        $this->client->setDefaultOptions(
+            [
+                'auth_bearer' => json_decode($response->getContent(), true)['token'],
+            ]
+        );
     }
 
-    public function testGetCollectionIsAvailable()
+    public function testGetCollectionIsAvailable(): void
     {
-        $this->client->request('GET', '/api/sampling_activities', [], [], [
-            'HTTP_ACCEPT' => 'application/json',
-        ]);
-        $this->assertSame(
-            Response::HTTP_OK,
-            $this->client->getResponse()->getStatusCode()
+        $response = $this->client->request('GET', '/api/sampling_activities');
+        $this->assertResponseIsSuccessful();
+        $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
+        $this->assertJsonContains(
+            [
+                '@context' => '/api/contexts/SamplingActivity',
+                '@id' => '/api/sampling_activities',
+                '@type' => 'hydra:Collection',
+                'hydra:member' => [
+                    [
+                        'id' => 1,
+                        'project' => '/api/projects/1',
+                        'samplingPartners' => [
+                            '/api/organisations/1',
+                        ],
+                        'animalSpecies' => [
+                            [
+                                'id' => 1,
+                                'commonName' => 'Cattle',
+                                'scientificName' => 'Bos taurus',
+                            ],
+                        ],
+                        'countries' => [
+                            [
+                                'id' => 1,
+                                'country' => 'GB',
+                                'countryName' => 'United Kingdom',
+                            ],
+                        ],
+                        'description' => 'Sampling activity',
+                        'startDate' => '2018-01-01T00:00:00+00:00',
+                        'endDate' => '2019-12-31T00:00:00+00:00',
+                    ],
+                ],
+                'hydra:totalItems' => 1,
+            ]
         );
-        $this->assertTrue(
-            $this->client->getResponse()->headers->contains(
-                'Content-Type',
-                'application/json; charset=utf-8'
-            )
-        );
-        $data = json_decode($this->client->getResponse()->getContent(), true);
-        $this->assertCount(1, $data);
+        $this->assertCount(1, $response->toArray()['hydra:member']);
+        // Error message: Object value found, but a string is required
+        // $this->assertMatchesResourceCollectionJsonSchema(SamplingActivity::class);
     }
 
-    public function testPostIsNotAllowed()
-    {
-        $this->client->request('POST', '/api/sampling_activities', [], [], [
-            'CONTENT_TYPE' => 'application/json',
-        ]);
-        $this->assertSame(
-            Response::HTTP_METHOD_NOT_ALLOWED,
-            $this->client->getResponse()->getStatusCode()
-        );
-    }
-
-    public function testGetItemIsAvailable()
+    public function testGetItemIsAvailable(): void
     {
         $activity = $this->getSamplingActivity();
-        $this->client->request('GET', sprintf('/api/sampling_activities/%s', $activity), [], [], [
-            'HTTP_ACCEPT' => 'application/json'
-        ]);
-        $this->assertSame(
-            Response::HTTP_OK,
-            $this->client->getResponse()->getStatusCode()
-        );
-        $this->assertTrue(
-            $this->client->getResponse()->headers->contains(
-                'Content-Type',
-                'application/json; charset=utf-8'
-            )
-        );
-        $data = json_decode($this->client->getResponse()->getContent(), true);
-        $this->assertArrayHasKey('description', $data);
-        $this->assertArrayHasKey('project', $data);
-        $this->assertSame(
-            $data,
+        $this->client->request('GET', sprintf('/api/sampling_activities/%s', $activity));
+        $this->assertResponseIsSuccessful();
+        $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
+        $this->assertJsonContains(
             [
                 'id' => 1,
                 'project' => '/api/projects/1',
                 'samplingPartners' => [
-                    '/api/organisations/1'
+                    '/api/organisations/1',
                 ],
                 'animalSpecies' => [
                     [
                         'id' => 1,
                         'commonName' => 'Cattle',
-                        'scientificName' => 'Bos taurus'
-                    ]
+                        'scientificName' => 'Bos taurus',
+                    ],
                 ],
                 'countries' => [
                     [
                         'id' => 1,
                         'country' => 'GB',
-                        'countryName' => 'United Kingdom'
-                    ]
+                        'countryName' => 'United Kingdom',
+                    ],
                 ],
                 'description' => 'Sampling activity',
                 'startDate' => '2018-01-01T00:00:00+00:00',
-                'endDate' => '2019-12-31T00:00:00+00:00'
-            ]
+                'endDate' => '2019-12-31T00:00:00+00:00',
+            ],
         );
+        // $this->assertMatchesResourceItemJsonSchema(SamplingActivity::class);
     }
 
-    public function testPutIsNotAllowed()
+    public function testPostIsNotAllowed(): void
+    {
+        $this->client->request('POST', '/api/sampling_activities');
+        $this->assertResponseStatusCodeSame(Response::HTTP_METHOD_NOT_ALLOWED);
+    }
+
+    public function testPutIsNotAllowed(): void
     {
         $activity = $this->getSamplingActivity();
-        $this->client->request('PUT', sprintf('/api/sampling_activities/%s', $activity), [], [], [
-            'CONTENT_TYPE' => 'application/json',
-        ]);
-        $this->assertSame(
-            Response::HTTP_METHOD_NOT_ALLOWED,
-            $this->client->getResponse()->getStatusCode()
-        );
+        $this->client->request('PUT', sprintf('/api/sampling_activities/%s', $activity));
+        $this->assertResponseStatusCodeSame(Response::HTTP_METHOD_NOT_ALLOWED);
     }
 
-    public function testDeleteIsNotAllowed()
+    public function testDeleteIsNotAllowed(): void
     {
         $activity = $this->getSamplingActivity();
-        $this->client->request('DELETE', sprintf('/api/sampling_activities/%s', $activity), [], [], [
-            'CONTENT_TYPE' => 'application/json',
-        ]);
-        $this->assertSame(
-            Response::HTTP_METHOD_NOT_ALLOWED,
-            $this->client->getResponse()->getStatusCode()
-        );
+        $this->client->request('DELETE', sprintf('/api/sampling_activities/%s', $activity));
+        $this->assertResponseStatusCodeSame(Response::HTTP_METHOD_NOT_ALLOWED);
     }
 
-    private function getSamplingActivity()
+    private function getSamplingActivity(): int
     {
         return $this->fixtures->getReference('activity')->getId();
     }

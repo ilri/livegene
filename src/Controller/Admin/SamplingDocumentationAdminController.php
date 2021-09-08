@@ -2,19 +2,17 @@
 
 namespace App\Controller\Admin;
 
+use App\Application\Sonata\MediaBundle\Entity\Media;
+use App\Entity\SamplingDocumentation;
+use App\Form\Type\MultipleSamplingDocumentationType;
 use Sonata\AdminBundle\Controller\CRUDController;
+use Sonata\AdminBundle\Exception\ModelManagerException;
 use Sonata\Doctrine\Model\ManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
-use Sonata\AdminBundle\Exception\ModelManagerException;
-use App\Form\Type\MultipleSamplingDocumentationType;
-use App\Entity\SamplingDocumentation;
 
 class SamplingDocumentationAdminController extends CRUDController
 {
-    /**
-     * @var ManagerInterface
-     */
-    private $mediaManager;
+    private ManagerInterface $mediaManager;
 
     public function __construct(ManagerInterface $mediaManager)
     {
@@ -42,22 +40,21 @@ class SamplingDocumentationAdminController extends CRUDController
 
                 try {
                     foreach ($files as $file) {
-                        /** @var MediaInterface $media */
+                        /** @var Media $media */
                         $media = $this->mediaManager->create();
                         $media->setContext($context);
                         $media->setBinaryContent($file);
                         $media->setProviderName($providerName);
                         $this->mediaManager->save($media);
 
-                        /** @var Post $post */
                         $samplingDocumentation = new SamplingDocumentation();
                         $samplingDocumentation->setSamplingActivity($data['samplingActivity']);
                         $samplingDocumentation->setDocument($media);
                         $samplingDocumentation->setSamplingDocumentType($data['samplingDocumentType']);
 
                         $this->admin->create($samplingDocumentation);
-                    } 
-                    
+                    }
+
                     $this->addFlash(
                         'sonata_flash_success',
                         sprintf('A total of %d posts were successfully created.', count($files))
@@ -86,6 +83,6 @@ class SamplingDocumentationAdminController extends CRUDController
             'form' => $formView,
             'object' => $newObject,
             'objectId' => null
-        ], null);
+        ]);
     }
 }

@@ -2,29 +2,35 @@
 
 namespace App\Tests\Entity;
 
+use App\Entity\{
+    Partnership,
+    Project,
+};
+use DateInterval;
+use DateTime;
+use Doctrine\Persistence\{
+    ObjectManager,
+    ObjectRepository,
+};
 use PHPUnit\Framework\TestCase;
-use Doctrine\Common\Persistence\ObjectManager;
-use Doctrine\Common\Persistence\ObjectRepository;
-use App\Entity\Partnership;
-use App\Entity\Project;
 
 class PartnershipTest extends TestCase
 {
-    private static $startDate;
-    private static $endDate;
-    private static $partnership;
-    private static $project;
+    private static DateTime $startDate;
+    private static DateTime $endDate;
+    private static Partnership $partnership;
+    private static Project $project;
 
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass(): void
     {
-        $today = new \DateTime('today');
-        self::$startDate = $today->sub(new \DateInterval('P10D'));
-        self::$endDate = $today->add(new \DateInterval('P10D'));
+        $today = new DateTime('today');
+        self::$startDate = $today->sub(new DateInterval('P10D'));
+        self::$endDate = $today->add(new DateInterval('P10D'));
         self::$partnership = new Partnership();
         self::$project = new Project();
     }
 
-    public function setUp()
+    public function setUp(): void
     {
         $partnershipRepository = $this->createMock(ObjectRepository::class);
         $partnershipRepository->expects($this->any())
@@ -37,13 +43,13 @@ class PartnershipTest extends TestCase
             ->willReturn($partnershipRepository);
     }
 
-    public function testPartnershipDatesAreNull()
+    public function testPartnershipDatesAreNull(): void
     {
         $this->assertNull(self::$partnership->getStartDate());
         $this->assertNull(self::$partnership->getEndDate());
     }
 
-    public function testProjectDatesAreDisplayed()
+    public function testProjectDatesAreDisplayed(): void
     {
         self::$project->setStartDate(self::$startDate);
         self::$project->setEndDate(self::$endDate);
@@ -52,10 +58,10 @@ class PartnershipTest extends TestCase
         $this->assertSame(self::$endDate, self::$partnership->getEndDate());
     }
 
-    public function testPartnershipDatesAreDisplayed()
+    public function testPartnershipDatesAreDisplayed(): void
     {
-        $yesterday = new \DateTime('yesterday');
-        $tomorrow = new \DateTime('tomorrow');
+        $yesterday = new DateTime('yesterday');
+        $tomorrow = new DateTime('tomorrow');
         self::$partnership->setStartDate($yesterday);
         self::$partnership->setEndDate($tomorrow);
         $this->assertSame($yesterday, self::$partnership->getStartDate());

@@ -5,7 +5,7 @@ namespace App\Entity;
 use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\Common\Collections\{
     ArrayCollection,
-    Collection
+    Collection,
 };
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -48,23 +48,21 @@ class PartnershipType
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
-     * @Groups({"partnership_type:collection:get", "partnership_type:item:get"})
-     * @Groups({"project:collection:get", "project:item:get"})
+     * @Groups({"partnership_type:collection:get", "partnership_type:item:get", "project:collection:get", "project:item:get"})
      */
-    private $id;
+    private ?int $id = null;
 
     /**
      * @ORM\Column(type="string", length=30, unique=true)
      * @Assert\NotBlank()
-     * @Groups({"partnership_type:collection:get", "partnership_type:item:get"})
-     * @Groups({"project:collection:get", "project:item:get"})
+     * @Groups({"partnership_type:collection:get", "partnership_type:item:get", "project:collection:get", "project:item:get"})
      */
-    private $description;
+    private ?string $description;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Partnership", mappedBy="partnershipType")
      */
-    private $partnerships;
+    private Collection $partnerships;
 
     public function __construct()
     {

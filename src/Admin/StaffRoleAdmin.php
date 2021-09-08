@@ -4,24 +4,29 @@ namespace App\Admin;
 
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\{
+    DatagridMapper,
     ListMapper,
-    DatagridMapper
 };
 use Sonata\AdminBundle\Form\FormMapper;
-use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\AdminBundle\Form\Type\ModelListType;
-use Symfony\Component\Form\Extension\Core\Type\{CheckboxType, DateType, PercentType, HiddenType};
+use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\DoctrineORMAdminBundle\Filter\DateRangeFilter;
 use Sonata\Form\Type\{
     DatePickerType,
-    DateRangePickerType
+    DateRangePickerType,
+};
+use Symfony\Component\Form\Extension\Core\Type\{
+    CheckboxType,
+    DateType,
+    HiddenType,
+    PercentType,
 };
 
 class StaffRoleAdmin extends AbstractAdmin
 {
-    protected function configureListFields(ListMapper $listMapper)
+    protected function configureListFields(ListMapper $list)
     {
-        $listMapper->addIdentifier('id')
+        $list->addIdentifier('id')
             ->add('project')
             ->add('staffMember')
             ->add('startDate')
@@ -37,9 +42,9 @@ class StaffRoleAdmin extends AbstractAdmin
         ;
     }
 
-    protected function configureDatagridFilters(DatagridMapper $datagridMapper)
+    protected function configureDatagridFilters(DatagridMapper $filter)
     {
-        $datagridMapper
+        $filter
             ->add('project')
             ->add('staffMember')
             ->add('startDate', DateRangeFilter::class, [
@@ -51,12 +56,12 @@ class StaffRoleAdmin extends AbstractAdmin
         ;
     }
 
-    protected function configureFormFields(FormMapper $formMapper)
+    protected function configureFormFields(FormMapper $form)
     {
         $staffRole = $this->getSubject();
         $project = $staffRole->getProject();
 
-        $formMapper
+        $form
             ->add('project', ModelListType::class, [
                 'btn_add' => false,
                 'btn_edit' => false,
@@ -71,7 +76,7 @@ class StaffRoleAdmin extends AbstractAdmin
         // if it is an existing subject add the field project.isActive
         // otherwise add a dummy hidden field to keep the table layout
         if (null !== $id) {
-            $formMapper
+            $form
                 ->add('project.isActive', CheckboxType::class, [
                     'required' => false,
                     'disabled' => true,
@@ -79,7 +84,7 @@ class StaffRoleAdmin extends AbstractAdmin
                 ])
             ;
         } else {
-            $formMapper
+            $form
                 ->add('dummy', HiddenType::class, [
                     'mapped' => false,
                     'required' => false,
@@ -92,12 +97,12 @@ class StaffRoleAdmin extends AbstractAdmin
         // if it is nested within a parent StaffMemberAdmin this field
         // should not be displayed
         if (!$this->hasParentFieldDescription()) {
-            $formMapper
+            $form
                 ->add('staffMember', ModelListType::class)
             ;
         }
 
-        $formMapper
+        $form
             ->add('startDate', DatePickerType::class, [
                 'required' => false,
                 'dp_pick_time' => false,
@@ -117,9 +122,9 @@ class StaffRoleAdmin extends AbstractAdmin
         ;
     }
 
-    protected function configureShowFields(ShowMapper $showMapper)
+    protected function configureShowFields(ShowMapper $show)
     {
-        $showMapper
+        $show
             ->add('project')
             ->add('staffMember')
             ->add('startDate')

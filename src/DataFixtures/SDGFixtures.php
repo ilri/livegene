@@ -2,10 +2,12 @@
 
 namespace App\DataFixtures;
 
-use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
-use Doctrine\Common\Persistence\ObjectManager;
 use App\Entity\SDG;
+use Doctrine\Bundle\FixturesBundle\{
+    Fixture,
+    FixtureGroupInterface,
+};
+use Doctrine\Persistence\ObjectManager;
 
 class SDGFixtures extends Fixture implements FixtureGroupInterface
 {

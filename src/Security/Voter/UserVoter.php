@@ -2,16 +2,20 @@
 
 namespace App\Security\Voter;
 
-use Symfony\Component\Security\Core\Authorization\Voter\Voter;
-use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use App\Application\Sonata\UserBundle\Entity\User;
+use LogicException;
+use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
+use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 
 class UserVoter extends Voter
 {
-    const VIEW = 'ROLE_SONATA_USER_ADMIN_USER_VIEW';
-    const EDIT = 'ROLE_SONATA_USER_ADMIN_USER_EDIT';
+    private const VIEW = 'ROLE_SONATA_USER_ADMIN_USER_VIEW';
+    private const EDIT = 'ROLE_SONATA_USER_ADMIN_USER_EDIT';
 
-    protected function supports($attribute, $subject)
+    /**
+     * {@inheritdoc}
+     */
+    protected function supports($attribute, $subject): bool
     {
         // if the attribute isn't one we support, return false
         if (!in_array($attribute, [self::VIEW, self::EDIT])) {
@@ -25,7 +29,10 @@ class UserVoter extends Voter
         return true;
     }
 
-    protected function voteOnAttribute($attribute, $subject, TokenInterface $token)
+    /**
+     * {@inheritdoc}
+     */
+    protected function voteOnAttribute($attribute, $subject, TokenInterface $token): bool
     {
         $user = $token->getUser();
 
@@ -41,18 +48,26 @@ class UserVoter extends Voter
                 return $this->canEdit($subject, $user);
         }
 
-        throw new \LogicException('This code should not be reached!');
+        throw new LogicException('This code should not be reached!');
     }
 
-    private function canView(User $subject, User $user)
+    /**
+     * @param User $subject
+     * @param User $user
+     * @return bool
+     */
+    private function canView(User $subject, User $user): bool
     {
         // if they can edit, they can view
-        if ($this->canEdit($subject, $user)) {
-            return true;
-        }
+        return $this->canEdit($subject, $user);
     }
 
-    private function canEdit(User $subject, User $user)
+    /**
+     * @param User $subject
+     * @param User $user
+     * @return bool
+     */
+    private function canEdit(User $subject, User $user): bool
     {
         return $user === $subject;
     }

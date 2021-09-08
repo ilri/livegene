@@ -2,24 +2,28 @@
 
 namespace App\Tests\Entity;
 
+use App\Entity\{
+    StaffMember,
+    StaffRole,
+};
 use Carbon\Carbon;
+use Doctrine\Persistence\{
+    ObjectManager,
+    ObjectRepository,
+};
 use PHPUnit\Framework\TestCase;
-use Doctrine\Common\Persistence\ObjectManager;
-use Doctrine\Common\Persistence\ObjectRepository;
-use App\Entity\StaffMember;
-use App\Entity\StaffRole;
 
 class StaffMemberTest extends TestCase
 {
-    private static $email = 'Cezar.Pendarovski@ROSLIN.ed.ac.uk';
-    private static $username = 'Cpendaro';
-    private static $staffMember;
-    private static $staffRole1;
-    private static $staffRole2;
-    private static $staffRole3;
-    private static $totalPercent;
+    private static string $email = 'Cezar.Pendarovski@ROSLIN.ed.ac.uk';
+    private static string $username = 'Cpendaro'; // the username beginns with capital letter on purpose
+    private static StaffMember $staffMember;
+    private static StaffRole $staffRole1;
+    private static StaffRole $staffRole2;
+    private static StaffRole $staffRole3;
+    private static float $totalPercent;
 
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass(): void
     {
         date_default_timezone_set('UTC');
         $now = Carbon::create(2021, 2, 1, 12);
@@ -55,7 +59,7 @@ class StaffMemberTest extends TestCase
         self::$staffMember->addStaffRole(self::$staffRole3);
     }
 
-    public function setUp()
+    public function setUp(): void
     {
         $staffMemberRepository = $this->createMock(ObjectRepository::class);
         $staffMemberRepository->expects($this->any())
@@ -68,19 +72,19 @@ class StaffMemberTest extends TestCase
             ->willReturn($staffMemberRepository);
     }
 
-    public function testUsernameIsSavedInLowerCase()
+    public function testUsernameIsSavedInLowerCase(): void
     {
         $this->assertEquals(strtolower(self::$username), self::$staffMember->getUsername());
         $this->assertNotEquals(self::$username, self::$staffMember->getUsername());
     }
 
-    public function testEmailIsSavedInLowerCase()
+    public function testEmailIsSavedInLowerCase(): void
     {
         $this->assertEquals(strtolower(self::$email), self::$staffMember->getEmail());
         $this->assertNotEquals(self::$email, self::$staffMember->getEmail());
     }
 
-    public function testGetActiveStaffRoles()
+    public function testGetActiveStaffRoles(): void
     {
         $this->assertEquals(
             2,
@@ -100,7 +104,7 @@ class StaffMemberTest extends TestCase
         );
     }
 
-    public function testTotalRolesPercent()
+    public function testTotalRolesPercent(): void
     {
         $this->assertEquals(
             self::$totalPercent,

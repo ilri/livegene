@@ -4,23 +4,23 @@ namespace App\Admin;
 
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\{
+    DatagridMapper,
     ListMapper,
-    DatagridMapper
 };
 use Sonata\AdminBundle\Form\FormMapper;
-use Sonata\AdminBundle\Show\ShowMapper;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
-use Sonata\CoreBundle\Form\Type\DatePickerType;
 use Sonata\AdminBundle\Form\Type\{
+    ModelListType,
     ModelType,
-    ModelListType
 };
+use Sonata\AdminBundle\Show\ShowMapper;
+use Sonata\Form\Type\DatePickerType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 
 class PartnershipAdmin extends AbstractAdmin
 {
-    protected function configureListFields(ListMapper $listMapper)
+    protected function configureListFields(ListMapper $list)
     {
-        $listMapper->addIdentifier('id')
+        $list->addIdentifier('id')
             ->add('project', null, [
                 'sortable' => true,
                 'sort_field_mapping' => ['fieldName' => 'fullName'],
@@ -54,9 +54,9 @@ class PartnershipAdmin extends AbstractAdmin
         ;
     }
 
-    protected function configureDatagridFilters(DatagridMapper $datagridMapper)
+    protected function configureDatagridFilters(DatagridMapper $filter)
     {
-        $datagridMapper
+        $filter
             ->add('project')
             ->add('partner')
             ->add('startDate')
@@ -66,9 +66,9 @@ class PartnershipAdmin extends AbstractAdmin
         ;
     }
 
-    protected function configureFormFields(FormMapper $formMapper)
+    protected function configureFormFields(FormMapper $form)
     {
-        $formMapper
+        $form
             ->add('project', ModelListType::class)
             ->add('partner', ModelListType::class)
             ->add('startDate', DatePickerType::class, [
@@ -88,9 +88,9 @@ class PartnershipAdmin extends AbstractAdmin
         ;
     }
 
-    protected function configureShowFields(ShowMapper $showMapper)
+    protected function configureShowFields(ShowMapper $show)
     {
-        $showMapper
+        $show
             ->add('project')
             ->add('partner')
             ->add('startDate')

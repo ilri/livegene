@@ -2,12 +2,12 @@
 
 namespace App\Tests\Entity\Traits;
 
-use PHPUnit\Framework\TestCase;
 use App\Entity\Traits\RoleTrait;
+use PHPUnit\Framework\TestCase;
 
 class RoleTraitTest extends TestCase
 {
-    public function testGetPercent()
+    public function testGetPercent(): void
     {
         $mock = $this->getMockForTrait(RoleTrait::class);
 

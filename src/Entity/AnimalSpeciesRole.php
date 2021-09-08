@@ -3,10 +3,10 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
+use App\Entity\Traits\RoleTrait;
+use App\Validator\Constraints as AppAssert;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-use App\Validator\Constraints as AppAssert;
-use App\Entity\Traits\RoleTrait;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
@@ -53,21 +53,21 @@ class AnimalSpeciesRole
      * @ORM\Column(type="integer")
      * @Groups({"animal_species_role:collection:get", "animal_species_role:item:get"})
      */
-    private $id;
+    private ?int $id = null;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Project", inversedBy="animalSpeciesRoles")
      * @ORM\JoinColumn(nullable=false)
      * @Groups({"animal_species_role:collection:get", "animal_species_role:item:get"})
      */
-    private $project;
+    private ?Project $project;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\AnimalSpecies", inversedBy="animalSpeciesRoles")
      * @ORM\JoinColumn(nullable=false)
      * @Groups({"animal_species_role:collection:get", "animal_species_role:item:get"})
      */
-    private $animalSpecies;
+    private ?AnimalSpecies $animalSpecies;
 
     public function getId(): ?int
     {

@@ -3,14 +3,14 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
-use Doctrine\ORM\Mapping as ORM;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\Serializer\Annotation\Groups;
 use Doctrine\Common\Collections\{
     ArrayCollection,
-    Collection
+    Collection,
 };
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ApiResource(
@@ -53,26 +53,26 @@ class SamplingDocumentType
      * @ORM\Column(type="integer")
      * @Groups({"sampling_document_type:collection:get", "sampling_document_type:item:get"})
      */
-    private $id;
+    private ?int $id = null;
 
     /**
      * @ORM\Column(type="string", length=30, unique=true)
      * @Assert\NotBlank()
      * @Groups({"sampling_document_type:collection:get", "sampling_document_type:item:get"})
      */
-    private $shortName;
+    private ?string $shortName;
 
     /**
      * @ORM\Column(type="string", length=100)
      * @Assert\NotBlank()
      * @Groups({"sampling_document_type:collection:get", "sampling_document_type:item:get"})
      */
-    private $longName;
+    private ?string $longName;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\SamplingDocumentation", mappedBy="samplingDocumentType")
      */
-    private $samplingDocumentations;
+    private Collection $samplingDocumentations;
 
     public function __construct()
     {

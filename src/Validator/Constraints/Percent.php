@@ -9,8 +9,11 @@ use Symfony\Component\Validator\Constraint;
  */
 class Percent extends Constraint
 {
-    public $message = 'The total percent for {{ subject }} must not exceed 100%. Now it is {{ total }}%.';
+    public string $message = 'The total percent for {{ subject }} must not exceed 100%. Now it is {{ total }}%.';
 
+    /**
+     * {@inheritdoc }
+     */
     public function getTargets()
     {
         return self::CLASS_CONSTRAINT;

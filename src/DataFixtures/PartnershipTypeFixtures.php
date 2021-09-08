@@ -2,10 +2,12 @@
 
 namespace App\DataFixtures;
 
-use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
-use Doctrine\Common\Persistence\ObjectManager;
 use App\Entity\PartnershipType;
+use Doctrine\Bundle\FixturesBundle\{
+    Fixture,
+    FixtureGroupInterface,
+};
+use Doctrine\Persistence\ObjectManager;
 
 class PartnershipTypeFixtures extends Fixture implements FixtureGroupInterface
 {

@@ -9,25 +9,13 @@ use Twig\Environment;
 
 class UserMailer implements MailerInterface
 {
-    /**
-     * @var UrlGeneratorInterface
-     */
-    private $urlGenerator;
+    private UrlGeneratorInterface $urlGenerator;
 
-    /**
-     * @var Environment
-     */
-    private $twig;
+    private Environment $twig;
 
-    /**
-     * @var \Swift_Mailer
-     */
-    private $mailer;
+    private \Swift_Mailer $mailer;
 
-    /**
-     * @var array
-     */
-    private $fromEmail;
+    private array $fromEmail;
 
     public function __construct(UrlGeneratorInterface $urlGenerator, Environment $twig, \Swift_Mailer $mailer, array $fromEmail)
     {
@@ -57,7 +45,7 @@ class UserMailer implements MailerInterface
         $message = (new \Swift_Message())
             ->setSubject('Reset your password')
             ->setFrom($this->fromEmail)
-            ->setTo((string) $user->getEmail())
+            ->setTo($user->getEmail())
             ->setBody(
                 $this->twig->render('user_mailer/resetting.html.twig', [
                     'user' => $user,

@@ -2,137 +2,141 @@
 
 namespace App\Tests\API;
 
-use Liip\TestFixturesBundle\Test\FixturesTrait;
-use Symfony\Component\HttpFoundation\Response;
+use ApiPlatform\Core\Bridge\Symfony\Bundle\Test\{
+    ApiTestCase,
+    Client,
+};
 use App\DataFixtures\Test\UserFixtures;
+// use App\Entity\SamplingDocumentation;
+use Carbon\Carbon;
+use Doctrine\Common\DataFixtures\ReferenceRepository;
+use Doctrine\ORM\EntityManager;
+use Liip\TestFixturesBundle\Services\DatabaseToolCollection;
+use Symfony\Component\HttpFoundation\Response;
 
 class SamplingDocumentationAPITest extends ApiTestCase
 {
-    use FixturesTrait;
+    private Client $client;
+    private ReferenceRepository $fixtures;
 
-    private $entityManager;
-    private $fixtures = null;
-    private $client;
-
-    public function setUp()
+    public function setUp(): void
     {
-        $this->entityManager = $this->getContainer()->get('doctrine')->getManager();
-        $this->fixtures = $this->loadFixtures([
-            'App\DataFixtures\Test\UserFixtures',
-            'App\DataFixtures\Test\SamplingDocumentationFixtures',
-        ])->getReferenceRepository();
+        date_default_timezone_set('UTC');
+        $now = Carbon::create(2021, 8, 8, 9);
+        Carbon::setTestNow($now);
+        $this->client = static::createClient();
+        $databaseTool = $this->client->getContainer()->get(DatabaseToolCollection::class)->get();
+        $this->fixtures = $databaseTool->loadFixtures(
+            [
+                'App\DataFixtures\Test\UserFixtures',
+                'App\DataFixtures\Test\SamplingDocumentationFixtures',
+            ]
+        )->getReferenceRepository();
         $username = $this->fixtures->getReference('api_user')->getUsername();
         $credentials = [
             'username' => $username,
-            'password' => UserFixtures::PASSWORD
+            'password' => UserFixtures::PASSWORD,
         ];
-
-        $this->client = $this->createAuthenticatedClient($credentials);
+        $response = $this->client->request(
+            'POST',
+            '/authentication_token',
+            [
+                'headers' => ['Content-Type' => 'application/json'],
+                'json' => $credentials,
+            ]
+        );
+        $this->client->setDefaultOptions(
+            [
+                'auth_bearer' => json_decode($response->getContent(), true)['token'],
+            ]
+        );
     }
 
     public function tearDown(): void
     {
-        $media = $this->fixtures->getReference('documentation')->getDocument();
-        $this->entityManager->remove($media);
-        $this->entityManager->flush();
+        /** @var EntityManager $entityManager */
+        $entityManager = self::$container->get('doctrine')->getManager();
+        $documentation = $this->fixtures->getReference('documentation')->getDocument();
+
+        $documentation = $entityManager->merge($documentation);
+        $entityManager->remove($documentation);
+        $entityManager->flush();
 
         parent::tearDown();
     }
 
-    public function testGetCollectionIsAvailable()
+    public function testGetCollectionIsAvailable(): void
     {
-        $this->client->request('GET', '/api/sampling_documentations', [], [], [
-            'HTTP_ACCEPT' => 'application/json',
-        ]);
-        $this->assertSame(
-            Response::HTTP_OK,
-            $this->client->getResponse()->getStatusCode()
+        $response = $this->client->request('GET', '/api/sampling_documentations');
+        $this->assertResponseIsSuccessful();
+        $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
+        $this->assertJsonContains(
+            [
+                '@context' => '/api/contexts/SamplingDocumentation',
+                '@id' => '/api/sampling_documentations',
+                '@type' => 'hydra:Collection',
+                'hydra:member' => [
+                    [
+                        '@id' => '/api/sampling_documentations/1',
+                        '@type' => 'SamplingDocumentation',
+                        'id' => 1,
+                        'samplingActivity' => '/api/sampling_activities/1',
+                        'samplingDocumentType' => '/api/sampling_document_types/1',
+                        'document' => '/media/download/1',
+                        'startDate' => '2021-01-01T00:00:00+00:00',
+                        'endDate' => '2021-12-31T00:00:00+00:00',
+                        'isActive' => true,
+                    ],
+                ],
+                'hydra:totalItems' => 1
+            ]
         );
-        $this->assertTrue(
-            $this->client->getResponse()->headers->contains(
-                'Content-Type',
-                'application/json; charset=utf-8'
-            )
-        );
-        $data = json_decode($this->client->getResponse()->getContent(), true);
-        $this->assertCount(1, $data);
+        $this->assertCount(1, $response->toArray()['hydra:member']);
+        //$this->assertMatchesResourceCollectionJsonSchema(SamplingDocumentation::class);
     }
 
-    public function testPostIsNotAllowed()
-    {
-        $this->client->request('POST', '/api/sampling_documentations', [], [], [
-            'CONTENT_TYPE' => 'application/json',
-        ]);
-        $this->assertSame(
-            Response::HTTP_METHOD_NOT_ALLOWED,
-            $this->client->getResponse()->getStatusCode()
-        );
-    }
-
-    public function testGetItemIsAvailable()
-    {
-        $documentation = $this->getSamplingDocumentation();
-        $this->client->request('GET', sprintf('/api/sampling_documentations/%s', $documentation), [], [], [
-            'HTTP_ACCEPT' => 'application/json'
-        ]);
-        $this->assertSame(
-            Response::HTTP_OK,
-            $this->client->getResponse()->getStatusCode()
-        );
-        $this->assertTrue(
-            $this->client->getResponse()->headers->contains(
-                'Content-Type',
-                'application/json; charset=utf-8'
-            )
-        );
-        $data = json_decode($this->client->getResponse()->getContent(), true);
-        $this->assertArrayHasKey('samplingActivity', $data);
-        $this->assertArrayHasKey('samplingDocumentType', $data);
-        $this->assertArrayHasKey('document', $data);
-        $this->assertArrayHasKey('startDate', $data);
-        $this->assertArrayHasKey('endDate', $data);
-        $this->assertArrayHasKey('isActive', $data);
-
-        $url = $data['document'];
-        ob_start();
-        $this->client->request('GET', $url);
-        ob_end_clean();
-        $this->assertTrue(
-            $this->client->getResponse()->isSuccessful()
-        );
-        $this->assertTrue(
-            $this->client->getResponse()->headers->contains(
-                'Content-Type',
-                'application/pdf'
-            )
-        );
-    }
-
-    public function testPutIsNotAllowed()
+    public function testGetItemIsAvailable(): void
     {
         $documentation = $this->getSamplingDocumentation();
-        $this->client->request('PUT', sprintf('/api/sampling_documentations/%s', $documentation), [], [], [
-            'CONTENT_TYPE' => 'application/json',
-        ]);
-        $this->assertSame(
-            Response::HTTP_METHOD_NOT_ALLOWED,
-            $this->client->getResponse()->getStatusCode()
+        $this->client->request('GET', sprintf('/api/sampling_documentations/%s', $documentation));
+        $this->assertResponseIsSuccessful();
+        $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
+        $this->assertJsonContains(
+            [
+                '@id' => '/api/sampling_documentations/1',
+                '@type' => 'SamplingDocumentation',
+                'samplingActivity' => '/api/sampling_activities/1',
+                'samplingDocumentType' => '/api/sampling_document_types/1',
+                'document' => '/media/download/1',
+                'startDate' => '2021-01-01T00:00:00+00:00',
+                'endDate' => '2021-12-31T00:00:00+00:00',
+                'isActive' => true,
+            ],
         );
+        // $this->assertMatchesResourceItemJsonSchema(SamplingDocumentation::class);
     }
 
-    public function testDeleteIsNotAllowed()
+    public function testPostIsNotAllowed(): void
+    {
+        $this->client->request('POST', '/api/sampling_documentations');
+        $this->assertResponseStatusCodeSame(Response::HTTP_METHOD_NOT_ALLOWED);
+    }
+
+    public function testPutIsNotAllowed(): void
     {
         $documentation = $this->getSamplingDocumentation();
-        $this->client->request('DELETE', sprintf('/api/sampling_documentations/%s', $documentation), [], [], [
-            'CONTENT_TYPE' => 'application/json',
-        ]);
-        $this->assertSame(
-            Response::HTTP_METHOD_NOT_ALLOWED,
-            $this->client->getResponse()->getStatusCode()
-        );
+        $this->client->request('PUT', sprintf('/api/sampling_documentations/%s', $documentation));
+        $this->assertResponseStatusCodeSame(Response::HTTP_METHOD_NOT_ALLOWED);
     }
 
-    private function getSamplingDocumentation()
+    public function testDeleteIsNotAllowed(): void
+    {
+        $documentation = $this->getSamplingDocumentation();
+        $this->client->request('DELETE', sprintf('/api/sampling_documentations/%s', $documentation));
+        $this->assertResponseStatusCodeSame(Response::HTTP_METHOD_NOT_ALLOWED);
+    }
+
+    private function getSamplingDocumentation(): int
     {
         return $this->fixtures->getReference('documentation')->getId();
     }

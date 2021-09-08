@@ -2,10 +2,12 @@
 
 namespace App\DataFixtures\Test;
 
-use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
-use Doctrine\Common\Persistence\ObjectManager;
 use App\Entity\Contact;
+use Doctrine\Bundle\FixturesBundle\{
+    Fixture,
+    FixtureGroupInterface,
+};
+use Doctrine\Persistence\ObjectManager;
 
 class ContactFixtures extends Fixture implements FixtureGroupInterface
 {
@@ -16,7 +18,7 @@ class ContactFixtures extends Fixture implements FixtureGroupInterface
         $contact->setFirstName('Max');
         $contact->setLastName('Mustermann');
         $manager->persist($contact);
-        
+
         $manager->flush();
 
         $this->addReference('contact', $contact);

@@ -2,36 +2,34 @@
 
 namespace App\Admin;
 
+use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\{
+    DatagridMapper,
     ListMapper,
-    DatagridMapper
 };
 use Sonata\AdminBundle\Form\FormMapper;
-use Sonata\AdminBundle\Show\ShowMapper;
-use Sonata\DoctrineORMAdminBundle\Datagrid\ProxyQuery;
-use Sonata\DoctrineORMAdminBundle\Filter\DateRangeFilter;
-use Symfony\Component\Form\Extension\Core\Type\{
-    DateType,
-    PercentType,
-    MoneyType,
-    TextareaType,
-    CollectionType as SymfonyCollectionType,
-    UrlType
-};
-use Sonata\Form\Type\{
-    DateRangePickerType,
-    DatePickerType,
-    CollectionType as SonataCollectionType
-};
 use Sonata\AdminBundle\Form\Type\ModelListType;
-use FOS\CKEditorBundle\Form\Type\CKEditorType;
+use Sonata\AdminBundle\Show\ShowMapper;
+use Sonata\DoctrineORMAdminBundle\Filter\DateRangeFilter;
+use Sonata\Form\Type\{
+    CollectionType as SonataCollectionType,
+    DatePickerType,
+    DateRangePickerType,
+};
+use Symfony\Component\Form\Extension\Core\Type\{
+    CollectionType as SymfonyCollectionType,
+    DateType,
+    MoneyType,
+    PercentType,
+    UrlType,
+};
 
 class ProjectAdmin extends AbstractAdmin
 {
-    protected function configureListFields(ListMapper $listMapper)
+    protected function configureListFields(ListMapper $list)
     {
-        $listMapper->addIdentifier('ilriCode', null, ['label' => 'ILRI code'])
+        $list->addIdentifier('ilriCode', null, ['label' => 'ILRI code'])
             ->add('shortName')
             ->add('fullName', null, [
                 'header_style' => 'width: 35%',
@@ -48,14 +46,14 @@ class ProjectAdmin extends AbstractAdmin
         ;
     }
 
-    protected function configureDatagridFilters(DatagridMapper $datagridMapper)
+    protected function configureDatagridFilters(DatagridMapper $filter)
     {
-        $datagridMapper
+        $filter
             ->add('ilriCode', null, [
                 'label' => 'ILRI code'
             ])
             ->add('shortName')
-            ->add('fullName')    
+            ->add('fullName')
             ->add('team')
             ->add('donor')
             ->add('startDate', DateRangeFilter::class, [
@@ -69,9 +67,9 @@ class ProjectAdmin extends AbstractAdmin
         ;
     }
 
-    protected function configureFormFields(FormMapper $formMapper)
+    protected function configureFormFields(FormMapper $form)
     {
-        $formMapper
+        $form
             ->tab('Main')
                 ->with('Project description', ['class' => 'col-md-8'])
                     ->add('ilriCode', null, [
@@ -162,14 +160,14 @@ class ProjectAdmin extends AbstractAdmin
         ;
 
         if ($this->subject->getId()) {
-            $formMapper
+            $form
                 ->tab('Roles')
                     ->with('Country roles', [
                         'class' => 'col-md-6'
                     ])
                         ->add('totalCountryRolesPercent', PercentType::class, [
                             'label' => 'Total country roles percent',
-                            'required' => false, 
+                            'required' => false,
                             'disabled' => true,
                             'type' => 'fractional',
                             'scale' => 2
@@ -205,9 +203,9 @@ class ProjectAdmin extends AbstractAdmin
         }
     }
 
-    protected function configureShowFields(ShowMapper $showMapper)
+    protected function configureShowFields(ShowMapper $show)
     {
-        $showMapper
+        $show
             ->with('Main', ['class' => 'col-md-6'])
                 ->add('ilriCode', null, [
                     'label' => 'ILRI code'

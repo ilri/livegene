@@ -3,11 +3,11 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
+use App\Entity\Traits\RoleTrait;
+use App\Validator\Constraints as AppAssert;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
-use App\Validator\Constraints as AppAssert;
-use App\Entity\Traits\RoleTrait;
 
 /**
  * @ApiResource(
@@ -34,21 +34,21 @@ class SDGRole
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private ?int $id = null;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Project", inversedBy="sdgRoles")
      * @ORM\JoinColumn(nullable=false)
      * @Assert\NotBlank()
      */
-    private $project;
+    private ?Project $project;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\SDG", inversedBy="sdgRoles")
      * @ORM\JoinColumn(nullable=false)
      * @Assert\NotBlank()
      */
-    private $sdg;
+    private ?SDG $sdg;
 
     public function __toString()
     {
