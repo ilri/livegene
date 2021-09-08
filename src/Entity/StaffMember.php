@@ -2,10 +2,13 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Core\Annotation\{ApiResource};
+use ApiPlatform\Core\Annotation\ApiResource;
 use App\Entity\Traits\PercentageTrait;
 use App\Entity\Traits\PersonTrait;
-use Doctrine\Common\Collections\{ArrayCollection, Collection};
+use Doctrine\Common\Collections\{
+    ArrayCollection,
+    Collection,
+};
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Serializer\Annotation\Groups;
@@ -54,7 +57,7 @@ class StaffMember
      * @ORM\Column(type="integer")
      * @Groups({"staff_member:collection:get", "staff_member:item:get", "staff_role:collection:get", "staff_role:item:get", "project:collection:get", "project:item:get"})
      */
-    private $id;
+    private ?int $id = null;
 
     /**
      * @ORM\Column(type="string", length=15, unique=true)

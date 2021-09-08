@@ -9,9 +9,12 @@ use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 
 class UserVoter extends Voter
 {
-    const VIEW = 'ROLE_SONATA_USER_ADMIN_USER_VIEW';
-    const EDIT = 'ROLE_SONATA_USER_ADMIN_USER_EDIT';
+    private const VIEW = 'ROLE_SONATA_USER_ADMIN_USER_VIEW';
+    private const EDIT = 'ROLE_SONATA_USER_ADMIN_USER_EDIT';
 
+    /**
+     * {@inheritdoc}
+     */
     protected function supports($attribute, $subject): bool
     {
         // if the attribute isn't one we support, return false
@@ -26,6 +29,9 @@ class UserVoter extends Voter
         return true;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function voteOnAttribute($attribute, $subject, TokenInterface $token): bool
     {
         $user = $token->getUser();
@@ -45,12 +51,22 @@ class UserVoter extends Voter
         throw new LogicException('This code should not be reached!');
     }
 
+    /**
+     * @param User $subject
+     * @param User $user
+     * @return bool
+     */
     private function canView(User $subject, User $user): bool
     {
         // if they can edit, they can view
         return $this->canEdit($subject, $user);
     }
 
+    /**
+     * @param User $subject
+     * @param User $user
+     * @return bool
+     */
     private function canEdit(User $subject, User $user): bool
     {
         return $user === $subject;

@@ -57,7 +57,7 @@ class SamplingActivity
      * @ORM\Column(type="integer")
      * @Groups({"sampling_activity:collection:get", "sampling_activity:item:get"})
      */
-    private $id;
+    private ?int $id = null;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Project", inversedBy="samplingActivities")

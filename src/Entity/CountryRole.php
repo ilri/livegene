@@ -36,7 +36,7 @@ class CountryRole
      * @ORM\Column(type="integer")
      * @Groups({"project:collection:get", "project:item:get"})
      */
-    private int $id;
+    private ?int $id = null;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Project", inversedBy="countryRoles")

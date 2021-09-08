@@ -16,7 +16,7 @@ use PHPUnit\Framework\TestCase;
 class StaffMemberTest extends TestCase
 {
     private static string $email = 'Cezar.Pendarovski@ROSLIN.ed.ac.uk';
-    private static string $username = 'Cpendaro';
+    private static string $username = 'Cpendaro'; // the username beginns with capital letter on purpose
     private static StaffMember $staffMember;
     private static StaffRole $staffRole1;
     private static StaffRole $staffRole2;

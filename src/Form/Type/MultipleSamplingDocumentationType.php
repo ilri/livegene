@@ -18,11 +18,17 @@ class MultipleSamplingDocumentationType extends AbstractType
 {
     private ContainerInterface $container;
 
+    /**
+     * @param ContainerInterface $container
+     */
     public function __construct(ContainerInterface $container)
     {
         $this->container = $container;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -59,6 +65,9 @@ class MultipleSamplingDocumentationType extends AbstractType
         ;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(

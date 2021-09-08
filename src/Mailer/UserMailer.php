@@ -4,35 +4,20 @@ namespace App\Mailer;
 
 use FOS\UserBundle\Mailer\MailerInterface;
 use FOS\UserBundle\Model\UserInterface;
-use LogicException;
-use Swift_Mailer;
-use Swift_Message;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Twig\Environment;
 
 class UserMailer implements MailerInterface
 {
-    /**
-     * @var UrlGeneratorInterface
-     */
     private UrlGeneratorInterface $urlGenerator;
 
-    /**
-     * @var Environment
-     */
     private Environment $twig;
 
-    /**
-     * @var Swift_Mailer
-     */
-    private Swift_Mailer $mailer;
+    private \Swift_Mailer $mailer;
 
-    /**
-     * @var array
-     */
     private array $fromEmail;
 
-    public function __construct(UrlGeneratorInterface $urlGenerator, Environment $twig, Swift_Mailer $mailer, array $fromEmail)
+    public function __construct(UrlGeneratorInterface $urlGenerator, Environment $twig, \Swift_Mailer $mailer, array $fromEmail)
     {
         $this->urlGenerator = $urlGenerator;
         $this->twig = $twig;
@@ -45,7 +30,7 @@ class UserMailer implements MailerInterface
      */
     public function sendConfirmationEmailMessage(UserInterface $user)
     {
-        throw new LogicException('This method is not implemented.');
+        throw new \LogicException('This method is not implemented.');
     }
 
     /**
@@ -57,7 +42,7 @@ class UserMailer implements MailerInterface
             'token' => $user->getConfirmationToken(),
         ], UrlGeneratorInterface::ABSOLUTE_URL);
 
-        $message = (new Swift_Message())
+        $message = (new \Swift_Message())
             ->setSubject('Reset your password')
             ->setFrom($this->fromEmail)
             ->setTo($user->getEmail())

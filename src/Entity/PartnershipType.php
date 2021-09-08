@@ -50,7 +50,7 @@ class PartnershipType
      * @ORM\Column(type="integer")
      * @Groups({"partnership_type:collection:get", "partnership_type:item:get", "project:collection:get", "project:item:get"})
      */
-    private int $id;
+    private ?int $id = null;
 
     /**
      * @ORM\Column(type="string", length=30, unique=true)

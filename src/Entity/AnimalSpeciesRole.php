@@ -53,7 +53,7 @@ class AnimalSpeciesRole
      * @ORM\Column(type="integer")
      * @Groups({"animal_species_role:collection:get", "animal_species_role:item:get"})
      */
-    private int $id;
+    private ?int $id = null;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Project", inversedBy="animalSpeciesRoles")

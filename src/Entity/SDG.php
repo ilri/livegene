@@ -50,7 +50,7 @@ class SDG
      * @ORM\Column(type="integer")
      * @Groups({"sdg:collection:get", "sdg:item:get"})
      */
-    private int $id;
+    private ?int $id = null;
 
     /**
      * @ORM\Column(type="string", length=50, unique=true)
@@ -87,7 +87,7 @@ class SDG
      * @Assert\Url()
      * @Groups({"sdg:collection:get", "sdg:item:get"})
      */
-    private $logoUrl;
+    private ?string $logoUrl = null;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\SDGRole", mappedBy="sdg", cascade={"persist", "remove"})
