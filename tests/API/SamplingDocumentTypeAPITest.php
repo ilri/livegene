@@ -7,12 +7,12 @@ use ApiPlatform\Core\Bridge\Symfony\Bundle\Test\{
     Client,
 };
 use App\DataFixtures\Test\UserFixtures;
-use App\Entity\Country;
+use App\Entity\SamplingDocumentType;
 use Doctrine\Common\DataFixtures\ReferenceRepository;
 use Liip\TestFixturesBundle\Services\DatabaseToolCollection;
 use Symfony\Component\HttpFoundation\Response;
 
-class CountryAPITest extends ApiTestCase
+class SamplingDocumentTypeAPITest extends ApiTestCase
 {
     private Client $client;
     private ReferenceRepository $fixtures;
@@ -24,7 +24,7 @@ class CountryAPITest extends ApiTestCase
         $this->fixtures = $databaseTool->loadFixtures(
             [
                 'App\DataFixtures\Test\UserFixtures',
-                'App\DataFixtures\Test\CountryFixtures',
+                'App\DataFixtures\Test\SamplingDocumentTypeFixtures',
             ]
         )->getReferenceRepository();
         $username = $this->fixtures->getReference('api_user')->getUsername();
@@ -49,66 +49,65 @@ class CountryAPITest extends ApiTestCase
 
     public function testGetCollectionIsAvailable(): void
     {
-        $response = $this->client->request('GET', '/api/countries');
+        $response = $this->client->request('GET', '/api/sampling_document_types');
         $this->assertResponseIsSuccessful();
         $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
         $this->assertJsonContains(
             [
-                '@context' => '/api/contexts/Country',
-                '@id' => '/api/countries',
+                '@context' => '/api/contexts/SamplingDocumentType',
+                '@id' => '/api/sampling_document_types',
                 '@type' => 'hydra:Collection',
                 'hydra:member' => [
                     [
                         'id' => 1,
-                        'country' => 'GB',
-                        'countryName' => 'United Kingdom',
+                        'shortName' => 'ATA',
+                        'longName' => 'A test agreement',
                     ],
                 ],
                 'hydra:totalItems' => 1,
             ]
         );
         $this->assertCount(1, $response->toArray()['hydra:member']);
-        $this->assertMatchesResourceCollectionJsonSchema(Country::class);
+        $this->assertMatchesResourceCollectionJsonSchema(SamplingDocumentType::class);
     }
 
     public function testGetItemIsAvailable(): void
     {
-        $country = $this->getCountry();
-        $response = $this->client->request('GET', sprintf('/api/countries/%s', $country));
+        $doctype = $this->getSamplingDocumentType();
+        $this->client->request('GET', sprintf('/api/sampling_document_types/%s', $doctype));
         $this->assertResponseIsSuccessful();
         $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
         $this->assertJsonContains(
             [
                 'id' => 1,
-                'country' => 'GB',
-                'countryName' => 'United Kingdom',
-            ]
+                'shortName' => 'ATA',
+                'longName' => 'A test agreement',
+            ],
         );
-        $this->assertMatchesResourceItemJsonSchema(Country::class);
     }
 
     public function testPostIsNotAllowed(): void
     {
-        $this->client->request('POST', '/api/countries');
+        $this->client->request('POST', '/api/sampling_document_types');
         $this->assertResponseStatusCodeSame(Response::HTTP_METHOD_NOT_ALLOWED);
     }
 
     public function testPutIsNotAllowed(): void
     {
-        $country = $this->getCountry();
-        $this->client->request('PUT', sprintf('/api/countries/%s', $country));
+        $doctype = $this->getSamplingDocumentType();
+        $this->client->request('PUT', sprintf('/api/sampling_document_types/%s', $doctype));
         $this->assertResponseStatusCodeSame(Response::HTTP_METHOD_NOT_ALLOWED);
     }
 
     public function testDeleteIsNotAllowed(): void
     {
-        $country = $this->getCountry();
-        $this->client->request('DELETE', sprintf('/api/countries/%s', $country));
+        $doctype = $this->getSamplingDocumentType();
+        $this->client->request('DELETE', sprintf('/api/sampling_document_types/%s', $doctype));
         $this->assertResponseStatusCodeSame(Response::HTTP_METHOD_NOT_ALLOWED);
     }
 
-    private function getCountry(): string
+    private function getSamplingDocumentType(): int
     {
-        return $this->fixtures->getReference('country')->getCountry();
+        return $this->fixtures->getReference('doctype')->getId();
     }
 }

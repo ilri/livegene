@@ -11,9 +11,16 @@ class OldApiTestCase extends WebTestCase
     {
         $client = $this->createClient();
 
-        $client->request('POST', '/authentication_token', [], [], [
-            'CONTENT_TYPE' => 'application/json'
-        ], json_encode($credentials));
+        $client->request(
+            'POST',
+            '/authentication_token',
+            [],
+            [],
+            [
+                'CONTENT_TYPE' => 'application/json',
+            ],
+            json_encode($credentials)
+        );
 
         $data = json_decode($client->getResponse()->getContent(), true);
 

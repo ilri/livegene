@@ -7,12 +7,11 @@ use ApiPlatform\Core\Bridge\Symfony\Bundle\Test\{
     Client,
 };
 use App\DataFixtures\Test\UserFixtures;
-use App\Entity\AnimalSpeciesRole;
 use Doctrine\Common\DataFixtures\ReferenceRepository;
 use Liip\TestFixturesBundle\Services\DatabaseToolCollection;
 use Symfony\Component\HttpFoundation\Response;
 
-class AnimalSpeciesRoleAPITest extends ApiTestCase
+class StaffRoleAPITest extends ApiTestCase
 {
     private Client $client;
     private ReferenceRepository $fixtures;
@@ -24,7 +23,7 @@ class AnimalSpeciesRoleAPITest extends ApiTestCase
         $this->fixtures = $databaseTool->loadFixtures(
             [
                 'App\DataFixtures\Test\UserFixtures',
-                'App\DataFixtures\Test\AnimalSpeciesRoleFixtures',
+                'App\DataFixtures\Test\StaffRoleFixtures',
             ]
         )->getReferenceRepository();
         $username = $this->fixtures->getReference('api_user')->getUsername();
@@ -49,19 +48,36 @@ class AnimalSpeciesRoleAPITest extends ApiTestCase
 
     public function testGetCollectionIsAvailable(): void
     {
-        $response = $this->client->request('GET', '/api/animal_species_roles');
+        $response = $this->client->request('GET', '/api/staff_roles');
         $this->assertResponseIsSuccessful();
         $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
         $this->assertJsonContains(
             [
-                '@context' => '/api/contexts/AnimalSpeciesRole',
-                '@id' => '/api/animal_species_roles',
+                '@context' => '/api/contexts/StaffRole',
+                '@id' => '/api/staff_roles',
                 '@type' => 'hydra:Collection',
                 'hydra:member' => [
                     [
                         'id' => 1,
-                        'project' => '/api/projects/1',
-                        'animalSpecies' => '/api/animal_species/1',
+                        'project' => [
+                            'id' => 1,
+                            'ilriCode' => 'ACME001',
+                            'fullName' => 'Wile E. Coyote and the Road Runner',
+                            'shortName' => 'Looney Tunes',
+                            'team' => 'LiveGene',
+                            'isActive' => false,
+                        ],
+                        'staffMember' => [
+                            'id' => 1,
+                            'username' => 'coyote',
+                            'email' => 'coyote@example.com',
+                            'homeProgram' => 'Cartoon',
+                            'firstName' => 'Wile E.',
+                            'lastName' => 'Coyote',
+                        ],
+                        'startDate' => '2018-01-01T00:00:00+00:00',
+                        'endDate' => '2019-12-31T00:00:00+00:00',
+                        'isActive' => false,
                         'percent' => '0.5',
                     ],
                 ],
@@ -69,51 +85,64 @@ class AnimalSpeciesRoleAPITest extends ApiTestCase
             ]
         );
         $this->assertCount(1, $response->toArray()['hydra:member']);
-        $this->assertMatchesResourceCollectionJsonSchema(AnimalSpeciesRole::class);
-
+        //$this->assertMatchesResourceCollectionJsonSchema(StaffRole::class);
     }
 
     public function testGetItemIsAvailable(): void
     {
-        $animalSpeciesRole = $this->getAnimalSpeciesRole();
-        $this->client->request('GET', sprintf('/api/animal_species_roles/%s', $animalSpeciesRole));
+        $staffRole = $this->getStaffRole();
+        $this->client->request('GET', sprintf('/api/staff_roles/%s', $staffRole));
         $this->assertResponseIsSuccessful();
-        $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
         $this->assertJsonContains(
             [
                 'id' => 1,
-                'project' => '/api/projects/1',
-                'animalSpecies' => '/api/animal_species/1',
+                'project' => [
+                    'id' => 1,
+                    'ilriCode' => 'ACME001',
+                    'fullName' => 'Wile E. Coyote and the Road Runner',
+                    'shortName' => 'Looney Tunes',
+                    'team' => 'LiveGene',
+                    'isActive' => false,
+                ],
+                'staffMember' => [
+                    'id' => 1,
+                    'username' => 'coyote',
+                    'email' => 'coyote@example.com',
+                    'homeProgram' => 'Cartoon',
+                    'firstName' => 'Wile E.',
+                    'lastName' => 'Coyote',
+                ],
+                'startDate' => '2018-01-01T00:00:00+00:00',
+                'endDate' => '2019-12-31T00:00:00+00:00',
+                'isActive' => false,
                 'percent' => '0.5',
             ]
         );
-        $this->assertMatchesResourceItemJsonSchema(AnimalSpeciesRole::class);
-
     }
 
     public function testPostIsNotAllowed(): void
     {
-        $this->client->request('POST', '/api/animal_species_roles');
+        $this->client->request('POST', '/api/staff_roles');
         $this->assertResponseStatusCodeSame(Response::HTTP_METHOD_NOT_ALLOWED);
+
     }
 
     public function testPutIsNotAllowed(): void
     {
-        $animalSpeciesRole = $this->getAnimalSpeciesRole();
-        $this->client->request('PUT', sprintf('/api/animal_species_roles/%s', $animalSpeciesRole));
+        $staffRole = $this->getStaffRole();
+        $this->client->request('PUT', sprintf('/api/staff_roles/%s', $staffRole));
         $this->assertResponseStatusCodeSame(Response::HTTP_METHOD_NOT_ALLOWED);
     }
 
     public function testDeleteIsNotAllowed(): void
     {
-        $animalSpeciesRole = $this->getAnimalSpeciesRole();
-        $this->client->request('DELETE', sprintf('/api/animal_species_roles/%s', $animalSpeciesRole));
+        $staffRole = $this->getStaffRole();
+        $this->client->request('DELETE', sprintf('/api/staff_roles/%s', $staffRole));
         $this->assertResponseStatusCodeSame(Response::HTTP_METHOD_NOT_ALLOWED);
-
     }
 
-    private function getAnimalSpeciesRole(): int
+    private function getStaffRole(): int
     {
-        return $this->fixtures->getReference('animal-species-role')->getId();
+        return $this->fixtures->getReference('staff-role')->getId();
     }
 }

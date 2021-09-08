@@ -7,12 +7,12 @@ use ApiPlatform\Core\Bridge\Symfony\Bundle\Test\{
     Client,
 };
 use App\DataFixtures\Test\UserFixtures;
-use App\Entity\Country;
+use App\Entity\Expenditure;
 use Doctrine\Common\DataFixtures\ReferenceRepository;
 use Liip\TestFixturesBundle\Services\DatabaseToolCollection;
 use Symfony\Component\HttpFoundation\Response;
 
-class CountryAPITest extends ApiTestCase
+class ExpenditureAPITest extends ApiTestCase
 {
     private Client $client;
     private ReferenceRepository $fixtures;
@@ -24,7 +24,7 @@ class CountryAPITest extends ApiTestCase
         $this->fixtures = $databaseTool->loadFixtures(
             [
                 'App\DataFixtures\Test\UserFixtures',
-                'App\DataFixtures\Test\CountryFixtures',
+                'App\DataFixtures\Test\ExpenditureFixtures',
             ]
         )->getReferenceRepository();
         $username = $this->fixtures->getReference('api_user')->getUsername();
@@ -49,66 +49,78 @@ class CountryAPITest extends ApiTestCase
 
     public function testGetCollectionIsAvailable(): void
     {
-        $response = $this->client->request('GET', '/api/countries');
+        $response = $this->client->request('GET', '/api/expenditures');
         $this->assertResponseIsSuccessful();
         $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
         $this->assertJsonContains(
             [
-                '@context' => '/api/contexts/Country',
-                '@id' => '/api/countries',
+                '@context' => '/api/contexts/Expenditure',
+                '@id' => '/api/expenditures',
                 '@type' => 'hydra:Collection',
                 'hydra:member' => [
                     [
                         'id' => 1,
-                        'country' => 'GB',
-                        'countryName' => 'United Kingdom',
+                        'ilriCode' => 'ACME001',
+                        'name' => 'Looney Tunes',
+                        'homeProgram' => 'ACME',
+                        'startDate' => '2019-03-01T00:00:00+00:00',
+                        'endDate' => '2019-12-31T00:00:00+00:00',
+                        'reportDate' => '2019-11-01T12:00:00+00:00',
+                        'totalBudget' => 10000,
+                        'amount' => null,
                     ],
                 ],
                 'hydra:totalItems' => 1,
             ]
         );
         $this->assertCount(1, $response->toArray()['hydra:member']);
-        $this->assertMatchesResourceCollectionJsonSchema(Country::class);
+        $this->assertMatchesResourceCollectionJsonSchema(Expenditure::class);
     }
 
     public function testGetItemIsAvailable(): void
     {
-        $country = $this->getCountry();
-        $response = $this->client->request('GET', sprintf('/api/countries/%s', $country));
+        $expenditures = $this->getExpenditures();
+        $this->client->request('GET', sprintf('/api/expenditures/%s', $expenditures));
         $this->assertResponseIsSuccessful();
         $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
         $this->assertJsonContains(
             [
                 'id' => 1,
-                'country' => 'GB',
-                'countryName' => 'United Kingdom',
+                'ilriCode' => 'ACME001',
+                'name' => 'Looney Tunes',
+                'homeProgram' => 'ACME',
+                'startDate' => '2019-03-01T00:00:00+00:00',
+                'endDate' => '2019-12-31T00:00:00+00:00',
+                'reportDate' => '2019-11-01T12:00:00+00:00',
+                'totalBudget' => 10000,
+                'amount' => null,
             ]
         );
-        $this->assertMatchesResourceItemJsonSchema(Country::class);
+        $this->assertMatchesResourceItemJsonSchema(Expenditure::class);
     }
 
     public function testPostIsNotAllowed(): void
     {
-        $this->client->request('POST', '/api/countries');
+        $this->client->request('POST', '/api/expenditures');
         $this->assertResponseStatusCodeSame(Response::HTTP_METHOD_NOT_ALLOWED);
     }
 
     public function testPutIsNotAllowed(): void
     {
-        $country = $this->getCountry();
-        $this->client->request('PUT', sprintf('/api/countries/%s', $country));
+        $expenditures = $this->getExpenditures();
+        $this->client->request('PUT', sprintf('/api/expenditures/%s', $expenditures));
         $this->assertResponseStatusCodeSame(Response::HTTP_METHOD_NOT_ALLOWED);
     }
 
     public function testDeleteIsNotAllowed(): void
     {
-        $country = $this->getCountry();
-        $this->client->request('DELETE', sprintf('/api/countries/%s', $country));
+        $expenditures = $this->getExpenditures();
+        $this->client->request('DELETE', sprintf('/api/expenditures/%s', $expenditures));
         $this->assertResponseStatusCodeSame(Response::HTTP_METHOD_NOT_ALLOWED);
     }
 
-    private function getCountry(): string
+    private function getExpenditures(): int
     {
-        return $this->fixtures->getReference('country')->getCountry();
+        return $this->fixtures->getReference('expenditure')->getId();
     }
 }

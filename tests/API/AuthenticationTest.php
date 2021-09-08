@@ -13,18 +13,23 @@ class AuthenticationTest extends ApiTestCase
         $client = static::createClient();
 
         $databaseTool = $client->getContainer()->get(DatabaseToolCollection::class)->get();
-        $fixtures = $databaseTool->loadFixtures([
-            'App\DataFixtures\Test\UserFixtures',
-        ])->getReferenceRepository();
+        $fixtures = $databaseTool->loadFixtures(
+            [
+                'App\DataFixtures\Test\UserFixtures',
+            ]
+        )->getReferenceRepository();
 
-
-        $response = $client->request('POST', '/authentication_token', [
-            'headers' => ['Content-Type' => 'application/json'],
-            'json' => [
-                'username' => $fixtures->getReference('api_user')->getUsername(),
-                'password' => UserFixtures::PASSWORD,
-            ],
-        ]);
+        $response = $client->request(
+            'POST',
+            '/authentication_token',
+            [
+                'headers' => ['Content-Type' => 'application/json'],
+                'json' => [
+                    'username' => $fixtures->getReference('api_user')->getUsername(),
+                    'password' => UserFixtures::PASSWORD,
+                ],
+            ]
+        );
 
         $json = json_decode($response->getContent(), true);
         $this->assertResponseIsSuccessful();

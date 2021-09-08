@@ -7,12 +7,12 @@ use ApiPlatform\Core\Bridge\Symfony\Bundle\Test\{
     Client,
 };
 use App\DataFixtures\Test\UserFixtures;
-use App\Entity\Country;
+use App\Entity\CountryRole;
 use Doctrine\Common\DataFixtures\ReferenceRepository;
 use Liip\TestFixturesBundle\Services\DatabaseToolCollection;
 use Symfony\Component\HttpFoundation\Response;
 
-class CountryAPITest extends ApiTestCase
+class CountryRoleAPITest extends ApiTestCase
 {
     private Client $client;
     private ReferenceRepository $fixtures;
@@ -24,7 +24,7 @@ class CountryAPITest extends ApiTestCase
         $this->fixtures = $databaseTool->loadFixtures(
             [
                 'App\DataFixtures\Test\UserFixtures',
-                'App\DataFixtures\Test\CountryFixtures',
+                'App\DataFixtures\Test\CountryRoleFixtures',
             ]
         )->getReferenceRepository();
         $username = $this->fixtures->getReference('api_user')->getUsername();
@@ -49,66 +49,68 @@ class CountryAPITest extends ApiTestCase
 
     public function testGetCollectionIsAvailable(): void
     {
-        $response = $this->client->request('GET', '/api/countries');
+        $response = $this->client->request('GET', '/api/country_roles');
         $this->assertResponseIsSuccessful();
         $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
         $this->assertJsonContains(
             [
-                '@context' => '/api/contexts/Country',
-                '@id' => '/api/countries',
+                '@context' => '/api/contexts/CountryRole',
+                '@id' => '/api/country_roles',
                 '@type' => 'hydra:Collection',
                 'hydra:member' => [
                     [
                         'id' => 1,
-                        'country' => 'GB',
-                        'countryName' => 'United Kingdom',
+                        'project' => '/api/projects/1',
+                        'country' => '/api/countries/GB',
+                        'percent' => '0.5',
                     ],
                 ],
                 'hydra:totalItems' => 1,
             ]
         );
         $this->assertCount(1, $response->toArray()['hydra:member']);
-        $this->assertMatchesResourceCollectionJsonSchema(Country::class);
+        $this->assertMatchesResourceCollectionJsonSchema(CountryRole::class);
     }
 
     public function testGetItemIsAvailable(): void
     {
-        $country = $this->getCountry();
-        $response = $this->client->request('GET', sprintf('/api/countries/%s', $country));
+        $countryRole = $this->getCountryRole();
+        $this->client->request('GET', sprintf('/api/country_roles/%s', $countryRole));
         $this->assertResponseIsSuccessful();
         $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
         $this->assertJsonContains(
             [
                 'id' => 1,
-                'country' => 'GB',
-                'countryName' => 'United Kingdom',
+                'project' => '/api/projects/1',
+                'country' => '/api/countries/GB',
+                'percent' => '0.5',
             ]
         );
-        $this->assertMatchesResourceItemJsonSchema(Country::class);
+        $this->assertMatchesResourceItemJsonSchema(CountryRole::class);
     }
 
     public function testPostIsNotAllowed(): void
     {
-        $this->client->request('POST', '/api/countries');
+        $this->client->request('POST', '/api/country_roles');
         $this->assertResponseStatusCodeSame(Response::HTTP_METHOD_NOT_ALLOWED);
     }
 
     public function testPutIsNotAllowed(): void
     {
-        $country = $this->getCountry();
-        $this->client->request('PUT', sprintf('/api/countries/%s', $country));
+        $countryRole = $this->getCountryRole();
+        $this->client->request('PUT', sprintf('/api/country_roles/%s', $countryRole));
         $this->assertResponseStatusCodeSame(Response::HTTP_METHOD_NOT_ALLOWED);
     }
 
     public function testDeleteIsNotAllowed(): void
     {
-        $country = $this->getCountry();
-        $this->client->request('DELETE', sprintf('/api/countries/%s', $country));
+        $countryRole = $this->getCountryRole();
+        $this->client->request('DELETE', sprintf('/api/country_roles/%s', $countryRole));
         $this->assertResponseStatusCodeSame(Response::HTTP_METHOD_NOT_ALLOWED);
     }
 
-    private function getCountry(): string
+    private function getCountryRole(): int
     {
-        return $this->fixtures->getReference('country')->getCountry();
+        return $this->fixtures->getReference('country-role')->getId();
     }
 }

@@ -7,12 +7,12 @@ use ApiPlatform\Core\Bridge\Symfony\Bundle\Test\{
     Client,
 };
 use App\DataFixtures\Test\UserFixtures;
-use App\Entity\Country;
+use App\Entity\SDG;
 use Doctrine\Common\DataFixtures\ReferenceRepository;
 use Liip\TestFixturesBundle\Services\DatabaseToolCollection;
 use Symfony\Component\HttpFoundation\Response;
 
-class CountryAPITest extends ApiTestCase
+class SDGAPITest extends ApiTestCase
 {
     private Client $client;
     private ReferenceRepository $fixtures;
@@ -24,7 +24,7 @@ class CountryAPITest extends ApiTestCase
         $this->fixtures = $databaseTool->loadFixtures(
             [
                 'App\DataFixtures\Test\UserFixtures',
-                'App\DataFixtures\Test\CountryFixtures',
+                'App\DataFixtures\SDGFixtures',
             ]
         )->getReferenceRepository();
         $username = $this->fixtures->getReference('api_user')->getUsername();
@@ -49,66 +49,76 @@ class CountryAPITest extends ApiTestCase
 
     public function testGetCollectionIsAvailable(): void
     {
-        $response = $this->client->request('GET', '/api/countries');
+        $response = $this->client->request('GET', '/api/sdgs');
         $this->assertResponseIsSuccessful();
         $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
         $this->assertJsonContains(
             [
-                '@context' => '/api/contexts/Country',
-                '@id' => '/api/countries',
+                '@context' => '/api/contexts/SDG',
+                '@id' => '/api/sdgs',
                 '@type' => 'hydra:Collection',
                 'hydra:member' => [
                     [
                         'id' => 1,
-                        'country' => 'GB',
-                        'countryName' => 'United Kingdom',
+                        'headline' => 'NO POVERTY',
+                        'fullName' => 'End poverty in all its forms everywhere',
+                        'color' => '#E5243B',
+                        'link' => 'https://sustainabledevelopment.un.org/sdg1',
+                        'logoUrl' => 'https://sustainabledevelopment.un.org/content/images/E_SDG_Icons-01.jpg',
                     ],
                 ],
-                'hydra:totalItems' => 1,
+                'hydra:totalItems' => 17,
             ]
         );
-        $this->assertCount(1, $response->toArray()['hydra:member']);
-        $this->assertMatchesResourceCollectionJsonSchema(Country::class);
+        $this->assertCount(17, $response->toArray()['hydra:member']);
+        $this->assertMatchesResourceCollectionJsonSchema(SDG::class);
     }
 
     public function testGetItemIsAvailable(): void
     {
-        $country = $this->getCountry();
-        $response = $this->client->request('GET', sprintf('/api/countries/%s', $country));
+        $sdg = $this->getSDG();
+        $this->client->request('GET', sprintf('/api/sdgs/%s', $sdg));
         $this->assertResponseIsSuccessful();
-        $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
         $this->assertJsonContains(
             [
                 'id' => 1,
-                'country' => 'GB',
-                'countryName' => 'United Kingdom',
+                'headline' => 'NO POVERTY',
+                'fullName' => 'End poverty in all its forms everywhere',
+                'color' => '#E5243B',
+                'link' => 'https://sustainabledevelopment.un.org/sdg1',
+                'logoUrl' => 'https://sustainabledevelopment.un.org/content/images/E_SDG_Icons-01.jpg',
             ]
         );
-        $this->assertMatchesResourceItemJsonSchema(Country::class);
+    }
+
+    public function testGetItemIsNotAvailable(): void
+    {
+        $this->client->request('GET', '/api/sdgs/18');
+        $this->assertResponseStatusCodeSame(Response::HTTP_NOT_FOUND);
     }
 
     public function testPostIsNotAllowed(): void
     {
-        $this->client->request('POST', '/api/countries');
+        $this->client->request('POST', '/api/sdgs');
         $this->assertResponseStatusCodeSame(Response::HTTP_METHOD_NOT_ALLOWED);
     }
 
     public function testPutIsNotAllowed(): void
     {
-        $country = $this->getCountry();
-        $this->client->request('PUT', sprintf('/api/countries/%s', $country));
+        $sdg = $this->getSDG();
+        $this->client->request('PUT', sprintf('/api/sdgs/%s', $sdg));
         $this->assertResponseStatusCodeSame(Response::HTTP_METHOD_NOT_ALLOWED);
     }
 
     public function testDeleteIsNotAllowed(): void
     {
-        $country = $this->getCountry();
-        $this->client->request('DELETE', sprintf('/api/countries/%s', $country));
+        $sdg = $this->getSDG();
+        $this->client->request('DELETE', sprintf('/api/sdgs/%s', $sdg));
         $this->assertResponseStatusCodeSame(Response::HTTP_METHOD_NOT_ALLOWED);
     }
 
-    private function getCountry(): string
+    private function getSDG(): int
     {
-        return $this->fixtures->getReference('country')->getCountry();
+        return $this->fixtures->getReference('sdg1')->getId();
     }
 }

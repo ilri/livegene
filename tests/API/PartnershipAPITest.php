@@ -7,12 +7,12 @@ use ApiPlatform\Core\Bridge\Symfony\Bundle\Test\{
     Client,
 };
 use App\DataFixtures\Test\UserFixtures;
-use App\Entity\Country;
+use App\Entity\Partnership;
 use Doctrine\Common\DataFixtures\ReferenceRepository;
 use Liip\TestFixturesBundle\Services\DatabaseToolCollection;
 use Symfony\Component\HttpFoundation\Response;
 
-class CountryAPITest extends ApiTestCase
+class PartnershipAPITest extends ApiTestCase
 {
     private Client $client;
     private ReferenceRepository $fixtures;
@@ -24,7 +24,7 @@ class CountryAPITest extends ApiTestCase
         $this->fixtures = $databaseTool->loadFixtures(
             [
                 'App\DataFixtures\Test\UserFixtures',
-                'App\DataFixtures\Test\CountryFixtures',
+                'App\DataFixtures\Test\PartnershipFixtures',
             ]
         )->getReferenceRepository();
         $username = $this->fixtures->getReference('api_user')->getUsername();
@@ -49,66 +49,72 @@ class CountryAPITest extends ApiTestCase
 
     public function testGetCollectionIsAvailable(): void
     {
-        $response = $this->client->request('GET', '/api/countries');
+        $response = $this->client->request('GET', '/api/partnerships');
         $this->assertResponseIsSuccessful();
         $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
         $this->assertJsonContains(
             [
-                '@context' => '/api/contexts/Country',
-                '@id' => '/api/countries',
+                '@context' => '/api/contexts/Partnership',
+                '@id' => '/api/partnerships',
                 '@type' => 'hydra:Collection',
                 'hydra:member' => [
                     [
                         'id' => 1,
-                        'country' => 'GB',
-                        'countryName' => 'United Kingdom',
+                        'project' => '/api/projects/1',
+                        'partner' => '/api/organisations/1',
+                        'startDate' => '2018-01-01T00:00:00+00:00',
+                        'endDate' => '2019-12-31T00:00:00+00:00',
+                        'contacts' => [],
+                        'partnershipType' => '/api/partnership_types/5',
                     ],
                 ],
                 'hydra:totalItems' => 1,
             ]
         );
         $this->assertCount(1, $response->toArray()['hydra:member']);
-        $this->assertMatchesResourceCollectionJsonSchema(Country::class);
+        $this->assertMatchesResourceCollectionJsonSchema(Partnership::class);
     }
 
     public function testGetItemIsAvailable(): void
     {
-        $country = $this->getCountry();
-        $response = $this->client->request('GET', sprintf('/api/countries/%s', $country));
+        $partnership = $this->getPartnership();
+        $this->client->request('GET', sprintf('/api/partnerships/%s', $partnership));
         $this->assertResponseIsSuccessful();
-        $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
         $this->assertJsonContains(
             [
                 'id' => 1,
-                'country' => 'GB',
-                'countryName' => 'United Kingdom',
+                'project' => '/api/projects/1',
+                'partner' => '/api/organisations/1',
+                'startDate' => '2018-01-01T00:00:00+00:00',
+                'endDate' => '2019-12-31T00:00:00+00:00',
+                'contacts' => [],
+                'partnershipType' => '/api/partnership_types/5',
             ]
         );
-        $this->assertMatchesResourceItemJsonSchema(Country::class);
     }
 
     public function testPostIsNotAllowed(): void
     {
-        $this->client->request('POST', '/api/countries');
+        $this->client->request('POST', '/api/partnerships');
         $this->assertResponseStatusCodeSame(Response::HTTP_METHOD_NOT_ALLOWED);
     }
 
     public function testPutIsNotAllowed(): void
     {
-        $country = $this->getCountry();
-        $this->client->request('PUT', sprintf('/api/countries/%s', $country));
+        $partnership = $this->getPartnership();
+        $this->client->request('PUT', sprintf('/api/partnerships/%s', $partnership));
         $this->assertResponseStatusCodeSame(Response::HTTP_METHOD_NOT_ALLOWED);
     }
 
     public function testDeleteIsNotAllowed(): void
     {
-        $country = $this->getCountry();
-        $this->client->request('DELETE', sprintf('/api/countries/%s', $country));
+        $partnership = $this->getPartnership();
+        $this->client->request('DELETE', sprintf('/api/partnerships/%s', $partnership));
         $this->assertResponseStatusCodeSame(Response::HTTP_METHOD_NOT_ALLOWED);
     }
 
-    private function getCountry(): string
+    private function getPartnership(): int
     {
-        return $this->fixtures->getReference('country')->getCountry();
+        return $this->fixtures->getReference('partnership')->getId();
     }
 }
