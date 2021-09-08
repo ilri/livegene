@@ -23,3 +23,10 @@ It consists of 3 main parts:
 - `/#/` -> frontend application built with Vue.js
 - `/api` -> REST API built with API Platform
 - `/admin` -> admin area built with SonataAdminBundle
+
+Entity Relationship Model
+-------------------------
+
+The application uses MySQL for the data storage. The data model consists of 16 entities.
+
+![erm](docs/assets/erm.png)
