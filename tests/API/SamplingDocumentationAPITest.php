@@ -8,6 +8,7 @@ use ApiPlatform\Core\Bridge\Symfony\Bundle\Test\{
 };
 use App\DataFixtures\Test\UserFixtures;
 use App\Entity\SamplingDocumentation;
+use Carbon\Carbon;
 use Doctrine\Common\DataFixtures\ReferenceRepository;
 use Liip\TestFixturesBundle\Services\DatabaseToolCollection;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,9 +17,13 @@ class SamplingDocumentationAPITest extends ApiTestCase
 {
     private Client $client;
     private ReferenceRepository $fixtures;
+    private ?object $entityManager;
 
     public function setUp(): void
     {
+        date_default_timezone_set('UTC');
+        $now = Carbon::create(2021, 8, 8, 9);
+        Carbon::setTestNow($now);
         $this->client = static::createClient();
         $databaseTool = $this->client->getContainer()->get(DatabaseToolCollection::class)->get();
         $this->fixtures = $databaseTool->loadFixtures(
@@ -45,6 +50,16 @@ class SamplingDocumentationAPITest extends ApiTestCase
                 'auth_bearer' => json_decode($response->getContent(), true)['token'],
             ]
         );
+        $this->entityManager = self::$container->get('doctrine.orm.entity_manager');
+    }
+
+    public function tearDown(): void
+    {
+        $documentation = $this->fixtures->getReference('documentation')->getDocument();
+        $this->entityManager->remove($documentation);
+        $this->entityManager->flush();
+
+        parent::tearDown();
     }
 
     public function testGetCollectionIsAvailable(): void
