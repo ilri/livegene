@@ -54,6 +54,11 @@ services:
         decorates: 'api_platform.jsonld.normalizer.item'
         arguments: [ '@App\Serializer\Normalizer\SamplingDocumentationNormalizer.inner' ]
 
+    # Add endpoint /authentication_token in the SwaggerUI
+    App\OpenApi\JwtDecorator:
+        decorates: 'api_platform.openapi.factory'
+        autoconfigure: false
+
     app.custom_basic_authentication_entry_point:
         class: App\Security\Service\CustomBasicAuthenticationEntryPoint
         arguments: [ main ]
