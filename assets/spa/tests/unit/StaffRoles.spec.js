@@ -1,4 +1,4 @@
-import { shallowMount, createLocalVue } from '@vue/test-utils';
+import { shallowMount, createLocalVue, RouterLinkStub } from '@vue/test-utils';
 import BootstrapVue from 'bootstrap-vue';
 import Vuex from 'vuex';
 import VueRouter from 'vue-router';
@@ -28,5 +28,15 @@ describe('StaffRoles.vue', () => {
       store,
     });
     expect(wrapper.text()).toContain('Staff Roles');
+  });
+  test('renders a RouterLink navigating to the default StaffDiagram view', () => {
+    const wrapper = shallowMount(StaffRoles, {
+      localVue,
+      store,
+      stubs: {
+        RouterLink: RouterLinkStub,
+      },
+    });
+    expect(wrapper.find(RouterLinkStub).props().to).toEqual({ name: 'diagram' });
   });
 });
