@@ -1,11 +1,13 @@
 import { shallowMount, createLocalVue } from '@vue/test-utils';
 import BootstrapVue from 'bootstrap-vue';
 import Vuex from 'vuex';
+import VueRouter from 'vue-router';
 import StaffRoles from '../../views/StaffRoles';
 
 const localVue = createLocalVue();
 localVue.use(BootstrapVue);
 localVue.use(Vuex);
+localVue.use(VueRouter);
 
 describe('StaffRoles.vue', () => {
   let store;
