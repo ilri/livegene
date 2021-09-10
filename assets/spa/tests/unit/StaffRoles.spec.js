@@ -1,5 +1,5 @@
 import { shallowMount, createLocalVue, RouterLinkStub } from '@vue/test-utils';
-import BootstrapVue from 'bootstrap-vue';
+import BootstrapVue, { BNavItem } from 'bootstrap-vue';
 import Vuex from 'vuex';
 import VueRouter from 'vue-router';
 import StaffRoles from '../../views/StaffRoles';
@@ -39,5 +39,12 @@ describe('StaffRoles.vue', () => {
     });
     expect(wrapper.find(RouterLinkStub).props().to).toEqual({ name: 'diagram' });
     expect(wrapper.find(RouterLinkStub).text()).toBe('Diagram');
+  });
+  test('renders a b-nav-item item for all specified routes', () => {
+    const wrapper = shallowMount(StaffRoles, {
+      localVue,
+      store,
+    });
+    expect(wrapper.findAll(BNavItem).length).toEqual(2);
   });
 });
