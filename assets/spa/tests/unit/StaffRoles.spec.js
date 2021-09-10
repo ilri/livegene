@@ -38,5 +38,6 @@ describe('StaffRoles.vue', () => {
       },
     });
     expect(wrapper.find(RouterLinkStub).props().to).toEqual({ name: 'diagram' });
+    expect(wrapper.find(RouterLinkStub).text()).toBe('Diagram');
   });
 });
