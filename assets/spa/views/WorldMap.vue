@@ -5,7 +5,7 @@
         small
         align="center"
       >
-        <b-nav-text>World map</b-nav-text>
+        <b-nav-text>World Map</b-nav-text>
       </b-nav>
     </template>
     <template slot="graphic">
