@@ -29,7 +29,15 @@ describe('StaffRoles.vue', () => {
     });
     expect(wrapper.text()).toContain('Staff Roles');
   });
-  test('renders a RouterLink navigating to the default StaffDiagram view', () => {
+  test('renders a b-nav-item element for every specified route', () => {
+    const wrapper = shallowMount(StaffRoles, {
+      localVue,
+      store,
+    });
+    const bNavItems = wrapper.findAll(BNavItem);
+    expect(bNavItems.length).toEqual(2);
+  });
+  test('renders a RouterLink for every specified route', () => {
     const wrapper = shallowMount(StaffRoles, {
       localVue,
       store,
@@ -37,14 +45,11 @@ describe('StaffRoles.vue', () => {
         RouterLink: RouterLinkStub,
       },
     });
-    expect(wrapper.find(RouterLinkStub).props().to).toEqual({ name: 'diagram' });
-    expect(wrapper.find(RouterLinkStub).text()).toBe('Diagram');
-  });
-  test('renders a b-nav-item item for all specified routes', () => {
-    const wrapper = shallowMount(StaffRoles, {
-      localVue,
-      store,
-    });
-    expect(wrapper.findAll(BNavItem).length).toEqual(2);
+    const routerLinks = wrapper.findAll(RouterLinkStub);
+    expect(routerLinks.length).toEqual(2);
+    expect(routerLinks.at(0).props().to).toEqual({ name: 'diagram' });
+    expect(routerLinks.at(0).text()).toEqual('Diagram');
+    expect(routerLinks.at(1).props().to).toEqual({ name: 'heatmap' });
+    expect(routerLinks.at(1).text()).toEqual('Heatmap');
   });
 });
