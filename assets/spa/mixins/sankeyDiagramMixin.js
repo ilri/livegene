@@ -31,6 +31,7 @@ export default {
      */
     ...mapState({
       projects: (state) => state.project.projects,
+      projectsGroupedByTeam: (state) => state.project.projectsGroupedByTeam,
     }),
     /**
      * Calculate the dimensions used to set width and height of the SVG element.

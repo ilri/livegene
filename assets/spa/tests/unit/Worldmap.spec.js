@@ -2,6 +2,7 @@ import { shallowMount, createLocalVue } from '@vue/test-utils';
 import BootstrapVue from 'bootstrap-vue';
 import Vuex from 'vuex';
 import WorldMap from '../../views/WorldMap';
+import { state } from './config/mock-store';
 
 const localVue = createLocalVue();
 localVue.use(BootstrapVue);
@@ -9,17 +10,6 @@ localVue.use(Vuex);
 
 describe('WorldMap.vue', () => {
   let store;
-  const state = {
-    project: {
-      projects: [],
-      projectsGroupedByTeam: new Map(
-        [
-          ['Team_1', ['Project_1', 'Project_2']],
-          ['Team_2', ['Project_3', 'Project_4', 'Project_5']],
-        ],
-      ),
-    },
-  };
   beforeEach(() => {
     store = new Vuex.Store({
       state,

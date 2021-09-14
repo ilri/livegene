@@ -329,6 +329,7 @@ export default {
         .on('mouseleave.legend', this.fadeLegend)
       ;
       this.generateLegend();
+      console.log(this.projectsGroupedByTeam);
     },
   },
 };
