@@ -12,7 +12,12 @@ describe('WorldMap.vue', () => {
   const state = {
     project: {
       projects: [],
-      projectsGroupedByTeam: new Map(),
+      projectsGroupedByTeam: new Map(
+        [
+          ['Team_1', ['Project_1', 'Project_2']],
+          ['Team_2', ['Project_3', 'Project_4', 'Project_5']],
+        ],
+      ),
     },
   };
   beforeEach(() => {
@@ -26,5 +31,27 @@ describe('WorldMap.vue', () => {
       store,
     });
     expect(wrapper.text()).toContain('World map');
+  });
+  test('a ListItem element is rendered for every team', () => {
+    const wrapper = shallowMount(WorldMap, {
+      localVue,
+      store,
+    });
+    const listItems = wrapper.findAll('li.team');
+    expect(listItems).toHaveLength(store.state.project.projectsGroupedByTeam.size);
+  });
+  test('project ListItems are found within team ListItems', () => {
+    const wrapper = shallowMount(WorldMap, {
+      localVue,
+      store,
+    });
+    const teamListItems = wrapper.findAll('li.team');
+    const projectsGroupedByTeams = store.state.project.projectsGroupedByTeam;
+    teamListItems.wrappers.forEach((itemWrapper, i) => {
+      expect(itemWrapper.findAll('li.project')).toBeTruthy();
+      expect(itemWrapper.findAll('li.project')).toHaveLength(
+        projectsGroupedByTeams.get(Array.from(projectsGroupedByTeams.keys())[i]).length,
+      );
+    });
   });
 });
