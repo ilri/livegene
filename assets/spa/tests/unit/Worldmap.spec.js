@@ -47,4 +47,36 @@ describe('WorldMap.vue', () => {
       );
     });
   });
+
+  test('calls selectTeam when team links are clicked', () => {
+    const selectTeam = jest.fn();
+    const wrapper = shallowMount(WorldMap, {
+      localVue,
+      store,
+      methods: {
+        selectTeam,
+      },
+    });
+    const teamLinks = wrapper.findAll('li.team > span');
+    teamLinks.wrappers.forEach((teamLink) => {
+      teamLink.trigger('click');
+      expect(selectTeam).toHaveBeenCalled();
+    });
+  });
+
+  test('calls selectProject when project links are clicked', () => {
+    const selectProject = jest.fn();
+    const wrapper = shallowMount(WorldMap, {
+      localVue,
+      store,
+      methods: {
+        selectProject,
+      },
+    });
+    const projectLinks = wrapper.findAll('li.project');
+    projectLinks.wrappers.forEach((projectLink) => {
+      projectLink.trigger('click');
+      expect(selectProject).toHaveBeenCalled();
+    });
+  });
 });
