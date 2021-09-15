@@ -1,4 +1,4 @@
-import { shallowMount, createLocalVue } from '@vue/test-utils';
+import { createLocalVue, shallowMount } from '@vue/test-utils';
 import BootstrapVue from 'bootstrap-vue';
 import Vuex from 'vuex';
 import WorldMap from '../../views/WorldMap';
@@ -16,14 +16,6 @@ describe('WorldMap.vue', () => {
     });
   });
 
-  test('the header is rendered', () => {
-    const wrapper = shallowMount(WorldMap, {
-      localVue,
-      store,
-    });
-    expect(wrapper.text()).toContain('World map');
-  });
-
   test('a ListItem element is rendered for every team', () => {
     const wrapper = shallowMount(WorldMap, {
       localVue,
@@ -33,22 +25,16 @@ describe('WorldMap.vue', () => {
     expect(listItems).toHaveLength(store.state.project.projectsGroupedByTeam.size);
   });
 
-  test('project ListItems are found within team ListItems', () => {
+  test('a ListItem element is rendered for every project', () => {
     const wrapper = shallowMount(WorldMap, {
       localVue,
       store,
     });
-    const teamListItems = wrapper.findAll('li.team');
-    const projectsGroupedByTeams = store.state.project.projectsGroupedByTeam;
-    teamListItems.wrappers.forEach((itemWrapper, i) => {
-      expect(itemWrapper.findAll('li.project').exists()).toBe(true);
-      expect(itemWrapper.findAll('li.project')).toHaveLength(
-        projectsGroupedByTeams.get(Array.from(projectsGroupedByTeams.keys())[i]).length,
-      );
-    });
+    const listItems = wrapper.findAll('li.project');
+    expect(listItems).toHaveLength(store.state.project.projects.length);
   });
 
-  test('calls selectTeam when team links are clicked', () => {
+  test('calls selectTeam() method when user selects (clicks on) a team', () => {
     const selectTeam = jest.fn();
     const wrapper = shallowMount(WorldMap, {
       localVue,
@@ -64,7 +50,7 @@ describe('WorldMap.vue', () => {
     });
   });
 
-  test('calls selectProject when project links are clicked', () => {
+  test('calls selectProject() when user selects (clicks on) a project', () => {
     const selectProject = jest.fn();
     const wrapper = shallowMount(WorldMap, {
       localVue,
