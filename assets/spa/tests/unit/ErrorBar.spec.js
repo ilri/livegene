@@ -28,8 +28,10 @@ describe('ErrorBar.vue', () => {
     ];
     const wrapper = shallowMount(ErrorBar, {
       localVue,
-      errors,
+      propsData: {
+        errors,
+      },
     });
-    expect(wrapper.find('div.alert').exists()).toBe(true);
+    expect(wrapper.find(BAlert).exists()).toBe(true);
   });
 });
