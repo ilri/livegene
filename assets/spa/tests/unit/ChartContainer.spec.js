@@ -1,9 +1,7 @@
 import { shallowMount, createLocalVue } from '@vue/test-utils';
-import BootstrapVue from 'bootstrap-vue';
 import ChartContainer from '../../components/ChartContainer';
 
 const localVue = createLocalVue();
-localVue.use(BootstrapVue);
 
 describe('ChartContainer.vue', () => {
   test('the SVG is created with passed viewBox dimensions', () => {
