@@ -28,4 +28,17 @@ describe('ProjectTimelines.vue', () => {
     resetButton.trigger('click');
     expect(resetChart).toHaveBeenCalled();
   });
+  test('calls toggleActiveProjects() when user clicks on calendar icon', () => {
+    const toggleActiveProjects = jest.fn();
+    const wrapper = mount(ProjectTimelines, {
+      localVue,
+      store,
+      methods: {
+        toggleActiveProjects,
+      },
+    });
+    const resetButton = wrapper.find('g.today > text');
+    resetButton.trigger('click');
+    expect(toggleActiveProjects).toHaveBeenCalled();
+  });
 });
