@@ -9,6 +9,7 @@
     <ErrorBar :errors="errors" />
     <b-row
       v-show="errors.length === 0"
+      id="b-row"
       align-h="center"
       class="text-center pb-5 m-0"
       :class="[$loadingStatus === null ? 'show' : 'hide']"

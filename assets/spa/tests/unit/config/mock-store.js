@@ -1,3 +1,5 @@
+import { v4 as uuidv4 } from 'uuid';
+
 export const state = {
   project: {
     projects: [
@@ -80,7 +82,24 @@ export const state = {
   },
 };
 
+export const mutations = {
+  PUSH(state, error) {
+    state.error.errors.push({
+      id: uuidv4(),
+      ...error,
+    });
+  },
+};
+
+export const actions = {
+  add(context, error) {
+    context.commit('PUSH', error);
+  },
+};
+
 export default {
   namespaced: true,
   state,
+  mutations,
+  actions
 };
