@@ -27,7 +27,11 @@ export default {
   components: {
     ErrorBar,
   },
-  computed: mapState('error', ['errors']),
+  computed: {
+    ...mapState({
+      errors: (state) => state.error.errors,
+    }),
+  },
 };
 </script>
 

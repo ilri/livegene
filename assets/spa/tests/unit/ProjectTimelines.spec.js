@@ -1,7 +1,8 @@
-import { shallowMount, createLocalVue } from '@vue/test-utils';
-import BootstrapVue from 'bootstrap-vue';
+import { mount, createLocalVue } from '@vue/test-utils';
+import BootstrapVue, { BButton } from 'bootstrap-vue';
 import Vuex from 'vuex';
 import ProjectTimelines from '../../views/ProjectTimelines';
+import { state } from './config/mock-store';
 
 const localVue = createLocalVue();
 localVue.use(BootstrapVue);
@@ -9,22 +10,22 @@ localVue.use(Vuex);
 
 describe('ProjectTimelines.vue', () => {
   let store;
-  const state = {
-    project: {
-      projects: [],
-      projectsGroupedByTeam: new Map(),
-    },
-  };
   beforeEach(() => {
     store = new Vuex.Store({
       state,
     });
   });
-  test('the header is rendered', () => {
-    const wrapper = shallowMount(ProjectTimelines, {
+  test('calls resetChart() when user clicks on the reset button', () => {
+    const resetChart = jest.fn();
+    const wrapper = mount(ProjectTimelines, {
       localVue,
       store,
+      methods: {
+        resetChart,
+      },
     });
-    expect(wrapper.text()).toContain('Project Timelines');
+    const resetButton = wrapper.find(BButton);
+    resetButton.trigger('click');
+    expect(resetChart).toHaveBeenCalled();
   });
 });
