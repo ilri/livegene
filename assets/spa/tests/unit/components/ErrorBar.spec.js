@@ -56,6 +56,6 @@ describe('ErrorBar.vue', () => {
         errors,
       },
     });
-    expect(wrapper.findAll(BAlert).length).toEqual(2);
+    expect(wrapper.findAll(BAlert).length).toEqual(errors.length);
   });
 });

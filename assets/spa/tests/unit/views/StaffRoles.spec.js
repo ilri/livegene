@@ -1,12 +1,10 @@
 import { createLocalVue, shallowMount } from '@vue/test-utils';
 import BootstrapVue, { BNavItem } from 'bootstrap-vue';
-import Vuex from 'vuex';
 import VueRouter from 'vue-router';
 import StaffRoles from '../../../views/StaffRoles';
 
 const localVue = createLocalVue();
 localVue.use(BootstrapVue);
-localVue.use(Vuex);
 localVue.use(VueRouter);
 const router = new VueRouter();
 
