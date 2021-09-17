@@ -35,6 +35,9 @@ describe('StaffRoles.vue', () => {
     });
     const bNavItems = wrapper.findAll(BNavItem);
     expect(bNavItems.length).toEqual(1);
+    bNavItems.wrappers.forEach((item, i) => {
+      expect(item.text()).toBe(routes[i].label);
+    });
   });
 
   test('does not render a BNavItem if no route is specified', () => {
