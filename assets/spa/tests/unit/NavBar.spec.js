@@ -1,6 +1,6 @@
 import { shallowMount, createLocalVue } from '@vue/test-utils';
 import VueRouter from 'vue-router';
-import BootstrapVue, { BNavbarNav, BNavItem} from 'bootstrap-vue';
+import BootstrapVue, { BNavbarNav, BNavItem } from 'bootstrap-vue';
 import NavBar from '../../components/NavBar';
 
 const localVue = createLocalVue();
@@ -44,7 +44,7 @@ describe('NavBar.vue', () => {
       {
         name: 'another-route',
         label: 'another route',
-      }
+      },
     ];
     const wrapper = shallowMount(NavBar, {
       localVue,
