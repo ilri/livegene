@@ -1,8 +1,8 @@
 import { mount, createLocalVue } from '@vue/test-utils';
 import BootstrapVue, { BButton } from 'bootstrap-vue';
 import Vuex from 'vuex';
-import ProjectTimelines from '../../views/ProjectTimelines';
-import { state } from './config/mock-store';
+import ProjectTimelines from '../../../views/ProjectTimelines';
+import { state } from '../config/mock-store';
 
 const localVue = createLocalVue();
 localVue.use(BootstrapVue);
@@ -15,6 +15,7 @@ describe('ProjectTimelines.vue', () => {
       state,
     });
   });
+
   test('calls resetChart() when user clicks on the reset button', () => {
     const resetChart = jest.fn();
     const wrapper = mount(ProjectTimelines, {
@@ -28,6 +29,7 @@ describe('ProjectTimelines.vue', () => {
     resetButton.trigger('click');
     expect(resetChart).toHaveBeenCalled();
   });
+
   test('calls toggleActiveProjects() when user clicks on calendar icon', () => {
     const toggleActiveProjects = jest.fn();
     const wrapper = mount(ProjectTimelines, {

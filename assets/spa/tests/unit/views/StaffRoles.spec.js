@@ -2,8 +2,8 @@ import { createLocalVue, shallowMount } from '@vue/test-utils';
 import BootstrapVue, { BNavItem } from 'bootstrap-vue';
 import Vuex from 'vuex';
 import VueRouter from 'vue-router';
-import StaffRoles from '../../views/StaffRoles';
-import { state } from './config/mock-store';
+import StaffRoles from '../../../views/StaffRoles';
+import { state } from '../config/mock-store';
 
 const localVue = createLocalVue();
 localVue.use(BootstrapVue);
@@ -17,6 +17,7 @@ describe('StaffRoles.vue', () => {
       state,
     });
   });
+
   test('renders a BNavItem for every specified route', () => {
     const routes = [
       {

@@ -1,8 +1,8 @@
 import { createLocalVue, shallowMount } from '@vue/test-utils';
 import BootstrapVue from 'bootstrap-vue';
 import Vuex from 'vuex';
-import WorldMap from '../../views/WorldMap';
-import { state } from './config/mock-store';
+import WorldMap from '../../../views/WorldMap';
+import { state } from '../config/mock-store';
 
 const localVue = createLocalVue();
 localVue.use(BootstrapVue);

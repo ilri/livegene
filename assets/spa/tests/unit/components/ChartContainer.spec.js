@@ -1,5 +1,5 @@
 import { shallowMount, createLocalVue } from '@vue/test-utils';
-import ChartContainer from '../../components/ChartContainer';
+import ChartContainer from '../../../components/ChartContainer';
 
 const localVue = createLocalVue();
 

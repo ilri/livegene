@@ -1,7 +1,7 @@
 import { createLocalVue, shallowMount } from '@vue/test-utils';
 import BootstrapVue from 'bootstrap-vue';
 import Vuex from 'vuex';
-import AwardedBudget from '../../views/AwardedBudget';
+import AwardedBudget from '../../../views/AwardedBudget';
 
 const localVue = createLocalVue();
 localVue.use(BootstrapVue);
@@ -20,6 +20,7 @@ describe('AwardedBudget.vue', () => {
       state,
     });
   });
+
   test('The header is rendered.', () => {
     const wrapper = shallowMount(AwardedBudget, {
       localVue,

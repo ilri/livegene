@@ -1,6 +1,6 @@
 import { shallowMount, createLocalVue } from '@vue/test-utils';
 import BootstrapVue, { BAlert } from 'bootstrap-vue';
-import ErrorBar from '../../components/ErrorBar';
+import ErrorBar from '../../../components/ErrorBar';
 
 const localVue = createLocalVue();
 localVue.use(BootstrapVue);

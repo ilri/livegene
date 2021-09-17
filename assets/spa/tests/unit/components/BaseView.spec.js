@@ -1,8 +1,8 @@
 import { mount, createLocalVue } from '@vue/test-utils';
 import BootstrapVue from 'bootstrap-vue';
 import Vuex from 'vuex';
-import BaseView from '../../components/BaseView';
-import { state, mutations, actions } from './config/mock-store';
+import BaseView from '../../../components/BaseView';
+import { state, mutations, actions } from '../config/mock-store';
 
 const localVue = createLocalVue();
 localVue.use(BootstrapVue);
@@ -17,6 +17,7 @@ describe('BaseView.vue', () => {
       actions,
     });
   });
+
   test('the graphic should be shown if there are no errors', () => {
     const wrapper = mount(BaseView, {
       localVue,
@@ -25,6 +26,7 @@ describe('BaseView.vue', () => {
     const bRow = wrapper.find('#b-row');
     expect(bRow.isVisible()).toBe(true);
   });
+
   test('the graphic should be hidden if errors exist', () => {
     const errors = [
       {
