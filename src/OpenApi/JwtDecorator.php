@@ -5,27 +5,18 @@ declare(strict_types=1);
 namespace App\OpenApi;
 
 use ApiPlatform\Core\OpenApi\Factory\OpenApiFactoryInterface;
-use ApiPlatform\Core\OpenApi\{
-    OpenApi,
-    Model,
-};
+use ApiPlatform\Core\OpenApi\OpenApi;
+use ApiPlatform\Core\OpenApi\Model;
 
 final class JwtDecorator implements OpenApiFactoryInterface
 {
-    private OpenApiFactoryInterface $decorated;
+    private $decorated;
 
-    /**
-     * @param OpenApiFactoryInterface $decorated
-     */
     public function __construct(OpenApiFactoryInterface $decorated)
     {
         $this->decorated = $decorated;
     }
 
-    /**
-     * @param array $context
-     * @return OpenApi
-     */
     public function __invoke(array $context = []): OpenApi
     {
         $openApi = ($this->decorated)($context);
@@ -43,13 +34,13 @@ final class JwtDecorator implements OpenApiFactoryInterface
         $schemas['Credentials'] = new \ArrayObject([
             'type' => 'object',
             'properties' => [
-                'username' => [
+                'email' => [
                     'type' => 'string',
-                    'example' => 'username',
+                    'example' => 'johndoe@example.com',
                 ],
                 'password' => [
                     'type' => 'string',
-                    'example' => 'password',
+                    'example' => 'apassword',
                 ],
             ],
         ]);
