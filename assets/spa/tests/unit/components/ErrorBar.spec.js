@@ -34,4 +34,28 @@ describe('ErrorBar.vue', () => {
     });
     expect(wrapper.find(BAlert).exists()).toBe(true);
   });
+
+  test('an alert should be shown for each error', () => {
+    const errors = [
+      {
+        id: 1,
+        message: 'This is an error',
+        status: 404,
+        statusText: 'Page not found',
+      },
+      {
+        id: 2,
+        message: 'This is another error',
+        status: 500,
+        statusText: 'Server error',
+      },
+    ];
+    const wrapper = shallowMount(ErrorBar, {
+      localVue,
+      propsData: {
+        errors,
+      },
+    });
+    expect(wrapper.findAll(BAlert).length).toEqual(2);
+  });
 });
