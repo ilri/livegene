@@ -3,56 +3,44 @@ import BootstrapVue, { BNavItem } from 'bootstrap-vue';
 import Vuex from 'vuex';
 import VueRouter from 'vue-router';
 import StaffRoles from '../../../views/StaffRoles';
-import { state } from '../config/mock-store';
 
 const localVue = createLocalVue();
 localVue.use(BootstrapVue);
 localVue.use(Vuex);
 localVue.use(VueRouter);
+const router = new VueRouter();
 
 describe('StaffRoles.vue', () => {
-  let store;
-  beforeEach(() => {
-    store = new Vuex.Store({
-      state,
+  test('no router links should be present if there are no routes', async () => {
+    const wrapper = shallowMount(StaffRoles, {
+      localVue,
+      router,
     });
+    await wrapper.setData({ routes: [] });
+    const bNavItems = wrapper.findAll(BNavItem);
+    expect(bNavItems.length).toEqual(0);
   });
 
-  test('renders a BNavItem for every specified route', () => {
+  test('a router link should be present for every specified route', async () => {
     const routes = [
       {
-        name: 'route_1',
-        label: 'Route 1',
+        name: 'route',
+        label: 'route',
+      },
+      {
+        name: 'another-route',
+        label: 'another route',
       },
     ];
     const wrapper = shallowMount(StaffRoles, {
       localVue,
-      store,
-      data() {
-        return {
-          routes,
-        };
-      },
+      router,
     });
+    await wrapper.setData({ routes });
     const bNavItems = wrapper.findAll(BNavItem);
-    expect(bNavItems.length).toEqual(1);
+    expect(bNavItems.length).toEqual(routes.length);
     bNavItems.wrappers.forEach((item, i) => {
       expect(item.text()).toBe(routes[i].label);
     });
-  });
-
-  test('does not render a BNavItem if no route is specified', () => {
-    const routes = [];
-    const wrapper = shallowMount(StaffRoles, {
-      localVue,
-      store,
-      data() {
-        return {
-          routes,
-        };
-      },
-    });
-    const bNavItems = wrapper.findAll(BNavItem);
-    expect(bNavItems.length).toEqual(0);
   });
 });

@@ -52,6 +52,6 @@ describe('NavBar.vue', () => {
     });
     await wrapper.setData({ routes });
     const navbarNav = wrapper.find(BNavbarNav);
-    expect(navbarNav.findAll(BNavItem).length).toEqual(2);
+    expect(navbarNav.findAll(BNavItem).length).toEqual(routes.length);
   });
 });
