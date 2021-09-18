@@ -1,5 +1,4 @@
 var Encore = require('@symfony/webpack-encore');
-var GoogleFontsPlugin = require('@beyonk/google-fonts-webpack-plugin');
 
 Encore.configureRuntimeEnvironment(process.env.NODE_ENV || 'dev');
 
@@ -107,14 +106,6 @@ Encore
       },
     },
   )
-  .addPlugin(new GoogleFontsPlugin(
-    {
-      fonts: [
-        { family: 'Open Sans', variants: ['500i', '800'] },
-        { family: 'Open Sans Condensed', variants: ['500', '700'] }
-      ],
-    },
-  ))
 ;
 
 module.exports = Encore.getWebpackConfig();
