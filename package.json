@@ -34,7 +34,7 @@
         "eslint-plugin-vue": "^6.2.1",
         "flag-icon-css": "^3.3.0",
         "font-awesome": "^4.7.0",
-        "jest": "^25.1.0",
+        "jest": "^24.9.0",
         "jest-transform-stub": "^2.0.0",
         "jquery": "^3.5.0",
         "js-cookie": "^2.2.1",
@@ -84,9 +84,14 @@
             "<rootDir>/node_modules/"
         ],
         "collectCoverage": true,
+        "collectCoverageFrom": [
+            "assets/spa/**/*.{js,vue}",
+            "!assets/spa/main.js",
+            "!assets/spa/tests/**/*"
+        ],
         "coverageReporters": [
-            "json",
-            "html"
+            "html",
+            "text"
         ],
         "coverageDirectory": "assets/spa/tests/unit/coverage"
     },
