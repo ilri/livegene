@@ -8,7 +8,7 @@
     <div class="text-center">
       <a href="https://www.ilri.org">
         <b-img
-          :src="require('../assets/ilri-logo.jpg')"
+          :src="require('../assets/images/ilri-logo.jpg')"
           fluid
           alt="LiveGene"
         />
@@ -18,7 +18,7 @@
       <p>
         Proudly crafted in
         <b-img
-          :src="require('../assets/africa.svg')"
+          :src="require('../assets/images/africa.svg')"
           alt="Africa"
           class="africa"
         />

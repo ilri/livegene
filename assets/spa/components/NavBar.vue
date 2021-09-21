@@ -11,7 +11,7 @@
       >
         <b-media>
           <b-img
-            :src="require('../assets/logo.png')"
+            :src="require('../assets/images/logo.png')"
             alt="logo"
             height="35"
           />
