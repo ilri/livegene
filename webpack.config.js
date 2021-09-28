@@ -1,4 +1,4 @@
-var Encore = require('@symfony/webpack-encore');
+const Encore = require('@symfony/webpack-encore');
 
 Encore.configureRuntimeEnvironment(process.env.NODE_ENV || 'dev');
 
@@ -8,8 +8,8 @@ Encore
   // public path used by the web server to access the output path
   .setPublicPath('/build')
   // only needed for CDN's or sub-directory deploy
-  //.setManifestKeyPrefix('build/')
-
+  // .setManifestKeyPrefix('build/')
+  //
   /*
    * ENTRY CONFIG
    *
@@ -21,9 +21,9 @@ Encore
    */
   .addEntry('app', './assets/js/app.js')
   .addEntry('spa', './assets/spa/main.js')
-  //.addEntry('page1', './assets/js/page1.js')
-  //.addEntry('page2', './assets/js/page2.js')
-
+  // .addEntry('page1', './assets/js/page1.js')
+  // .addEntry('page2', './assets/js/page2.js')
+  //
   // When enabled, Webpack "splits" your files into smaller pieces for greater optimization.
   // Cezar: I want a single file output.
   // .splitEntryChunks()
@@ -44,19 +44,19 @@ Encore
   .enableSourceMaps(!Encore.isProduction())
   // enables hashed filenames (e.g. app.abc123.css)
   .enableVersioning(Encore.isProduction())
-
+  //
   // enables Sass/SCSS support
-  //.enableSassLoader()
-
+  // .enableSassLoader()
+  //
   // uncomment if you use TypeScript
-  //.enableTypeScriptLoader()
-
+  // .enableTypeScriptLoader()
+  //
   // uncomment if you're having problems with a jQuery plugin
-  //.autoProvidejQuery()
-
+  // .autoProvidejQuery()
+  //
   // uncomment if you use API Platform Admin (composer req api-admin)
-  //.enableReactPreset()
-  //.addEntry('admin', './assets/js/admin.js')
+  // .enableReactPreset()
+  // .addEntry('admin', './assets/js/admin.js')
 
   /*
    * BABEL CONFIG
@@ -78,16 +78,17 @@ Encore
       from: './node_modules/ckeditor/',
       to: 'ckeditor/[path][name].[ext]',
       pattern: /\.(js|css)$/,
-      includeSubdirectories: false
+      includeSubdirectories: false,
     },
-    {from: './node_modules/ckeditor/adapters', to: 'ckeditor/adapters/[path][name].[ext]'},
-    {from: './node_modules/ckeditor/lang', to: 'ckeditor/lang/[path][name].[ext]'},
-    {from: './node_modules/ckeditor/plugins', to: 'ckeditor/plugins/[path][name].[ext]'},
-    {from: './node_modules/ckeditor/skins', to: 'ckeditor/skins/[path][name].[ext]'}
+    { from: './node_modules/ckeditor/adapters', to: 'ckeditor/adapters/[path][name].[ext]' },
+    { from: './node_modules/ckeditor/lang', to: 'ckeditor/lang/[path][name].[ext]' },
+    { from: './node_modules/ckeditor/plugins', to: 'ckeditor/plugins/[path][name].[ext]' },
+    { from: './node_modules/ckeditor/skins', to: 'ckeditor/skins/[path][name].[ext]' },
   ])
   .addLoader(
     {
       test: /\.json$/i,
+      // eslint-disable-next-line global-require
       include: [require('path').resolve(__dirname, 'node_modules/ckeditor')],
       loader: 'raw-loader',
       type: 'javascript/auto',
