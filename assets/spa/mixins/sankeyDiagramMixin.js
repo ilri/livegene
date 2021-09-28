@@ -80,6 +80,7 @@ export default {
             // Font-size is subject to breakpoint for small devices (less than 576px)
             .style('font-size', () => (window.innerWidth >= 576 ? '0.9em' : '1.1em'))
             .style('font-family', '"Open Sans Condensed", sans-serif')
+            .style('font-weight', 300)
             .style('fill', 'DarkSlateGray')
           ;
         });
@@ -113,7 +114,7 @@ export default {
             .attr('r', '1.4%')
             // Font-size is subject to breakpoint for small devices (less than 576px)
             .style('font-size', () => (window.innerWidth >= 576 ? '1.1em' : '1.2em'))
-            .style('font-weight', '800')
+            .style('font-weight', '700')
           ;
         })
         .on('mouseleave', this.fadeLegend)
@@ -133,7 +134,7 @@ export default {
         .attr('r', '1.4%')
         // Font-size is subject to breakpoint for small devices (less than 576px)
         .style('font-size', () => (window.innerWidth >= 576 ? '1.1em' : '1.2em'))
-        .style('font-weight', '800')
+        .style('font-weight', '700')
         .style('opacity', 1)
       ;
       // Increasing dimensions of legend background
@@ -154,7 +155,7 @@ export default {
         .attr('r', '1.2%')
         // Font-size is subject to breakpoint for small devices (less than 576px)
         .style('font-size', () => (window.innerWidth >= 576 ? '0.9em' : '1.1em'))
-        .style('font-weight', '400')
+        .style('font-weight', '300')
         .style('opacity', 1)
       ;
       // Resetting legend background
