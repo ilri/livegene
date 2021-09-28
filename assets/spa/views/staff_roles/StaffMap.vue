@@ -630,8 +630,9 @@ export default {
   }
 
   .gradient-caption {
+    font-family: 'Open Sans Condensed', sans-serif;
+    font-weight: 300;
     font-size: 1.2em;
-    font-family: '"Open Sans Condensed"', sans-serif;
     fill: darkslategrey;
     dominant-baseline: middle;
     text-anchor: middle;

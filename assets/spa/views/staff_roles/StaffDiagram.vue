@@ -277,9 +277,9 @@ export default {
           fte.append('text')
             .attr('text-anchor', 'middle')
             .attr('dominant-baseline', 'middle')
-            .style('font-size', '0.8em')
-            .style('font-weight', 700)
             .style('font-family', '"Open Sans Condensed", sans-serif')
+            .style('font-weight', 700)
+            .style('font-size', '0.8em')
             .text(d.value);
         })
       ;
