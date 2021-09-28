@@ -731,7 +731,7 @@ export default {
     background-color: #fcfcfc;
     box-sizing: border-box;
     font-size: 0.8em;
-    font-family: '"Open Sans Condensed"', sans-serif;
+    font-family: 'Open Sans', sans-serif;
     font-weight: 500;
     opacity: 0.8;
     display: none;
