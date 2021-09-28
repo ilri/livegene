@@ -248,9 +248,9 @@ export default {
           projectDetails.append('text')
             .attr('text-anchor', 'middle')
             .attr('dominant-baseline', 'middle')
-            .style('font-size', '0.7em')
-            .style('font-weight', 700)
             .style('font-family', '"Open Sans Condensed", sans-serif')
+            .style('font-weight', 700)
+            .style('font-size', '0.7em')
             .text(`${d.project.ilriCode} (${this.moneyFormat(d.value)})`);
         });
       chart.selectAll('g.node')
