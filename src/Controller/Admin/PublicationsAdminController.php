@@ -36,8 +36,7 @@ class PublicationsAdminController extends AbstractController
      *
      * @param   Pool  $pool
      *
-     * @return Pool[]
-     * @throws InvalidArgumentException
+     * @return array
      */
     public function indexAction(Pool $pool): array
     {
@@ -56,7 +55,7 @@ class PublicationsAdminController extends AbstractController
      * @param   Pool     $pool
      * @param   Request  $request
      *
-     * @return Pool[]
+     * @return array
      */
     public function showAction(Pool $pool, Request $request): array
     {
@@ -70,33 +69,29 @@ class PublicationsAdminController extends AbstractController
 
     /**
      * @return string
-     * @throws InvalidArgumentException
      */
     private function getMendeleyPublications(): string
     {
-        $accessToken = $this->getAccessToken();
-
+        $baseUri = 'https://api.mendeley.com/documents';
+        $client  = new Client();
         $response = '[]';
-        if ($accessToken) {
-            $baseUri = 'https://api.mendeley.com/documents';
-            $client  = new Client();
-            try {
-                $response = $client->request('GET', $baseUri, [
-                    'query'   => [
-                        'group_id' => '98b5aad2-ab5b-3406-8c13-f564adb01f63',
-                        'limit'    => 500,
-                        'order'    => 'desc',
-                    ],
-                    'headers' => [
-                        'Authorization' => 'Bearer '.$accessToken,
-                    ]
-                ])->getBody()->getContents();
-            } catch (GuzzleException $e) {
-                $this->get('session')->getFlashBag()->add(
-                    'mendeley_error_message',
-                    $e->getMessage()
-                );
-            }
+        try {
+            $accessToken = $this->getAccessToken();
+            $response = $client->request('GET', $baseUri, [
+                'query'   => [
+                    'group_id' => '98b5aad2-ab5b-3406-8c13-f564adb01f63',
+                    'limit'    => 500,
+                    'order'    => 'desc',
+                ],
+                'headers' => [
+                    'Authorization' => 'Bearer '.$accessToken,
+                ],
+            ])->getBody()->getContents();
+        } catch (InvalidArgumentException | GuzzleException $e) {
+            $this->get('session')->getFlashBag()->add(
+                'mendeley_error_message',
+                $e->getMessage()
+            );
         }
 
         return $response;
