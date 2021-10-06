@@ -1,3 +1,10 @@
 knpu_oauth2_client:
     clients:
         # configure your clients as described here: https://github.com/knpuniversity/oauth2-client-bundle#configuration
+        mendeley:
+            type: generic
+            provider_class: 'App\Provider\MendeleyProvider'
+            client_id: '%env(CLIENT_ID)%'
+            client_secret: '%env(CLIENT_SECRET)%'
+            redirect_route: connect_mendeley_check
+            redirect_params: {}
