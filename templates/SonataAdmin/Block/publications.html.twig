@@ -17,10 +17,31 @@
                 <p>Please contact the administrator to resolve this issue!</p>
             </div>
         {% endfor %}
-        <ul>
+        <table class="table">
+            <tr>
+                <th>Authors</th>
+                <th>Title</th>
+                <th>Type</th>
+                <th>Source</th>
+                <th>Added</th>
+                <th>View</th>
+            </tr>
             {% for publication in publications %}
-           <li>{{ publication.title }}</li>
+                <tr>
+                    <td>
+                        {% if publication.authors is defined %}
+                            {% for author in publication.authors %}
+                            <span class="label-info">{% if author.last_name is defined %}{{ author.last_name }}{% endif %}, {% if author.first_name is defined %}{{ author.first_name }}{% endif %}</span>
+                            {% endfor %}
+                        {% endif %}
+                    </td>
+                    <td>{{ publication.title }}</td>
+                    <td>{{ publication.type }}</td>
+                    <td>{% if publication.source is defined %}{{ publication.source }}{% endif %}</td>
+                    <td>{{ publication.created|date }}</td>
+                    <td><a href="{{ path('publication_admin', { id: publication.id, publication: publication }) }}">VIEW</a></td>
+                </tr>
             {% endfor %}
-        </ul>
+        </table>
     </div>
 {% endblock %}

@@ -1,0 +1,13 @@
+{% extends 'SonataAdminBundle::standard_layout.html.twig' %}
+
+{% block content %}
+    <h1 class="text-center">Mendeley Publications</h1>
+
+    <div class="container">
+        <p>TITLE: {{ publication.title }}</p>
+        <p>ID: {{ publication.id }}</p>
+    </div>
+
+    <a href="{{ path('publications_admin') }}" class="btn btn-primary">LIST</a>
+{% endblock %}
+

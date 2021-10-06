@@ -4,22 +4,30 @@ namespace App\Controller\Admin;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
+use KnpU\OAuth2ClientBundle\Client\ClientRegistry;
+use KnpU\OAuth2ClientBundle\Client\OAuth2ClientInterface;
+use League\OAuth2\Client\Token\AccessToken;
+use Psr\Cache\InvalidArgumentException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sonata\AdminBundle\Admin\Pool;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Cache\CacheInterface;
 
 class PublicationsAdminController extends AbstractController
 {
     private CacheInterface $cache;
+    private OAuth2ClientInterface $client;
 
     /**
      * @param   CacheInterface  $cache
+     * @param   ClientRegistry  $clientRegistry
      */
-    public function __construct(CacheInterface $cache)
+    public function __construct(CacheInterface $cache, ClientRegistry $clientRegistry)
     {
-        $this->cache = $cache;
+        $this->cache  = $cache;
+        $this->client = $clientRegistry->getClient('mendeley');
     }
 
     /**
@@ -28,46 +36,93 @@ class PublicationsAdminController extends AbstractController
      *
      * @param   Pool  $pool
      *
-     * @return array
+     * @return Pool[]
+     * @throws InvalidArgumentException
      */
     public function indexAction(Pool $pool): array
     {
         $response = $this->getMendeleyPublications();
 
         return [
-            'admin_pool' => $pool,
+            'admin_pool'   => $pool,
             'publications' => json_decode($response),
         ];
     }
 
     /**
+     * @Route("/admin/publications/{id}", name="publication_admin")
+     * @Template("SonataAdmin/Block/publication.html.twig")
+     *
+     * @param   Pool     $pool
+     * @param   Request  $request
+     *
+     * @return Pool[]
+     */
+    public function showAction(Pool $pool, Request $request): array
+    {
+        $publication = $request->query->get('publication');
+
+        return [
+            'admin_pool' => $pool,
+            'publication' => $publication,
+        ];
+    }
+
+    /**
      * @return string
+     * @throws InvalidArgumentException
      */
     private function getMendeleyPublications(): string
     {
-        $accessToken = $this->cache->getItem('mendeley_access_token')->get();
-        dump($accessToken);
+        $accessToken = $this->getAccessToken();
 
         $response = '[]';
         if ($accessToken) {
             $baseUri = 'https://api.mendeley.com/documents';
-            $client = new Client();
+            $client  = new Client();
             try {
                 $response = $client->request('GET', $baseUri, [
-                    'query' => [
+                    'query'   => [
                         'group_id' => '98b5aad2-ab5b-3406-8c13-f564adb01f63',
-                        'limit' => 500,
-                        'order' => 'desc',
+                        'limit'    => 500,
+                        'order'    => 'desc',
                     ],
                     'headers' => [
                         'Authorization' => 'Bearer '.$accessToken,
                     ]
                 ])->getBody()->getContents();
             } catch (GuzzleException $e) {
-                $this->get('session')->getFlashBag()->add('mendeley_error_message', $e->getMessage());
+                $this->get('session')->getFlashBag()->add(
+                    'mendeley_error_message',
+                    $e->getMessage()
+                );
             }
         }
 
         return $response;
+    }
+
+    /**
+     * @return AccessToken
+     * @throws InvalidArgumentException
+     */
+    private function getAccessToken(): AccessToken
+    {
+        /** @var AccessToken $accessToken */
+        $accessToken = $this->cache->getItem('mendeley_access_token')->get();
+        if ($accessToken->hasExpired()) {
+            $accessToken = $this->client->refreshAccessToken(
+                $accessToken->getRefreshToken()
+            );
+            $this->cache->delete('mendeley_access_token');
+            $accessToken = $this->cache->get(
+                'mendeley_access_token',
+                function () use ($accessToken) {
+                    return $accessToken;
+                }
+            );
+        }
+        dump(date('Y-m-d H:i:s', $accessToken->getExpires()));
+        return $accessToken;
     }
 }
