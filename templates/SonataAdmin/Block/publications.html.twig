@@ -1,5 +1,26 @@
 {% extends 'SonataAdminBundle::standard_layout.html.twig' %}
 
 {% block content %}
-    <h1>Mendeley Publications</h1>
+    <h1 class="text-center">Mendeley Publications</h1>
+    {% if is_granted('ROLE_SUPER_ADMIN') %}
+    <div class="jumbotron text-center">
+        <p>Click on the button below to fetch the publications from Mendeley.</p>
+        <a class="btn btn-primary" href="{{ path('connect_mendeley_start') }}">
+            FETCH
+        </a>
+    </div>
+    {% endif %}
+    <div class="container">
+        {% for flashVar in app.session.flashBag.get('mendeley_error_message') %}
+            <div class="alert alert-warning text-center text-bold text-black">
+                <p>{{ flashVar }}</p>
+                <p>Please contact the administrator to resolve this issue!</p>
+            </div>
+        {% endfor %}
+        <ul>
+            {% for publication in publications %}
+           <li>{{ publication.title }}</li>
+            {% endfor %}
+        </ul>
+    </div>
 {% endblock %}
