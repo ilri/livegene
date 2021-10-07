@@ -9,6 +9,8 @@ import StaffDiagram from '../views/staff_roles/StaffDiagram';
 import StaffMap from '../views/staff_roles/StaffMap';
 import ProjectTimelines from '../views/ProjectTimelines';
 import WorldMap from '../views/WorldMap';
+import MendeleyPublications from '../views/MendeleyPublications';
+import MendeleyPublication from '../views/MendeleyPublication';
 
 Vue.use(VueRouter);
 
@@ -53,6 +55,16 @@ const router = new VueRouter({
       path: '/worldmap',
       name: 'worldmap',
       component: WorldMap,
+    },
+    {
+      path: '/publications',
+      name: 'publications',
+      component: MendeleyPublications,
+    },
+    {
+      path: '/publications/:id',
+      name: 'publication',
+      component: MendeleyPublication,
     },
     {
       path: '*',

@@ -74,6 +74,10 @@ export default {
           name: 'worldmap',
           label: 'World Map',
         },
+        {
+          name: 'publications',
+          label: 'Publications',
+        },
       ],
     };
   },
