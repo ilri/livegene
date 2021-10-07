@@ -60,8 +60,8 @@ class MendeleyController extends AbstractController
     /**
      * @param   OAuth2ClientInterface  $client
      *
-     * @throws InvalidArgumentException
      * @throws IdentityProviderException
+     * @throws InvalidArgumentException
      */
     private function cacheAccessToken(OAuth2ClientInterface $client): void
     {

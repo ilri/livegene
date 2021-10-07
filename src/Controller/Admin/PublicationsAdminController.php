@@ -2,7 +2,7 @@
 
 namespace App\Controller\Admin;
 
-use App\Utils\MendeleyHelper;
+use App\Helper\MendeleyHelper;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sonata\AdminBundle\Admin\Pool;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
