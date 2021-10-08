@@ -1,624 +1,466 @@
 [
     {
-        "title": "Rich maternal and paternal genetic diversity and divergent lineage composition in wild yak (Bos mutus)",
-        "type": "journal",
+        "title": "Dairy industry development in Ethiopia: Current status, major challenges and potential interventions for improvement",
+        "type": "report",
         "authors": [
             {
-                "first_name": "Zhi-Jie",
-                "last_name": "Ma"
+                "first_name": "Gebregziabher",
+                "last_name": "Gebreyohanes"
             },
             {
-                "first_name": "Guang-Zhen",
-                "last_name": "Li"
+                "first_name": "Zelalem",
+                "last_name": "Yilma"
             },
             {
-                "first_name": "Sheng-Mei",
-                "last_name": "Chen"
+                "first_name": "Siboniso",
+                "last_name": "Moyo"
             },
             {
-                "first_name": "Jian-Lin",
-                "last_name": "Han"
-            },
-            {
-                "first_name": "Quratulain",
-                "last_name": "Hanif"
+                "first_name": "Ally",
+                "last_name": "Okeyo Mwai"
             }
         ],
         "year": 2021,
-        "source": "https:\/\/doi.org\/10.1080\/10495398.2021.1884567",
         "identifiers": {
-            "doi": "10.1080\/10495398.2021.1884567"
+            "isbn": "92\u20139146\u2013655\u20138"
         },
         "keywords": [
-            "Bos mutus",
-            "Y chromosome marker",
-            "genetic diversity",
-            "lineage composition",
-            "mtDNA"
+            "Report",
+            "animal production",
+            "dairying",
+            "livestock",
+            "markets",
+            "value chains"
         ],
-        "id": "bbe8e0a8-6472-31d2-b489-bed86734dfc0",
-        "created": "2021-10-07T06:59:38.124Z",
+        "id": "afd1499a-5a00-3064-91ef-7194b8d9195e",
+        "created": "2021-10-07T09:03:54.792Z",
         "profile_id": "29204f3d-9e3f-3dc1-9f43-2ff6d0833196",
         "group_id": "98b5aad2-ab5b-3406-8c13-f564adb01f63",
-        "last_modified": "2021-10-07T06:59:38.124Z",
-        "abstract": "Wild yak (Bos mutus) is a vulnerable bovine species on the Qinghai\u2013Tibetan Plateau (QTP). So far, most studies on molecular genetic diversity of wild yak have focused on autosomal and mtDNA variati..."
+        "last_modified": "2021-10-07T09:03:58.304Z"
     },
     {
-        "title": "Genetic diversity and population genetic structure in native Ethiopian donkeys (Equus asinus) inferred from equine microsatellite markers",
-        "type": "journal",
+        "title": "Potential farmer demand for a dairy genomic assay technology",
+        "type": "report",
         "authors": [
             {
-                "first_name": "E.",
-                "last_name": "Kefena"
+                "first_name": "Christoph",
+                "last_name": "Weber"
             },
             {
-                "first_name": "S.",
-                "last_name": "Rosenbom"
+                "first_name": "Isabelle",
+                "last_name": "Baltenweck"
             },
             {
-                "first_name": "A.",
-                "last_name": "Beja-Pereira"
+                "first_name": "Steven J.",
+                "last_name": "Staal"
             },
             {
-                "first_name": "M. Yusuf",
-                "last_name": "Kurtu"
+                "first_name": "John P.",
+                "last_name": "Gibson"
             },
             {
-                "first_name": "J. L.",
-                "last_name": "Han"
+                "first_name": "Raphael A.",
+                "last_name": "Mrode"
             },
             {
-                "first_name": "T.",
-                "last_name": "Dessie"
+                "first_name": "Ally",
+                "last_name": "Okeyo Mwai"
             }
         ],
         "year": 2021,
-        "source": "Tropical Animal Health and Production 2021 53:3",
         "identifiers": {
-            "issn": "1573-7438",
-            "doi": "10.1007\/S11250-021-02776-2"
+            "isbn": "92\u20139146\u2013668\u2013x"
         },
         "keywords": [
-            "Veterinary Medicine\/Veterinary Science",
-            "Zoology"
+            "Report",
+            "animal breeding",
+            "dairying",
+            "farmers",
+            "genetics"
         ],
-        "id": "ce95cf41-018b-35ab-96de-e36d06915f37",
-        "created": "2021-10-07T06:59:11.675Z",
+        "id": "11a6c517-f277-303f-94bd-f6aa294bcbb8",
+        "created": "2021-10-07T09:03:54.645Z",
         "profile_id": "29204f3d-9e3f-3dc1-9f43-2ff6d0833196",
         "group_id": "98b5aad2-ab5b-3406-8c13-f564adb01f63",
-        "last_modified": "2021-10-07T06:59:11.675Z",
-        "abstract": "We investigated the genetic diversity and population genetic structure of six morphologically distinct Ethiopian donkey populations using 12 equine microsatellite markers. The donkey populations were Abyssinian (AB), Afar (AF), Hararghe (HA), Ogaden (OG), Omo (OM) and Sinnar (SI). Blood samples were collected from 180 genetically unrelated donkeys (30 individuals per population). Population genetic diversity estimates showed that total number and mean number of observed alleles, average observed and expected heterozygosity were 94, 5.208 \u00b1 0.0229, 0.555 \u00b1 0.023 and 0.588 \u00b1 0.022, respectively. Highly significant deficiency in heterozygote was detected within the overall samples (FIS = 0.055 \u00b1 0.021; P < 0.001). Though highly significant (P < 0.001), heterozygote deficiency within populations relative to total population was moderate (FST = 0.046 \u00b1 0.016), suggesting a higher diversity within the populations (95.4%) than between populations. Various genetic distance estimation methods produced a similar topology of un-rooted dendrograms that grouped the overall Ethiopian donkeys into lowland (Ogaden, Omo and Sinnar) and highland (Abyssinian, Afar and Hararghe) genetic lineages. Likewise, Bayesian clustering analysis produced a similar pattern of clustering that was highly concordant with traditional donkey classification systems in Ethiopia."
+        "last_modified": "2021-10-07T09:03:59.755Z"
     },
     {
-        "title": "Large-scale genomic analysis reveals the genetic cost of chicken domestication",
+        "title": "Ministry of Agriculture eyes to triple dairy production - capital Newspaper",
+        "type": "web_page",
+        "id": "57ac2435-58c7-3683-9439-55185a6aae0d",
+        "created": "2021-10-07T09:03:54.626Z",
+        "profile_id": "29204f3d-9e3f-3dc1-9f43-2ff6d0833196",
+        "group_id": "98b5aad2-ab5b-3406-8c13-f564adb01f63",
+        "last_modified": "2021-10-07T09:03:54.626Z"
+    },
+    {
+        "title": "Values and Beliefs That Shape Cattle Breeding in Southwestern Burkina Faso",
         "type": "journal",
         "authors": [
             {
-                "first_name": "Wang",
-                "last_name": "MS"
+                "first_name": "Bienvenue",
+                "last_name": "Zoma-Traor\u00e9"
             },
             {
-                "first_name": "Zhang",
-                "last_name": "JJ"
+                "first_name": "Salifou",
+                "last_name": "Ou\u00e9draogo-Kon\u00e9"
             },
             {
-                "first_name": "Guo",
-                "last_name": "X"
+                "first_name": "Albert",
+                "last_name": "Soudr\u00e9"
             },
             {
-                "first_name": "Li",
-                "last_name": "M"
+                "first_name": "Dominique",
+                "last_name": "Ou\u00e9draogo"
             },
             {
-                "first_name": "Meyer",
-                "last_name": "R"
+                "first_name": "Bernadette",
+                "last_name": "Yougbar\u00e9"
             },
             {
-                "first_name": "Ashari",
-                "last_name": "H"
+                "first_name": "Amadou",
+                "last_name": "Traor\u00e9"
             },
             {
-                "first_name": "Zheng",
-                "last_name": "ZQ"
+                "first_name": "Negar",
+                "last_name": "Khayatzadeh"
             },
             {
-                "first_name": "Wang",
-                "last_name": "S"
+                "first_name": "G\u00e1bor",
+                "last_name": "M\u00e9sz\u00e1ros"
             },
             {
-                "first_name": "Peng",
-                "last_name": "MS"
+                "first_name": "Pamela Anna",
+                "last_name": "Burger"
             },
             {
-                "first_name": "Jiang",
-                "last_name": "Y"
+                "first_name": "Okeyo Ally",
+                "last_name": "Mwai"
             },
             {
-                "first_name": "Thakur",
-                "last_name": "M"
+                "first_name": "Johann",
+                "last_name": "S\u00f6lkner"
             },
             {
-                "first_name": "Suwannapoom",
-                "last_name": "C"
+                "first_name": "Maria",
+                "last_name": "Wurzinger"
             },
             {
-                "first_name": "Esmailizadeh",
-                "last_name": "A"
-            },
-            {
-                "first_name": "Hirimuthugoda",
-                "last_name": "NY"
-            },
-            {
-                "first_name": "Zein",
-                "last_name": "MSA"
-            },
-            {
-                "first_name": "Kusza",
-                "last_name": "S"
-            },
-            {
-                "first_name": "Kharrati-Koopaee",
-                "last_name": "H"
-            },
-            {
-                "first_name": "Zeng",
-                "last_name": "L"
-            },
-            {
-                "first_name": "Wang",
-                "last_name": "YM"
-            },
-            {
-                "first_name": "Yin",
-                "last_name": "TT"
-            },
-            {
-                "first_name": "Yang",
-                "last_name": "MM"
-            },
-            {
-                "first_name": "Li",
-                "last_name": "ML"
-            },
-            {
-                "first_name": "Lu",
-                "last_name": "XM"
-            },
-            {
-                "first_name": "Lasagna",
-                "last_name": "E"
-            },
-            {
-                "first_name": "Ceccobelli",
-                "last_name": "S"
-            },
-            {
-                "first_name": "Gunwardana",
-                "last_name": "HGTN"
-            },
-            {
-                "first_name": "Senasig",
-                "last_name": "TM"
-            },
-            {
-                "first_name": "Feng",
-                "last_name": "SH"
-            },
-            {
-                "first_name": "Zhang",
-                "last_name": "H"
-            },
-            {
-                "first_name": "Bhuiyan",
-                "last_name": "AKFH"
-            },
-            {
-                "first_name": "Khan",
-                "last_name": "MS"
-            },
-            {
-                "first_name": "Silva",
-                "last_name": "GLLP"
-            },
-            {
-                "first_name": "Thuy",
-                "last_name": "LT"
-            },
-            {
-                "first_name": "Mwai",
-                "last_name": "OA"
-            },
-            {
-                "first_name": "Ibrahim",
-                "last_name": "MNM"
-            },
-            {
-                "first_name": "Zhang",
-                "last_name": "G"
-            },
-            {
-                "first_name": "Qu",
-                "last_name": "KX"
-            },
-            {
-                "first_name": "Hanotte",
-                "last_name": "O"
-            },
-            {
-                "first_name": "Shapiro",
-                "last_name": "B"
-            },
-            {
-                "first_name": "Bosse",
-                "last_name": "M"
-            },
-            {
-                "first_name": "Wu",
-                "last_name": "DD"
-            },
-            {
-                "first_name": "Han",
-                "last_name": "JL"
-            },
-            {
-                "first_name": "Zhang",
-                "last_name": "YP"
+                "first_name": "Lorenz",
+                "last_name": "Probst"
             }
         ],
         "year": 2021,
-        "source": "BMC biology",
+        "source": "Human Ecology",
         "identifiers": {
-            "issn": "1741-7007",
-            "pmid": "34130700",
-            "doi": "10.1186\/S12915-021-01052-X"
+            "issn": "0300-7839",
+            "doi": "10.1007\/s10745-021-00240-1"
         },
         "keywords": [
-            "Jin-Jin Zhang",
-            "MEDLINE",
-            "Ming-Shan Wang",
-            "NCBI",
-            "NIH",
-            "NLM",
-            "National Center for Biotechnology Information",
-            "National Institutes of Health",
-            "National Library of Medicine",
-            "Non-U.S. Gov't",
-            "PMC8207802",
-            "PubMed Abstract",
-            "Research Support",
-            "Ya-Ping Zhang",
-            "doi:10.1186\/s12915-021-01052-x",
-            "pmid:34130700"
+            "Anthropology",
+            "Beliefs",
+            "Cattle breeding",
+            "Environmental Management",
+            "Geography",
+            "Lobi taurine cattle",
+            "Sociology",
+            "Southwestern Burkina Faso",
+            "Values",
+            "general"
         ],
-        "id": "ce5a74bc-9aba-33e1-a118-7f908bdc68ba",
-        "created": "2021-10-07T06:58:42.597Z",
+        "id": "012ecd1b-791d-3365-9234-4e9236d83a32",
+        "created": "2021-10-07T09:03:54.428Z",
         "profile_id": "29204f3d-9e3f-3dc1-9f43-2ff6d0833196",
         "group_id": "98b5aad2-ab5b-3406-8c13-f564adb01f63",
-        "last_modified": "2021-10-07T06:58:48.203Z",
-        "abstract": "Background: Species domestication is generally characterized by the exploitation of high-impact mutations through processes that involve complex shifting demographics of domesticated species. These include not only inbreeding and artificial selection that may lead to the emergence of evolutionary bottlenecks, but also post-divergence gene flow and introgression. Although domestication potentially affects the occurrence of both desired and undesired mutations, the way wild relatives of domesticated species evolve and how expensive the genetic cost underlying domestication is remain poorly understood. Here, we investigated the demographic history and genetic load of chicken domestication. Results: We analyzed a dataset comprising over 800 whole genomes from both indigenous chickens and wild jungle fowls. We show that despite having a higher genetic diversity than their wild counterparts (average \u03c0, 0.00326 vs. 0.00316), the red jungle fowls, the present-day domestic chickens experienced a dramatic population size decline during their early domestication. Our analyses suggest that the concomitant bottleneck induced 2.95% more deleterious mutations across chicken genomes compared with red jungle fowls, supporting the \u201ccost of domestication\u201d hypothesis. Particularly, we find that 62.4% of deleterious SNPs in domestic chickens are maintained in heterozygous states and masked as recessive alleles, challenging the power of modern breeding programs to effectively eliminate these genetic loads. Finally, we suggest that positive selection decreases the incidence but increases the frequency of deleterious SNPs in domestic chicken genomes. Conclusion: This study reveals a new landscape of demographic history and genomic changes associated with chicken domestication and provides insight into the evolutionary genomic profiles of domesticated animals managed under modern human selection."
+        "last_modified": "2021-10-07T09:04:01.720Z",
+        "abstract": "<p> Cattle production in southwestern Burkina Faso is under pressure because of resource scarcity, changing climate, and cattle diseases. Well-adapted local breeds, such as Lobi taurine cattle, are increasingly replaced by more productive exotic breeds. Community-based breeding programs (CBBPs) could be a viable option for preserving the breed and improving its productivity. Presuming that CBBPs would succeed only if they align with producers\u2019 beliefs and values, we relied on a combination of conceptual frameworks (theory of basic values, rural livelihood transitions) to explore the values and beliefs of cattle producers.\u00a0 <italic>Security<\/italic> \u00a0was the respondents\u2019 dominant value in their aim to mitigate threats to livelihood, and it was closely linked to\u00a0 <italic>achievement<\/italic> \u00a0in terms of harvest and animal quantity. Livestock-oriented respondents particularly valued\u00a0 <italic>conformity<\/italic> \u00a0with accepted social roles, while\u00a0 <italic>achievement<\/italic> \u00a0and\u00a0 <italic>power<\/italic> \u00a0were more pronounced among crop-oriented respondents. We conclude that CBBPs, to be successful, will need to reduce threats to participants\u2019 livelihood and make benefits of participation immediately visible. We consider the emergence of trusted leadership from the community to be pivotal for creating momentum for novel arrangements in cattle keeping and feeding. <\/p>"
     },
     {
-        "title": "Origin and Genetic Diversity of Nepalese Indigenous Goats (Capra hircus)",
+        "title": "Genomic prediction of crossbred dairy cattle in Tanzania: A route to productivity gains in smallholder dairy systems",
         "type": "journal",
         "authors": [
             {
-                "first_name": "Neena Amatya",
-                "last_name": "Gorkhali"
+                "first_name": "R.",
+                "last_name": "Mrode"
             },
             {
-                "first_name": "Jiang",
-                "last_name": "Lin"
+                "first_name": "J.",
+                "last_name": "Ojango"
             },
             {
-                "first_name": "Saroj",
-                "last_name": "Sapkota"
+                "first_name": "C.",
+                "last_name": "Ekine-Dzivenu"
             },
             {
-                "first_name": "Bhoj Raj",
-                "last_name": "Pokhrel"
+                "first_name": "H.",
+                "last_name": "Aliloo"
             },
             {
-                "first_name": "Yue-Hui",
-                "last_name": "Ma"
+                "first_name": "J.",
+                "last_name": "Gibson"
             },
             {
-                "first_name": "Jian-Lin",
-                "last_name": "Han"
+                "first_name": "M. A.",
+                "last_name": "Okeyo"
             }
         ],
         "year": 2021,
-        "source": "Agricultural Science Digest - A Research Journal",
+        "source": "Journal of Dairy Science",
         "identifiers": {
-            "doi": "10.18805\/AG.D-303"
-        },
-        "id": "29f3a082-0699-3e26-bfdc-cd2e926ddcb9",
-        "created": "2021-10-07T06:58:16.621Z",
-        "profile_id": "29204f3d-9e3f-3dc1-9f43-2ff6d0833196",
-        "group_id": "98b5aad2-ab5b-3406-8c13-f564adb01f63",
-        "last_modified": "2021-10-07T06:58:16.621Z",
-        "abstract": "Background: A very little study has been conducted on the phylogenetic diversity of Nepalese indigenous goats where four breeds, Khari, Chyangra, Terai and Sinhal, have been identified.\u00a0Methods: The 625-bp long sequences of the mitochondrial DNA hyper-variable region obtained from 93 goats in this study revealed high haplotype diversity among breeds, which come under four haplogroups (A-D).Result: The study demonstrated a certain level of gene flow among the neighboring goat populations exhibiting no correspondence between the geographic regions of origin and relationships among breeds. The complex mtDNA diversity and structure identified among indigenous Nepalese goats can be explained by gene flow through ancient trading and the current \u2018free\u2019 movement of goats across the geographic vicinities in India and China. Furthermore, HapG B showed the southward direction of gene flow which does not cross the Himalayas, whereas HapG B1 revealed the South-West gene flow from the claimed domestication center for HapG B, China, to Nepal."
-    },
-    {
-        "title": "Large-scale genomic analysis reveals the genetic cost of chicken domestication",
-        "type": "journal",
-        "authors": [
-            {
-                "first_name": "Wang",
-                "last_name": "MS"
-            },
-            {
-                "first_name": "Zhang",
-                "last_name": "JJ"
-            },
-            {
-                "first_name": "Guo",
-                "last_name": "X"
-            },
-            {
-                "first_name": "Li",
-                "last_name": "M"
-            },
-            {
-                "first_name": "Meyer",
-                "last_name": "R"
-            },
-            {
-                "first_name": "Ashari",
-                "last_name": "H"
-            },
-            {
-                "first_name": "Zheng",
-                "last_name": "ZQ"
-            },
-            {
-                "first_name": "Wang",
-                "last_name": "S"
-            },
-            {
-                "first_name": "Peng",
-                "last_name": "MS"
-            },
-            {
-                "first_name": "Jiang",
-                "last_name": "Y"
-            },
-            {
-                "first_name": "Thakur",
-                "last_name": "M"
-            },
-            {
-                "first_name": "Suwannapoom",
-                "last_name": "C"
-            },
-            {
-                "first_name": "Esmailizadeh",
-                "last_name": "A"
-            },
-            {
-                "first_name": "Hirimuthugoda",
-                "last_name": "NY"
-            },
-            {
-                "first_name": "Zein",
-                "last_name": "MSA"
-            },
-            {
-                "first_name": "Kusza",
-                "last_name": "S"
-            },
-            {
-                "first_name": "Kharrati-Koopaee",
-                "last_name": "H"
-            },
-            {
-                "first_name": "Zeng",
-                "last_name": "L"
-            },
-            {
-                "first_name": "Wang",
-                "last_name": "YM"
-            },
-            {
-                "first_name": "Yin",
-                "last_name": "TT"
-            },
-            {
-                "first_name": "Yang",
-                "last_name": "MM"
-            },
-            {
-                "first_name": "Li",
-                "last_name": "ML"
-            },
-            {
-                "first_name": "Lu",
-                "last_name": "XM"
-            },
-            {
-                "first_name": "Lasagna",
-                "last_name": "E"
-            },
-            {
-                "first_name": "Ceccobelli",
-                "last_name": "S"
-            },
-            {
-                "first_name": "Gunwardana",
-                "last_name": "HGTN"
-            },
-            {
-                "first_name": "Senasig",
-                "last_name": "TM"
-            },
-            {
-                "first_name": "Feng",
-                "last_name": "SH"
-            },
-            {
-                "first_name": "Zhang",
-                "last_name": "H"
-            },
-            {
-                "first_name": "Bhuiyan",
-                "last_name": "AKFH"
-            },
-            {
-                "first_name": "Khan",
-                "last_name": "MS"
-            },
-            {
-                "first_name": "Silva",
-                "last_name": "GLLP"
-            },
-            {
-                "first_name": "Thuy",
-                "last_name": "LT"
-            },
-            {
-                "first_name": "Mwai",
-                "last_name": "OA"
-            },
-            {
-                "first_name": "Ibrahim",
-                "last_name": "MNM"
-            },
-            {
-                "first_name": "Zhang",
-                "last_name": "G"
-            },
-            {
-                "first_name": "Qu",
-                "last_name": "KX"
-            },
-            {
-                "first_name": "Hanotte",
-                "last_name": "O"
-            },
-            {
-                "first_name": "Shapiro",
-                "last_name": "B"
-            },
-            {
-                "first_name": "Bosse",
-                "last_name": "M"
-            },
-            {
-                "first_name": "Wu",
-                "last_name": "DD"
-            },
-            {
-                "first_name": "Han",
-                "last_name": "JL"
-            },
-            {
-                "first_name": "Zhang",
-                "last_name": "YP"
-            }
-        ],
-        "year": 2021,
-        "source": "BMC biology",
-        "identifiers": {
-            "issn": "1741-7007",
-            "pmid": "34130700",
-            "doi": "10.1186\/S12915-021-01052-X"
+            "doi": "10.3168\/JDS.2020-20052"
         },
         "keywords": [
-            "Jin-Jin Zhang",
-            "MEDLINE",
-            "Ming-Shan Wang",
-            "NCBI",
-            "NIH",
-            "NLM",
-            "National Center for Biotechnology Information",
-            "National Institutes of Health",
-            "National Library of Medicine",
-            "Non-U.S. Gov't",
-            "PMC8207802",
-            "PubMed Abstract",
-            "Research Support",
-            "Ya-Ping Zhang",
-            "doi:10.1186\/s12915-021-01052-x",
-            "pmid:34130700"
+            "body weight",
+            "crossbreeds",
+            "genomic selection",
+            "milk yield",
+            "smallholder dairy cattle"
         ],
-        "id": "37b1f0a0-ba96-3fb8-a203-0da5b83d5cc0",
-        "created": "2021-10-07T06:57:07.545Z",
+        "id": "4a29803d-5d6d-35fd-b0a9-50712829e4d6",
+        "created": "2021-10-07T08:57:15.972Z",
         "profile_id": "29204f3d-9e3f-3dc1-9f43-2ff6d0833196",
         "group_id": "98b5aad2-ab5b-3406-8c13-f564adb01f63",
-        "last_modified": "2021-10-07T06:57:18.559Z",
-        "abstract": "Background: Species domestication is generally characterized by the exploitation of high-impact mutations through processes that involve complex shifting demographics of domesticated species. These include not only inbreeding and artificial selection that may lead to the emergence of evolutionary bottlenecks, but also post-divergence gene flow and introgression. Although domestication potentially affects the occurrence of both desired and undesired mutations, the way wild relatives of domesticated species evolve and how expensive the genetic cost underlying domestication is remain poorly understood. Here, we investigated the demographic history and genetic load of chicken domestication. Results: We analyzed a dataset comprising over 800 whole genomes from both indigenous chickens and wild jungle fowls. We show that despite having a higher genetic diversity than their wild counterparts (average \u03c0, 0.00326 vs. 0.00316), the red jungle fowls, the present-day domestic chickens experienced a dramatic population size decline during their early domestication. Our analyses suggest that the concomitant bottleneck induced 2.95% more deleterious mutations across chicken genomes compared with red jungle fowls, supporting the \u201ccost of domestication\u201d hypothesis. Particularly, we find that 62.4% of deleterious SNPs in domestic chickens are maintained in heterozygous states and masked as recessive alleles, challenging the power of modern breeding programs to effectively eliminate these genetic loads. Finally, we suggest that positive selection decreases the incidence but increases the frequency of deleterious SNPs in domestic chicken genomes. Conclusion: This study reveals a new landscape of demographic history and genomic changes associated with chicken domestication and provides insight into the evolutionary genomic profiles of domesticated animals managed under modern human selection."
+        "last_modified": "2021-10-07T08:57:34.519Z",
+        "abstract": "Selection based on genomic predictions has become the method of choice for genetic improvement in dairy cattle. This offers huge opportunity for developing countries with little or no pedigree data, and preliminary studies have shown promising results. The African Dairy Genetic Gains (ADGG) project initiated a digital system of dairy performance data collection, accompanied by genotyping in Tanzania in 2016. Currently, ADGG has the largest body of dairy performance data generated in East Africa from a smallholder dairy system. This study examines the use of genomic best linear unbiased prediction (GBLUP) and single-step (ss)GBLUP for the estimation of genetic parameters and accuracy of genomic prediction for daily milk yield and body weight in Tanzania. The estimates of heritability for daily milk yield from GBLUP and ssGBLUP were essentially the same, at 0.12 \u00b1 0.03. The heritability estimates for daily milk yield averaged over the whole lactation from random regression model (RRM) GBLUP or ssGBLUP were 0.22 and 0.24, respectively. The heritability of body weight from GBLUP was 0.24 \u00b1 04 but was 0.22 \u00b1 04 from the ssGBLUP analysis. Accuracy of genomic prediction for milk yield from a forward validation was 0.57 for GBLUP based on fixed regression model or 0.55 from an RRM. Corresponding estimates from ssGBLUP were 0.59 and 0.53, respectively. Accuracy for body weight, however, was much higher at 0.83 from GBLUP and 0.77 for ssGBLUP. The moderate to high levels of accuracy of genomic prediction (0.53\u20130.83) obtained for milk yield and body weight indicate that selection on the basis of genomic prediction is feasible in smallholder dairy systems and most probably the only initial possible pathway to implementing sustained genetic improvement programs in such systems."
     },
     {
-        "title": "Whole-Genome Resequencing Reveals Adaptation Prior to the Divergence of Buffalo Subspecies",
+        "title": "Local Ancestry to Identify Selection in Response to Trypanosome Infection in Baoul\u00e9 x Zebu Crossbred Cattle in Burkina Faso",
         "type": "journal",
         "authors": [
             {
-                "first_name": "Mostafa",
-                "last_name": "Rafiepour"
+                "first_name": "Bernadette",
+                "last_name": "Yougbar\u00e9"
             },
             {
-                "first_name": "Esmaeil",
-                "last_name": "Ebrahimie"
+                "first_name": "Dominique",
+                "last_name": "Ou\u00e9draogo"
             },
             {
-                "first_name": "Mohammad Farhad",
-                "last_name": "Vahidi"
+                "first_name": "Arnaud S. R.",
+                "last_name": "Tapsoba"
             },
             {
-                "first_name": "Ghasem Hosseini",
-                "last_name": "Salekdeh"
+                "first_name": "Albert",
+                "last_name": "Soudr\u00e9"
             },
             {
-                "first_name": "Ali",
-                "last_name": "Niazi"
+                "first_name": "Bienvenue L.",
+                "last_name": "Zoma"
             },
             {
-                "first_name": "Mohammad",
-                "last_name": "Dadpasand"
+                "first_name": "Pablo",
+                "last_name": "Orozco-terWengel"
             },
             {
-                "first_name": "Dong",
-                "last_name": "Liang"
+                "first_name": "Sanou",
+                "last_name": "Moumouni"
             },
             {
-                "first_name": "Jingfang",
-                "last_name": "Si"
+                "first_name": "Salifou",
+                "last_name": "Ou\u00e9draogo-Kon\u00e9"
             },
             {
-                "first_name": "Xiangdong",
-                "last_name": "Ding"
+                "first_name": "Maria",
+                "last_name": "Wurzinger"
+            },
+            {
+                "first_name": "Hamidou H.",
+                "last_name": "Tamboura"
+            },
+            {
+                "first_name": "Amadou",
+                "last_name": "Traor\u00e9"
+            },
+            {
+                "first_name": "Okeyo Ally",
+                "last_name": "Mwai"
+            },
+            {
+                "first_name": "Johann",
+                "last_name": "S\u00f6lkner"
+            },
+            {
+                "first_name": "Negar",
+                "last_name": "Khayatzadeh"
+            },
+            {
+                "first_name": "G\u00e1bor",
+                "last_name": "M\u00e9sz\u00e1ros"
+            },
+            {
+                "first_name": "Pamela A.",
+                "last_name": "Burger"
+            }
+        ],
+        "year": 2021,
+        "source": "Frontiers in Genetics",
+        "identifiers": {
+            "issn": "1664-8021",
+            "doi": "10.3389\/FGENE.2021.670390"
+        },
+        "keywords": [
+            "Burkina Faso",
+            "Cattle",
+            "Fst",
+            "SNP",
+            "admixture",
+            "local ancestry deviation",
+            "selection signature"
+        ],
+        "id": "7a5b0b85-9e19-3834-a9fd-d7de00e9d0ca",
+        "created": "2021-10-07T08:48:53.093Z",
+        "profile_id": "29204f3d-9e3f-3dc1-9f43-2ff6d0833196",
+        "group_id": "98b5aad2-ab5b-3406-8c13-f564adb01f63",
+        "last_modified": "2021-10-07T08:48:53.093Z",
+        "abstract": "The genomes of crossbred (admixed) individuals are a mosaic of ancestral haplotypes formed by recombination in each generation. The proportion of these ancestral haplotypes in certain genomic regions can be responsible for either susceptibility or tolerance against pathogens, and for performances in production traits. Using a medium-density genomic marker panel from the Illumina Bovine SNP50 BeadChip, we estimated individual admixture proportions for Baoul\u00e9 x Zebu crossbred cattle in Burkina Faso, which were tested for trypanosome infection by direct ELISA from blood samples. Furthermore, we calculated local ancestry deviation from average for each SNP across 29 autosomes to identify potential regions under selection in the trypanotolerant Baoul\u00e9 cattle and their crossbreds. We identified significant deviation from the local average ancestry (above 5% and 10% genome-wide thresholds) on chromosomes 8 and 19 in the positive animals, while the negative ones showed higher deviation on chromosomes 6, 19, 21 and 22. Some candidate genes on chromosome 6 (PDGFRA) and chromosome 19 (CDC6) have been found associated to trypanotolerance in West African taurines. Screening for FST outliers in trypanosome positive\/ negative animals we detected seven variants putatively under selection. Finally, we identified a minimum set of highly ancestry informative markers for routine admixture testing. The results of this study contribute to a better understanding of the genetic basis of trypanotolerance in Baoul\u00e9 cattle and their crossbreeds. Furthermore, we provide a small informative marker set to monitor admixture in this valuable indigenous breed. As such, our results are important for conserving the genetic uniqueness and trypanotolerance of Baoul\u00e9 cattle, as well as for the improvement of Baoul\u00e9 and Zebu crossbreds in specific community-based breeding programs."
+    },
+    {
+        "title": "High Genetic Diversity but Absence of Population Structure in Local Chickens of Sri Lanka Inferred by Microsatellite Markers",
+        "type": "journal",
+        "authors": [
+            {
+                "first_name": "Amali Malshani",
+                "last_name": "Samaraweera"
+            },
+            {
+                "first_name": "Ranga",
+                "last_name": "Liyanage"
+            },
+            {
+                "first_name": "Mohamed Nawaz",
+                "last_name": "Ibrahim"
+            },
+            {
+                "first_name": "Ally Mwai",
+                "last_name": "Okeyo"
             },
             {
                 "first_name": "Jianlin",
                 "last_name": "Han"
             },
             {
-                "first_name": "Yi",
-                "last_name": "Zhang"
-            },
-            {
-                "first_name": "Saber",
-                "last_name": "Qanbari"
+                "first_name": "Pradeepa",
+                "last_name": "Silva"
             }
         ],
         "year": 2021,
-        "source": "Genome Biology and Evolution",
+        "source": "Frontiers in Genetics",
         "identifiers": {
-            "doi": "10.1093\/GBE\/EVAA231"
+            "issn": "1664-8021",
+            "doi": "10.3389\/FGENE.2021.723706"
         },
         "keywords": [
-            "Admixture",
-            "Differentiation index",
-            "Iranian indigenous buffalo",
-            "Nucleotide diversity",
-            "Selection signature"
+            "Local chicken",
+            "Tropical Climate",
+            "genetic diversity",
+            "microsatellite marker",
+            "population structure"
         ],
-        "id": "2ae8ccb2-983d-3caf-8c75-bd53771979ac",
-        "created": "2021-10-07T06:55:55.950Z",
+        "id": "2ecb502c-88dd-329e-a6c9-7ff33132bf60",
+        "created": "2021-10-07T08:48:22.931Z",
         "profile_id": "29204f3d-9e3f-3dc1-9f43-2ff6d0833196",
         "group_id": "98b5aad2-ab5b-3406-8c13-f564adb01f63",
-        "last_modified": "2021-10-07T06:56:02.746Z",
-        "abstract": "The application of high-throughput genotyping or sequencing data helps us to understand the genomic response to natural and artificial selection. In this study,we scanned the genomes of five indigenous buffalo populations belong to three recognized breeds, adapted to different geographical and agro-ecological zones in Iran, to unravel the extent of genomic diversity and to localize genomic regions and genes underwent past selection. A total of 46 river buffalo whole genomes, from West and East Azerbaijan, Gilan, Mazandaran, and Khuzestan provinces, were resequenced. Our sequencing data reached to a coverage above 99%of the river buffalo reference genome and an average read depth around 9.2\u00d7 per sample. We identified 20.55 million SNPs, including 63,097 missense, 707 stop-gain, and 159 stop-lossmutations thatmight have functional consequences. Genomic diversity analyses showed modest structuring among Iranian buffalo populations following frequent gene flow or admixture in the recent past. Evidence of positive selection was investigated using both differentiation (Fst) and fixation (Pi)metrics. Analysis of fixation revealed three genomic regions in all three breeds with aberrant polymorphism contents on BBU2, 20, and 21. Fixation signal on BBU2 overlapped with the OCA2-HERC2 genes, suggestive of adaptation to UV exposure through pigmentation mechanism. Further validation using resequencing data from other five bovine species as well as the Axiom Buffalo Genotyping Array 90K data of river and swampbuffaloes indicated that these fixation signals persisted across river and swampbuffaloes and extended to taurine cattle, implying an ancient evolutionary event occurred before the speciation of buffalo and taurine cattle. These results contributed to our understanding of major genetic switches that took place during the evolution of modern buffaloes."
+        "last_modified": "2021-10-07T08:48:22.931Z",
+        "abstract": "Local chicken populations belonging to five villages in two geographically separated provinces of Sri Lanka were analyzed using twenty microsatellite markers to determine the genetic diversity of local chicken. Population genetic parameters were estimated separately for five populations based on geographic location and for eight populations based on phenotype as naked neck, long legged, crested or crown, frizzle feathered, Giriraj, commercial layer, crossbreds and non-descript chicken. The analysis revealed that there is a high genetic diversity among indigenous chicken with high number of unique alleles, mean number of alleles per locus (MNA) and higher total number of alleles per locus per population. A total of 185 microsatellite alleles were detected in 192 samples indicating a high allelic diversity. The MNA ranged from 8.10\u00b12.94 (normal village chicken) to 3.50\u00b11.36 (Giriraj) among phenotypes, and from 7.30\u00b12.74 (Tabbowa) to 6.50\u00b12.48 (Labunoruwa) among village populations. In phenotypic groups, positive inbreeding coefficient (FIS) values indicate the existence of population substructure with evidence of inbreeding. In commercial layers a high expected heterozygosity (HE=0.639\u00b10.042) and negative FIS was observed. The positive FIS and high HE in village populations can be due to the heterogeneity of samples owing to free mating facilitated by communal feeding patterns. Highly admixed nature of phenotypic populations observed was explained as a result of rearing many phenotypes by households (58%) and interactions of chicken among neighboring households (53%). There was limited or no exchange of breeding birds among households. A weak substructure was evident due to the mating system, which disregard the phenotype. Based on genetic distance, crown chicken has the highest distance to other phenotypes and the highest similarity was observed between normal local chicken and naked neck. The finding confirms the genetic wealth conserved within the populations as a result of the breeding system commonly practiced by local chicken owners. Thus, the existing chicken can be used as a harbor of gene pool which can be readily utilized in developing local breeds of chicken in future."
+    },
+    {
+        "title": "Accelerating genetic improvement in emerging smallholder dairy systems through fixed-time and conventional artificial insemination technologies: organizational and operational experiences from Kenya",
+        "type": "report",
+        "authors": [
+            {
+                "first_name": "Ally",
+                "last_name": "Okeyo Mwai"
+            },
+            {
+                "first_name": "V.",
+                "last_name": "Tsuma"
+            },
+            {
+                "first_name": "J.O.",
+                "last_name": "Owino"
+            },
+            {
+                "first_name": "Laurence",
+                "last_name": "Ochieng"
+            },
+            {
+                "first_name": "E.J.O.",
+                "last_name": "Rao"
+            }
+        ],
+        "year": 2020,
+        "identifiers": {
+            "isbn": "92-9146-639-5"
+        },
+        "keywords": [
+            "Report",
+            "animal breeding",
+            "dairying",
+            "genetics",
+            "livestock"
+        ],
+        "id": "e6c824b5-d13e-3bcb-9edd-62bf3b393589",
+        "created": "2021-10-07T08:47:51.764Z",
+        "profile_id": "29204f3d-9e3f-3dc1-9f43-2ff6d0833196",
+        "group_id": "98b5aad2-ab5b-3406-8c13-f564adb01f63",
+        "last_modified": "2021-10-07T08:48:00.917Z"
+    },
+    {
+        "title": "Gender mainstreaming in improving productivity through herd management and community-based breeding",
+        "type": "bill",
+        "authors": [
+            {
+                "first_name": "Jennifer",
+                "last_name": "Gitau"
+            },
+            {
+                "first_name": "Julie M.K.",
+                "last_name": "Ojango"
+            },
+            {
+                "first_name": "Edwin P.",
+                "last_name": "Oyieng"
+            },
+            {
+                "first_name": "J.",
+                "last_name": "Gachora"
+            },
+            {
+                "first_name": "A.W.T.",
+                "last_name": "Muigai"
+            },
+            {
+                "last_name": "J. Gitau"
+            },
+            {
+                "last_name": "J.M.K. Ojango"
+            },
+            {
+                "last_name": "E. Oyieng"
+            },
+            {
+                "last_name": "J. Gachora"
+            },
+            {
+                "last_name": "A.W.T. Muigai"
+            }
+        ],
+        "year": 2021,
+        "source": "Presentation",
+        "keywords": [
+            "Poster",
+            "animal breeding",
+            "gender",
+            "livestock",
+            "pastoralism",
+            "resilience",
+            "women"
+        ],
+        "id": "15dddfbc-cd86-33a1-9f23-5cab622537cb",
+        "created": "2021-10-07T08:01:23.575Z",
+        "profile_id": "29204f3d-9e3f-3dc1-9f43-2ff6d0833196",
+        "group_id": "98b5aad2-ab5b-3406-8c13-f564adb01f63",
+        "last_modified": "2021-10-07T08:01:27.974Z"
     },
     {
         "title": "Genomic Analysis Revealed a Convergent Evolution of LINE-1 in Coat Color: A Case Study in Water Buffaloes (Bubalus bubalis)",
@@ -709,11 +551,9 @@
                 "last_name": "Zhang"
             }
         ],
-        "year": 2021,
         "source": "Molecular Biology and Evolution",
         "identifiers": {
-            "issn": "0737-4038",
-            "doi": "10.1093\/MOLBEV\/MSAA279"
+            "issn": "0737-4038"
         },
         "keywords": [
             "ASIP gene",
@@ -723,16 +563,1223 @@
             "water buffalo",
             "white coat color"
         ],
-        "id": "e93ffd35-c435-30c0-a19d-855218666ebb",
-        "created": "2021-10-07T06:54:58.052Z",
+        "id": "e91e666e-221b-3b69-b9ad-73ef4fe8cff9",
+        "created": "2021-10-07T08:01:23.355Z",
         "profile_id": "29204f3d-9e3f-3dc1-9f43-2ff6d0833196",
         "group_id": "98b5aad2-ab5b-3406-8c13-f564adb01f63",
-        "last_modified": "2021-10-07T06:55:06.465Z",
-        "abstract": "Visible pigmentation phenotypes can be used to explore the regulation of gene expression and the evolution of coat color patterns in animals. Here, we performed whole-genome and RNA sequencing and applied genome-wide association study, comparative population genomics and biological experiments to show that the 2,809-bp-long LINE-1 insertion in the ASIP (agouti signaling protein) gene is the causative mutation for the white coat phenotype in swamp buffalo (Bubalus bubalis). This LINE-1 insertion (3' truncated and containing only 5' UTR) functions as a strong proximal promoter that leads to a 10-fold increase in the transcription of ASIP in white buffalo skin. The 165\u2009bp of 5' UTR transcribed from the LINE-1 is spliced into the first coding exon of ASIP, resulting in a chimeric transcript. The increased expression of ASIP prevents melanocyte maturation, leading to the absence of pigment in white buffalo skin and hairs. Phylogenetic analyses indicate that the white buffalo-specific ASIP allele originated from a recent genetic transposition event in swamp buffalo. Interestingly, as a similar LINE-1 insertion has been identified in the cattle ASIP gene, we discuss the convergent mechanism of coat color evolution in the Bovini tribe."
+        "last_modified": "2021-10-07T08:01:27.076Z",
+        "abstract": "Visible pigmentation phenotypes can be used to explore the regulation of gene expression and the evolution of coat color patterns in animals. Here, we performed whole-genome and RNA sequencing and applied genome-wide association study, comparative population genomics and biological experiments to show that the 2,809-bp-long LINE-1 insertion in the ASIP (agouti signaling protein) gene is the causative mutation for the white coat phenotype in swamp buffalo (Bubalus bubalis). This LINE-1 insertion (3\u2032 truncated and containing only 5\u2032 UTR) functions as a strong proximal promoter that leads to a 10-fold increase in the transcription of ASIP in white buffalo skin. The 165 bp of 5\u2032 UTR transcribed from the LINE-1 is spliced into the first coding exon of ASIP, resulting in a chimeric transcript. The increased expression of ASIP prevents melanocyte maturation, leading to the absence of pigment in white buffalo skin and hairs. Phylogenetic analyses indicate that the white buffalo-specific ASIP allele originated from a recent genetic transposition event in swamp buffalo. Interestingly, as a similar LINE-1 insertion has been identified in the cattle ASIP gene, we discuss the convergent mechanism of coat color evolution in the Bovini tribe."
+    },
+    {
+        "title": "Evaluating the impact of heat stress as measured by temperature-humidity index (THI) on test-day milk yield of small holder dairy cattle in a sub-Sahara African climate",
+        "type": "journal",
+        "authors": [
+            {
+                "first_name": "C.C. C.",
+                "last_name": "Ekine-Dzivenu"
+            },
+            {
+                "first_name": "R.",
+                "last_name": "Mrode"
+            },
+            {
+                "first_name": "E.",
+                "last_name": "Oyieng"
+            },
+            {
+                "first_name": "D.",
+                "last_name": "Komwihangilo"
+            },
+            {
+                "first_name": "E.",
+                "last_name": "Lyatuu"
+            },
+            {
+                "first_name": "G.",
+                "last_name": "Msuta"
+            },
+            {
+                "first_name": "J.M.K. M.K.",
+                "last_name": "Ojango"
+            },
+            {
+                "first_name": "A.M. M.",
+                "last_name": "Okeyo"
+            }
+        ],
+        "year": 2020,
+        "source": "Livestock Science",
+        "identifiers": {
+            "issn": "18711413",
+            "doi": "10.1016\/j.livsci.2020.104314"
+        },
+        "keywords": [
+            "Heat stress",
+            "Milk loss",
+            "Temperature humidity index"
+        ],
+        "id": "7ed35fd6-7e1c-3223-82cc-39979dcb71c8",
+        "created": "2021-10-07T08:01:23.345Z",
+        "profile_id": "29204f3d-9e3f-3dc1-9f43-2ff6d0833196",
+        "group_id": "98b5aad2-ab5b-3406-8c13-f564adb01f63",
+        "last_modified": "2021-10-07T08:01:28.822Z",
+        "abstract": "This study evaluates the effect of heat stress on milk production and describes the pattern of response of milk yield to increasing heat load, using temperature-humidity index (THI) on test-day milk records of small holder dairy cattle herds in the sub-Saharan African climate of Tanzania. Climate data obtained from aWhere, an agricultural weather data platform (http:\/\/www.awhere.com) was analysed with 14,367 first lactation test day milk records of 3511 dairy cows collected between 2016 and 2019. THI was calculated from daily maximal temperatures and daily minimum humidity. Three sets of analysis were performed. In the first and second analysis, two mixed effect repeatability models were fitted with THI treated as a categorical variable grouped into 5 classes (THI1= [61 - 66], THI2= [67 - 71], THI3= [72 - 78], THI4=[79 - 81], THI5=[82 - 86]), to obtain least squares estimates of THI effect on milk production, and as a continuous variable within THI classes to identify THI thresholds at which milk yield started to decline. In the third analyses, one quadratic polynomial regression (POL) and three regression spline functions namely piecewise linear spline function (PLF), natural splines function (NSF) and cubic splines function (CSF) were fitted to determine the average effect of THI on milk yield in the population and describe the pattern of response of milk yield to increasing head load. The results show that heat stress reduced milk yield by 4.16% to 14.42% across THI groups, with daily milk yield being the highest in THI1 (7.40\u00b10.39 litres) and the lowest in THI4 (6.33\u00b10.32). Regression coefficients within groups showed significant daily milk yield decrease in THI2 (-0.09) and THI3 (-0.06), but not for other THI classes, indicating that cows experienced heat stress between THI values of 67 and 76 and milk loss plateaued afterwards, suggesting that the animals acclimatized to heat stress conditions beyond THI value of 76. At the population level, THI and its squared term were significantly negatively and positively (-0.61, 0.004) associated with milk production, indicating a non-linear relationship between milk yield and THI. The CSF model showed better goodness of fit and predictive ability than other models for predicting future population response of milk yield to heat stress in small holder dairy farms in Tanzania. Herd management strategies and animal husbandry measures are needed in small holder dairy farms in Tanzania to minimize the impact of heat stress on milk yield and income of the farmers."
+    },
+    {
+        "title": "Diversity of microbes colonizing forages of varying lignocellulose properties in the sheep rumen",
+        "type": "journal",
+        "authors": [
+            {
+                "first_name": "Mohammad Farhad",
+                "last_name": "Vahidi"
+            },
+            {
+                "first_name": "Javad",
+                "last_name": "Gharechahi"
+            },
+            {
+                "first_name": "Mehrdad",
+                "last_name": "Behmanesh"
+            },
+            {
+                "first_name": "Xue-Zhi",
+                "last_name": "Ding"
+            },
+            {
+                "first_name": "Jian-Lin",
+                "last_name": "Han"
+            },
+            {
+                "first_name": "Ghasem Hosseini",
+                "last_name": "Salekdeh"
+            }
+        ],
+        "year": 2021,
+        "source": "PeerJ",
+        "identifiers": {
+            "issn": "2167-8359",
+            "doi": "10.7717\/PEERJ.10463"
+        },
+        "keywords": [
+            "16S rRNA gene sequencing",
+            "Biomass degradation",
+            "Microbiome",
+            "Rumen incubation",
+            "Sheep"
+        ],
+        "id": "d1670d92-8382-3d7f-be7f-459f8e5ce14f",
+        "created": "2021-10-07T08:01:23.337Z",
+        "profile_id": "29204f3d-9e3f-3dc1-9f43-2ff6d0833196",
+        "group_id": "98b5aad2-ab5b-3406-8c13-f564adb01f63",
+        "last_modified": "2021-10-07T08:01:32.813Z",
+        "abstract": "Background. The rumen microbiota contributes strongly to the degradation of ingested plant materials. There is limited knowledge about the diversity of taxa involved in the breakdown of lignocellulosic biomasses with varying chemical compositions in the rumen. Method. We aimed to assess how and to what extent the physicochemical properties of forages influence the colonization and digestion by rumen microbiota. This was achieved by placing nylon bags filled with candidate materials in the rumen of fistulated sheep for a period of up to 96 h, followed by measuring forage's chemical characteristics and community structure of biofilm-embedded microbiota. Results. Rumen degradation for all forages appeared to have occurred mainly during the first 24 h of their incubation, which significantly slowed down after 48 h of rumen incubation, depending on their chemical properties. Random Forest analysis predicted the predominant role of Treponema and Butyrivibrio in shaping microbial diversity attached to the forages during the course of rumen incubation. Exploring community structure and composition of fiber-attached microbiota revealed significant differential colonization rates of forages depending on their contents for NDF and cellulose. The correlation analysis highlighted the significant contribution of Lachnospiraceae and Veillonellaceae to fiber degradation in the sheep rumen. Conclusion. Our findings suggested that forage cellulose components are critical in shaping the pattern of microbial colonization and thus their final digestibility in the rumen."
+    },
+    {
+        "title": "A Mix of Old British and Modern European Breeds: Genomic Prediction of Breed Composition of Smallholder Pigs in Uganda",
+        "type": "journal",
+        "authors": [
+            {
+                "first_name": "Brian Martin",
+                "last_name": "Babigumira"
+            },
+            {
+                "first_name": "Johann",
+                "last_name": "S\u00f6lkner"
+            },
+            {
+                "first_name": "G\u00e1bor",
+                "last_name": "M\u00e9sz\u00e1ros"
+            },
+            {
+                "first_name": "Christina",
+                "last_name": "Pfeiffer"
+            },
+            {
+                "first_name": "Craig R.G.",
+                "last_name": "Lewis"
+            },
+            {
+                "first_name": "Emily",
+                "last_name": "Ouma"
+            },
+            {
+                "first_name": "Maria",
+                "last_name": "Wurzinger"
+            },
+            {
+                "first_name": "Karen",
+                "last_name": "Marshall"
+            }
+        ],
+        "year": 2021,
+        "source": "Frontiers in Genetics",
+        "identifiers": {
+            "doi": "10.3389\/FGENE.2021.676047"
+        },
+        "keywords": [
+            "SNP",
+            "Uganda",
+            "admixture",
+            "breed",
+            "diversity",
+            "genomic",
+            "pig"
+        ],
+        "id": "a1e9c599-e0f9-37e8-8f5b-2edb71fd4c75",
+        "created": "2021-10-07T07:37:40.650Z",
+        "profile_id": "29204f3d-9e3f-3dc1-9f43-2ff6d0833196",
+        "group_id": "98b5aad2-ab5b-3406-8c13-f564adb01f63",
+        "last_modified": "2021-10-07T07:37:55.626Z",
+        "abstract": "Pig herds in Africa comprise genotypes ranging from local ecotypes to commercial breeds. Many animals are composites of these two types and the best levels of crossbreeding for particular production systems are largely unknown. These pigs are managed without structured breeding programs and inbreeding is potentially limiting. The objective of this study was to quantify ancestry contributions and inbreeding levels in a population of smallholder pigs in Uganda. The study was set in the districts of Hoima and Kamuli in Uganda and involved 422 pigs. Pig hair samples were taken from adult and growing pigs in the framework of a longitudinal study investigating productivity and profitability of smallholder pig production. The samples were genotyped using the porcine GeneSeek Genomic Profiler (GGP) 50K SNP Chip. The SNP data was analyzed to infer breed ancestry and autozygosity of the Uganda pigs. The results showed that exotic breeds (modern European and old British) contributed an average of 22.8% with a range of 2\u201350% while \u201clocal\u201d blood contributed 69.2% (36.9\u201395.2%) to the ancestry of the pigs. Runs of homozygosity (ROH) greater than 2 megabase (Mb) quantified the average genomic inbreeding coefficient of the pigs as 0.043. The scarcity of long ROH indicated low recent inbreeding. We conclude that the genomic background of the pig population in the study is a mix of old British and modern pig ancestries. Best levels of admixture for smallholder pigs are yet to be determined, by linking genotypes and phenotypic records."
+    },
+    {
+        "title": "Technical Efficiency of Traditional Village Chicken Production in Africa: Entry Points for Sustainable Transformation and Improved Livelihood",
+        "type": "journal",
+        "authors": [
+            {
+                "first_name": "Mulugeta Y.",
+                "last_name": "Birhanu"
+            },
+            {
+                "first_name": "Tesfahun",
+                "last_name": "Alemayehu"
+            },
+            {
+                "first_name": "Jasmine E.",
+                "last_name": "Bruno"
+            },
+            {
+                "first_name": "Fasil Getachew",
+                "last_name": "Kebede"
+            },
+            {
+                "first_name": "Emmanuel Babafunso",
+                "last_name": "Sonaiya"
+            },
+            {
+                "first_name": "Ezekiel H.",
+                "last_name": "Goromela"
+            },
+            {
+                "first_name": "Oladeji",
+                "last_name": "Bamidele"
+            },
+            {
+                "first_name": "Tadelle",
+                "last_name": "Dessie"
+            }
+        ],
+        "year": 2021,
+        "source": "Sustainability 2021, Vol. 13, Page 8539",
+        "identifiers": {
+            "doi": "10.3390\/SU13158539"
+        },
+        "keywords": [
+            "Saharan Africa",
+            "Sub",
+            "agricultural transformation",
+            "integrated intervention",
+            "productivity",
+            "smallholder chicken",
+            "stochastic frontier"
+        ],
+        "id": "7e61bc8b-5a35-3392-880b-678e3ee029f9",
+        "created": "2021-10-07T07:35:51.586Z",
+        "profile_id": "29204f3d-9e3f-3dc1-9f43-2ff6d0833196",
+        "group_id": "98b5aad2-ab5b-3406-8c13-f564adb01f63",
+        "last_modified": "2021-10-07T07:35:59.308Z",
+        "abstract": "Increasing poultry product consumption trends have attracted researchers and development practitioners to look for interventions that transform the low-input low-output-based village chicken production to a high yielding production system. However, due to the intricate nature of the production system, there is a dearth of evidence that helps design comprehensive interventions at the smallholder level. Using national-level representative data collected from 3555 village chicken producers in Ethiopia, Nigeria, and Tanzania, this study examines the technical efficiency of village chicken production and investigates the main factors that explain the level of inefficiency. We applied a stochastic frontier analysis to simultaneously quantify the level of technical efficiency and identify factors associated with heterogeneity in inefficiency. We found that the level of technical efficiency is extremely low in the three countries, suggesting enormous opportunities to enhance productivity using available resources. The heterogeneity in technical efficiency is strongly associated with producers\u2019 experience in breed improvements and flock management, limited technical knowledge and skills, limited access to institutions and markets, smaller flock size, gender disparities, and household livelihood orientation. We argue the need to adopt an integrated approach to enhance village producers\u2019 productivity and transform the traditional subsistence-based production system into a commercially oriented semi-intensive production system."
+    },
+    {
+        "title": "Integrated Environmental and Genomic Analysis Reveals the Drivers of Local Adaptation in African Indigenous Chickens",
+        "type": "journal",
+        "authors": [
+            {
+                "first_name": "Almas A",
+                "last_name": "Gheyas"
+            },
+            {
+                "first_name": "Adriana",
+                "last_name": "Vallejo-Trujillo"
+            },
+            {
+                "first_name": "Adebabay",
+                "last_name": "Kebede"
+            },
+            {
+                "first_name": "Maria",
+                "last_name": "Lozano-Jaramillo"
+            },
+            {
+                "first_name": "Tadelle",
+                "last_name": "Dessie"
+            },
+            {
+                "first_name": "Jacqueline",
+                "last_name": "Smith"
+            },
+            {
+                "first_name": "Olivier",
+                "last_name": "Hanotte"
+            }
+        ],
+        "year": 2021,
+        "source": "Molecular Biology and Evolution",
+        "identifiers": {
+            "issn": "0737-4038",
+            "doi": "10.1093\/MOLBEV\/MSAB156"
+        },
+        "keywords": [
+            "African indigenous chicken",
+            "ecological niche modeling",
+            "genotype2environment association",
+            "local environmental adaptation",
+            "redundancy analysis",
+            "selection signature"
+        ],
+        "id": "edcfaf62-df90-327d-bd3d-8b05c74e8909",
+        "created": "2021-10-07T07:32:14.021Z",
+        "profile_id": "29204f3d-9e3f-3dc1-9f43-2ff6d0833196",
+        "group_id": "98b5aad2-ab5b-3406-8c13-f564adb01f63",
+        "last_modified": "2021-10-07T07:32:26.142Z",
+        "abstract": "Breeding for climate resilience is currently an important goal for sustainable livestock production. Local adaptations exhibited by indigenous livestock allow investigating the genetic control of this resilience. Ecological niche modeling (ENM) provides a powerful avenue to identify the main environmental drivers of selection. Here, we applied an integrative approach combining ENM with genome-wide selection signature analyses (XPEHH and Fst) and genotype\u2212environment association (redundancy analysis), with the aim of identifying the genomic signatures of adaptation in African village chickens. By dissecting 34 agro-climatic variables from the ecosystems of 25 Ethiopian village chicken populations, ENM identified six key drivers of environmental challenges: One temperature variable\u2014strongly correlated with elevation, three precipitation variables as proxies for water availability, and two soil\/land cover variables as proxies of food availability for foraging chickens. Genome analyses based on whole-genome sequencing (n = 245), identified a few strongly supported genomic regions under selection for environmental challenges related to altitude, temperature, water scarcity, and food availability. These regions harbor several gene clusters including regulatory genes, suggesting a predominantly oligogenic control of environmental adaptation. Few candidate genes detected in relation to heat-stress, indicates likely epigenetic regulation of thermo-tolerance for a domestic species originating from a tropical Asian wild ancestor. These results provide possible explanations for the rapid past adaptation of chickens to diverse African agro-ecologies, while also representing new landmarks for sustainable breeding improvement for climate resilience. We show that the pre-identification of key environmental drivers, followed by genomic investigation, provides a powerful new approach for elucidating adaptation in domestic animals."
+    },
+    {
+        "title": "Start-up of small-scale Artificial Insemination and East Coast Fever Vaccination business: Guidelines on requirements",
+        "type": "report",
+        "authors": [
+            {
+                "first_name": "Julie M.K.",
+                "last_name": "Ojango"
+            },
+            {
+                "first_name": "Amos O.",
+                "last_name": "Omore"
+            },
+            {
+                "first_name": "E.J.O.",
+                "last_name": "Rao"
+            },
+            {
+                "first_name": "H.",
+                "last_name": "Mbwille"
+            },
+            {
+                "first_name": "Henry K.",
+                "last_name": "Kiara"
+            }
+        ],
+        "year": 2021,
+        "keywords": [
+            "Brief",
+            "animal breeding",
+            "artificial insemination",
+            "dairying",
+            "east coast fever",
+            "genetics",
+            "indigenous breeds",
+            "livestock",
+            "vaccines"
+        ],
+        "id": "f1a0ea63-242c-3cbb-a55f-2d5417ee4ba8",
+        "created": "2021-10-07T07:30:47.514Z",
+        "profile_id": "29204f3d-9e3f-3dc1-9f43-2ff6d0833196",
+        "group_id": "98b5aad2-ab5b-3406-8c13-f564adb01f63",
+        "last_modified": "2021-10-07T07:30:51.370Z"
+    },
+    {
+        "title": "Improving small ruminant productivity in pastoral systems of Kenya: Baseline household survey report 2021",
+        "type": "report",
+        "authors": [
+            {
+                "first_name": "Edwin P.",
+                "last_name": "Oyieng"
+            },
+            {
+                "first_name": "Julie M.K.",
+                "last_name": "Ojango"
+            },
+            {
+                "first_name": "James",
+                "last_name": "Audho"
+            },
+            {
+                "first_name": "Jennifer",
+                "last_name": "Gitau"
+            },
+            {
+                "first_name": "J.",
+                "last_name": "Gachora"
+            }
+        ],
+        "year": 2021,
+        "identifiers": {
+            "isbn": "92-9146-652-3"
+        },
+        "keywords": [
+            "Report",
+            "animal production",
+            "goats",
+            "livestock",
+            "pastoralism",
+            "sheep",
+            "small ruminants"
+        ],
+        "id": "5fc314f8-1b38-3ab9-b4e3-fafc157ee92f",
+        "created": "2021-10-07T07:27:18.379Z",
+        "profile_id": "29204f3d-9e3f-3dc1-9f43-2ff6d0833196",
+        "group_id": "98b5aad2-ab5b-3406-8c13-f564adb01f63",
+        "last_modified": "2021-10-07T07:27:24.151Z"
+    },
+    {
+        "title": "Clinical Evaluation of Corridor Disease in Bos indicus (Boran) Cattle Naturally Infected With Buffalo-Derived Theileria parva",
+        "type": "journal",
+        "authors": [
+            {
+                "first_name": "Elizabeth A. J.",
+                "last_name": "Cook"
+            },
+            {
+                "first_name": "Tatjana",
+                "last_name": "Sitt"
+            },
+            {
+                "first_name": "E. Jane",
+                "last_name": "Poole"
+            },
+            {
+                "first_name": "Gideon",
+                "last_name": "Ndambuki"
+            },
+            {
+                "first_name": "Stephen",
+                "last_name": "Mwaura"
+            },
+            {
+                "first_name": "Maurine C.",
+                "last_name": "Chepkwony"
+            },
+            {
+                "first_name": "Perle",
+                "last_name": "Latre de Late"
+            },
+            {
+                "first_name": "Antoinette A.",
+                "last_name": "Miyunga"
+            },
+            {
+                "first_name": "Richard",
+                "last_name": "van Aardt"
+            },
+            {
+                "first_name": "Giles",
+                "last_name": "Prettejohn"
+            },
+            {
+                "first_name": "David",
+                "last_name": "Wragg"
+            },
+            {
+                "first_name": "James G. D.",
+                "last_name": "Prendergast"
+            },
+            {
+                "first_name": "W. Ivan",
+                "last_name": "Morrison"
+            },
+            {
+                "first_name": "Philip",
+                "last_name": "Toye"
+            }
+        ],
+        "year": 2021,
+        "source": "Frontiers in Veterinary Science",
+        "identifiers": {
+            "issn": "2297-1769",
+            "doi": "10.3389\/FVETS.2021.731238"
+        },
+        "keywords": [
+            "Buffalo",
+            "Corridor disease",
+            "ECF",
+            "East coast fever",
+            "Theileria parva"
+        ],
+        "id": "2399a6e0-da0e-3f2f-bc22-b8b7de824422",
+        "created": "2021-10-07T07:23:27.566Z",
+        "profile_id": "29204f3d-9e3f-3dc1-9f43-2ff6d0833196",
+        "group_id": "98b5aad2-ab5b-3406-8c13-f564adb01f63",
+        "last_modified": "2021-10-07T07:23:27.566Z",
+        "abstract": "Corridor disease (CD) is a fatal condition of cattle caused by buffalo-derived Theileria parva. Unlike the related condition, East Coast fever (ECF), which results from infection with cattle-derived T. parva, CD has not been extensively studied. We describe in detail the clinical and laboratory findings in cattle naturally infected with buffalo-derived T. parva. Forty-six cattle were exposed to buffalo-derived T. parva under field conditions at the Ol Pejeta Conservancy, Kenya, between 2013-2018. The first signs of disease observed in all animals were nasal discharge (mean day of onset 9 days post exposure), enlarged lymph nodes (10 days post exposure) and pyrexia (13.7 days post exposure). Coughing and laboured breathing were observed in over 50% of animals (14 days post exposure). Less commonly observed signs, corneal oedema (22%) and diarrhoea (11%), were observed later in the disease progression (19 days post exposure). All infections were considered clinically severe and forty-two animals succumbed to infection. The mean time to death across all studies was 18.4 days. The mean time from onset of clinical signs to death was 9 days and from pyrexia to death was 4.8 days indicating a relatively short duration of clinical illness. There were significant relationships between days to death and the days to first temperature (Chi2=4.00, p=0.046) and days to peak temperature (Chi2=25.81, p=0.001). These clinical indicators may be useful for assessing severity of disease in the future. All infections were confirmed by the presence of macroschizonts in lymph node biopsies (mean time to parasitosis was 11 days). Piroplasms were detected in the blood of two animals (4%) and 20 (43%) animals seroconverted. In this study we demonstrate the successful approach to an experimental field study for CD in cattle. We also describe the clinical progression of CD in naturally infected cattle including the onset and severity of clinical signs and pathology. Laboratory diagnoses based on examination of blood samples are unreliable and alternatives may not be available to cattle keepers. The rapid development of CD requires recognition of the clinical signs which may be useful for early diagnosis of the disease and effective intervention for affected animals."
+    },
+    {
+        "title": "Digital training for dairy farmers using the Learn.ink platform",
+        "type": "web_page",
+        "id": "ea11e935-b620-3927-a17b-852728bfba9d",
+        "created": "2021-10-07T07:22:38.868Z",
+        "profile_id": "29204f3d-9e3f-3dc1-9f43-2ff6d0833196",
+        "group_id": "98b5aad2-ab5b-3406-8c13-f564adb01f63",
+        "last_modified": "2021-10-07T08:01:24.275Z"
+    },
+    {
+        "title": "Large-scale genomic analysis reveals the genetic cost of chicken domestication",
+        "type": "journal",
+        "authors": [
+            {
+                "first_name": "Ming-Shan",
+                "last_name": "Wang"
+            },
+            {
+                "first_name": "Jin-Jin",
+                "last_name": "Zhang"
+            },
+            {
+                "first_name": "Xing",
+                "last_name": "Guo"
+            },
+            {
+                "first_name": "Ming",
+                "last_name": "Li"
+            },
+            {
+                "first_name": "Rachel",
+                "last_name": "Meyer"
+            },
+            {
+                "first_name": "Hidayat",
+                "last_name": "Ashari"
+            },
+            {
+                "first_name": "Zhu-Qing",
+                "last_name": "Zheng"
+            },
+            {
+                "first_name": "Sheng",
+                "last_name": "Wang"
+            },
+            {
+                "first_name": "Min-Sheng",
+                "last_name": "Peng"
+            },
+            {
+                "first_name": "Yu",
+                "last_name": "Jiang"
+            },
+            {
+                "first_name": "Mukesh",
+                "last_name": "Thakur"
+            },
+            {
+                "first_name": "Chatmongkon",
+                "last_name": "Suwannapoom"
+            },
+            {
+                "first_name": "Ali",
+                "last_name": "Esmailizadeh"
+            },
+            {
+                "first_name": "Nalini Yasoda",
+                "last_name": "Hirimuthugoda"
+            },
+            {
+                "first_name": "Moch Syamsul Arifin",
+                "last_name": "Zein"
+            },
+            {
+                "first_name": "Szilvia",
+                "last_name": "Kusza"
+            },
+            {
+                "first_name": "Hamed",
+                "last_name": "Kharrati-Koopaee"
+            },
+            {
+                "first_name": "Lin",
+                "last_name": "Zeng"
+            },
+            {
+                "first_name": "Yun-Mei",
+                "last_name": "Wang"
+            },
+            {
+                "first_name": "Ting-Ting",
+                "last_name": "Yin"
+            },
+            {
+                "first_name": "Min-Min",
+                "last_name": "Yang"
+            },
+            {
+                "first_name": "Ming-Li",
+                "last_name": "Li"
+            },
+            {
+                "first_name": "Xue-Mei",
+                "last_name": "Lu"
+            },
+            {
+                "first_name": "Emiliano",
+                "last_name": "Lasagna"
+            },
+            {
+                "first_name": "Simone",
+                "last_name": "Ceccobelli"
+            },
+            {
+                "first_name": "Humpita Gamaralalage Thilini Nisanka",
+                "last_name": "Gunwardana"
+            },
+            {
+                "first_name": "Thilina Madusanka",
+                "last_name": "Senasig"
+            },
+            {
+                "first_name": "Shao-Hong",
+                "last_name": "Feng"
+            },
+            {
+                "first_name": "Hao",
+                "last_name": "Zhang"
+            },
+            {
+                "first_name": "Abul Kashem Fazlul Haque",
+                "last_name": "Bhuiyan"
+            },
+            {
+                "first_name": "Muhammad Sajjad",
+                "last_name": "Khan"
+            },
+            {
+                "first_name": "Gamamada Liyanage Lalanie Pradeepa",
+                "last_name": "Silva"
+            },
+            {
+                "first_name": "Le Thi",
+                "last_name": "Thuy"
+            },
+            {
+                "first_name": "Okeyo A.",
+                "last_name": "Mwai"
+            },
+            {
+                "first_name": "Mohamed Nawaz Mohamed",
+                "last_name": "Ibrahim"
+            },
+            {
+                "first_name": "Guojie",
+                "last_name": "Zhang"
+            },
+            {
+                "first_name": "Kai-Xing",
+                "last_name": "Qu"
+            },
+            {
+                "first_name": "Olivier",
+                "last_name": "Hanotte"
+            },
+            {
+                "first_name": "Beth",
+                "last_name": "Shapiro"
+            },
+            {
+                "first_name": "Mirte",
+                "last_name": "Bosse"
+            },
+            {
+                "first_name": "Dong-Dong",
+                "last_name": "Wu"
+            },
+            {
+                "first_name": "Jian-Lin",
+                "last_name": "Han"
+            },
+            {
+                "first_name": "Ya-Ping",
+                "last_name": "Zhang"
+            }
+        ],
+        "year": 2021,
+        "source": "BMC Biology 2021 19:1",
+        "identifiers": {
+            "issn": "1741-7007",
+            "doi": "10.1186\/S12915-021-01052-X"
+        },
+        "keywords": [
+            "Life Sciences",
+            "general"
+        ],
+        "id": "281aab38-70d8-319e-ba82-b7d6d55d0545",
+        "created": "2021-10-07T07:19:54.585Z",
+        "profile_id": "29204f3d-9e3f-3dc1-9f43-2ff6d0833196",
+        "group_id": "98b5aad2-ab5b-3406-8c13-f564adb01f63",
+        "last_modified": "2021-10-07T07:19:59.863Z",
+        "abstract": "Species domestication is generally characterized by the exploitation of high-impact mutations through processes that involve complex shifting demographics of domesticated species. These include not only inbreeding and artificial selection that may lead to the emergence of evolutionary bottlenecks, but also post-divergence gene flow and introgression. Although domestication potentially affects the occurrence of both desired and undesired mutations, the way wild relatives of domesticated species evolve and how expensive the genetic cost underlying domestication is remain poorly understood. Here, we investigated the demographic history and genetic load of chicken domestication. We analyzed a dataset comprising over 800 whole genomes from both indigenous chickens and wild jungle fowls. We show that despite having a higher genetic diversity than their wild counterparts (average \u03c0, 0.00326 vs. 0.00316), the red jungle fowls, the present-day domestic chickens experienced a dramatic population size decline during their early domestication. Our analyses suggest that the concomitant bottleneck induced 2.95% more deleterious mutations across chicken genomes compared with red jungle fowls, supporting the \u201ccost of domestication\u201d hypothesis. Particularly, we find that 62.4% of deleterious SNPs in domestic chickens are maintained in heterozygous states and masked as recessive alleles, challenging the power of modern breeding programs to effectively eliminate these genetic loads. Finally, we suggest that positive selection decreases the incidence but increases the frequency of deleterious SNPs in domestic chicken genomes. This study reveals a new landscape of demographic history and genomic changes associated with chicken domestication and provides insight into the evolutionary genomic profiles of domesticated animals managed under modern human selection."
+    },
+    {
+        "title": "Training of women and men smallholder livestock keepers on cattle and pig breeds, breeding and artificial insemination in northwest Vietnam",
+        "type": "journal",
+        "authors": [
+            {
+                "first_name": "Le Thi Thanh",
+                "last_name": "Huyen"
+            },
+            {
+                "first_name": "Karen",
+                "last_name": "Marshall"
+            }
+        ],
+        "year": 2020,
+        "keywords": [
+            "Report",
+            "animal breeding",
+            "capacity building",
+            "cattle",
+            "gender",
+            "genetics",
+            "swine",
+            "training",
+            "women"
+        ],
+        "id": "e128dda5-ee34-3005-b1d7-0be26bd7c438",
+        "created": "2021-10-07T07:18:31.597Z",
+        "profile_id": "29204f3d-9e3f-3dc1-9f43-2ff6d0833196",
+        "group_id": "98b5aad2-ab5b-3406-8c13-f564adb01f63",
+        "last_modified": "2021-10-07T07:18:35.314Z"
+    },
+    {
+        "title": "Metagenomic analysis reveals a dynamic microbiome with diversified adaptive functions to utilize high lignocellulosic forages in the cattle rumen",
+        "type": "journal",
+        "authors": [
+            {
+                "first_name": "Javad",
+                "last_name": "Gharechahi"
+            },
+            {
+                "first_name": "Mohammad Farhad",
+                "last_name": "Vahidi"
+            },
+            {
+                "first_name": "Mohammad",
+                "last_name": "Bahram"
+            },
+            {
+                "first_name": "Jian-Lin",
+                "last_name": "Han"
+            },
+            {
+                "first_name": "Xue-Zhi",
+                "last_name": "Ding"
+            },
+            {
+                "first_name": "Ghasem Hosseini",
+                "last_name": "Salekdeh"
+            }
+        ],
+        "year": 2020,
+        "source": "The ISME Journal 2020 15:4",
+        "identifiers": {
+            "issn": "1751-7370",
+            "doi": "10.1038\/s41396-020-00837-2"
+        },
+        "keywords": [
+            "Bacterial genetics",
+            "Metagenomics"
+        ],
+        "id": "c5d2fe79-d5b4-3704-b7bb-419aebf20d2c",
+        "created": "2021-10-07T07:11:48.856Z",
+        "profile_id": "29204f3d-9e3f-3dc1-9f43-2ff6d0833196",
+        "group_id": "98b5aad2-ab5b-3406-8c13-f564adb01f63",
+        "last_modified": "2021-10-07T07:11:48.856Z",
+        "abstract": "Rumen microbiota play a key role in the digestion and utilization of plant materials by the ruminant species, which have important implications for greenhouse gas emission. Yet, little is known about the key taxa and potential gene functions involved in the digestion process. Here, we performed a genome-centric analysis of rumen microbiota attached to six different lignocellulosic biomasses in rumen-fistulated cattle. Our metagenome sequencing provided novel genomic insights into functional potential of 523 uncultured bacteria and 15 mostly uncultured archaea in the rumen. The assembled genomes belonged mainly to Bacteroidota, Firmicutes, Verrucomicrobiota, and Fibrobacterota and were enriched for genes related to the degradation of lignocellulosic polymers and the fermentation of degraded products into short chain volatile fatty acids. We also found a shift from copiotrophic to oligotrophic taxa during the course of rumen fermentation, potentially important for the digestion of recalcitrant lignocellulosic substrates in the physiochemically complex and varying environment of the rumen. Differential colonization of forages (the incubated lignocellulosic materials) by rumen microbiota suggests that taxonomic and metabolic diversification is an evolutionary adaptation to diverse lignocellulosic substrates constituting a major component of the cattle\u2019s diet. Our data also provide novel insights into the key role of unique microbial diversity and associated gene functions in the degradation of recalcitrant lignocellulosic materials in the rumen."
+    },
+    {
+        "title": "Genetic Diversities and Historical Dynamics of Native Ethiopian Horse Populations (Equus caballus) Inferred from Mitochondrial DNA Polymorphisms",
+        "type": "journal",
+        "authors": [
+            {
+                "first_name": "Kefena",
+                "last_name": "Effa"
+            },
+            {
+                "first_name": "Sonia",
+                "last_name": "Rosenbom"
+            },
+            {
+                "first_name": "Jianlin",
+                "last_name": "Han"
+            },
+            {
+                "first_name": "Tadelle",
+                "last_name": "Dessie"
+            },
+            {
+                "first_name": "Albano",
+                "last_name": "Beja-Pereira"
+            }
+        ],
+        "year": 2021,
+        "source": "Genes 2021, Vol. 12, Page 155",
+        "identifiers": {
+            "doi": "10.3390\/GENES12020155"
+        },
+        "keywords": [
+            "<i>Equus caballus<\/i>",
+            "d",
+            "feral horse",
+            "genetic variation",
+            "haplotype",
+            "loop sequence"
+        ],
+        "id": "ccb18b30-383b-3683-947c-6dad8c95683e",
+        "created": "2021-10-07T07:07:48.470Z",
+        "profile_id": "29204f3d-9e3f-3dc1-9f43-2ff6d0833196",
+        "group_id": "98b5aad2-ab5b-3406-8c13-f564adb01f63",
+        "last_modified": "2021-10-07T07:07:52.879Z",
+        "abstract": "Matrilineal genetic diversity and relationship were investigated among eight morphologically identified native Ethiopian horse populations using polymorphisms in 46 mtDNA D-loop sequences (454 base pairs). The horse populations identified were Abyssinian, Bale, Borana, Horro, Kafa, Kundido feral horses, Ogaden and Selale. Mitochondrial DNA D-loop sequences were characterized by 15 variable sites that defined five different haplotypes. All genetic diversity estimates, including Reynolds&rsquo; linearized genetic distance, genetic differentiation (FST) and nucleotide sequence divergence (DA), revealed a low genetic differentiation in native Ethiopian horse populations. However, Kundido feral and Borana domestic horses were slightly diverged from the rest of the Ethiopian horse populations. We also tried to shed some light on the matrilineal genetic root of native Ethiopian horses from a network constructed by combining newly generated haplotypes and reference haplotypes deposited in the GenBank for Eurasian type Turkish Anatolian horses that were used as a genetic conduit between Eurasian and African horse populations. Ninety-two haplotypes were generated from the combined Ethio-Eurasian mtDNA D-loop sequences. A network reconstructed from the combined haplotypes using Median-Joining algorithm showed that haplotypes generated from native Ethiopian horses formed separate clusters. The present result encourages further investigation of the genetic origin of native African horses by retrieving additional mtDNA sequences deposited in the GenBank for African and Eurasian type horses."
+    },
+    {
+        "title": "A compendium and comparative epigenomics analysis of cis-regulatory elements in the pig genome",
+        "type": "journal",
+        "authors": [
+            {
+                "first_name": "Yunxia",
+                "last_name": "Zhao"
+            },
+            {
+                "first_name": "Ye",
+                "last_name": "Hou"
+            },
+            {
+                "first_name": "Yueyuan",
+                "last_name": "Xu"
+            },
+            {
+                "first_name": "Yu",
+                "last_name": "Luan"
+            },
+            {
+                "first_name": "Huanhuan",
+                "last_name": "Zhou"
+            },
+            {
+                "first_name": "Xiaolong",
+                "last_name": "Qi"
+            },
+            {
+                "first_name": "Mingyang",
+                "last_name": "Hu"
+            },
+            {
+                "first_name": "Daoyuan",
+                "last_name": "Wang"
+            },
+            {
+                "first_name": "Zhangxu",
+                "last_name": "Wang"
+            },
+            {
+                "first_name": "Yuhua",
+                "last_name": "Fu"
+            },
+            {
+                "first_name": "Jingjin",
+                "last_name": "Li"
+            },
+            {
+                "first_name": "Saixian",
+                "last_name": "Zhang"
+            },
+            {
+                "first_name": "Jianhai",
+                "last_name": "Chen"
+            },
+            {
+                "first_name": "Jianlin",
+                "last_name": "Han"
+            },
+            {
+                "first_name": "Xinyun",
+                "last_name": "Li"
+            },
+            {
+                "first_name": "Shuhong",
+                "last_name": "Zhao"
+            }
+        ],
+        "year": 2021,
+        "source": "Nature Communications 2021 12:1",
+        "identifiers": {
+            "issn": "2041-1723",
+            "doi": "10.1038\/s41467-021-22448-x"
+        },
+        "keywords": [
+            "Epigenomics",
+            "Functional genomics"
+        ],
+        "id": "1a71bda8-5e88-3641-ae61-3ddf3476c04e",
+        "created": "2021-10-07T07:07:17.126Z",
+        "profile_id": "29204f3d-9e3f-3dc1-9f43-2ff6d0833196",
+        "group_id": "98b5aad2-ab5b-3406-8c13-f564adb01f63",
+        "last_modified": "2021-10-07T07:07:22.968Z",
+        "abstract": "Although major advances in genomics have initiated an exciting new era of research, a lack of information regarding cis-regulatory elements has limited the genetic improvement or manipulation of pigs as a meat source and biomedical model. Here, we systematically characterize cis-regulatory elements and their functions in 12 diverse tissues from four pig breeds by adopting similar strategies as the ENCODE and Roadmap Epigenomics\u00a0projects, which include RNA-seq, ATAC-seq, and ChIP-seq. In total, we generate 199 datasets and identify more than 220,000 cis-regulatory elements in the pig genome. Surprisingly, we find higher conservation of cis-regulatory elements between human and pig genomes than those between human and mouse genomes. Furthermore, the differences of topologically associating domains between the pig and human genomes are associated with morphological evolution of the head and face. Beyond generating a major new benchmark resource for pig epigenetics, our study provides basic comparative epigenetic data relevant to using pigs as models in human biomedical research. To date, little is known about the regulatory landscape of the pig genome. Here, the authors characterize cis-regulatory elements in the pig genome using RNA-seq, ChIP-Seq and ATAC-seq, finding a higher degree of usage conservation between pig and human than mouse and human."
+    },
+    {
+        "title": "Genome-wide comparative analyses reveal selection signatures underlying adaptation and production in Tibetan and Poll Dorset sheep",
+        "type": "journal",
+        "authors": [
+            {
+                "first_name": "Yingyue",
+                "last_name": "Zhang"
+            },
+            {
+                "first_name": "Xianglan",
+                "last_name": "Xue"
+            },
+            {
+                "first_name": "Yue",
+                "last_name": "Liu"
+            },
+            {
+                "first_name": "Adam",
+                "last_name": "Abied"
+            },
+            {
+                "first_name": "Yangyang",
+                "last_name": "Ding"
+            },
+            {
+                "first_name": "Shengguo",
+                "last_name": "Zhao"
+            },
+            {
+                "first_name": "Wenqiang",
+                "last_name": "Wang"
+            },
+            {
+                "first_name": "Liqing",
+                "last_name": "Ma"
+            },
+            {
+                "first_name": "Jijun",
+                "last_name": "Guo"
+            },
+            {
+                "first_name": "Weijun",
+                "last_name": "Guan"
+            },
+            {
+                "first_name": "Yabin",
+                "last_name": "Pu"
+            },
+            {
+                "first_name": "Joram M.",
+                "last_name": "Mwacharo"
+            },
+            {
+                "first_name": "Jianlin",
+                "last_name": "Han"
+            },
+            {
+                "first_name": "Yuehui",
+                "last_name": "Ma"
+            },
+            {
+                "first_name": "Qianjun",
+                "last_name": "Zhao"
+            }
+        ],
+        "year": 2021,
+        "source": "Scientific Reports 2021 11:1",
+        "identifiers": {
+            "issn": "2045-2322",
+            "doi": "10.1038\/s41598-021-81932-y"
+        },
+        "keywords": [
+            "Biochemistry",
+            "Biological techniques",
+            "Evolution",
+            "Genetics"
+        ],
+        "id": "6f2596bf-49af-3892-b944-67d977f91b20",
+        "created": "2021-10-07T07:05:18.509Z",
+        "profile_id": "29204f3d-9e3f-3dc1-9f43-2ff6d0833196",
+        "group_id": "98b5aad2-ab5b-3406-8c13-f564adb01f63",
+        "last_modified": "2021-10-07T07:05:23.216Z",
+        "abstract": "The identification of genome-wide selection signatures can provide insights on the mechanisms of natural and\/or artificial selection and uncover genes related to biological functions and\/or phenotypes. Tibetan sheep are an important livestock in Tibet, providing meat and wool for Tibetans who are renown for breeding livestock that adapt well to high altitudes. Using whole-genome sequences with an effective sequencing depth of 5\u00d7, we investigated the genomic diversity and structure and, identified selection signatures of White Tibetan, Oula and Poll Dorset sheep. We obtained 30,163,679 Single Nucleotide Polymorphisms (SNPs) and 5,388,372 indels benchmarked against the ovine Oar_v4.0 genome assembly. Next, using FST, ZHp and XP-EHH approaches, we identified selection signatures spanning a set of candidate genes, including HIF1A, CAPN3, PRKAA1, RXFP2, TRHR and HOXA10 that are associated with pathways and GO categories putatively related to hypoxia responses, meat traits and disease resistance. Candidate genes and GO terms associated with coat color were also identified. Finally, quantification of blood physiological parameters, revealed higher levels of mean corpuscular hemoglobin measurement and mean corpuscular hemoglobin concentration in Tibetan sheep compared with Poll Dorset, suggesting a greater oxygen-carrying capacity in the Tibetan sheep and thus better adaptation to high-altitude hypoxia. In conclusion, this study provides a greater understanding of genome diversity and variations associated with adaptive and production traits in sheep."
+    },
+    {
+        "title": "Analysis of whole-genome re-sequencing data of ducks reveals a diverse demographic history and extensive gene flow between Southeast\/South Asian and Chinese populations",
+        "type": "journal",
+        "authors": [
+            {
+                "first_name": "Fan",
+                "last_name": "Jiang"
+            },
+            {
+                "first_name": "Ruiyi",
+                "last_name": "Lin"
+            },
+            {
+                "first_name": "Changyi",
+                "last_name": "Xiao"
+            },
+            {
+                "first_name": "Tanghui",
+                "last_name": "Xie"
+            },
+            {
+                "first_name": "Yaoxin",
+                "last_name": "Jiang"
+            },
+            {
+                "first_name": "Jianhai",
+                "last_name": "Chen"
+            },
+            {
+                "first_name": "Pan",
+                "last_name": "Ni"
+            },
+            {
+                "first_name": "Wing-Kin",
+                "last_name": "Sung"
+            },
+            {
+                "first_name": "Jianlin",
+                "last_name": "Han"
+            },
+            {
+                "first_name": "Xiaoyong",
+                "last_name": "Du"
+            },
+            {
+                "first_name": "Shijun",
+                "last_name": "Li"
+            }
+        ],
+        "year": 2021,
+        "source": "Genetics Selection Evolution 2021 53:1",
+        "identifiers": {
+            "issn": "1297-9686",
+            "doi": "10.1186\/S12711-021-00627-0"
+        },
+        "keywords": [
+            "Agriculture",
+            "Animal Genetics and Genomics",
+            "Evolutionary Biology"
+        ],
+        "id": "6831e7d0-1c8f-3903-8e8d-7ec287022b9e",
+        "created": "2021-10-07T07:04:35.890Z",
+        "profile_id": "29204f3d-9e3f-3dc1-9f43-2ff6d0833196",
+        "group_id": "98b5aad2-ab5b-3406-8c13-f564adb01f63",
+        "last_modified": "2021-10-07T07:04:41.503Z",
+        "abstract": "The most prolific duck genetic resource in the world is located in Southeast\/South Asia but little is known about the domestication and complex histories of these duck populations. Based on whole-genome resequencing data of 78 ducks (Anas platyrhynchos) and 31 published whole-genome duck sequences, we detected three geographic distinct genetic groups, including local Chinese, wild, and local Southeast\/South Asian populations. We inferred the demographic history of these duck populations with different geographical distributions and found that the Chinese and Southeast\/South Asian ducks shared similar demographic features. The Chinese domestic ducks experienced the strongest population bottleneck caused by domestication and the last glacial maximum (LGM) period, whereas the Chinese wild ducks experienced a relatively weak bottleneck caused by domestication only. Furthermore, the bottleneck was more severe in the local Southeast\/South Asian populations than in the local Chinese populations, which resulted in a smaller effective population size for the former (7100\u201311,900). We show that extensive gene flow has occurred between the Southeast\/South Asian and Chinese populations, and between the Southeast Asian and South Asian populations. Prolonged gene flow was detected between the Guangxi population from China and its neighboring Southeast\/South Asian populations. In addition, based on multiple statistical approaches, we identified a genomic region that included three genes (PNPLA8, THAP5, and DNAJB9) on duck chromosome 1 with a high probability of gene flow between the Guangxi and Southeast\/South Asian populations. Finally, we detected strong signatures of selection in genes that are involved in signaling pathways of the nervous system development (e.g., ADCYAP1R1 and PDC) and in genes that are associated with morphological traits such as cell growth (e.g., IGF1R). Our findings provide valuable information for a better understanding of the domestication and demographic history of the duck, and of the gene flow between local duck populations from Southeast\/South Asia and China."
+    },
+    {
+        "title": "Rich maternal and paternal genetic diversity and divergent lineage composition in wild yak (Bos mutus)",
+        "type": "journal",
+        "authors": [
+            {
+                "first_name": "Zhi-Jie",
+                "last_name": "Ma"
+            },
+            {
+                "first_name": "Guang-Zhen",
+                "last_name": "Li"
+            },
+            {
+                "first_name": "Sheng-Mei",
+                "last_name": "Chen"
+            },
+            {
+                "first_name": "Jian-Lin",
+                "last_name": "Han"
+            },
+            {
+                "first_name": "Quratulain",
+                "last_name": "Hanif"
+            }
+        ],
+        "year": 2021,
+        "source": "https:\/\/doi.org\/10.1080\/10495398.2021.1884567",
+        "identifiers": {
+            "doi": "10.1080\/10495398.2021.1884567"
+        },
+        "keywords": [
+            "Bos mutus",
+            "Y chromosome marker",
+            "genetic diversity",
+            "lineage composition",
+            "mtDNA"
+        ],
+        "id": "bbe8e0a8-6472-31d2-b489-bed86734dfc0",
+        "created": "2021-10-07T06:59:38.124Z",
+        "profile_id": "29204f3d-9e3f-3dc1-9f43-2ff6d0833196",
+        "group_id": "98b5aad2-ab5b-3406-8c13-f564adb01f63",
+        "last_modified": "2021-10-07T06:59:38.124Z",
+        "abstract": "Wild yak (Bos mutus) is a vulnerable bovine species on the Qinghai\u2013Tibetan Plateau (QTP). So far, most studies on molecular genetic diversity of wild yak have focused on autosomal and mtDNA variati..."
+    },
+    {
+        "title": "Genetic diversity and population genetic structure in native Ethiopian donkeys (Equus asinus) inferred from equine microsatellite markers",
+        "type": "journal",
+        "authors": [
+            {
+                "first_name": "E.",
+                "last_name": "Kefena"
+            },
+            {
+                "first_name": "S.",
+                "last_name": "Rosenbom"
+            },
+            {
+                "first_name": "A.",
+                "last_name": "Beja-Pereira"
+            },
+            {
+                "first_name": "M. Yusuf",
+                "last_name": "Kurtu"
+            },
+            {
+                "first_name": "J. L.",
+                "last_name": "Han"
+            },
+            {
+                "first_name": "T.",
+                "last_name": "Dessie"
+            }
+        ],
+        "year": 2021,
+        "source": "Tropical Animal Health and Production 2021 53:3",
+        "identifiers": {
+            "issn": "1573-7438",
+            "doi": "10.1007\/S11250-021-02776-2"
+        },
+        "keywords": [
+            "Veterinary Medicine\/Veterinary Science",
+            "Zoology"
+        ],
+        "id": "ce95cf41-018b-35ab-96de-e36d06915f37",
+        "created": "2021-10-07T06:59:11.675Z",
+        "profile_id": "29204f3d-9e3f-3dc1-9f43-2ff6d0833196",
+        "group_id": "98b5aad2-ab5b-3406-8c13-f564adb01f63",
+        "last_modified": "2021-10-07T06:59:11.675Z",
+        "abstract": "We investigated the genetic diversity and population genetic structure of six morphologically distinct Ethiopian donkey populations using 12 equine microsatellite markers. The donkey populations were Abyssinian (AB), Afar (AF), Hararghe (HA), Ogaden (OG), Omo (OM) and Sinnar (SI). Blood samples were collected from 180 genetically unrelated donkeys (30 individuals per population). Population genetic diversity estimates showed that total number and mean number of observed alleles, average observed and expected heterozygosity were 94, 5.208 \u00b1 0.0229, 0.555 \u00b1 0.023 and 0.588 \u00b1 0.022, respectively. Highly significant deficiency in heterozygote was detected within the overall samples (FIS = 0.055 \u00b1 0.021; P < 0.001). Though highly significant (P < 0.001), heterozygote deficiency within populations relative to total population was moderate (FST = 0.046 \u00b1 0.016), suggesting a higher diversity within the populations (95.4%) than between populations. Various genetic distance estimation methods produced a similar topology of un-rooted dendrograms that grouped the overall Ethiopian donkeys into lowland (Ogaden, Omo and Sinnar) and highland (Abyssinian, Afar and Hararghe) genetic lineages. Likewise, Bayesian clustering analysis produced a similar pattern of clustering that was highly concordant with traditional donkey classification systems in Ethiopia."
+    },
+    {
+        "title": "Origin and Genetic Diversity of Nepalese Indigenous Goats (Capra hircus)",
+        "type": "journal",
+        "authors": [
+            {
+                "first_name": "Neena Amatya",
+                "last_name": "Gorkhali"
+            },
+            {
+                "first_name": "Jiang",
+                "last_name": "Lin"
+            },
+            {
+                "first_name": "Saroj",
+                "last_name": "Sapkota"
+            },
+            {
+                "first_name": "Bhoj Raj",
+                "last_name": "Pokhrel"
+            },
+            {
+                "first_name": "Yue-Hui",
+                "last_name": "Ma"
+            },
+            {
+                "first_name": "Jian-Lin",
+                "last_name": "Han"
+            }
+        ],
+        "year": 2021,
+        "source": "Agricultural Science Digest - A Research Journal",
+        "identifiers": {
+            "doi": "10.18805\/AG.D-303"
+        },
+        "id": "29f3a082-0699-3e26-bfdc-cd2e926ddcb9",
+        "created": "2021-10-07T06:58:16.621Z",
+        "profile_id": "29204f3d-9e3f-3dc1-9f43-2ff6d0833196",
+        "group_id": "98b5aad2-ab5b-3406-8c13-f564adb01f63",
+        "last_modified": "2021-10-07T06:58:16.621Z",
+        "abstract": "Background: A very little study has been conducted on the phylogenetic diversity of Nepalese indigenous goats where four breeds, Khari, Chyangra, Terai and Sinhal, have been identified.\u00a0Methods: The 625-bp long sequences of the mitochondrial DNA hyper-variable region obtained from 93 goats in this study revealed high haplotype diversity among breeds, which come under four haplogroups (A-D).Result: The study demonstrated a certain level of gene flow among the neighboring goat populations exhibiting no correspondence between the geographic regions of origin and relationships among breeds. The complex mtDNA diversity and structure identified among indigenous Nepalese goats can be explained by gene flow through ancient trading and the current \u2018free\u2019 movement of goats across the geographic vicinities in India and China. Furthermore, HapG B showed the southward direction of gene flow which does not cross the Himalayas, whereas HapG B1 revealed the South-West gene flow from the claimed domestication center for HapG B, China, to Nepal."
+    },
+    {
+        "title": "Whole-Genome Resequencing Reveals Adaptation Prior to the Divergence of Buffalo Subspecies",
+        "type": "journal",
+        "authors": [
+            {
+                "first_name": "Mostafa",
+                "last_name": "Rafiepour"
+            },
+            {
+                "first_name": "Esmaeil",
+                "last_name": "Ebrahimie"
+            },
+            {
+                "first_name": "Mohammad Farhad",
+                "last_name": "Vahidi"
+            },
+            {
+                "first_name": "Ghasem Hosseini",
+                "last_name": "Salekdeh"
+            },
+            {
+                "first_name": "Ali",
+                "last_name": "Niazi"
+            },
+            {
+                "first_name": "Mohammad",
+                "last_name": "Dadpasand"
+            },
+            {
+                "first_name": "Dong",
+                "last_name": "Liang"
+            },
+            {
+                "first_name": "Jingfang",
+                "last_name": "Si"
+            },
+            {
+                "first_name": "Xiangdong",
+                "last_name": "Ding"
+            },
+            {
+                "first_name": "Jianlin",
+                "last_name": "Han"
+            },
+            {
+                "first_name": "Yi",
+                "last_name": "Zhang"
+            },
+            {
+                "first_name": "Saber",
+                "last_name": "Qanbari"
+            }
+        ],
+        "year": 2021,
+        "source": "Genome Biology and Evolution",
+        "identifiers": {
+            "doi": "10.1093\/GBE\/EVAA231"
+        },
+        "keywords": [
+            "Admixture",
+            "Differentiation index",
+            "Iranian indigenous buffalo",
+            "Nucleotide diversity",
+            "Selection signature"
+        ],
+        "id": "2ae8ccb2-983d-3caf-8c75-bd53771979ac",
+        "created": "2021-10-07T06:55:55.950Z",
+        "profile_id": "29204f3d-9e3f-3dc1-9f43-2ff6d0833196",
+        "group_id": "98b5aad2-ab5b-3406-8c13-f564adb01f63",
+        "last_modified": "2021-10-07T06:56:02.746Z",
+        "abstract": "The application of high-throughput genotyping or sequencing data helps us to understand the genomic response to natural and artificial selection. In this study,we scanned the genomes of five indigenous buffalo populations belong to three recognized breeds, adapted to different geographical and agro-ecological zones in Iran, to unravel the extent of genomic diversity and to localize genomic regions and genes underwent past selection. A total of 46 river buffalo whole genomes, from West and East Azerbaijan, Gilan, Mazandaran, and Khuzestan provinces, were resequenced. Our sequencing data reached to a coverage above 99%of the river buffalo reference genome and an average read depth around 9.2\u00d7 per sample. We identified 20.55 million SNPs, including 63,097 missense, 707 stop-gain, and 159 stop-lossmutations thatmight have functional consequences. Genomic diversity analyses showed modest structuring among Iranian buffalo populations following frequent gene flow or admixture in the recent past. Evidence of positive selection was investigated using both differentiation (Fst) and fixation (Pi)metrics. Analysis of fixation revealed three genomic regions in all three breeds with aberrant polymorphism contents on BBU2, 20, and 21. Fixation signal on BBU2 overlapped with the OCA2-HERC2 genes, suggestive of adaptation to UV exposure through pigmentation mechanism. Further validation using resequencing data from other five bovine species as well as the Axiom Buffalo Genotyping Array 90K data of river and swampbuffaloes indicated that these fixation signals persisted across river and swampbuffaloes and extended to taurine cattle, implying an ancient evolutionary event occurred before the speciation of buffalo and taurine cattle. These results contributed to our understanding of major genetic switches that took place during the evolution of modern buffaloes."
     },
     {
         "title": "Women and men smallholder pig keepers training in pig breeds, breeding and community-based artificial insemination, in Uganda",
-        "type": "journal",
+        "type": "report",
         "authors": [
             {
                 "first_name": "D.",
@@ -765,11 +1812,11 @@
         "created": "2021-10-07T06:51:01.438Z",
         "profile_id": "29204f3d-9e3f-3dc1-9f43-2ff6d0833196",
         "group_id": "98b5aad2-ab5b-3406-8c13-f564adb01f63",
-        "last_modified": "2021-10-07T06:51:05.383Z"
+        "last_modified": "2021-10-07T08:01:24.045Z"
     },
     {
         "title": "Developing community-based breeding programs to improve productivity of sheep and goats in Turkana, Isiolo and Marsabit counties of Kenya",
-        "type": "journal",
+        "type": "report",
         "authors": [
             {
                 "first_name": "Julie M.K.",
@@ -810,121 +1857,8 @@
         "created": "2021-10-07T06:49:00.888Z",
         "profile_id": "29204f3d-9e3f-3dc1-9f43-2ff6d0833196",
         "group_id": "98b5aad2-ab5b-3406-8c13-f564adb01f63",
-        "last_modified": "2021-10-07T06:49:05.000Z",
+        "last_modified": "2021-10-07T08:01:24.291Z",
         "abstract": "Turkana County has an area of 70,586 km2. The county is hot and dry with annual rainfall ranging from 52 mm to 480 mm (mean 200 mm). The mean annual temperature is 30.5\u02daC. The county experiences cyclical prolonged dry periods followed by short periods of very intense rainfall, which result in loss of livestock assets and livelihoods. Turkana County has 6 sub-counties, 30 wards, 56 locations and 156 sub-locations, with an estimated human population of 926,967 1. Figure 1: Map of Kenya indicating the location of the counties involved in the project."
-    },
-    {
-        "title": "Dairy industry development in Ethiopia: Current status, major challenges and potential interventions for improvement",
-        "type": "journal",
-        "authors": [
-            {
-                "first_name": "Gebregziabher",
-                "last_name": "Gebreyohanes"
-            },
-            {
-                "first_name": "Zelalem",
-                "last_name": "Yilma"
-            },
-            {
-                "first_name": "Siboniso",
-                "last_name": "Moyo"
-            },
-            {
-                "first_name": "Ally",
-                "last_name": "Okeyo Mwai"
-            }
-        ],
-        "year": 2021,
-        "identifiers": {
-            "isbn": "92\u20139146\u2013655\u20138"
-        },
-        "keywords": [
-            "Report",
-            "animal production",
-            "dairying",
-            "livestock",
-            "markets",
-            "value chains"
-        ],
-        "id": "a2f941ad-e2b0-3d83-b18a-185b7ff452ae",
-        "created": "2021-10-07T06:48:06.942Z",
-        "profile_id": "29204f3d-9e3f-3dc1-9f43-2ff6d0833196",
-        "group_id": "98b5aad2-ab5b-3406-8c13-f564adb01f63",
-        "last_modified": "2021-10-07T06:48:10.720Z"
-    },
-    {
-        "title": "Potential farmer demand for a dairy genomic assay technology",
-        "type": "journal",
-        "authors": [
-            {
-                "first_name": "Christoph",
-                "last_name": "Weber"
-            },
-            {
-                "first_name": "Isabelle",
-                "last_name": "Baltenweck"
-            },
-            {
-                "first_name": "Steven J.",
-                "last_name": "Staal"
-            },
-            {
-                "first_name": "John P.",
-                "last_name": "Gibson"
-            },
-            {
-                "first_name": "Raphael A.",
-                "last_name": "Mrode"
-            },
-            {
-                "first_name": "Ally",
-                "last_name": "Okeyo Mwai"
-            }
-        ],
-        "year": 2021,
-        "identifiers": {
-            "isbn": "92\u20139146\u2013668\u2013x"
-        },
-        "keywords": [
-            "Report",
-            "animal breeding",
-            "dairying",
-            "farmers",
-            "genetics"
-        ],
-        "id": "f45323ad-1091-32e2-bdad-8f096764c7e9",
-        "created": "2021-10-07T06:46:07.348Z",
-        "profile_id": "29204f3d-9e3f-3dc1-9f43-2ff6d0833196",
-        "group_id": "98b5aad2-ab5b-3406-8c13-f564adb01f63",
-        "last_modified": "2021-10-07T06:46:11.404Z"
-    },
-    {
-        "title": "Gender mainstreaming in improving productivity through herd management and community-based breeding",
-        "type": "web_page",
-        "authors": [
-            {
-                "last_name": "J. Gitau"
-            },
-            {
-                "last_name": "J.M.K. Ojango"
-            },
-            {
-                "last_name": "E. Oyieng"
-            },
-            {
-                "last_name": "J. Gachora"
-            },
-            {
-                "last_name": "A.W.T. Muigai"
-            }
-        ],
-        "year": 2021,
-        "source": "Presentation",
-        "id": "c840eb3f-817e-385e-9c14-5687cf485ef3",
-        "created": "2021-09-13T07:09:21.328Z",
-        "profile_id": "29204f3d-9e3f-3dc1-9f43-2ff6d0833196",
-        "group_id": "98b5aad2-ab5b-3406-8c13-f564adb01f63",
-        "last_modified": "2021-09-13T07:09:21.328Z"
     },
     {
         "title": "Adaptation and Returns from Improved Indigenous Small Ruminants in Climatically Challenged Smallholder Systems of Kenya",
@@ -986,7 +1920,7 @@
         "created": "2021-09-13T07:05:29.959Z",
         "profile_id": "29204f3d-9e3f-3dc1-9f43-2ff6d0833196",
         "group_id": "98b5aad2-ab5b-3406-8c13-f564adb01f63",
-        "last_modified": "2021-09-13T07:05:29.959Z",
+        "last_modified": "2021-10-07T08:01:24.190Z",
         "abstract": "Improved climate-resilient strains of indigenous sheep and goats were introduced in the Nyando basin of western Kenya in 2013. This study evaluated the performance of the breeds five years after their first introduction, and their contribution to household revenues. Red Maasai and Red Maasai x Dorper sheep and Galla goats introduced in Nyando adapted to the environment and retained performance levels exhibited in their original environments. They have been widely adopted by the farmers and are used for upgrading local breeds through crossbreeding, yielding offspring that are 50% heavier than local breeds at one year of age. Costs for producing the small ruminants tend to increase with land size owned, mainly due to higher costs for managing the health of more livestock. The costs of producing goats are significantly higher than for sheep. Revenues accrued from goat milk contribute to 10% of the revenue from goats. The introduced breeds provided a significant productivity lift in the local livestock population, resulting in higher returns to the smallholder farmers. For long-term sustainability of the productivity gains, a community-based selective mating program using reference sire flocks with an overall goal of good growth, adaptability, and milk production should be adopted."
     },
     {
@@ -1080,85 +2014,8 @@
         "created": "2021-07-27T06:00:45.286Z",
         "profile_id": "29204f3d-9e3f-3dc1-9f43-2ff6d0833196",
         "group_id": "98b5aad2-ab5b-3406-8c13-f564adb01f63",
-        "last_modified": "2021-07-27T06:00:45.286Z",
+        "last_modified": "2021-10-07T08:01:24.299Z",
         "abstract": "East Coast fever (ECF) in cattle is caused by the Apicomplexan protozoan Theileria parva, transmitted by the three-host tick Rhipicephalus appendiculatus. The African buffalo (Syncerus caffer) is the natural host for T. parva but does not suffer disease, whereas ECF is often fatal in cattle. The genetic relationship between T. parva populations circulating in cattle and buffalo is poorly understood, and has not been studied in sympatric buffalo and cattle. The study aimed to determine the genetic diversity of the T. parva population in cattle and buffalo, in an area where livestock co-exist with buffalo adjacent to the Serengeti National Park, Tanzania. Three T. parva antigens known to be recognized by CD8+ and CD4+ T cells in immunized cattle, were used to characterize genetic diversity in T. parva in cattle (n=149) and buffalo samples (n=22). Long read (Pacbio) sequencing was used to generate full or near-full length allelic sequences. Patterns of diversity were similar across all three antigens, with allelic diversity being significantly greater in buffalo-derived parasites compared to cattle-derived (e.g. for Tp1 median cattle allele count was 9, and 81.5 for buffalo), with very few alleles shared between species (8 of 651 alleles were shared for Tp1). Most alleles were unique to buffalo with a smaller proportion unique to cattle (412 buffalo unique vs 231 cattle-unique for Tp1). There were indications of population substructuring, with one allelic cluster of Tp1 representing alleles found in both cattle and buffalo (including the TpM reference genome allele), and another containing predominantly only alleles deriving from buffalo. These data illustrate the complex interplay between T. parva populations in buffalo and cattle, revealing the significant genetic diversity in the buffalo T. parva population, the limited sharing of parasite genotypes between the host species, and highlight that a subpopulation of T. parva is maintained by transmission within cattle. The data indicate that fuller understanding of buffalo T. parva population dynamics is needed, as only a comprehensive understanding of the population genetics of T. parva populations will enable assessment of buffalo-derived infection risk in cattle, and how this may impact upon control measures such as vaccination."
-    },
-    {
-        "title": "Values and Beliefs That Shape Cattle Breeding in Southwestern Burkina Faso",
-        "type": "journal",
-        "authors": [
-            {
-                "first_name": "Bienvenue",
-                "last_name": "Zoma-Traor\u00e9"
-            },
-            {
-                "first_name": "Salifou",
-                "last_name": "Ou\u00e9draogo-Kon\u00e9"
-            },
-            {
-                "first_name": "Albert",
-                "last_name": "Soudr\u00e9"
-            },
-            {
-                "first_name": "Dominique",
-                "last_name": "Ou\u00e9draogo"
-            },
-            {
-                "first_name": "Bernadette",
-                "last_name": "Yougbar\u00e9"
-            },
-            {
-                "first_name": "Amadou",
-                "last_name": "Traor\u00e9"
-            },
-            {
-                "first_name": "Negar",
-                "last_name": "Khayatzadeh"
-            },
-            {
-                "first_name": "G\u00e1bor",
-                "last_name": "M\u00e9sz\u00e1ros"
-            },
-            {
-                "first_name": "Pamela Anna",
-                "last_name": "Burger"
-            },
-            {
-                "first_name": "Okeyo Ally",
-                "last_name": "Mwai"
-            },
-            {
-                "first_name": "Johann",
-                "last_name": "S\u00f6lkner"
-            },
-            {
-                "first_name": "Maria",
-                "last_name": "Wurzinger"
-            },
-            {
-                "first_name": "Lorenz",
-                "last_name": "Probst"
-            }
-        ],
-        "year": 2021,
-        "source": "Human Ecology",
-        "identifiers": {
-            "issn": "0300-7839",
-            "doi": "10.1007\/s10745-021-00240-1"
-        },
-        "keywords": [
-            "Beliefs",
-            "Cattle breeding",
-            "Lobi taurine cattle",
-            "Southwestern Burkina Faso",
-            "Values"
-        ],
-        "id": "9c6e08c0-51d2-3fd0-9abf-9bcfd1b4b3e8",
-        "created": "2021-06-17T11:45:54.028Z",
-        "profile_id": "29204f3d-9e3f-3dc1-9f43-2ff6d0833196",
-        "group_id": "98b5aad2-ab5b-3406-8c13-f564adb01f63",
-        "last_modified": "2021-06-17T11:45:59.925Z",
-        "abstract": "<p> Cattle production in southwestern Burkina Faso is under pressure because of resource scarcity, changing climate, and cattle diseases. Well-adapted local breeds, such as Lobi taurine cattle, are increasingly replaced by more productive exotic breeds. Community-based breeding programs (CBBPs) could be a viable option for preserving the breed and improving its productivity. Presuming that CBBPs would succeed only if they align with producers\u2019 beliefs and values, we relied on a combination of conceptual frameworks (theory of basic values, rural livelihood transitions) to explore the values and beliefs of cattle producers.\u00a0 <italic>Security<\/italic> \u00a0was the respondents\u2019 dominant value in their aim to mitigate threats to livelihood, and it was closely linked to\u00a0 <italic>achievement<\/italic> \u00a0in terms of harvest and animal quantity. Livestock-oriented respondents particularly valued\u00a0 <italic>conformity<\/italic> \u00a0with accepted social roles, while\u00a0 <italic>achievement<\/italic> \u00a0and\u00a0 <italic>power<\/italic> \u00a0were more pronounced among crop-oriented respondents. We conclude that CBBPs, to be successful, will need to reduce threats to participants\u2019 livelihood and make benefits of participation immediately visible. We consider the emergence of trusted leadership from the community to be pivotal for creating momentum for novel arrangements in cattle keeping and feeding. <\/p>"
     },
     {
         "title": "Domestic chicken diversity: Origin, distribution, and adaptation",
@@ -1190,17 +2047,8 @@
         "created": "2021-06-09T05:39:08.683Z",
         "profile_id": "29204f3d-9e3f-3dc1-9f43-2ff6d0833196",
         "group_id": "98b5aad2-ab5b-3406-8c13-f564adb01f63",
-        "last_modified": "2021-06-09T05:48:47.852Z",
+        "last_modified": "2021-10-07T08:01:24.056Z",
         "abstract": "Chicken is the most numerous among the domesticated livestock species. Across cultures, religions, and societies, chicken is widely accepted with little or no taboo compared to other domestic animals. Its adaptability to diverse environmental conditions and demonstrated potential for breeding improvement provide a unique genetic resource for addressing the challenges of food security in a world impacted by climatic change and human population growth. Recent studies, shedding new knowledge on the chicken genomes, have helped reconstruct its past evolutionary history. Here, we review the literature concerning the origin, dispersion, and adaptation of domestic chicken. We highlight the role of human and natural selection in shaping the diversity of the species and provide a few examples of knowledge gaps that may be the focus of future research."
-    },
-    {
-        "title": "Ministry of Agriculture eyes to triple dairy production - capital Newspaper",
-        "type": "web_page",
-        "id": "29bf8440-2fe5-385c-98f6-eb72a21c3f9f",
-        "created": "2021-04-06T12:06:20.350Z",
-        "profile_id": "29204f3d-9e3f-3dc1-9f43-2ff6d0833196",
-        "group_id": "98b5aad2-ab5b-3406-8c13-f564adb01f63",
-        "last_modified": "2021-04-06T12:06:20.350Z"
     },
     {
         "title": "Inference of Ancestries and Heterozygosity Proportion and Genotype Imputation in West African Cattle Populations",
@@ -1255,7 +2103,7 @@
         "created": "2021-03-25T06:48:45.464Z",
         "profile_id": "29204f3d-9e3f-3dc1-9f43-2ff6d0833196",
         "group_id": "98b5aad2-ab5b-3406-8c13-f564adb01f63",
-        "last_modified": "2021-03-25T06:48:45.464Z",
+        "last_modified": "2021-10-07T08:01:24.187Z",
         "abstract": "<p> Several studies have evaluated computational methods that infer the haplotypes from population genotype data in European cattle populations. However, little is known about how well they perform in African indigenous and crossbred populations. This study investigates: (1) global and local ancestry inference; (2) heterozygosity proportion estimation; and (3) genotype imputation in West African indigenous and crossbred cattle populations. Principal component analysis (PCA), ADMIXTURE, and LAMP-LD were used to analyse a medium-density single nucleotide polymorphism (SNP) dataset from Senegalese crossbred cattle. Reference SNP data of East and West African indigenous and crossbred cattle populations were used to investigate the accuracy of imputation from low to medium-density and from medium to high-density SNP datasets using Minimac v3. The first two principal components differentiated <italic>Bos indicus<\/italic> from European <italic>Bos taurus<\/italic> and African <italic>Bos taurus<\/italic> from other breeds. Irrespective of assuming two or three ancestral breeds for the Senegalese crossbreds, breed proportion estimates from ADMIXTURE and LAMP-LD showed a high correlation ( <italic>r<\/italic> \u2265 0.981). The observed ancestral origin heterozygosity proportion in putative F1 crosses was close to the expected value of 1.0, and clearly differentiated F1 from all other crosses. The imputation accuracies (estimated as correlation) between imputed and the real data in crossbred animals ranged from 0.142 to 0.717 when imputing from low to medium-density, and from 0.478 to 0.899 for imputation from medium to high-density. The imputation accuracy was generally higher when the reference data came from the same geographical region as the target population, and when crossbred reference data was used to impute crossbred genotypes. The lowest imputation accuracies were observed for indigenous breed genotypes. This study shows that ancestral origin heterozygosity can be estimated with high accuracy and will be far superior to the use of observed individual heterozygosity for estimating heterosis in African crossbred populations. It was not possible to achieve high imputation accuracy in West African crossbred or indigenous populations based on reference data sets from East Africa, and population-specific genotyping with high-density SNP assays is required to improve imputation. <\/p>"
     },
     {
@@ -1286,11 +2134,11 @@
         "year": 2020,
         "source": "CAB Reviews: Perspectives in Agriculture, Veterinary Science, Nutrition and Natural Resources",
         "identifiers": {
+            "pui": "2007159449",
             "issn": "17498848",
-            "doi": "10.1079\/PAVSNNR202015007",
             "scopus": "2-s2.0-85090854362",
             "sgr": "85090854362",
-            "pui": "2007159449"
+            "doi": "10.1079\/PAVSNNR202015007"
         },
         "keywords": [
             "Breed types",
@@ -1594,61 +2442,6 @@
         "abstract": "High-throughput genomic markers provide an opportunity to assess important indicators of genetic diversity for populations managed in livestock breeding programs. While well-structured breeding programs are common in developed countries, in developing country situations, especially in West Africa, on-farm performance and pedigree recordings are rare, and thus, genomic markers provide insights to the levels of genetic diversity, inbreeding and introgression by other breeds. In this study, we analysed key population parameters such as population structure, admixture and levels of inbreeding in three neighbouring populations of African taurine and taurine \u00d7 Zebu crosses managed by community-based breeding programs in the South-West of Burkina Faso. The three populations were pure Baoul\u00e9 (called Lobi locally) in sedentary production systems, Baoul\u00e9 x Zebu crossbreds in sedentary systems and Zebu\u00a0\u00d7\u00a0Baoul\u00e9 crossbreds in transhumant production systems, respectively. The total sample analysed included 631 animals and 38,207 single nucleotide polymorphisms after quality control. Results of principal component and admixture analyses confirmed the genetic background of two distinct ancestral populations (taurine and zebuine) and levels of admixture in all three breeding populations, including the presumably pure Baoul\u00e9 group of animals. Inbreeding levels were moderate, compared to European dairy and beef cattle populations and higher than those of Brazilian Nellore cattle. Very few animals with inbreeding levels indicating parent\u2013offspring or full sib mating were observed, and inbreeding levels indicating half sib mating were also rare. For the management of breeding populations, farmers were advised to exchange best young bulls. The crossbreeding levels of presumably pure Baoul\u00e9 animals are of concern to the breeding program due to the high level of endangerment of pure African taurine cattle populations across West Africa. Future rounds of bull selection in the community-based breeding program will make use of genomic information about admixture levels."
     },
     {
-        "title": "Evaluating the impact of heat stress as measured by temperature-humidity index (THI) on test-day milk yield of small holder dairy cattle in a sub-Sahara African climate",
-        "type": "journal",
-        "authors": [
-            {
-                "first_name": "C.C. C.",
-                "last_name": "Ekine-Dzivenu"
-            },
-            {
-                "first_name": "R.",
-                "last_name": "Mrode"
-            },
-            {
-                "first_name": "E.",
-                "last_name": "Oyieng"
-            },
-            {
-                "first_name": "D.",
-                "last_name": "Komwihangilo"
-            },
-            {
-                "first_name": "E.",
-                "last_name": "Lyatuu"
-            },
-            {
-                "first_name": "G.",
-                "last_name": "Msuta"
-            },
-            {
-                "first_name": "J.M.K. M.K.",
-                "last_name": "Ojango"
-            },
-            {
-                "first_name": "A.M. M.",
-                "last_name": "Okeyo"
-            }
-        ],
-        "year": 2020,
-        "source": "Livestock Science",
-        "identifiers": {
-            "issn": "18711413",
-            "doi": "10.1016\/j.livsci.2020.104314"
-        },
-        "keywords": [
-            "Heat stress",
-            "Milk loss",
-            "Temperature humidity index"
-        ],
-        "id": "7471c086-adaf-3802-b281-40c854985e2e",
-        "created": "2021-03-01T08:39:09.773Z",
-        "profile_id": "29204f3d-9e3f-3dc1-9f43-2ff6d0833196",
-        "group_id": "98b5aad2-ab5b-3406-8c13-f564adb01f63",
-        "last_modified": "2021-03-01T08:39:22.473Z",
-        "abstract": "This study evaluates the effect of heat stress on milk production and describes the pattern of response of milk yield to increasing heat load, using temperature-humidity index (THI) on test-day milk records of small holder dairy cattle herds in the sub-Saharan African climate of Tanzania. Climate data obtained from aWhere, an agricultural weather data platform (http:\/\/www.awhere.com) was analysed with 14,367 first lactation test day milk records of 3511 dairy cows collected between 2016 and 2019. THI was calculated from daily maximal temperatures and daily minimum humidity. Three sets of analysis were performed. In the first and second analysis, two mixed effect repeatability models were fitted with THI treated as a categorical variable grouped into 5 classes (THI1= [61 - 66], THI2= [67 - 71], THI3= [72 - 78], THI4=[79 - 81], THI5=[82 - 86]), to obtain least squares estimates of THI effect on milk production, and as a continuous variable within THI classes to identify THI thresholds at which milk yield started to decline. In the third analyses, one quadratic polynomial regression (POL) and three regression spline functions namely piecewise linear spline function (PLF), natural splines function (NSF) and cubic splines function (CSF) were fitted to determine the average effect of THI on milk yield in the population and describe the pattern of response of milk yield to increasing head load. The results show that heat stress reduced milk yield by 4.16% to 14.42% across THI groups, with daily milk yield being the highest in THI1 (7.40\u00b10.39 litres) and the lowest in THI4 (6.33\u00b10.32). Regression coefficients within groups showed significant daily milk yield decrease in THI2 (-0.09) and THI3 (-0.06), but not for other THI classes, indicating that cows experienced heat stress between THI values of 67 and 76 and milk loss plateaued afterwards, suggesting that the animals acclimatized to heat stress conditions beyond THI value of 76. At the population level, THI and its squared term were significantly negatively and positively (-0.61, 0.004) associated with milk production, indicating a non-linear relationship between milk yield and THI. The CSF model showed better goodness of fit and predictive ability than other models for predicting future population response of milk yield to heat stress in small holder dairy farms in Tanzania. Herd management strategies and animal husbandry measures are needed in small holder dairy farms in Tanzania to minimize the impact of heat stress on milk yield and income of the farmers."
-    },
-    {
         "title": "Ancestral Haplotype Mapping for GWAS and Detection of Signatures of Selection in Admixed Dairy Cattle of Kenya",
         "type": "journal",
         "authors": [
@@ -1862,12 +2655,12 @@
         "year": 2020,
         "source": "Nature Genetics",
         "identifiers": {
-            "issn": "15461718",
-            "doi": "10.1038\/s41588-020-0694-2",
-            "scopus": "2-s2.0-85091604307",
             "pmid": "32989325",
+            "pui": "2006802477",
+            "issn": "15461718",
+            "scopus": "2-s2.0-85091604307",
             "sgr": "85091604307",
-            "pui": "2006802477"
+            "doi": "10.1038\/s41588-020-0694-2"
         },
         "keywords": [
             "Genomics",
@@ -1879,108 +2672,6 @@
         "group_id": "98b5aad2-ab5b-3406-8c13-f564adb01f63",
         "last_modified": "2021-02-20T18:29:48.887Z",
         "abstract": "Cattle pastoralism plays a central role in human livelihood in Africa. However, the genetic history of its success remains unknown. Here, through whole-genome sequence analysis of 172 indigenous African cattle from 16 breeds representative of the main cattle groups, we identify a major taurine \u00d7 indicine cattle admixture event dated to circa 750\u20131,050 yr ago, which has shaped the genome of today\u2019s cattle in the Horn of Africa. We identify 16 loci linked to African environmental adaptations across crossbred animals showing an excess of taurine or indicine ancestry. These include immune-, heat-tolerance- and reproduction-related genes. Moreover, we identify one highly divergent locus in African taurine cattle, which is putatively linked to trypanotolerance and present in crossbred cattle living in trypanosomosis-infested areas. Our findings indicate that a combination of past taurine and recent indicine admixture-derived genetic resources is at the root of the present success of African pastoralism."
-    },
-    {
-        "title": " Genomic Analysis Revealed a Convergent Evolution of LINE-1 in Coat Color: A Case Study in Water Buffaloes ( Bubalus bubalis ) ",
-        "type": "journal",
-        "authors": [
-            {
-                "first_name": "Dong",
-                "last_name": "Liang"
-            },
-            {
-                "first_name": "Pengju",
-                "last_name": "Zhao"
-            },
-            {
-                "first_name": "Jingfang",
-                "last_name": "Si"
-            },
-            {
-                "first_name": "Lingzhao",
-                "last_name": "Fang"
-            },
-            {
-                "first_name": "Erola",
-                "last_name": "Pairo-Castineira"
-            },
-            {
-                "first_name": "Xiaoxiang",
-                "last_name": "Hu"
-            },
-            {
-                "first_name": "Qing",
-                "last_name": "Xu"
-            },
-            {
-                "first_name": "Yali",
-                "last_name": "Hou"
-            },
-            {
-                "first_name": "Yu",
-                "last_name": "Gong"
-            },
-            {
-                "first_name": "Zhengwen",
-                "last_name": "Liang"
-            },
-            {
-                "first_name": "Bing",
-                "last_name": "Tian"
-            },
-            {
-                "first_name": "Huaming",
-                "last_name": "Mao"
-            },
-            {
-                "first_name": "Marnoch",
-                "last_name": "Yindee"
-            },
-            {
-                "first_name": "Md Omar",
-                "last_name": "Faruque"
-            },
-            {
-                "first_name": "Siton",
-                "last_name": "Kongvongxay"
-            },
-            {
-                "first_name": "Souksamlane",
-                "last_name": "Khamphoumee"
-            },
-            {
-                "first_name": "George E",
-                "last_name": "Liu"
-            },
-            {
-                "first_name": "Dong-Dong",
-                "last_name": "Wu"
-            },
-            {
-                "first_name": "James Stuart F",
-                "last_name": "Barker"
-            },
-            {
-                "first_name": "Jianlin",
-                "last_name": "Han"
-            },
-            {
-                "first_name": "Yi",
-                "last_name": "Zhang"
-            }
-        ],
-        "year": 2020,
-        "source": "Molecular Biology and Evolution",
-        "identifiers": {
-            "issn": "0737-4038",
-            "doi": "10.1093\/molbev\/msaa279"
-        },
-        "id": "4c3fb71f-c8ec-3259-a895-e632ad331667",
-        "created": "2021-02-11T05:59:26.097Z",
-        "profile_id": "29204f3d-9e3f-3dc1-9f43-2ff6d0833196",
-        "group_id": "98b5aad2-ab5b-3406-8c13-f564adb01f63",
-        "last_modified": "2021-02-11T05:59:26.097Z",
-        "abstract": "Visible pigmentation phenotypes can be used to explore the regulation of gene expression and the evolution of coat color patterns in animals. Here, we performed whole-genome and RNA sequencing and applied genome-wide association study, comparative population genomics and biological experiments to show that the 2,809-bp-long LINE-1 insertion in the ASIP (agouti signaling protein) gene is the causative mutation for the white coat phenotype in swamp buffalo (Bubalus bubalis). This LINE-1 insertion (3\u2032 truncated and containing only 5\u2032 UTR) functions as a strong proximal promoter that leads to a 10-fold increase in the transcription of ASIP in white buffalo skin. The 165 bp of 5\u2032 UTR transcribed from the LINE-1 is spliced into the first coding exon of ASIP, resulting in a chimeric transcript. The increased expression of ASIP prevents melanocyte maturation, leading to the absence of pigment in white buffalo skin and hairs. Phylogenetic analyses indicate that the white buffalo-specific ASIP allele originated from a recent genetic transposition event in swamp buffalo. Interestingly, as a similar LINE-1 insertion has been identified in the cattle ASIP gene, we discuss the convergent mechanism of coat color evolution in the Bovini tribe."
     },
     {
         "title": "Integrating Genetic and Genomic Analyses of Combined Health Data Across Ecotypes to Improve Disease Resistance in Indigenous African Chickens",
@@ -2122,10 +2813,10 @@
         "year": 2019,
         "source": "PLoS ONE",
         "identifiers": {
-            "issn": "19326203",
-            "doi": "10.1371\/journal.pone.0209632",
             "isbn": "1111111111",
-            "pmid": "31199810"
+            "pmid": "31199810",
+            "issn": "19326203",
+            "doi": "10.1371\/journal.pone.0209632"
         },
         "id": "4f23584e-4795-3f4e-94b9-f904b7f791b6",
         "created": "2020-09-25T06:26:09.544Z",
@@ -2638,7 +3329,7 @@
     },
     {
         "title": "Core Innovation Groups for Livestock Improvement",
-        "type": "journal",
+        "type": "report",
         "authors": [
             {
                 "first_name": "Julie M.K.",
@@ -2677,7 +3368,7 @@
         "created": "2020-09-07T08:52:15.078Z",
         "profile_id": "29204f3d-9e3f-3dc1-9f43-2ff6d0833196",
         "group_id": "98b5aad2-ab5b-3406-8c13-f564adb01f63",
-        "last_modified": "2020-09-07T08:52:15.078Z",
+        "last_modified": "2021-10-07T08:01:24.329Z",
         "abstract": "World Bank"
     },
     {
@@ -3867,7 +4558,7 @@
         "created": "2020-05-15T07:58:46.015Z",
         "profile_id": "29204f3d-9e3f-3dc1-9f43-2ff6d0833196",
         "group_id": "98b5aad2-ab5b-3406-8c13-f564adb01f63",
-        "last_modified": "2020-06-11T07:08:35.838Z",
+        "last_modified": "2021-10-07T08:01:24.073Z",
         "abstract": "Format of the training course: The 5-day residential training includes lectures and practical sessions on specific aspects of mammals and poultry reproductive biotechnology for biobanking. This should be followed by in-depth targeted training and field experiential learning in the five regions of Africa where the gene banks are implanted, with technical support from the trainers, collaborators from ARIS (the Roslin Institute) and local expertise. PARTICIPATING COUNTRIES"
     },
     {
@@ -7377,10 +8068,10 @@
         "year": 2016,
         "source": "Immunogenetics",
         "identifiers": {
-            "issn": "14321211",
-            "doi": "10.1007\/s00251-016-0945-7",
             "isbn": "0025101609457",
-            "pmid": "27516207"
+            "pmid": "27516207",
+            "issn": "14321211",
+            "doi": "10.1007\/s00251-016-0945-7"
         },
         "keywords": [
             "Cattle",
@@ -9239,7 +9930,7 @@
         "created": "2018-04-04T10:56:13.947Z",
         "profile_id": "b4e18451-08f1-35b7-a19a-92386d2d6fe4",
         "group_id": "98b5aad2-ab5b-3406-8c13-f564adb01f63",
-        "last_modified": "2018-07-20T12:53:27.194Z",
+        "last_modified": "2021-10-07T08:01:23.845Z",
         "abstract": "The history of African indigenous cattle and their adaptation to environmental and human selection pressure is at the root of their remarkable diversity. Characterization of this diversity is an essential step towards understanding the genomic basis of productivity and adaptation to survival under African farming systems. We analyze patterns of African cattle genetic variation by sequencing 48 genomes from five indigenous populations and comparing them to the genomes of 53 commercial taurine breeds. We find the highest genetic diversity among African zebu and sanga cattle. Our search for genomic regions under selection reveals signatures of selection for environmental adaptive traits. In particular, we identify signatures of selection including genes and\/or pathways controlling anemia and feeding behavior in the trypanotolerant N\u2019Dama, coat color and horn development in Ankole, and heat tolerance and tick resistance across African cattle especially in zebu breeds. Our findings unravel at the genome-wide level, the unique adaptive diversity of African cattle while emphasizing the opportunities for sustainable improvement of livestock productivity on the continent."
     },
     {
@@ -10885,7 +11576,7 @@
         "created": "2018-04-04T10:56:10.611Z",
         "profile_id": "b4e18451-08f1-35b7-a19a-92386d2d6fe4",
         "group_id": "98b5aad2-ab5b-3406-8c13-f564adb01f63",
-        "last_modified": "2018-04-04T10:59:35.523Z",
+        "last_modified": "2021-10-07T08:01:23.852Z",
         "abstract": "Livestock are essential for food and nutrition security in sub-Saharan Africa, as well as to rural livelihoods. However, despite very large numbers of animals, production is relatively low, though with large differences between breeds, management practices, and environmental conditions. \u2022 The conditions for livestock in sub-Saharan Africa can be harsh, particularly with regard to heat, water scarcity, and unreliable supply of feed. Climate change is likely to exacerbate those challenges. As a result, it is important to breed animals that are not only productive, but also resilient. \u2022 The increased globalization of breeding activities provides opportunities to incorporate genes from a global pool of breeds to improve local livestock populations. Unfortunately, those opportunities have often been misused, by replacing local breeds with unsuitable exotic breeds, or through crossbreeding that has put local breeds in danger of extinction. \u2022 Given the importance of food security on the global development agenda, including the Sustainable Development Goals, it is crucial to raise awareness among policy-makers and funding agencies of the importance and multiple roles of livestock, and of ways to improve livestock production. \u2022 A key area to prioritize is action research to design and implement effective livestock recording and breeding programmes. These are needed to characterize potentially valuable genetic resources, to develop systems for monitoring their performance, and to provide means for management and selection of animals for particular environments. \u2022 Systems aimed at increasing livestock productivity must include improved infrastructure and policies to support livestock breeding and sharing of genetic resources across national borders. The objective should be to support sustainable development of all important farm animal breeds and avoid the risk of extinction. In sharing genetic resources, globally, both developed and developing countries should be mindful of the risk of permanently losing genetic variation by replacing breeds. \u2022 Capacity-building is crucial for success. More needs to be invested in training people at all levels, including women who can become livestock entrepreneurs. Higher education programmes focused on animal breeding are also important to train future leaders in the management of genetic resources."
     },
     {
