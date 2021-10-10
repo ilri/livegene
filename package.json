@@ -47,6 +47,7 @@
         "uuid": "^8.3.2",
         "versor": "^0.0.4",
         "vue": "^2.6.11",
+        "vue-d3-cloud": "^0.2.0",
         "vue-jest": "^3.0.5",
         "vue-loader": "15.0.11",
         "vue-router": "^3.0.6",
