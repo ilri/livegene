@@ -39,7 +39,7 @@
                     <td>{{ publication.type }}</td>
                     <td>{% if publication.source is defined %}{{ publication.source }}{% endif %}</td>
                     <td>{{ publication.created|date }}</td>
-                    <td><a href="{{ path('publication_admin', { id: publication.id, publication: publication }) }}">VIEW</a></td>
+                    <td><a href="{{ path('admin_publication_show', { id: publication.id, publication: publication }) }}">VIEW</a></td>
                 </tr>
             {% endfor %}
         </table>

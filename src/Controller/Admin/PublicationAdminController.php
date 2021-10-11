@@ -9,7 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
-class PublicationsAdminController extends AbstractController
+class PublicationAdminController extends AbstractController
 {
     private MendeleyHelper $mendeleyHelper;
 
@@ -19,7 +19,7 @@ class PublicationsAdminController extends AbstractController
     }
 
     /**
-     * @Route("/admin/publications", name="publications_admin")
+     * @Route("/admin/publication", name="admin_publication_list")
      * @Template("SonataAdmin/Block/publications.html.twig")
      *
      * @param   Pool  $pool
@@ -37,7 +37,7 @@ class PublicationsAdminController extends AbstractController
     }
 
     /**
-     * @Route("/admin/publications/{id}", name="publication_admin")
+     * @Route("/admin/publication/{id}", name="admin_publication_show")
      * @Template("SonataAdmin/Block/publication.html.twig")
      *
      * @param   Pool     $pool
