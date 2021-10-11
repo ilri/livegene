@@ -2,17 +2,19 @@
 
 namespace App\Helper;
 
+use App\Exception\CacheItemNotFoundException;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 use KnpU\OAuth2ClientBundle\Client\ClientRegistry;
 use KnpU\OAuth2ClientBundle\Client\OAuth2ClientInterface;
 use League\OAuth2\Client\Token\AccessToken;
-use Psr\Cache\InvalidArgumentException;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Contracts\Cache\CacheInterface;
 
 class MendeleyHelper
 {
+    private const API_ENDPOINT = 'https://api.mendeley.com/documents';
+
     private CacheInterface $cache;
     private OAuth2ClientInterface $client;
     private SessionInterface $session;
@@ -31,25 +33,25 @@ class MendeleyHelper
 
     /**
      * @return AccessToken
-     * @throws InvalidArgumentException
+     * @throws CacheItemNotFoundException
      */
     public function getAccessToken(): AccessToken
     {
-        /** @var AccessToken $accessToken */
-        $accessToken = $this->cache->getItem('mendeley_access_token')->get();
-        if ($accessToken->hasExpired()) {
-            $accessToken = $this->client->refreshAccessToken(
-                $accessToken->getRefreshToken()
-            );
-            $this->cache->delete('mendeley_access_token');
-            $accessToken = $this->cache->get(
-                'mendeley_access_token',
-                function () use ($accessToken) {
-                    return $accessToken;
-                }
-            );
+        $accessToken = $this->cache->getItem('mendeley_access_token');
+        dump($accessToken);
+        if (!$accessToken->isHit()) {
+            throw new CacheItemNotFoundException('Mendeley Access Token was not found.');
         }
-        return $accessToken;
+        if ($accessToken->get()->hasExpired()) {
+            $accessToken->set(
+                $this->client->refreshAccessToken(
+                    $accessToken->get()->getRefreshToken()
+                )
+            );
+            $this->cache->save($accessToken);
+        }
+        dump($accessToken);
+        return $accessToken->get();
     }
 
     /**
@@ -57,12 +59,11 @@ class MendeleyHelper
      */
     public function getPublications(): array
     {
-        $baseUri = 'https://api.mendeley.com/documents';
         $client  = new Client();
         $response = '[]';
         try {
             $accessToken = $this->getAccessToken();
-            $response = $client->request('GET', $baseUri, [
+            $response = $client->request('GET', self::API_ENDPOINT, [
                 'query'   => [
                     'group_id' => '98b5aad2-ab5b-3406-8c13-f564adb01f63',
                     'limit'    => 500,
@@ -73,7 +74,7 @@ class MendeleyHelper
                     'Accept' => 'application/vnd.mendeley-document.1+json'
                 ],
             ])->getBody();
-        } catch (InvalidArgumentException | GuzzleException $e) {
+        } catch (CacheItemNotFoundException | GuzzleException $e) {
             $this->session->getFlashBag()->add(
                 'mendeley_error_message',
                 $e->getMessage()
