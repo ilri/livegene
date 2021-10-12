@@ -81,6 +81,37 @@ class MendeleyHelper
             );
         }
 
+        $this->setPublications(json_decode($response, true));
+
         return json_decode($response, true);
+    }
+
+    /**
+     * @param   array  $response
+     */
+    public function setPublications(array $response)
+    {
+        $publications = $this->cache->getItem('mendeley_publications');
+        if (!$publications->isHit()) {
+            $publications->set($response);
+            $this->cache->save($publications);
+        }
+    }
+
+    /**
+     * @param   string  $id
+     *
+     * @return mixed
+     * @throws CacheItemNotFoundException
+     */
+    public function getPublication(string $id)
+    {
+        $publications = $this->cache->getItem('mendeley_publications');
+        if (!$publications->isHit()) {
+            throw new CacheItemNotFoundException('Mendeley publications were not found.');
+        }
+        $list = $publications->get();
+        $index = array_search($id, array_column($publications->get(), 'id'));
+        return $list[$index];
     }
 }

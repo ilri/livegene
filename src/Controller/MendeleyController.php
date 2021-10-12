@@ -53,7 +53,7 @@ class MendeleyController extends AbstractController
             $this->get('session')->getFlashBag()->add('mendeley_error_message', $e->getMessage());
         }
 
-        return $this->redirectToRoute('publications_admin');
+        return $this->redirectToRoute('admin_publication_list');
     }
 
     /**

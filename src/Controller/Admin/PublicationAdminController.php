@@ -2,6 +2,7 @@
 
 namespace App\Controller\Admin;
 
+use App\Exception\CacheItemNotFoundException;
 use App\Helper\MendeleyHelper;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sonata\AdminBundle\Admin\Pool;
@@ -29,10 +30,12 @@ class PublicationAdminController extends AbstractController
     public function indexAction(Pool $pool): array
     {
         $publications = $this->mendeleyHelper->getPublications();
+        $fields = ['ID', 'Title', 'Year', 'Type', 'Source'];
 
         return [
             'admin_pool'   => $pool,
             'publications' => $publications,
+            'fields' => $fields,
         ];
     }
 
@@ -40,14 +43,16 @@ class PublicationAdminController extends AbstractController
      * @Route("/admin/publication/{id}", name="admin_publication_show")
      * @Template("SonataAdmin/Block/publication.html.twig")
      *
+     * @param   string   $id
      * @param   Pool     $pool
      * @param   Request  $request
      *
      * @return array
+     * @throws CacheItemNotFoundException
      */
-    public function showAction(Pool $pool, Request $request): array
+    public function showAction(string $id, Pool $pool, Request $request): array
     {
-        $publication = $request->query->get('publication');
+        $publication = $this->mendeleyHelper->getPublication($id);
 
         return [
             'admin_pool' => $pool,
