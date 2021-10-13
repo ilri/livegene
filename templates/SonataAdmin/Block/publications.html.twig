@@ -29,6 +29,7 @@
 {% endblock %}
 
 {% block list_table %}
+<div class="col-xs-12 col-md-12">
     <div class="box box-primary">
         <div class="box-body table-responsive no-padding">
             {% block table %}
@@ -52,12 +53,6 @@
                         {% for publication in publications %}
                             <tr>
                                 <td class="sonata-ba-list-field sonata-ba-list-field-text">
-                                    <a class="btn btn-sm btn-default view_link" href="{{ path('admin_publication_show', { id: publication.id }) }}">
-                                        <i class="fa fa-eye" aria-hidden="true"></i>
-                                        Show
-                                    </a>
-                                </td>
-                                <td class="sonata-ba-list-field sonata-ba-list-field-text">
                                     {{ publication.title }}
                                 </td>
                                 <td class="sonata-ba-list-field sonata-ba-list-field-text">
@@ -69,6 +64,12 @@
                                 <td class="sonata-ba-list-field sonata-ba-list-field-text">
                                     {% if publication.source is defined %}{{ publication.source }}{% endif %}
                                 </td>
+                                <td class="sonata-ba-list-field sonata-ba-list-field-text">
+                                    <a class="btn btn-sm btn-default view_link" href="{{ path('admin_publication_show', { id: publication.id }) }}">
+                                        <i class="fa fa-eye" aria-hidden="true"></i>
+                                        Show
+                                    </a>
+                                </td>
                             </tr>
                         {% endfor %}
                         </tbody>
@@ -77,4 +78,5 @@
             {% endblock %}
         </div>
     </div>
+</div>
 {% endblock %}
