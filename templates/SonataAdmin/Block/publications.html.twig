@@ -29,54 +29,55 @@
 {% endblock %}
 
 {% block list_table %}
-<div class="col-xs-12 col-md-12">
-    <div class="box box-primary">
-        <div class="box-body table-responsive no-padding">
-            {% block table %}
-                <table class="table table-bordered table-striped table-hover sonata-ba-list">
-                    {% block table_header %}
-                        <thead>
-                        <tr class="sonata-ba-list-field-header">
-                            {% for field in fields %}
-                                {% apply spaceless %}
-                                    <th class="sonata-ba-list-field-header-text">
-                                        {{ field }}
-                                    </th>
-                                {% endapply %}
-                            {% endfor %}
-                        </tr>
-                        </thead>
-                    {% endblock %}
-
-                    {% block table_body %}
-                        <tbody>
-                        {% for publication in publications %}
-                            <tr>
-                                <td class="sonata-ba-list-field sonata-ba-list-field-text">
-                                    {{ publication.title }}
-                                </td>
-                                <td class="sonata-ba-list-field sonata-ba-list-field-text">
-                                    {% if publication.year is defined %}{{ publication.year }}{% endif %}
-                                </td>
-                                <td class="sonata-ba-list-field sonata-ba-list-field-text">
-                                    {{ publication.type }}
-                                </td>
-                                <td class="sonata-ba-list-field sonata-ba-list-field-text">
-                                    {% if publication.source is defined %}{{ publication.source }}{% endif %}
-                                </td>
-                                <td class="sonata-ba-list-field sonata-ba-list-field-text">
-                                    <a class="btn btn-sm btn-default view_link" href="{{ path('admin_publication_show', { id: publication.id }) }}">
-                                        <i class="fa fa-eye" aria-hidden="true"></i>
-                                        Show
-                                    </a>
-                                </td>
+    <div class="col-xs-12 col-md-12">
+        <div class="box box-primary">
+            <div class="box-body table-responsive no-padding">
+                {% block table %}
+                    <table class="table table-bordered table-striped table-hover sonata-ba-list">
+                        {% block table_header %}
+                            <thead>
+                            <tr class="sonata-ba-list-field-header">
+                                {% for field in fields %}
+                                    {% apply spaceless %}
+                                        <th class="sonata-ba-list-field-header-text">
+                                            {{ field }}
+                                        </th>
+                                    {% endapply %}
+                                {% endfor %}
                             </tr>
-                        {% endfor %}
-                        </tbody>
-                    {% endblock %}
-                </table>
-            {% endblock %}
+                            </thead>
+                        {% endblock %}
+
+                        {% block table_body %}
+                            <tbody>
+                            {% for publication in publications %}
+                                <tr>
+                                    <td class="sonata-ba-list-field sonata-ba-list-field-text">
+                                        {{ publication.title }}
+                                    </td>
+                                    <td class="sonata-ba-list-field sonata-ba-list-field-text">
+                                        {% if publication.year is defined %}{{ publication.year }}{% endif %}
+                                    </td>
+                                    <td class="sonata-ba-list-field sonata-ba-list-field-text">
+                                        {{ publication.type }}
+                                    </td>
+                                    <td class="sonata-ba-list-field sonata-ba-list-field-text">
+                                        {% if publication.source is defined %}{{ publication.source }}{% endif %}
+                                    </td>
+                                    <td class="sonata-ba-list-field sonata-ba-list-field-text">
+                                        <a class="btn btn-sm btn-default view_link"
+                                           href="{{ path('admin_publication_show', { id: publication.id }) }}">
+                                            <i class="fa fa-eye" aria-hidden="true"></i>
+                                            Show
+                                        </a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        {% endblock %}
+                    </table>
+                {% endblock %}
+            </div>
         </div>
     </div>
-</div>
 {% endblock %}
