@@ -30,7 +30,7 @@ class PublicationAdminController extends AbstractController
     public function indexAction(Pool $pool): array
     {
         $publications = $this->mendeleyHelper->getPublications();
-        $fields = ['ID', 'Title', 'Year', 'Type', 'Source'];
+        $fields = ['Title', 'Year', 'Type', 'Source', 'Action'];
 
         return [
             'admin_pool'   => $pool,
