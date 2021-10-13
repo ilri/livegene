@@ -1,15 +1,23 @@
 {% extends 'SonataAdminBundle::standard_layout.html.twig' %}
 
+{% block title -%}
+    - Publication List
+{% endblock %}
+
+{% block navbar_title %}
+    Publication List
+{% endblock %}
+
 {% block content %}
-    <h1 class="text-center">Mendeley Publications</h1>
     {% if is_granted('ROLE_SUPER_ADMIN') %}
-    <div class="jumbotron text-center">
-        <p>Click on the button below to fetch the publications from Mendeley.</p>
-        <a class="btn btn-primary" href="{{ path('connect_mendeley_start') }}">
-            FETCH
-        </a>
-    </div>
+        <div class="jumbotron text-center">
+            <p>Click on the button below to fetch the publications from Mendeley.</p>
+            <a class="btn btn-primary" href="{{ path('connect_mendeley_start') }}">
+                FETCH
+            </a>
+        </div>
     {% endif %}
+
     <div class="container">
         {% for flashVar in app.session.flashBag.get('mendeley_error_message') %}
             <div class="alert alert-warning text-center text-bold text-black">
@@ -17,31 +25,56 @@
                 <p>Please contact the administrator to resolve this issue!</p>
             </div>
         {% endfor %}
-        <table class="table">
-            <tr>
-                <th>Authors</th>
-                <th>Title</th>
-                <th>Type</th>
-                <th>Source</th>
-                <th>Added</th>
-                <th>View</th>
-            </tr>
-            {% for publication in publications %}
-                <tr>
-                    <td>
-                        {% if publication.authors is defined %}
-                            {% for author in publication.authors %}
-                            <span class="label-info">{% if author.last_name is defined %}{{ author.last_name }}{% endif %}, {% if author.first_name is defined %}{{ author.first_name }}{% endif %}</span>
+    </div>
+{% endblock %}
+
+{% block list_table %}
+    <div class="box box-primary">
+        <div class="box-body table-responsive no-padding">
+            {% block table %}
+                <table class="table table-bordered table-striped table-hover sonata-ba-list">
+                    {% block table_header %}
+                        <thead>
+                        <tr class="sonata-ba-list-field-header">
+                            {% for field in fields %}
+                                {% apply spaceless %}
+                                    <th class="sonata-ba-list-field-header-text">
+                                        {{ field }}
+                                    </th>
+                                {% endapply %}
                             {% endfor %}
-                        {% endif %}
-                    </td>
-                    <td>{{ publication.title }}</td>
-                    <td>{{ publication.type }}</td>
-                    <td>{% if publication.source is defined %}{{ publication.source }}{% endif %}</td>
-                    <td>{{ publication.created|date }}</td>
-                    <td><a href="{{ path('publication_admin', { id: publication.id, publication: publication }) }}">VIEW</a></td>
-                </tr>
-            {% endfor %}
-        </table>
+                        </tr>
+                        </thead>
+                    {% endblock %}
+
+                    {% block table_body %}
+                        <tbody>
+                        {% for publication in publications %}
+                            <tr>
+                                <td class="sonata-ba-list-field sonata-ba-list-field-text">
+                                    <a class="btn btn-sm btn-default view_link" href="{{ path('admin_publication_show', { id: publication.id }) }}">
+                                        <i class="fa fa-eye" aria-hidden="true"></i>
+                                        Show
+                                    </a>
+                                </td>
+                                <td class="sonata-ba-list-field sonata-ba-list-field-text">
+                                    {{ publication.title }}
+                                </td>
+                                <td class="sonata-ba-list-field sonata-ba-list-field-text">
+                                    {% if publication.year is defined %}{{ publication.year }}{% endif %}
+                                </td>
+                                <td class="sonata-ba-list-field sonata-ba-list-field-text">
+                                    {{ publication.type }}
+                                </td>
+                                <td class="sonata-ba-list-field sonata-ba-list-field-text">
+                                    {% if publication.source is defined %}{{ publication.source }}{% endif %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    {% endblock %}
+                </table>
+            {% endblock %}
+        </div>
     </div>
 {% endblock %}
