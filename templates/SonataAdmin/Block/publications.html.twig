@@ -11,7 +11,7 @@
 {% block content %}
     {% if is_granted('ROLE_SUPER_ADMIN') %}
         <div class="jumbotron text-center">
-            <p>Click on the button below to fetch the publications from Mendeley.</p>
+            <p>Click on the button below to fetch access token from Mendeley.</p>
             <a class="btn btn-primary" href="{{ path('connect_mendeley_start') }}">
                 FETCH
             </a>

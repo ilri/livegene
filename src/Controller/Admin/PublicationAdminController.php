@@ -7,15 +7,17 @@ use App\Helper\MendeleyHelper;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sonata\AdminBundle\Admin\Pool;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 class PublicationAdminController extends AbstractController
 {
+    private SessionInterface $session;
     private MendeleyHelper $mendeleyHelper;
 
-    public function __construct(MendeleyHelper $mendeleyHelper)
+    public function __construct(MendeleyHelper $mendeleyHelper, SessionInterface $session)
     {
+        $this->session = $session;
         $this->mendeleyHelper = $mendeleyHelper;
     }
 
@@ -43,16 +45,22 @@ class PublicationAdminController extends AbstractController
      * @Route("/admin/publication/{id}", name="admin_publication_show")
      * @Template("SonataAdmin/Block/publication.html.twig")
      *
-     * @param   string   $id
-     * @param   Pool     $pool
-     * @param   Request  $request
+     * @param   string  $id
+     * @param   Pool    $pool
      *
      * @return array
-     * @throws CacheItemNotFoundException
      */
-    public function showAction(string $id, Pool $pool, Request $request): array
+    public function showAction(string $id, Pool $pool): array
     {
-        $publication = $this->mendeleyHelper->getPublication($id);
+        try {
+            $publication = $this->mendeleyHelper->getPublication($id);
+        } catch (CacheItemNotFoundException $e) {
+            $publication = [];
+            $this->session->getFlashBag()->add(
+                'mendeley_error_message',
+                $e->getMessage()
+            );
+        }
 
         return [
             'admin_pool' => $pool,

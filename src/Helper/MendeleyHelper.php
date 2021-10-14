@@ -38,10 +38,11 @@ class MendeleyHelper
     public function getAccessToken(): AccessToken
     {
         $accessToken = $this->cache->getItem('mendeley_access_token');
-        dump($accessToken);
+
         if (!$accessToken->isHit()) {
             throw new CacheItemNotFoundException('Mendeley Access Token was not found.');
         }
+
         if ($accessToken->get()->hasExpired()) {
             $accessToken->set(
                 $this->client->refreshAccessToken(
@@ -50,7 +51,7 @@ class MendeleyHelper
             );
             $this->cache->save($accessToken);
         }
-        dump($accessToken);
+
         return $accessToken->get();
     }
 
@@ -60,7 +61,7 @@ class MendeleyHelper
     public function getPublications(): array
     {
         $client  = new Client();
-        $response = '[]';
+
         try {
             $accessToken = $this->getAccessToken();
             $response = $client->request('GET', self::API_ENDPOINT, [
@@ -75,6 +76,7 @@ class MendeleyHelper
                 ],
             ])->getBody();
         } catch (CacheItemNotFoundException | GuzzleException $e) {
+            $response = '[]';
             $this->session->getFlashBag()->add(
                 'mendeley_error_message',
                 $e->getMessage()
@@ -91,11 +93,13 @@ class MendeleyHelper
      */
     public function setPublications(array $response)
     {
-        $publications = $this->cache->getItem('mendeley_publications');
-        if (!$publications->isHit()) {
-            $publications->set($response);
-            $this->cache->save($publications);
+        if (!$response) {
+            return;
         }
+        $publications = $this->cache->getItem('mendeley_publications');
+        $publications->set($response);
+        $this->cache->save($publications);
+        dump('Publications cached');
     }
 
     /**
@@ -108,8 +112,9 @@ class MendeleyHelper
     {
         $publications = $this->cache->getItem('mendeley_publications');
         if (!$publications->isHit()) {
-            throw new CacheItemNotFoundException('Mendeley publications were not found.');
+            throw new CacheItemNotFoundException('Mendeley publications were not found in cache.');
         }
+
         $list = $publications->get();
         $index = array_search($id, array_column($publications->get(), 'id'));
         return $list[$index];
