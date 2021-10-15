@@ -2,7 +2,9 @@
 
 namespace App\Command;
 
-use App\Helper\MendeleyHelper;
+use App\Exception\CacheItemNotFoundException;
+use App\Repository\Mendeley\PublicationCachedRepository;
+use GuzzleHttp\Exception\GuzzleException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -13,11 +15,11 @@ class DownloadMendeleyPublicationsCommand extends Command
     protected static $defaultName = 'app:mendeley:download';
     protected static string $defaultDescription = 'Download all publications from the LiveGeneShare private group';
 
-    private MendeleyHelper $mendeleyHelper;
+    private PublicationCachedRepository $publicationCachedRepository;
 
-    public function __construct(MendeleyHelper $mendeleyHelper, string $name = null)
+    public function __construct(PublicationCachedRepository $publicationCachedRepository, string $name = null)
     {
-        $this->mendeleyHelper = $mendeleyHelper;
+        $this->publicationCachedRepository = $publicationCachedRepository;
 
         parent::__construct($name);
     }
@@ -31,15 +33,24 @@ class DownloadMendeleyPublicationsCommand extends Command
         ;
     }
 
+    /**
+     * @param   InputInterface   $input
+     * @param   OutputInterface  $output
+     *
+     * @return int
+     */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
 
         $io->title('Download all publications from the LiveGeneShare private group from the Mendeley Reference Manager');
 
-        $publications = $this->mendeleyHelper->getPublications();
-
-        file_put_contents('assets/spa/data/publications.json', json_encode($publications, JSON_PRETTY_PRINT));
+        try {
+            $this->publicationCachedRepository->setPublications();
+        } catch (GuzzleException | CacheItemNotFoundException $e) {
+            $io->writeln([sprintf('<error>%s</error>', $e->getMessage())]);
+            return 1;
+        }
 
         $io->writeln(['<info>Download finished.</info>']);
 

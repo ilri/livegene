@@ -2,24 +2,23 @@
 
 namespace App\Controller;
 
+use App\Repository\Mendeley\AccessTokenCachedRepository;
 use KnpU\OAuth2ClientBundle\Client\ClientRegistry;
-use KnpU\OAuth2ClientBundle\Client\OAuth2ClientInterface;
 use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Contracts\Cache\CacheInterface;
 
 class MendeleyController extends AbstractController
 {
-    private CacheInterface $cache;
+    private AccessTokenCachedRepository $accessTokenRepository;
 
     /**
-     * @param   CacheInterface  $cache
+     * @param   AccessTokenCachedRepository  $accessTokenRepository
      */
-    public function __construct(CacheInterface $cache)
+    public function __construct(AccessTokenCachedRepository $accessTokenRepository)
     {
-        $this->cache = $cache;
+        $this->accessTokenRepository= $accessTokenRepository;
     }
 
     /**
@@ -39,32 +38,16 @@ class MendeleyController extends AbstractController
     /**
      * @Route("/connect/mendeley/check", name="connect_mendeley_check")
      *
-     * @param   ClientRegistry  $clientRegistry
-     *
      * @return RedirectResponse
      */
-    public function connectCheckAction(ClientRegistry $clientRegistry): RedirectResponse
+    public function connectCheckAction(): RedirectResponse
     {
-        $client = $clientRegistry->getClient('mendeley');
-
         try {
-            $this->setAccessToken($client);
+            $this->accessTokenRepository->setAccessToken();
         } catch (IdentityProviderException $e) {
             $this->get('session')->getFlashBag()->add('mendeley_error_message', $e->getMessage());
         }
 
         return $this->redirectToRoute('admin_publication_list');
-    }
-
-    /**
-     * @param   OAuth2ClientInterface  $client
-     *
-     * @throws IdentityProviderException
-     */
-    private function setAccessToken(OAuth2ClientInterface $client): void
-    {
-        $accessToken = $this->cache->getItem('mendeley_access_token');
-        $accessToken->set($client->getAccessToken());
-        $this->cache->save($accessToken);
     }
 }

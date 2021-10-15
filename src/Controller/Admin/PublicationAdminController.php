@@ -3,22 +3,27 @@
 namespace App\Controller\Admin;
 
 use App\Exception\CacheItemNotFoundException;
-use App\Helper\MendeleyHelper;
+use App\Repository\Mendeley\PublicationCachedRepository;
+use GuzzleHttp\Exception\GuzzleException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sonata\AdminBundle\Admin\Pool;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 class PublicationAdminController extends AbstractController
 {
     private SessionInterface $session;
-    private MendeleyHelper $mendeleyHelper;
+    private PublicationCachedRepository $publicationCachedRepository;
 
-    public function __construct(MendeleyHelper $mendeleyHelper, SessionInterface $session)
+    public function __construct(
+        SessionInterface $session,
+        PublicationCachedRepository $publicationCachedRepository
+    )
     {
         $this->session = $session;
-        $this->mendeleyHelper = $mendeleyHelper;
+        $this->publicationCachedRepository = $publicationCachedRepository;
     }
 
     /**
@@ -31,7 +36,15 @@ class PublicationAdminController extends AbstractController
      */
     public function indexAction(Pool $pool): array
     {
-        $publications = $this->mendeleyHelper->getPublications();
+        try {
+            $publications = $this->publicationCachedRepository->getPublications();
+        } catch (CacheItemNotFoundException | GuzzleException $e) {
+            $publications = [];
+            $this->session->getFlashBag()->add(
+                'mendeley_error_message',
+                $e->getMessage()
+            );
+        }
         $fields = ['Title', 'Year', 'Type', 'Source', 'Action'];
 
         return [
@@ -53,7 +66,7 @@ class PublicationAdminController extends AbstractController
     public function showAction(string $id, Pool $pool): array
     {
         try {
-            $publication = $this->mendeleyHelper->getPublication($id);
+            $publication = $this->publicationCachedRepository->getPublication($id);
         } catch (CacheItemNotFoundException $e) {
             $publication = [];
             $this->session->getFlashBag()->add(
@@ -66,5 +79,24 @@ class PublicationAdminController extends AbstractController
             'admin_pool' => $pool,
             'publication' => $publication,
         ];
+    }
+
+    /**
+     * @Route("/admin/publications/download", name="admin_publication_download")
+     *
+     * @return RedirectResponse
+     */
+    public function downloadAction(): RedirectResponse
+    {
+        try {
+            $this->publicationCachedRepository->setPublications();
+        } catch (CacheItemNotFoundException| GuzzleException $e) {
+            $this->session->getFlashBag()->add(
+                'mendeley_error_message',
+                $e->getMessage()
+            );
+        }
+
+        return $this->redirectToRoute('admin_publication_list');
     }
 }

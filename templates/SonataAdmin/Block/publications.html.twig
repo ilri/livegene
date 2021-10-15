@@ -17,6 +17,12 @@
             </a>
         </div>
     {% endif %}
+    <div class="jumbotron text-center">
+        <p>If the list of publications is not up-to-date, please click on the button below to download the current state.</p>
+        <a class="btn btn-primary" href="{{ path('admin_publication_download') }}">
+            SYNC
+        </a>
+    </div>
 
     <div class="container">
         {% for flashVar in app.session.flashBag.get('mendeley_error_message') %}
