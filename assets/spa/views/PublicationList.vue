@@ -95,8 +95,13 @@ export default {
           class: 'col-main',
         },
         {
+          key: 'volume',
+          class: 'col-other',
+        },
+        {
           key: 'type',
           class: 'col-other',
+          formatter: (value) => value.split('_').map((el) => el[0].toUpperCase() + el.substring(1)).join(' '),
         },
         {
           key: 'created',
