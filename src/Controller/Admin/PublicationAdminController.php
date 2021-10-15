@@ -41,7 +41,7 @@ class PublicationAdminController extends AbstractController
         } catch (CacheItemNotFoundException | GuzzleException $e) {
             $publications = [];
             $this->session->getFlashBag()->add(
-                'mendeley_error_message',
+                'sonata_flash_error',
                 $e->getMessage()
             );
         }
@@ -70,7 +70,7 @@ class PublicationAdminController extends AbstractController
         } catch (CacheItemNotFoundException $e) {
             $publication = [];
             $this->session->getFlashBag()->add(
-                'mendeley_error_message',
+                'sonata_flash_error',
                 $e->getMessage()
             );
         }
@@ -90,9 +90,13 @@ class PublicationAdminController extends AbstractController
     {
         try {
             $this->publicationCachedRepository->setPublications();
+            $this->session->getFlashBag()->add(
+                'sonata_flash_success',
+                'The publications in the LiveGeneShare group were downloaded from the Mendeley Reference Manager.'
+            );
         } catch (CacheItemNotFoundException| GuzzleException $e) {
             $this->session->getFlashBag()->add(
-                'mendeley_error_message',
+                'sonata_flash_error',
                 $e->getMessage()
             );
         }

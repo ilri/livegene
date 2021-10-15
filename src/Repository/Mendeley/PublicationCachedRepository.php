@@ -32,7 +32,7 @@ class PublicationCachedRepository
             $this->setPublications();
         }
 
-        return $publications->get();
+        return $publications->get() ?: [];
     }
 
     /**

@@ -45,7 +45,7 @@ class MendeleyController extends AbstractController
         try {
             $this->accessTokenRepository->setAccessToken();
         } catch (IdentityProviderException $e) {
-            $this->get('session')->getFlashBag()->add('mendeley_error_message', $e->getMessage());
+            $this->get('session')->getFlashBag()->add('sonata_flash_error', $e->getMessage());
         }
 
         return $this->redirectToRoute('admin_publication_list');
