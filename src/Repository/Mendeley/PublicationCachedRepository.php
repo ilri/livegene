@@ -56,7 +56,7 @@ class PublicationCachedRepository
         $this->cache->save($publications);
         file_put_contents(
             $this->projectDir.'/assets/spa/data/publications.json',
-            json_encode($publications, JSON_PRETTY_PRINT)
+            json_encode($publications->get(), JSON_PRETTY_PRINT)
         );
     }
 
