@@ -69,6 +69,9 @@
               :link="website"
             />
           </template>
+          <template #cell(source)="data">
+            <publication-source :publication="data.item" />
+          </template>
         </b-table>
       </b-col>
     </template>
@@ -82,6 +85,7 @@ import BaseView from '../components/BaseView';
 import PublicationAuthors from '../components/PublicationAuthors';
 import PublicationTag from '../components/PublicationTag';
 import PublicationLink from '../components/PublicationLink';
+import PublicationSource from '../components/PublicationSource';
 
 export default {
   name: 'PublicationList',
@@ -91,6 +95,7 @@ export default {
     PublicationAuthors,
     PublicationTag,
     PublicationLink,
+    PublicationSource,
   },
   data() {
     return {
@@ -112,13 +117,6 @@ export default {
           },
         },
         {
-          key: 'year',
-          sortable: true,
-          thStyle: {
-            width: '10%',
-          },
-        },
-        {
           key: 'title',
           sortable: true,
           thStyle: {
@@ -126,9 +124,9 @@ export default {
           },
         },
         {
-          key: 'volume',
+          key: 'source',
           thStyle: {
-            width: '10%',
+            width: '20%',
           },
         },
         {
