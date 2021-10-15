@@ -55,6 +55,20 @@
           <template #cell(authors)="data">
             <publication-authors :authors="data.value" />
           </template>
+          <template #cell(tags)="data">
+            <publication-tag
+              v-for="tag in data.value"
+              :key="tag"
+              :tag="tag"
+            />
+          </template>
+          <template #cell(websites)="data">
+            <publication-link
+              v-for="(website, index) in data.value"
+              :key="index"
+              :link="website"
+            />
+          </template>
         </b-table>
       </b-col>
     </template>
@@ -66,13 +80,17 @@ import Cloud from 'vue-d3-cloud';
 import { mapState } from 'vuex';
 import BaseView from '../components/BaseView';
 import PublicationAuthors from '../components/PublicationAuthors';
+import PublicationTag from '../components/PublicationTag';
+import PublicationLink from '../components/PublicationLink';
 
 export default {
-  name: 'MendeleyPublications',
+  name: 'PublicationList',
   components: {
     Cloud,
     BaseView,
     PublicationAuthors,
+    PublicationTag,
+    PublicationLink,
   },
   data() {
     return {
@@ -82,38 +100,55 @@ export default {
         {
           key: 'id',
           label: '#',
-          class: 'col-id',
+          thStyle: {
+            width: '5%',
+          },
         },
         {
           key: 'authors',
           sortable: true,
-          class: 'col-other',
-        },
-        {
-          key: 'title',
-          sortable: true,
-          class: 'col-main',
-        },
-        {
-          key: 'volume',
-          class: 'col-other',
-        },
-        {
-          key: 'type',
-          class: 'col-other',
-          formatter: (value) => value.split('_').map((el) => el[0].toUpperCase() + el.substring(1)).join(' '),
-        },
-        {
-          key: 'created',
-          label: 'Added',
-          sortable: true,
-          class: 'col-other',
-          formatter: (value) => new Date(value).toLocaleString(),
+          thStyle: {
+            width: '15%',
+          },
         },
         {
           key: 'year',
           sortable: true,
-          class: 'col-other',
+          thStyle: {
+            width: '10%',
+          },
+        },
+        {
+          key: 'title',
+          sortable: true,
+          thStyle: {
+            width: '30%',
+          },
+        },
+        {
+          key: 'volume',
+          thStyle: {
+            width: '10%',
+          },
+        },
+        {
+          key: 'type',
+          sortable: true,
+          thStyle: '10%',
+          formatter: (value) => value.split('_').map((el) => el[0].toUpperCase() + el.substring(1)).join(' '),
+        },
+        {
+          key: 'tags',
+          thStyle: {
+            width: '10%',
+          },
+        },
+        {
+          key: 'websites',
+          label: 'Links',
+          thStyle: {
+            width: '10%',
+          },
         },
       ],
       fontSizeMapper: (word) => Math.log2(word.value) * 5,
@@ -163,15 +198,4 @@ export default {
 </script>
 
 <style scoped>
-.col-id {
-  width: 5%;
-}
-
-.col-other {
-  width: 10%;
-}
-
-.col-main {
-  width: 25%;
-}
 </style>

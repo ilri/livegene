@@ -1,7 +1,7 @@
 <template>
   <p>
-    <span>{{ author.last_name }}</span>
-    <span v-if="author.first_name">, {{ author.first_name }}</span>
+    <span>{{ author.last_name }}</span><!-- this is to prevent white-space
+    --><span v-if="author.first_name">, {{ author.first_name }}</span>
   </p>
 </template>
 

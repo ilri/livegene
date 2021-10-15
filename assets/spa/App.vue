@@ -69,8 +69,4 @@ export default {
     width: 100%;
     height: 3em; /* Set the fixed height of the footer here */
   }
-
-  .btn {
-    width: 12em;
-  }
 </style>
