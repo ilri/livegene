@@ -24,11 +24,18 @@
             :on-word-click="onWordClick"
           />
         </div>
+        <b-alert
+          show
+          class="text-secondary"
+        >
+          There are <b-badge>{{ publications.length }}</b-badge> publications in total.
+        </b-alert>
         <b-pagination
           v-model="currentPage"
           :total-rows="publications.length"
           :per-page="perPage"
           aria-controls="my-table"
+          align="center"
         />
         <b-table
           id="my-table"
