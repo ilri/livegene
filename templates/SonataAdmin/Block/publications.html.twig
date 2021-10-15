@@ -26,6 +26,7 @@
     </div>
 
     {% include '@SonataTwig/FlashMessage/render.html.twig' %}
+    <div class="alert alert-info text-center" id="publicationsTotal">There are <span class="badge">{{ publications|length }}</span> publications in total.</div>
 {% endblock %}
 
 {% block list_table %}
