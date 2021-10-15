@@ -12,6 +12,11 @@ class PublicationCachedRepository
     private PublicationRepository $publicationRepository;
     private string $projectDir;
 
+    /**
+     * @param   CacheInterface         $cache
+     * @param   PublicationRepository  $publicationRepository
+     * @param   string                 $projectDir
+     */
     public function __construct(CacheInterface $cache, PublicationRepository $publicationRepository, string $projectDir)
     {
         $this->cache = $cache;

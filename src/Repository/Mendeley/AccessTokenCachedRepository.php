@@ -3,8 +3,10 @@
 namespace App\Repository\Mendeley;
 
 use App\Exception\CacheItemNotFoundException;
-use KnpU\OAuth2ClientBundle\Client\ClientRegistry;
-use KnpU\OAuth2ClientBundle\Client\OAuth2ClientInterface;
+use KnpU\OAuth2ClientBundle\Client\{
+    ClientRegistry,
+    OAuth2ClientInterface,
+};
 use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
 use League\OAuth2\Client\Token\AccessToken;
 use Symfony\Contracts\Cache\CacheInterface;
@@ -23,6 +25,7 @@ class AccessTokenCachedRepository
         $this->cache = $cache;
         $this->client = $clientRegistry->getClient('mendeley');
     }
+
     /**
      * @return AccessToken
      * @throws CacheItemNotFoundException

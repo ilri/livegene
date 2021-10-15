@@ -17,6 +17,10 @@ class PublicationAdminController extends AbstractController
     private SessionInterface $session;
     private PublicationCachedRepository $publicationCachedRepository;
 
+    /**
+     * @param   SessionInterface             $session
+     * @param   PublicationCachedRepository  $publicationCachedRepository
+     */
     public function __construct(
         SessionInterface $session,
         PublicationCachedRepository $publicationCachedRepository
