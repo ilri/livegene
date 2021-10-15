@@ -41,5 +41,5 @@ module.exports = {
       .useCss()
       .assert.elementPresent('table')
       .end();
-  }
+  },
 };

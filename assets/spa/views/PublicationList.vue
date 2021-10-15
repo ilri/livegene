@@ -52,6 +52,9 @@
               {{ (currentPage - 1) * perPage + data.index + 1 }}
             </router-link>
           </template>
+          <template #cell(authors)="data">
+            <publication-authors :authors="data.value" />
+          </template>
         </b-table>
       </b-col>
     </template>
@@ -62,12 +65,14 @@
 import Cloud from 'vue-d3-cloud';
 import { mapState } from 'vuex';
 import BaseView from '../components/BaseView';
+import PublicationAuthors from '../components/PublicationAuthors';
 
 export default {
   name: 'MendeleyPublications',
   components: {
     Cloud,
     BaseView,
+    PublicationAuthors,
   },
   data() {
     return {
@@ -77,45 +82,33 @@ export default {
         {
           key: 'id',
           label: '#',
+          class: 'col-id',
+        },
+        {
+          key: 'authors',
+          sortable: true,
+          class: 'col-other',
         },
         {
           key: 'title',
           sortable: true,
+          class: 'col-main',
         },
         {
           key: 'type',
+          class: 'col-other',
         },
         {
           key: 'created',
           label: 'Added',
           sortable: true,
+          class: 'col-other',
           formatter: (value) => new Date(value).toLocaleString(),
-        },
-        {
-          key: 'authors',
-          formatter: (value) => {
-            if (!value || value.length === 0) {
-              return '';
-            }
-            if (value.length === 1) {
-              return `${value[0].last_name.toUpperCase()}, ${value[0].first_name}`;
-            }
-            if (value.length === 2) {
-              return `
-                ${value[0].last_name.toUpperCase()}, ${value[0].first_name}
-                &
-                ${value[1].last_name.toUpperCase()}, ${value[1].first_name}
-              `;
-            }
-            if (value.length > 2) {
-              return `${value[0].last_name.toUpperCase()}, ${value[0].first_name} et al.`;
-            }
-            return '';
-          },
         },
         {
           key: 'year',
           sortable: true,
+          class: 'col-other',
         },
       ],
       fontSizeMapper: (word) => Math.log2(word.value) * 5,
@@ -152,7 +145,6 @@ export default {
         }, Object.create(null))
       ;
       const words = Object.keys(text).map((el) => ({ text: el, value: text[el] }));
-      console.dir(words);
       return words;
     },
     cloudWidth() {
@@ -166,5 +158,15 @@ export default {
 </script>
 
 <style scoped>
+.col-id {
+  width: 5%;
+}
 
+.col-other {
+  width: 10%;
+}
+
+.col-main {
+  width: 25%;
+}
 </style>
