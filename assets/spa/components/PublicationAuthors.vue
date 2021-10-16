@@ -47,7 +47,7 @@ export default {
         case 1:
           return this.getAuthorFullName(this.authors[0]);
         case 2:
-          return `${this.getAuthorFullName(this.authors[0])} & ${this.getAuthorFullName(this.authors[1])}`;
+          return `${this.getAuthorFullName(this.authors[0])} and ${this.getAuthorFullName(this.authors[1])}`;
         default:
           return `${this.getAuthorFullName(this.authors[0])} et al.`;
       }
