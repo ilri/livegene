@@ -37,6 +37,10 @@
           aria-controls="my-table"
           align="center"
         />
+        <b-form-select
+          v-model="selectedType"
+          :options="publicationTypes"
+        />
         <b-table
           id="my-table"
           striped
@@ -80,7 +84,7 @@
 
 <script>
 import Cloud from 'vue-d3-cloud';
-import { mapState } from 'vuex';
+import { mapState, mapGetters } from 'vuex';
 import BaseView from '../components/BaseView';
 import PublicationAuthors from '../components/PublicationAuthors';
 import PublicationTag from '../components/PublicationTag';
@@ -101,6 +105,7 @@ export default {
     return {
       perPage: 25,
       currentPage: 1,
+      selectedType: 0,
       fields: [
         {
           key: 'id',
@@ -161,7 +166,9 @@ export default {
   computed: {
     ...mapState({
       publications: (state) => state.publication.publications,
+      publicationTypes: (state) => state.publication.publicationTypes,
     }),
+    ...mapGetters(['searchPublicationsByType']),
     words() {
       const text = this.publications
         // concatenate title and abstract for each publication
