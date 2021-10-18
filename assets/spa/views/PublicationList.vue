@@ -19,9 +19,9 @@
             :data="words"
             :width="cloudWidth"
             :height="cloudHeight"
-            :rotate="rotate"
-            :font-size-mapper="fontSizeMapper"
-            :on-word-click="onWordClick"
+            :rotate="wordcloud.rotate"
+            :font-size-mapper="wordcloud.fontSizeMapper"
+            :on-word-click="wordcloud.onWordClick"
           />
         </div>
         <b-alert
@@ -182,13 +182,15 @@ export default {
           },
         },
       ],
-      fontSizeMapper: (word) => Math.log2(word.value) * 5,
-      onWordClick: (word) => { console.log(word); },
-      // use bitwise NOT operator to generate a number between -2 and 2
-      // in order to create any of the following rotation angles:
-      // -90, -45, 0, 45, 90
-      // eslint-disable-next-line no-bitwise
-      rotate: () => (~~(Math.random() * 5) - 2) * 45,
+      wordcloud: {
+        fontSizeMapper: (word) => Math.log2(word.value) * 5,
+        onWordClick: (word) => { console.log(word); },
+        // use bitwise NOT operator to generate a number between -2 and 2
+        // in order to create any of the following rotation angles:
+        // -90, -45, 0, 45, 90
+        // eslint-disable-next-line no-bitwise
+        rotate: () => (~~(Math.random() * 5) - 2) * 45,
+      },
     };
   },
   computed: {
