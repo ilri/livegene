@@ -31,9 +31,9 @@
           There are <b-badge>{{ publicationsCount }}</b-badge> publications in total.
         </b-alert>
         <b-pagination
-          v-model="currentPage"
+          v-model="pagination.currentPage"
           :total-rows="publicationsCount"
-          :per-page="perPage"
+          :per-page="pagination.perPage"
           aria-controls="my-table"
           align="center"
         />
@@ -71,14 +71,14 @@
           striped
           hover
           :per-page="25"
-          :current-page="currentPage"
+          :current-page="pagination.currentPage"
           :items="filteredPublications"
           primary-key="id"
           :fields="fields"
         >
           <template #cell(id)="data">
             <router-link :to="{ name: 'publication', params: { id: data.value } }">
-              {{ (currentPage - 1) * perPage + data.index + 1 }}
+              {{ (pagination.currentPage - 1) * pagination.perPage + data.index + 1 }}
             </router-link>
           </template>
           <template #cell(authors)="data">
@@ -128,8 +128,10 @@ export default {
   },
   data() {
     return {
-      perPage: 25,
-      currentPage: 1,
+      pagination: {
+        perPage: 25,
+        currentPage: 1,
+      },
       selectedPublicationType: null,
       searchTerm: '',
       fields: [
