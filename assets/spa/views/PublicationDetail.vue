@@ -92,7 +92,7 @@ export default {
     BaseView,
   },
   computed: {
-    ...mapGetters(['getPublicationById']),
+    ...mapGetters(['getPublicationById', 'getFullTextForPublication']),
     publication() {
       return this.getPublicationById(this.$route.params.id);
     },
@@ -111,6 +111,9 @@ export default {
     type() {
       return this.publication.type.split('_').map((el) => el[0].toUpperCase() + el.slice(1)).join(' ');
     },
+  },
+  created() {
+    console.log(this.getFullTextForPublication(this.$route.params.id));
   },
 };
 </script>

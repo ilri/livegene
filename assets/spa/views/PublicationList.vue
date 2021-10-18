@@ -44,7 +44,7 @@
                 prepend="full text search"
               >
                 <b-form-input
-                  v-model="searchFilter.searchTerm"
+                  v-model="searchFilter.fullText"
                   placeholder="-- please enter a search term --"
                 />
               </b-input-group>
@@ -52,7 +52,7 @@
             <b-col md="6">
               <b-input-group prepend="type">
                 <b-form-select
-                  v-model="searchFilter.selectedPublicationType"
+                  v-model="searchFilter.type"
                   :options="getAvailablePublicationTypes"
                 >
                   <template #first>
@@ -108,7 +108,7 @@
 
 <script>
 import Cloud from 'vue-d3-cloud';
-import { mapState, mapGetters } from 'vuex';
+import { mapGetters, mapState } from 'vuex';
 import BaseView from '../components/BaseView';
 import PublicationAuthors from '../components/PublicationAuthors';
 import PublicationTag from '../components/PublicationTag';
@@ -132,8 +132,8 @@ export default {
         currentPage: 1,
       },
       searchFilter: {
-        selectedPublicationType: null,
-        searchTerm: '',
+        type: null,
+        fullText: '',
       },
       fields: [
         {
@@ -185,7 +185,7 @@ export default {
       ],
       wordcloud: {
         fontSizeMapper: (word) => Math.log2(word.value) * 5,
-        onWordClick: (word) => { console.log(word); },
+        onWordClick: (word) => { this.searchFilter.fullText = word.text; },
         // use bitwise NOT operator to generate a number between -2 and 2
         // in order to create any of the following rotation angles:
         // -90, -45, 0, 45, 90
@@ -207,10 +207,15 @@ export default {
       'searchPublicationsFullText',
     ]),
     filteredPublications() {
-      return this.selectedPublicationType
-        ? this.searchPublicationsByType(this.selectedPublicationType)
+      const resultByType = this.searchFilter.type
+        ? this.searchPublicationsByType(this.searchFilter.type)
         : this.publications
       ;
+      const resultByFullText = this.searchPublicationsFullText(this.searchFilter.fullText);
+      const a = new Set(resultByType);
+      const b = new Set(resultByFullText);
+      const result = new Set([...a].filter((el) => b.has(el)));
+      return [...result];
     },
     publicationsCount() {
       return this.filteredPublications.length;
@@ -235,8 +240,7 @@ export default {
           return acc;
         }, Object.create(null))
       ;
-      const words = Object.keys(text).map((el) => ({ text: el, value: text[el] }));
-      return words;
+      return Object.keys(text).map((el) => ({ text: el, value: text[el] }));
     },
     cloudWidth() {
       return window.innerWidth >= 992 ? (window.innerWidth / 12) * 10 : window.innerWidth;

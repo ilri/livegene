@@ -55,7 +55,9 @@ export default {
       });
       return result;
     },
-    getFullText: (state) => (id) => state.publications.filter((el) => el.id === id).map((el) => {
+    getFullTextForPublication: (state) => (id) => state.publications.filter(
+      (el) => el.id === id,
+    ).map((el) => {
       let authors;
       if (el.authors) {
         authors = el.authors.map((author) => {
@@ -74,7 +76,7 @@ export default {
       return [
         authors, el.title, el.abstract, keywords, tags, el.source,
       ].join(' ').toLowerCase();
-    }),
+    })[0],
     getPublicationById: (state) => (id) => state.publications.find(
       (publication) => publication.id === id,
     ),
@@ -82,7 +84,7 @@ export default {
       (publication) => publication.type === type,
     ),
     searchPublicationsFullText: (state, getters) => (searchTerm) => state.publications.filter(
-      (el) => getters.getFullText(el.id).includes(searchTerm),
+      (el) => getters.getFullTextForPublication(el.id).includes(searchTerm),
     ),
   },
 };
