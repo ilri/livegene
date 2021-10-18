@@ -44,7 +44,7 @@
                 prepend="full text search"
               >
                 <b-form-input
-                  v-model="searchTerm"
+                  v-model="searchFilter.searchTerm"
                   placeholder="-- please enter a search term --"
                 />
               </b-input-group>
@@ -52,7 +52,7 @@
             <b-col md="6">
               <b-input-group prepend="type">
                 <b-form-select
-                  v-model="selectedPublicationType"
+                  v-model="searchFilter.selectedPublicationType"
                   :options="getAvailablePublicationTypes"
                 >
                   <template #first>
@@ -65,7 +65,6 @@
             </b-col>
           </b-form-row>
         </b-container>
-        <p> {{ searchTerm }}</p>
         <b-table
           id="my-table"
           striped
@@ -132,8 +131,10 @@ export default {
         perPage: 25,
         currentPage: 1,
       },
-      selectedPublicationType: null,
-      searchTerm: '',
+      searchFilter: {
+        selectedPublicationType: null,
+        searchTerm: '',
+      },
       fields: [
         {
           key: 'id',
