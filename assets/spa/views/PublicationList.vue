@@ -28,26 +28,51 @@
           show
           class="text-secondary"
         >
-          There are <b-badge>{{ publications.length }}</b-badge> publications in total.
+          There are <b-badge>{{ publicationsCount }}</b-badge> publications in total.
         </b-alert>
         <b-pagination
           v-model="currentPage"
-          :total-rows="publications.length"
+          :total-rows="publicationsCount"
           :per-page="perPage"
           aria-controls="my-table"
           align="center"
         />
-        <b-form-select
-          v-model="selectedType"
-          :options="publicationTypes"
-        />
+        <b-container class="mb-3">
+          <b-form-row>
+            <b-col md="6">
+              <b-input-group
+                prepend="full text search"
+              >
+                <b-form-input
+                  v-model="searchTerm"
+                  placeholder="-- please enter a search term --"
+                />
+              </b-input-group>
+            </b-col>
+            <b-col md="6">
+              <b-input-group prepend="type">
+                <b-form-select
+                  v-model="selectedPublicationType"
+                  :options="getAvailablePublicationTypes"
+                >
+                  <template #first>
+                    <b-form-select-option :value="null">
+                      -- please select a publication type --
+                    </b-form-select-option>
+                  </template>
+                </b-form-select>
+              </b-input-group>
+            </b-col>
+          </b-form-row>
+        </b-container>
+        <p> {{ searchTerm }}</p>
         <b-table
           id="my-table"
           striped
           hover
           :per-page="25"
           :current-page="currentPage"
-          :items="publications"
+          :items="filteredPublications"
           primary-key="id"
           :fields="fields"
         >
@@ -105,7 +130,8 @@ export default {
     return {
       perPage: 25,
       currentPage: 1,
-      selectedType: 0,
+      selectedPublicationType: null,
+      searchTerm: '',
       fields: [
         {
           key: 'id',
@@ -166,9 +192,24 @@ export default {
   computed: {
     ...mapState({
       publications: (state) => state.publication.publications,
+      // filteredPublications: (state) => state.publication.filteredPublications,
       publicationTypes: (state) => state.publication.publicationTypes,
     }),
-    ...mapGetters(['searchPublicationsByType']),
+    ...mapGetters([
+      'getPublicationTypes',
+      'getAvailablePublicationTypes',
+      'searchPublicationsByType',
+      'searchPublicationsFullText',
+    ]),
+    filteredPublications() {
+      return this.selectedPublicationType
+        ? this.searchPublicationsByType(this.selectedPublicationType)
+        : this.publications
+      ;
+    },
+    publicationsCount() {
+      return this.filteredPublications.length;
+    },
     words() {
       const text = this.publications
         // concatenate title and abstract for each publication
