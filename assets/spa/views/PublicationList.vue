@@ -15,7 +15,7 @@
         class="px-0"
       >
         <div>
-          <cloud
+          <word-cloud
             :data="words"
             :width="cloudWidth"
             :height="cloudHeight"
@@ -107,24 +107,24 @@
 </template>
 
 <script>
-import Cloud from 'vue-d3-cloud';
 import { mapGetters, mapState } from 'vuex';
 import BaseView from '../components/BaseView';
 import PublicationAuthors from '../components/PublicationAuthors';
 import PublicationTag from '../components/PublicationTag';
 import PublicationLink from '../components/PublicationLink';
 import PublicationSource from '../components/PublicationSource';
+import WordCloud from '../components/WordCloud';
 import stopwords from '../data/stopwords';
 
 export default {
   name: 'PublicationList',
   components: {
-    Cloud,
     BaseView,
     PublicationAuthors,
     PublicationTag,
     PublicationLink,
     PublicationSource,
+    WordCloud,
   },
   data() {
     return {
