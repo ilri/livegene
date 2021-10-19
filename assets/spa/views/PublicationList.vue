@@ -114,6 +114,7 @@ import PublicationAuthors from '../components/PublicationAuthors';
 import PublicationTag from '../components/PublicationTag';
 import PublicationLink from '../components/PublicationLink';
 import PublicationSource from '../components/PublicationSource';
+import stopwords from '../data/stopwords';
 
 export default {
   name: 'PublicationList',
@@ -184,7 +185,8 @@ export default {
         },
       ],
       wordcloud: {
-        fontSizeMapper: (word) => Math.log2(word.value) * 5,
+        stopwords,
+        fontSizeMapper: (word) => word.value / 2,
         onWordClick: (word) => { this.searchFilter.fullText = word.text; },
         // use bitwise NOT operator to generate a number between -2 and 2
         // in order to create any of the following rotation angles:
@@ -221,26 +223,39 @@ export default {
       return this.filteredPublications.length;
     },
     words() {
-      const text = this.publications
+      let text = this.publications
         // concatenate title and abstract for each publication
         .map((el) => (el.abstract ? `${el.title} ${el.abstract}` : el.title))
         // join everything together in one big string
         .join(' ')
-        // clean from all non-letter characters, but keep white-space
-        .replace(/[^a-zA-Z\s]/g, ' ')
+        // clean from all non-letter characters, but keep white-space, dash (-) and single quote (')
+        .replace(/[^a-zA-Z\s\-']/g, ' ')
         // make everything lowercase
         .toLowerCase()
+      ;
+
+      // remove stopwords from text
+      text = this.wordcloud.stopwords.reduce(
+        (acc, cur) => acc.replaceAll(new RegExp(`\\b${cur}\\b`, 'g'), ''),
+        text,
+      );
+
+      text = text
         // create an array by splitting all words using white-space as separator
         .split(/\s+/)
-        // remove all words with less than 3 letters
-        .filter((el) => el.length > 3)
+        // trim non-letter characters at beginning and end of words
+        .map((el) => el.replace(/^[^a-z]+|[^a-z]+$/, ''))
+        // remove all words with 2 or less letters
+        .filter((el) => el.length > 2)
         // count the occurrences of all words
         .reduce((acc, cur) => {
           acc[cur] = (acc[cur] || 0) + 1;
           return acc;
         }, Object.create(null))
       ;
-      return Object.keys(text).map((el) => ({ text: el, value: text[el] }));
+
+      // return all words with more than 2 occurrences
+      return Object.keys(text).map((el) => (text[el] > 2 ? { text: el, value: text[el] } : {}));
     },
     cloudWidth() {
       return window.innerWidth >= 992 ? (window.innerWidth / 12) * 10 : window.innerWidth;
