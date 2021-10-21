@@ -18,36 +18,35 @@
           <h4 class="bg-info text-light py-3">
             {{ publication.title }}
           </h4>
-          <p class="h5 text-muted">
-            {{ authors }}
-          </p>
-          <p class="badge badge-info badge-pill p-2">
-            {{ type }}
-          </p>
-          <p>
-            {{ publication.source }}, {{ publication.year }}
-          </p>
-          <b-col
-            cols="4"
-            offset="4"
-          >
-            <b-table-simple
-              v-if="publication.identifiers"
-              hover
-              small
-              caption-top
-              responsive
+          <div class="mb-1">
+            <span class="badge badge-info badge-pill p-2">
+              {{ type }}
+            </span>
+          </div>
+          <div>
+            <publication-author
+              v-for="(author, index) in publication.authors"
+              :key="index"
+              :author="author"
+              class="mb-1"
             >
-              <caption>Identifiers:</caption>
-              <b-tr
-                v-for="(value, key) in publication.identifiers"
-                :key="key"
-              >
-                <b-th>{{ key.toUpperCase() }}</b-th>
-                <b-td>{{ value }}</b-td>
-              </b-tr>
-            </b-table-simple>
-          </b-col>
+              <span v-if="index + 1 === publication.authors.length" />
+              <span v-else>, </span>
+            </publication-author>
+          </div>
+          <div>
+            <publication-source :publication="publication" />
+          </div>
+          <div class="mb-2">
+            <p
+              v-for="(value, key) in publication.identifiers"
+              :key="key"
+              class="d-inline-block mx-1"
+            >
+              <strong>{{ key.toUpperCase() }}</strong>:
+              <span>{{ value }}</span>
+            </p>
+          </div>
           <b-col
             cols="8"
             offset="2"
@@ -59,6 +58,8 @@
                   {{ publication.abstract }}
                 </b-card-text>
               </b-card-body>
+            </b-card>
+            <b-card>
               <b-card-body v-if="publication.keywords">
                 <b-card-title>Keywords</b-card-title>
                 <b-card-text>
@@ -69,6 +70,20 @@
                   >
                     {{ keyword }}
                   </span>
+                </b-card-text>
+              </b-card-body>
+            </b-card>
+            <b-card>
+              <b-card-body v-if="publication.tags">
+                <b-card-title>Tags</b-card-title>
+                <b-card-text>
+                  <publication-tag
+                    v-for="tag in publication.tags"
+                    :key="tag"
+                    :tag="tag"
+                  >
+                    {{ tag }}
+                  </publication-tag>
                 </b-card-text>
               </b-card-body>
             </b-card>
@@ -85,25 +100,22 @@
 <script>
 import { mapGetters } from 'vuex';
 import BaseView from '../components/BaseView';
+import PublicationAuthor from '../components/PublicationAuthor';
+import PublicationSource from '../components/PublicationSource';
+import PublicationTag from '../components/PublicationTag';
 
 export default {
   name: 'MendeleyPublication',
   components: {
     BaseView,
+    PublicationAuthor,
+    PublicationSource,
+    PublicationTag,
   },
   computed: {
     ...mapGetters(['getPublicationById', 'getFullTextForPublication']),
     publication() {
       return this.getPublicationById(this.$route.params.id);
-    },
-    authors() {
-      if (!this.publication.authors) {
-        return '';
-      }
-      return this.publication.authors
-        .map((el) => (el.first_name ? `${el.first_name} ${el.last_name}` : el.last_name))
-        .join(', ')
-      ;
     },
     added() {
       return new Date(this.publication.created).toLocaleString();
@@ -118,4 +130,12 @@ export default {
 };
 </script>
 
-<style scoped />
+<style scoped>
+  .author {
+    display: inline-block;
+  }
+  .author:not(:last-child)::after {
+    content: ", ";
+    white-space: pre;
+  }
+</style>

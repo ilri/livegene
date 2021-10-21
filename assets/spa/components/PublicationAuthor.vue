@@ -1,5 +1,5 @@
 <template>
-  <p>
+  <p class="author">
     <span>{{ author.last_name }}</span><!-- this is to prevent white-space
     --><span v-if="author.first_name">, {{ author.first_name }}</span>
   </p>
