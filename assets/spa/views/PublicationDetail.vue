@@ -51,16 +51,16 @@
             cols="8"
             offset="2"
           >
-            <b-card>
-              <b-card-body v-if="publication.abstract">
+            <b-card v-if="publication.abstract">
+              <b-card-body>
                 <b-card-title>Abstract</b-card-title>
                 <b-card-text class="text-left">
                   {{ publication.abstract }}
                 </b-card-text>
               </b-card-body>
             </b-card>
-            <b-card>
-              <b-card-body v-if="publication.keywords">
+            <b-card v-if="publication.keywords">
+              <b-card-body>
                 <b-card-title>Keywords</b-card-title>
                 <b-card-text>
                   <span
@@ -73,8 +73,8 @@
                 </b-card-text>
               </b-card-body>
             </b-card>
-            <b-card>
-              <b-card-body v-if="publication.tags">
+            <b-card v-if="publication.tags">
+              <b-card-body>
                 <b-card-title>Tags</b-card-title>
                 <b-card-text>
                   <publication-tag
@@ -89,7 +89,7 @@
             </b-card>
           </b-col>
           <router-link :to="{ name: 'publications' }">
-            Back to list
+            BACK TO LIST
           </router-link>
         </div>
       </b-col>
@@ -123,9 +123,6 @@ export default {
     type() {
       return this.publication.type.split('_').map((el) => el[0].toUpperCase() + el.slice(1)).join(' ');
     },
-  },
-  created() {
-    console.log(this.getFullTextForPublication(this.$route.params.id));
   },
 };
 </script>
