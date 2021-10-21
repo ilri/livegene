@@ -59,20 +59,16 @@
                 </b-card-text>
               </b-card-body>
             </b-card>
-            <b-card v-if="publication.keywords">
-              <b-card-body>
-                <b-card-title>Keywords</b-card-title>
-                <b-card-text>
-                  <span
-                    v-for="keyword in publication.keywords"
-                    :key="keyword"
-                    class="d-inline-block bg-info p-2 mx-2 text-light rounded"
-                  >
-                    {{ keyword }}
-                  </span>
-                </b-card-text>
-              </b-card-body>
-            </b-card>
+            <div v-if="publication.keywords">
+              <p>
+                Keywords:
+                <span
+                  v-for="keyword in publication.keywords"
+                  :key="keyword"
+                  class="d-inline-block bg-light p-1 mx-2 text-primary rounded"
+                >{{ keyword }}</span>
+              </p>
+            </div>
             <b-card v-if="publication.tags">
               <b-card-body>
                 <b-card-title>Tags</b-card-title>
