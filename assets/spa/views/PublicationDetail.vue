@@ -88,7 +88,7 @@
               </b-card-body>
             </b-card>
           </b-col>
-          <router-link :to="{ name: 'publications' }">
+          <router-link :to="{ name: 'publications', query: { page: $route.query.page } }">
             BACK TO LIST
           </router-link>
         </div>

@@ -76,7 +76,13 @@
           :fields="fields"
         >
           <template #cell(id)="data">
-            <router-link :to="{ name: 'publication', params: { id: data.value } }">
+            <router-link
+              :to="{
+                name: 'publication',
+                params: { id: data.value },
+                query: { page: pagination.currentPage }
+              }"
+            >
               {{ (pagination.currentPage - 1) * pagination.perPage + data.index + 1 }}
             </router-link>
           </template>
@@ -263,6 +269,11 @@ export default {
     cloudHeight() {
       return this.cloudWidth / 4;
     },
+  },
+  created() {
+    if (this.$route.query.page) {
+      this.pagination.currentPage = this.$route.query.page;
+    }
   },
 };
 </script>
