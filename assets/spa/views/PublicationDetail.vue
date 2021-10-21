@@ -81,9 +81,19 @@
                     v-for="tag in publication.tags"
                     :key="tag"
                     :tag="tag"
-                  >
-                    {{ tag }}
-                  </publication-tag>
+                  />
+                </b-card-text>
+              </b-card-body>
+            </b-card>
+            <b-card v-if="publication.websites">
+              <b-card-body>
+                <b-card-title>Links</b-card-title>
+                <b-card-text>
+                  <publication-link
+                    v-for="(website, index) in publication.websites"
+                    :key="index"
+                    :link="website"
+                  />
                 </b-card-text>
               </b-card-body>
             </b-card>
@@ -103,6 +113,7 @@ import BaseView from '../components/BaseView';
 import PublicationAuthor from '../components/PublicationAuthor';
 import PublicationSource from '../components/PublicationSource';
 import PublicationTag from '../components/PublicationTag';
+import PublicationLink from '../components/PublicationLink';
 
 export default {
   name: 'MendeleyPublication',
@@ -111,6 +122,7 @@ export default {
     PublicationAuthor,
     PublicationSource,
     PublicationTag,
+    PublicationLink,
   },
   computed: {
     ...mapGetters(['getPublicationById', 'getFullTextForPublication']),
