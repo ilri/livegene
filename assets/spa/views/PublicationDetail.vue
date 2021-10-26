@@ -93,6 +93,26 @@
                 </b-card-text>
               </b-card-body>
             </b-card>
+            <div>
+              <b-form-textarea
+                id="citation"
+                rows="5"
+                readonly
+                :value="citation"
+              />
+              <b-button
+                id="copyButton"
+                variant="primary"
+                class="text-black-50"
+                @click="copyCitation"
+              >
+                <b-icon
+                  icon="files"
+                  aria-hidden="true"
+                />
+                <span id="copyText">Copy to clipboard</span>
+              </b-button>
+            </div>
           </b-col>
           <router-link :to="{ name: 'publications', query: { page: $route.query.page } }">
             BACK TO LIST
@@ -120,6 +140,11 @@ export default {
     PublicationTag,
     PublicationLink,
   },
+  data() {
+    return {
+      citation: 'Citation',
+    };
+  },
   computed: {
     ...mapGetters(['getPublicationById', 'getFullTextForPublication']),
     publication() {
@@ -130,6 +155,17 @@ export default {
     },
     type() {
       return this.publication.type.split('_').map((el) => el[0].toUpperCase() + el.slice(1)).join(' ');
+    },
+  },
+  methods: {
+    copyCitation() {
+      const citation = document.getElementById('citation');
+      citation.select();
+      navigator.clipboard.writeText(citation.value);
+      const copyText = document.getElementById('copyText');
+      const oldText = copyText.innerText;
+      copyText.innerText = 'Copied to clipboard!';
+      setTimeout(() => { copyText.innerText = oldText; }, 3000);
     },
   },
 };
