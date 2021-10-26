@@ -1,5 +1,5 @@
 import Vue from 'vue';
-import BootstrapVue from 'bootstrap-vue';
+import { BootstrapVue, BootstrapVueIcons } from 'bootstrap-vue';
 import NProgress from 'nprogress';
 
 import 'bootstrap/dist/css/bootstrap.css';
@@ -14,6 +14,7 @@ import router from './router';
 import store from './store';
 
 Vue.use(BootstrapVue);
+Vue.use(BootstrapVueIcons);
 
 const loading = Vue.observable(NProgress);
 
