@@ -96,7 +96,6 @@ export default {
   },
   actions: {
     getPublicationBibAction(context, id) {
-      console.log('PublicationBibAction dispatched');
       const url = `/api/publications/${id}/bib`;
       const config = {
         headers: {
