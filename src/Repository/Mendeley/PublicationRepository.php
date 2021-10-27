@@ -12,6 +12,7 @@ class PublicationRepository
     private const LIVEGENESHARE_GROUP_ID = '98b5aad2-ab5b-3406-8c13-f564adb01f63';
 
     private AccessTokenCachedRepository $accessTokenCachedRepository;
+    private Client $client;
 
     /**
      * @param   AccessTokenCachedRepository  $accessTokenCachedRepository
@@ -19,6 +20,7 @@ class PublicationRepository
     public function __construct(AccessTokenCachedRepository $accessTokenCachedRepository)
     {
         $this->accessTokenCachedRepository = $accessTokenCachedRepository;
+        $this->client = new Client();
     }
 
     /**
@@ -28,10 +30,9 @@ class PublicationRepository
      */
     public function getPublications(): array
     {
-        $client = new Client();
-
         $accessToken = $this->accessTokenCachedRepository->getAccessToken();
-        $response    = $client->request('GET', self::API_ENDPOINT, [
+
+        $response    = $this->client->request('GET', self::API_ENDPOINT, [
             'query'   => [
                 'group_id' => self::LIVEGENESHARE_GROUP_ID,
                 'limit'    => 500,
@@ -45,5 +46,27 @@ class PublicationRepository
         ])->getBody();
 
         return json_decode($response, true);
+    }
+
+    /**
+     * @param   string  $id
+     *
+     * @return string
+     * @throws CacheItemNotFoundException
+     * @throws GuzzleException
+     */
+    public function getPublicationBib(string $id): string
+    {
+        $accessToken = $this->accessTokenCachedRepository->getAccessToken();
+
+        return $this->client->request('GET', sprintf('%s/%s', self::API_ENDPOINT, $id), [
+            'query' => [
+                'view' => 'bib',
+            ],
+            'headers' => [
+                'Authorization' => 'Bearer '.$accessToken,
+                'Accept'        => 'application/x-bibtex',
+            ]
+        ])->getBody();
     }
 }
