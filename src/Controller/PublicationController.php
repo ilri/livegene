@@ -20,7 +20,7 @@ class PublicationController extends AbstractController
     }
 
     /**
-     * @Route("/publications/{id}/bib", name="publication_get_bib")
+     * @Route("/api/publications/{id}/bib", name="publication_get_bib")
      *
      * @param   Request  $request
      * @param   string   $id
