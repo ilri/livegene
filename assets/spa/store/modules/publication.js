@@ -5,7 +5,7 @@ import publicationTypeMixin from '../../mixins/publicationTypeMixin';
 export default {
   state: {
     publications,
-    filteredPublications: [],
+    filteredPublications: publications,
     publicationTypes: [
       'journal',
       'book',
@@ -28,14 +28,28 @@ export default {
       'film',
       'bill',
     ],
-    filter: {
-      type: null,
-    },
     citation: '',
   },
   mutations: {
     SET_CITATION(state, citation) {
       state.citation = citation;
+    },
+    UPDATE_FILTERED_PUBLICATIONS(state, searchFilter) {
+      state.filteredPublications = state.publications
+        .filter((publication) => (
+          searchFilter.type ? publication.type === searchFilter.type : true
+        ))
+        .filter(({
+          title, abstract, source, authors, keywords, tags,
+        }) => {
+          const authorsFullNames = authors ? authors.map((author) => JSON.stringify(Object.values(author))) : '';
+          const allOtherValues = JSON.stringify(Object.values({
+            title, abstract, source, keywords, tags,
+          }));
+          return (authorsFullNames + allOtherValues).toLowerCase()
+            .includes(searchFilter.fullText.toLowerCase());
+        })
+      ;
     },
   },
   getters: {
@@ -63,36 +77,8 @@ export default {
       });
       return result;
     },
-    getFullTextForPublication: (state) => (id) => state.publications.filter(
-      (el) => el.id === id,
-    ).map((el) => {
-      let authors;
-      if (el.authors) {
-        authors = el.authors.map((author) => {
-          const fullName = [];
-          if (author.first_name) {
-            fullName.push(author.first_name);
-          }
-          fullName.push(author.last_name);
-          return fullName.join(' ');
-        });
-      } else {
-        authors = '';
-      }
-      const keywords = el.keywords ? el.keywords.join(' ') : '';
-      const tags = el.tags ? el.tags.join(' ') : '';
-      return [
-        authors, el.title, el.abstract, keywords, tags, el.source,
-      ].join(' ').toLowerCase();
-    })[0],
     getPublicationById: (state) => (id) => state.publications.find(
       (publication) => publication.id === id,
-    ),
-    searchPublicationsByType: (state) => (type) => state.publications.filter(
-      (publication) => publication.type === type,
-    ),
-    searchPublicationsFullText: (state, getters) => (searchTerm) => state.publications.filter(
-      (el) => getters.getFullTextForPublication(el.id).includes(searchTerm),
     ),
   },
   actions: {
@@ -108,6 +94,9 @@ export default {
           context.commit('SET_CITATION', response);
         })
       ;
+    },
+    updateFilteredPublicationsAction(context, searchFilter) {
+      context.commit('UPDATE_FILTERED_PUBLICATIONS', searchFilter);
     },
   },
 };

@@ -207,26 +207,12 @@ export default {
   computed: {
     ...mapState({
       publications: (state) => state.publication.publications,
-      // filteredPublications: (state) => state.publication.filteredPublications,
+      filteredPublications: (state) => state.publication.filteredPublications,
       publicationTypes: (state) => state.publication.publicationTypes,
     }),
     ...mapGetters([
-      'getPublicationTypes',
       'getAvailablePublicationTypes',
-      'searchPublicationsByType',
-      'searchPublicationsFullText',
     ]),
-    filteredPublications() {
-      const resultByType = this.searchFilter.type
-        ? this.searchPublicationsByType(this.searchFilter.type)
-        : this.publications
-      ;
-      const resultByFullText = this.searchPublicationsFullText(this.searchFilter.fullText);
-      const a = new Set(resultByType);
-      const b = new Set(resultByFullText);
-      const result = new Set([...a].filter((el) => b.has(el)));
-      return [...result];
-    },
     publicationsCount() {
       return this.filteredPublications.length;
     },
@@ -270,6 +256,14 @@ export default {
     },
     cloudHeight() {
       return this.cloudWidth / 4;
+    },
+  },
+  watch: {
+    searchFilter: {
+      handler(newVal) {
+        this.$store.dispatch('updateFilteredPublicationsAction', newVal);
+      },
+      deep: true,
     },
   },
   created() {
