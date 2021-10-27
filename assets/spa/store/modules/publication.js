@@ -1,4 +1,5 @@
 import publications from '../../data/publications';
+import PublicationService from '../../services/PublicationService';
 
 export default {
   state: {
@@ -28,6 +29,12 @@ export default {
     ],
     filter: {
       type: null,
+    },
+    citation: '',
+  },
+  mutations: {
+    SET_CITATION(state, citation) {
+      state.citation = citation;
     },
   },
   getters: {
@@ -86,5 +93,21 @@ export default {
     searchPublicationsFullText: (state, getters) => (searchTerm) => state.publications.filter(
       (el) => getters.getFullTextForPublication(el.id).includes(searchTerm),
     ),
+  },
+  actions: {
+    getPublicationBibAction(context, id) {
+      console.log('PublicationBibAction dispatched');
+      const url = `/api/publications/${id}/bib`;
+      const config = {
+        headers: {
+          Accept: 'text/plain',
+        },
+      };
+      PublicationService.getPublicationBib(url, config)
+        .then((response) => {
+          context.commit('SET_CITATION', response);
+        })
+      ;
+    },
   },
 };

@@ -124,7 +124,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapState, mapGetters } from 'vuex';
 import BaseView from '../components/BaseView';
 import PublicationAuthor from '../components/PublicationAuthor';
 import PublicationSource from '../components/PublicationSource';
@@ -140,16 +140,15 @@ export default {
     PublicationTag,
     PublicationLink,
   },
-  data() {
-    return {
-      citation: 'Citation',
-    };
-  },
   computed: {
-    ...mapGetters(['getPublicationById', 'getFullTextForPublication']),
+    ...mapState({
+      citation: (state) => state.publication.citation,
+    }),
+    ...mapGetters(['getPublicationById']),
     publication() {
       return this.getPublicationById(this.$route.params.id);
     },
+    // this should be probably removed
     added() {
       return new Date(this.publication.created).toLocaleString();
     },
@@ -157,15 +156,20 @@ export default {
       return this.publication.type.split('_').map((el) => el[0].toUpperCase() + el.slice(1)).join(' ');
     },
   },
+  created() {
+    this.$store.dispatch('getPublicationBibAction', [this.$route.params.id]);
+  },
   methods: {
     copyCitation() {
       const citation = document.getElementById('citation');
       citation.select();
       navigator.clipboard.writeText(citation.value);
-      const copyText = document.getElementById('copyText');
-      const oldText = copyText.innerText;
-      copyText.innerText = 'Copied to clipboard!';
-      setTimeout(() => { copyText.innerText = oldText; }, 3000);
+      const buttonText = document.getElementById('copyText');
+      const oldValue = buttonText.innerText;
+      buttonText.innerText = 'Copied to clipboard!';
+      setTimeout(() => {
+        buttonText.innerText = oldValue;
+      }, 3000);
     },
   },
 };
