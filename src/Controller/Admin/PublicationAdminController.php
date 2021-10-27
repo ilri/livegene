@@ -59,6 +59,29 @@ class PublicationAdminController extends AbstractController
     }
 
     /**
+     * @Route("/admin/publication/download", name="admin_publication_download")
+     *
+     * @return RedirectResponse
+     */
+    public function downloadAction(): RedirectResponse
+    {
+        try {
+            $this->publicationCachedRepository->setPublications();
+            $this->session->getFlashBag()->add(
+                'sonata_flash_success',
+                'The publications in the LiveGeneShare group were downloaded from the Mendeley Reference Manager.'
+            );
+        } catch (CacheItemNotFoundException| GuzzleException $e) {
+            $this->session->getFlashBag()->add(
+                'sonata_flash_error',
+                $e->getMessage()
+            );
+        }
+
+        return $this->redirectToRoute('admin_publication_list');
+    }
+
+    /**
      * @Route("/admin/publication/{id}", name="admin_publication_show")
      * @Template("SonataAdmin/Block/publication.html.twig")
      *
@@ -83,28 +106,5 @@ class PublicationAdminController extends AbstractController
             'admin_pool' => $pool,
             'publication' => $publication,
         ];
-    }
-
-    /**
-     * @Route("/admin/publications/download", name="admin_publication_download")
-     *
-     * @return RedirectResponse
-     */
-    public function downloadAction(): RedirectResponse
-    {
-        try {
-            $this->publicationCachedRepository->setPublications();
-            $this->session->getFlashBag()->add(
-                'sonata_flash_success',
-                'The publications in the LiveGeneShare group were downloaded from the Mendeley Reference Manager.'
-            );
-        } catch (CacheItemNotFoundException| GuzzleException $e) {
-            $this->session->getFlashBag()->add(
-                'sonata_flash_error',
-                $e->getMessage()
-            );
-        }
-
-        return $this->redirectToRoute('admin_publication_list');
     }
 }
