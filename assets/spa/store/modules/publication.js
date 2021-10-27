@@ -1,5 +1,6 @@
 import publications from '../../data/publications';
 import PublicationService from '../../services/PublicationService';
+import publicationTypeMixin from '../../mixins/publicationTypeMixin';
 
 export default {
   state: {
@@ -48,7 +49,7 @@ export default {
       types.forEach((el) => {
         result.push({
           value: el,
-          text: el.split('_').map((childEl) => childEl[0].toUpperCase() + childEl.substring(1)).join(' '),
+          text: publicationTypeMixin.methods.sanitizePublicationType(el),
         });
       });
       result.sort((a, b) => {

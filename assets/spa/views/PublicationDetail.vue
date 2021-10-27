@@ -130,6 +130,7 @@ import PublicationAuthor from '../components/PublicationAuthor';
 import PublicationSource from '../components/PublicationSource';
 import PublicationTag from '../components/PublicationTag';
 import PublicationLink from '../components/PublicationLink';
+import publicationTypeMixin from '../mixins/publicationTypeMixin';
 
 export default {
   name: 'MendeleyPublication',
@@ -140,6 +141,7 @@ export default {
     PublicationTag,
     PublicationLink,
   },
+  mixins: [publicationTypeMixin],
   computed: {
     ...mapState({
       citation: (state) => state.publication.citation,
@@ -153,7 +155,7 @@ export default {
       return new Date(this.publication.created).toLocaleString();
     },
     type() {
-      return this.publication.type.split('_').map((el) => el[0].toUpperCase() + el.slice(1)).join(' ');
+      return this.sanitizePublicationType(this.publication.type);
     },
   },
   created() {

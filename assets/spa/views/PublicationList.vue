@@ -121,6 +121,7 @@ import PublicationLink from '../components/PublicationLink';
 import PublicationSource from '../components/PublicationSource';
 import WordCloud from '../components/WordCloud';
 import stopwords from '../data/stopwords';
+import publicationTypeMixin from '../mixins/publicationTypeMixin';
 
 export default {
   name: 'PublicationList',
@@ -132,6 +133,7 @@ export default {
     PublicationSource,
     WordCloud,
   },
+  mixins: [publicationTypeMixin],
   data() {
     return {
       pagination: {
@@ -174,7 +176,7 @@ export default {
           key: 'type',
           sortable: true,
           thStyle: '10%',
-          formatter: (value) => value.split('_').map((el) => el[0].toUpperCase() + el.substring(1)).join(' '),
+          formatter: this.sanitizePublicationType,
         },
         {
           key: 'tags',
