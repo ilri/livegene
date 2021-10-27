@@ -26,6 +26,9 @@ export default {
     getProjectsAction(context) {
       const url = '/api/projects';
       const config = {
+        headers: {
+          Accept: 'application/ld+json',
+        },
         params: {
           properties: [
             'id',
