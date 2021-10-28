@@ -185,7 +185,7 @@ export default {
       ],
       wordcloud: {
         stopwords,
-        fontSizeMapper: (word) => word.value / 2,
+        fontSizeMapper: (word) => word.value / 3,
         onWordClick: (word) => {
           this.$store.dispatch(
             'publication/updateSearchFilterFullTextAction',
@@ -284,8 +284,8 @@ export default {
         }, Object.create(null))
       ;
 
-      // return all words with more than 2 occurrences
-      return Object.keys(text).map((el) => (text[el] > 2 ? { text: el, value: text[el] } : {}));
+      // return all words with more than 3 occurrences
+      return Object.keys(text).map((el) => (text[el] > 3 ? { text: el, value: text[el] } : {}));
     },
     cloudWidth() {
       return window.innerWidth >= 992 ? (window.innerWidth / 12) * 10 : window.innerWidth;
