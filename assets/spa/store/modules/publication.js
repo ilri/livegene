@@ -61,8 +61,12 @@ export default {
           const allOtherValues = JSON.stringify(Object.values({
             title, abstract, source, keywords, tags,
           }));
-          return (authorsFullNames + allOtherValues).toLowerCase()
-            .includes(state.searchFilter.fullText.toLowerCase());
+
+          return (authorsFullNames + allOtherValues)
+            .replaceAll('null', '')
+            .toLowerCase()
+            .includes(state.searchFilter.fullText.toLowerCase())
+          ;
         })
       ;
     },
