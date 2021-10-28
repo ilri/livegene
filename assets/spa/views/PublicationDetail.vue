@@ -146,7 +146,9 @@ export default {
     ...mapState({
       citation: (state) => state.publication.citation,
     }),
-    ...mapGetters(['getPublicationById']),
+    ...mapGetters('publication', [
+      'getPublicationById',
+    ]),
     publication() {
       return this.getPublicationById(this.$route.params.id);
     },
@@ -159,7 +161,7 @@ export default {
     },
   },
   created() {
-    this.$store.dispatch('getPublicationBibAction', [this.$route.params.id]);
+    this.$store.dispatch('publication/getPublicationBibAction', [this.$route.params.id]);
   },
   methods: {
     copyCitation() {

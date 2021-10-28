@@ -3,6 +3,7 @@ import PublicationService from '../../services/PublicationService';
 import publicationTypeMixin from '../../mixins/publicationTypeMixin';
 
 export default {
+  namespaced: true,
   state: {
     publications,
     filteredPublications: publications,

@@ -210,7 +210,7 @@ export default {
       filteredPublications: (state) => state.publication.filteredPublications,
       publicationTypes: (state) => state.publication.publicationTypes,
     }),
-    ...mapGetters([
+    ...mapGetters('publication', [
       'getAvailablePublicationTypes',
     ]),
     publicationsCount() {
@@ -261,7 +261,7 @@ export default {
   watch: {
     searchFilter: {
       handler(newVal) {
-        this.$store.dispatch('updateFilteredPublicationsAction', newVal);
+        this.$store.dispatch('publication/updateFilteredPublicationsAction', newVal);
       },
       deep: true,
     },
