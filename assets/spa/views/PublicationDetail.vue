@@ -111,7 +111,7 @@
               />
               <b-button
                 id="copyButton"
-                variant="primary"
+                variant="outline-secondary"
                 class="text-black-50"
                 @click="copyCitation"
               >
