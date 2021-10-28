@@ -44,7 +44,7 @@
                 prepend="full text search"
               >
                 <b-form-input
-                  v-model="searchFilter.fullText"
+                  v-model="searchFilterFullText"
                   placeholder="-- please enter a search term --"
                 />
               </b-input-group>
@@ -52,7 +52,7 @@
             <b-col md="6">
               <b-input-group prepend="type">
                 <b-form-select
-                  v-model="searchFilter.type"
+                  v-model="searchFilterType"
                   :options="getAvailablePublicationTypes"
                 >
                   <template #first>
@@ -135,10 +135,6 @@ export default {
   mixins: [publicationTypeMixin],
   data() {
     return {
-      searchFilter: {
-        type: null,
-        fullText: '',
-      },
       fields: [
         {
           key: 'id',
@@ -190,7 +186,15 @@ export default {
       wordcloud: {
         stopwords,
         fontSizeMapper: (word) => word.value / 2,
-        onWordClick: (word) => { this.searchFilter.fullText = word.text; },
+        onWordClick: (word) => {
+          this.$store.dispatch(
+            'publication/updateSearchFilterFullTextAction',
+            word.text,
+          );
+          this.$store.dispatch(
+            'publication/updateFilteredPublicationsAction',
+          );
+        },
         // use bitwise NOT operator to generate a number between -2 and 2
         // in order to create any of the following rotation angles:
         // -90, -45, 0, 45, 90
@@ -209,6 +213,34 @@ export default {
     ...mapGetters('publication', [
       'getAvailablePublicationTypes',
     ]),
+    searchFilterType: {
+      get() {
+        return this.$store.state.publication.searchFilter.type;
+      },
+      set(value) {
+        this.$store.dispatch(
+          'publication/updateSearchFilterTypeAction',
+          value,
+        );
+        this.$store.dispatch(
+          'publication/updateFilteredPublicationsAction',
+        );
+      },
+    },
+    searchFilterFullText: {
+      get() {
+        return this.$store.state.publication.searchFilter.fullText;
+      },
+      set(value) {
+        this.$store.dispatch(
+          'publication/updateSearchFilterFullTextAction',
+          value,
+        );
+        this.$store.dispatch(
+          'publication/updateFilteredPublicationsAction',
+        );
+      },
+    },
     publicationsCount() {
       return this.filteredPublications.length;
     },
@@ -252,14 +284,6 @@ export default {
     },
     cloudHeight() {
       return this.cloudWidth / 4;
-    },
-  },
-  watch: {
-    searchFilter: {
-      handler(newVal) {
-        this.$store.dispatch('publication/updateFilteredPublicationsAction', newVal);
-      },
-      deep: true,
     },
   },
 };

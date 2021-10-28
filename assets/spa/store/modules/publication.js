@@ -9,6 +9,10 @@ export default {
       perPage: 25,
       currentPage: 1,
     },
+    searchFilter: {
+      type: null,
+      fullText: '',
+    },
     publications,
     filteredPublications: publications,
     publicationTypes: [
@@ -39,10 +43,16 @@ export default {
     SET_CITATION(state, citation) {
       state.citation = citation;
     },
-    UPDATE_FILTERED_PUBLICATIONS(state, searchFilter) {
+    UPDATE_SEARCH_FILTER_TYPE(state, value) {
+      state.searchFilter.type = value;
+    },
+    UPDATE_SEARCH_FILTER_FULL_TEXT(state, value) {
+      state.searchFilter.fullText = value;
+    },
+    UPDATE_FILTERED_PUBLICATIONS(state) {
       state.filteredPublications = state.publications
         .filter((publication) => (
-          searchFilter.type ? publication.type === searchFilter.type : true
+          state.searchFilter.type ? publication.type === state.searchFilter.type : true
         ))
         .filter(({
           title, abstract, source, authors, keywords, tags,
@@ -52,7 +62,7 @@ export default {
             title, abstract, source, keywords, tags,
           }));
           return (authorsFullNames + allOtherValues).toLowerCase()
-            .includes(searchFilter.fullText.toLowerCase());
+            .includes(state.searchFilter.fullText.toLowerCase());
         })
       ;
     },
@@ -100,8 +110,14 @@ export default {
         })
       ;
     },
-    updateFilteredPublicationsAction(context, searchFilter) {
-      context.commit('UPDATE_FILTERED_PUBLICATIONS', searchFilter);
+    updateFilteredPublicationsAction(context) {
+      context.commit('UPDATE_FILTERED_PUBLICATIONS');
+    },
+    updateSearchFilterTypeAction(context, value) {
+      context.commit('UPDATE_SEARCH_FILTER_TYPE', value);
+    },
+    updateSearchFilterFullTextAction(context, value) {
+      context.commit('UPDATE_SEARCH_FILTER_FULL_TEXT', value);
     },
   },
 };
