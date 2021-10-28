@@ -94,6 +94,15 @@
               </b-card-body>
             </b-card>
             <div>
+              <p class="mt-3 mb-1">
+                You can copy the citation in BibTeX format.
+              </p>
+              <p>
+                Try <a
+                  href="https://bibtex.online/"
+                  target="_blank"
+                >BibTeX Online Converter</a> if you want to convert it to another format.
+              </p>
               <b-form-textarea
                 id="citation"
                 rows="5"
