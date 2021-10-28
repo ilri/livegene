@@ -5,6 +5,10 @@ import publicationTypeMixin from '../../mixins/publicationTypeMixin';
 export default {
   namespaced: true,
   state: {
+    pagination: {
+      perPage: 25,
+      currentPage: 1,
+    },
     publications,
     filteredPublications: publications,
     publicationTypes: [

@@ -69,7 +69,7 @@
           id="my-table"
           striped
           hover
-          :per-page="25"
+          :per-page="pagination.perPage"
           :current-page="pagination.currentPage"
           :items="filteredPublications"
           primary-key="id"
@@ -80,7 +80,6 @@
               :to="{
                 name: 'publication',
                 params: { id: data.value },
-                query: { page: pagination.currentPage }
               }"
             >
               {{ (pagination.currentPage - 1) * pagination.perPage + data.index + 1 }}
@@ -136,10 +135,6 @@ export default {
   mixins: [publicationTypeMixin],
   data() {
     return {
-      pagination: {
-        perPage: 25,
-        currentPage: 1,
-      },
       searchFilter: {
         type: null,
         fullText: '',
@@ -206,6 +201,7 @@ export default {
   },
   computed: {
     ...mapState({
+      pagination: (state) => state.publication.pagination,
       publications: (state) => state.publication.publications,
       filteredPublications: (state) => state.publication.filteredPublications,
       publicationTypes: (state) => state.publication.publicationTypes,
@@ -265,11 +261,6 @@ export default {
       },
       deep: true,
     },
-  },
-  created() {
-    if (this.$route.query.page) {
-      this.pagination.currentPage = this.$route.query.page;
-    }
   },
 };
 </script>

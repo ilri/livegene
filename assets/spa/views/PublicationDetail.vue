@@ -123,7 +123,7 @@
               </b-button>
             </div>
           </b-col>
-          <router-link :to="{ name: 'publications', query: { page: $route.query.page } }">
+          <router-link :to="{ name: 'publications' }">
             BACK TO LIST
           </router-link>
         </div>
