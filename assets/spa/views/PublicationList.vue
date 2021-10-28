@@ -31,9 +31,9 @@
           There are <b-badge>{{ publicationsCount }}</b-badge> publications in total.
         </b-alert>
         <b-pagination
-          v-model="pagination.currentPage"
+          v-model="paginationCurrentPage"
           :total-rows="publicationsCount"
-          :per-page="pagination.perPage"
+          :per-page="paginationPerPage"
           aria-controls="my-table"
           align="center"
         />
@@ -69,8 +69,8 @@
           id="my-table"
           striped
           hover
-          :per-page="pagination.perPage"
-          :current-page="pagination.currentPage"
+          :per-page="paginationPerPage"
+          :current-page="paginationCurrentPage"
           :items="filteredPublications"
           primary-key="id"
           :fields="fields"
@@ -82,7 +82,7 @@
                 params: { id: data.value },
               }"
             >
-              {{ (pagination.currentPage - 1) * pagination.perPage + data.index + 1 }}
+              {{ (paginationCurrentPage - 1) * paginationPerPage + data.index + 1 }}
             </router-link>
           </template>
           <template #cell(authors)="data">
@@ -205,7 +205,7 @@ export default {
   },
   computed: {
     ...mapState({
-      pagination: (state) => state.publication.pagination,
+      paginationPerPage: (state) => state.publication.pagination.perPage,
       publications: (state) => state.publication.publications,
       filteredPublications: (state) => state.publication.filteredPublications,
       publicationTypes: (state) => state.publication.publicationTypes,
@@ -213,6 +213,14 @@ export default {
     ...mapGetters('publication', [
       'getAvailablePublicationTypes',
     ]),
+    paginationCurrentPage: {
+      get() {
+        return this.$store.state.publication.pagination.currentPage;
+      },
+      set(value) {
+        this.$store.dispatch('publication/updatePaginationCurrentPageAction', value);
+      },
+    },
     searchFilterType: {
       get() {
         return this.$store.state.publication.searchFilter.type;

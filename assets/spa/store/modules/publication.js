@@ -70,6 +70,9 @@ export default {
         })
       ;
     },
+    UPDATE_PAGINATION_CURRENT_PAGE(state, value) {
+      state.pagination.currentPage = value;
+    },
   },
   getters: {
     getPublicationTypes: (state) => state.publicationTypes.map((el) => (
@@ -122,6 +125,9 @@ export default {
     },
     updateSearchFilterFullTextAction(context, value) {
       context.commit('UPDATE_SEARCH_FILTER_FULL_TEXT', value);
+    },
+    updatePaginationCurrentPageAction(context, value) {
+      context.commit('UPDATE_PAGINATION_CURRENT_PAGE', value);
     },
   },
 };
