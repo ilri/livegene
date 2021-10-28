@@ -39,7 +39,7 @@
         />
         <b-container class="mb-3">
           <b-form-row>
-            <b-col md="6">
+            <b-col md="5">
               <b-input-group
                 prepend="full text search"
               >
@@ -49,7 +49,7 @@
                 />
               </b-input-group>
             </b-col>
-            <b-col md="6">
+            <b-col md="5">
               <b-input-group prepend="type">
                 <b-form-select
                   v-model="searchFilterType"
@@ -62,6 +62,14 @@
                   </template>
                 </b-form-select>
               </b-input-group>
+            </b-col>
+            <b-col md="2">
+              <b-button
+                variant="outline-secondary"
+                @click="resetSearchForm"
+              >
+                RESET
+              </b-button>
             </b-col>
           </b-form-row>
         </b-container>
@@ -288,10 +296,20 @@ export default {
       return Object.keys(text).map((el) => (text[el] > 3 ? { text: el, value: text[el] } : {}));
     },
     cloudWidth() {
+      console.log(window.innerWidth);
+      console.log(window.innerWidth >= 992 ? (window.innerWidth / 12) * 10 : window.innerWidth);
       return window.innerWidth >= 992 ? (window.innerWidth / 12) * 10 : window.innerWidth;
     },
     cloudHeight() {
       return this.cloudWidth / 4;
+    },
+  },
+  methods: {
+    resetSearchForm() {
+      this.$store.dispatch('publication/updateSearchFilterFullTextAction', '');
+      this.$store.dispatch('publication/updateSearchFilterTypeAction', null);
+      this.$store.dispatch('publication/updateFilteredPublicationsAction');
+      this.$store.dispatch('publication/updatePaginationCurrentPageAction', 1);
     },
   },
 };
