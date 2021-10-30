@@ -121,6 +121,7 @@
 
 <script>
 import { mapGetters, mapState } from 'vuex';
+import _ from 'lodash';
 import BaseView from '../components/BaseView';
 import PublicationAuthors from '../components/PublicationAuthors';
 import PublicationTag from '../components/PublicationTag';
@@ -247,7 +248,8 @@ export default {
       get() {
         return this.$store.state.publication.searchFilter.fullText;
       },
-      set(value) {
+      // eslint-disable-next-line func-names
+      set: _.debounce(function (value) {
         this.$store.dispatch(
           'publication/updateSearchFilterFullTextAction',
           value,
@@ -255,7 +257,7 @@ export default {
         this.$store.dispatch(
           'publication/updateFilteredPublicationsAction',
         );
-      },
+      }, 500),
     },
     publicationsCount() {
       return this.filteredPublications.length;
@@ -296,8 +298,6 @@ export default {
       return Object.keys(text).map((el) => (text[el] > 3 ? { text: el, value: text[el] } : {}));
     },
     cloudWidth() {
-      console.log(window.innerWidth);
-      console.log(window.innerWidth >= 992 ? (window.innerWidth / 12) * 10 : window.innerWidth);
       return window.innerWidth >= 992 ? (window.innerWidth / 12) * 10 : window.innerWidth;
     },
     cloudHeight() {
