@@ -1,5 +1,64 @@
 [
     {
+        "title": "Genomic prediction of crossbred dairy cattle in Tanzania: A route to productivity gains in smallholder dairy systems",
+        "type": "journal",
+        "authors": [
+            {
+                "first_name": "R.",
+                "last_name": "Mrode"
+            },
+            {
+                "first_name": "J.",
+                "last_name": "Ojango"
+            },
+            {
+                "first_name": "C.",
+                "last_name": "Ekine-Dzivenu"
+            },
+            {
+                "first_name": "H.",
+                "last_name": "Aliloo"
+            },
+            {
+                "first_name": "J.",
+                "last_name": "Gibson"
+            },
+            {
+                "first_name": "M. A.",
+                "last_name": "Okeyo"
+            }
+        ],
+        "year": 2021,
+        "source": "Journal of Dairy Science",
+        "identifiers": {
+            "doi": "10.3168\/JDS.2020-20052"
+        },
+        "keywords": [
+            "body weight",
+            "crossbreeds",
+            "genomic selection",
+            "milk yield",
+            "smallholder dairy cattle"
+        ],
+        "month": 11,
+        "publisher": "Elsevier Inc.",
+        "day": 1,
+        "id": "9425ce1a-1e66-39ba-b48b-faf541462247",
+        "created": "2021-10-27T08:05:23.175Z",
+        "accessed": "2021-10-27",
+        "file_attached": true,
+        "profile_id": "29204f3d-9e3f-3dc1-9f43-2ff6d0833196",
+        "group_id": "98b5aad2-ab5b-3406-8c13-f564adb01f63",
+        "last_modified": "2021-10-27T08:05:36.488Z",
+        "read": false,
+        "starred": false,
+        "authored": false,
+        "confirmed": false,
+        "hidden": false,
+        "private_publication": false,
+        "abstract": "Selection based on genomic predictions has become the method of choice for genetic improvement in dairy cattle. This offers huge opportunity for developing countries with little or no pedigree data, and preliminary studies have shown promising results. The African Dairy Genetic Gains (ADGG) project initiated a digital system of dairy performance data collection, accompanied by genotyping in Tanzania in 2016. Currently, ADGG has the largest body of dairy performance data generated in East Africa from a smallholder dairy system. This study examines the use of genomic best linear unbiased prediction (GBLUP) and single-step (ss)GBLUP for the estimation of genetic parameters and accuracy of genomic prediction for daily milk yield and body weight in Tanzania. The estimates of heritability for daily milk yield from GBLUP and ssGBLUP were essentially the same, at 0.12 \u00b1 0.03. The heritability estimates for daily milk yield averaged over the whole lactation from random regression model (RRM) GBLUP or ssGBLUP were 0.22 and 0.24, respectively. The heritability of body weight from GBLUP was 0.24 \u00b1 04 but was 0.22 \u00b1 04 from the ssGBLUP analysis. Accuracy of genomic prediction for milk yield from a forward validation was 0.57 for GBLUP based on fixed regression model or 0.55 from an RRM. Corresponding estimates from ssGBLUP were 0.59 and 0.53, respectively. Accuracy for body weight, however, was much higher at 0.83 from GBLUP and 0.77 for ssGBLUP. The moderate to high levels of accuracy of genomic prediction (0.53\u20130.83) obtained for milk yield and body weight indicate that selection on the basis of genomic prediction is feasible in smallholder dairy systems and most probably the only initial possible pathway to implementing sustained genetic improvement programs in such systems."
+    },
+    {
         "title": "Dairy industry development in Ethiopia: Current status, major challenges and potential interventions for improvement",
         "type": "report",
         "authors": [
@@ -2657,11 +2716,11 @@
         "year": 2020,
         "source": "CAB Reviews: Perspectives in Agriculture, Veterinary Science, Nutrition and Natural Resources",
         "identifiers": {
-            "scopus": "2-s2.0-85090854362",
-            "sgr": "85090854362",
             "pui": "2007159449",
             "issn": "17498848",
-            "doi": "10.1079\/PAVSNNR202015007"
+            "doi": "10.1079\/PAVSNNR202015007",
+            "sgr": "85090854362",
+            "scopus": "2-s2.0-85090854362"
         },
         "keywords": [
             "Breed types",
@@ -3308,12 +3367,12 @@
         "year": 2020,
         "source": "Nature Genetics",
         "identifiers": {
-            "pmid": "32989325",
-            "scopus": "2-s2.0-85091604307",
-            "sgr": "85091604307",
             "pui": "2006802477",
             "issn": "15461718",
-            "doi": "10.1038\/s41588-020-0694-2"
+            "doi": "10.1038\/s41588-020-0694-2",
+            "pmid": "32989325",
+            "sgr": "85091604307",
+            "scopus": "2-s2.0-85091604307"
         },
         "keywords": [
             "Genomics",
@@ -3500,9 +3559,9 @@
         "source": "PLoS ONE",
         "identifiers": {
             "isbn": "1111111111",
-            "pmid": "31199810",
             "issn": "19326203",
-            "doi": "10.1371\/journal.pone.0209632"
+            "doi": "10.1371\/journal.pone.0209632",
+            "pmid": "31199810"
         },
         "pages": "1-15",
         "volume": "14",
@@ -8546,8 +8605,8 @@
         "year": 2015,
         "source": "Journal of Dairy Science",
         "identifiers": {
-            "pii": "S0022030215006244",
             "issn": "0022-0302",
+            "pii": "S0022030215006244",
             "doi": "10.3168\/JDS.2015-9682"
         },
         "pages": "8201-8208",
@@ -8827,8 +8886,8 @@
         "year": 2017,
         "source": "Journal of Dairy Science",
         "identifiers": {
-            "pii": "S0022030217304034",
             "issn": "0022-0302",
+            "pii": "S0022030217304034",
             "doi": "10.3168\/JDS.2016-12300"
         },
         "pages": "5541-5549",
@@ -9267,8 +9326,8 @@
         "year": 2015,
         "source": "Livestock Science",
         "identifiers": {
-            "pii": "S1871141315001493",
             "issn": "1871-1413",
+            "pii": "S1871141315001493",
             "doi": "10.1016\/J.LIVSCI.2015.03.021"
         },
         "pages": "22-32",
@@ -10377,8 +10436,8 @@
         "year": 2016,
         "source": "Ticks and Tick-borne Diseases",
         "identifiers": {
-            "pii": "S1877959X15300418",
             "issn": "1877-959X",
+            "pii": "S1877959X15300418",
             "doi": "10.1016\/J.TTBDIS.2015.11.006"
         },
         "pages": "306-314",
@@ -10557,9 +10616,9 @@
         "source": "Immunogenetics",
         "identifiers": {
             "isbn": "0025101609457",
-            "pmid": "27516207",
             "issn": "14321211",
-            "doi": "10.1007\/s00251-016-0945-7"
+            "doi": "10.1007\/s00251-016-0945-7",
+            "pmid": "27516207"
         },
         "keywords": [
             "Cattle",
@@ -10931,8 +10990,8 @@
         "year": 2015,
         "source": "Veterinary Parasitology",
         "identifiers": {
-            "pii": "S0304401715000904",
             "issn": "0304-4017",
+            "pii": "S0304401715000904",
             "doi": "10.1016\/J.VETPAR.2015.02.020"
         },
         "pages": "69-76",
@@ -11362,8 +11421,8 @@
         "year": 2017,
         "source": "Small Ruminant Research",
         "identifiers": {
-            "pii": "S0921448816303820",
             "issn": "0921-4488",
+            "pii": "S0921448816303820",
             "doi": "10.1016\/J.SMALLRUMRES.2016.12.031"
         },
         "pages": "62-71",
@@ -11437,8 +11496,8 @@
         "year": 2017,
         "source": "Small Ruminant Research",
         "identifiers": {
-            "pii": "S0921448816303819",
             "issn": "0921-4488",
+            "pii": "S0921448816303819",
             "doi": "10.1016\/J.SMALLRUMRES.2016.12.030"
         },
         "pages": "51-61",
@@ -11508,8 +11567,8 @@
         "year": 2017,
         "source": "Small Ruminant Research",
         "identifiers": {
-            "pii": "S0921448816303807",
             "issn": "0921-4488",
+            "pii": "S0921448816303807",
             "doi": "10.1016\/J.SMALLRUMRES.2016.12.029"
         },
         "pages": "43-50",
@@ -11611,8 +11670,8 @@
         "year": 2017,
         "source": "Small Ruminant Research",
         "identifiers": {
-            "pii": "S0921448816303868",
             "issn": "0921-4488",
+            "pii": "S0921448816303868",
             "doi": "10.1016\/J.SMALLRUMRES.2016.12.035"
         },
         "pages": "2-10",
@@ -11754,8 +11813,8 @@
         "year": 2017,
         "source": "Vaccine",
         "identifiers": {
-            "pii": "S0264410X17306643",
             "issn": "0264-410X",
+            "pii": "S0264410X17306643",
             "doi": "10.1016\/J.VACCINE.2017.05.040"
         },
         "pages": "3773-3779",
@@ -12245,8 +12304,8 @@
         "year": 2018,
         "source": "International Journal for Parasitology",
         "identifiers": {
-            "pii": "S0020751918300171",
             "issn": "0020-7519",
+            "pii": "S0020751918300171",
             "doi": "10.1016\/J.IJPARA.2017.10.006"
         },
         "pages": "287-296",

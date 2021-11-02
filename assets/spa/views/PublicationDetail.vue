@@ -103,6 +103,12 @@
                   target="_blank"
                 >BibTeX Online Converter</a> if you want to convert it to another format.
               </p>
+              <b-alert
+                :show="citationError.flag"
+                variant="warning"
+              >
+                {{ citationError.body.data }}
+              </b-alert>
               <b-form-textarea
                 id="citation"
                 rows="5"
@@ -154,6 +160,7 @@ export default {
   computed: {
     ...mapState({
       citation: (state) => state.publication.citation,
+      citationError: (state) => state.publication.citationError,
     }),
     ...mapGetters('publication', [
       'getPublicationById',

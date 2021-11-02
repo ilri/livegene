@@ -38,6 +38,12 @@ export default {
       'bill',
     ],
     citation: '',
+    citationError: {
+      flag: false,
+      body: {
+        data: null,
+      },
+    },
   },
   mutations: {
     SET_CITATION(state, citation) {
@@ -72,6 +78,9 @@ export default {
     },
     UPDATE_PAGINATION_CURRENT_PAGE(state, value) {
       state.pagination.currentPage = value;
+    },
+    SET_CITATION_ERROR(state, error) {
+      state.citationError = error;
     },
   },
   getters: {
@@ -114,6 +123,12 @@ export default {
       PublicationService.getPublicationBib(url, config)
         .then((response) => {
           context.commit('SET_CITATION', response);
+        })
+        .catch((error) => {
+          context.commit('SET_CITATION_ERROR', {
+            flag: true,
+            body: error.response,
+          });
         })
       ;
     },
