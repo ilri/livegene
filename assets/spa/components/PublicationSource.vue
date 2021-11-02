@@ -1,6 +1,14 @@
 <template>
   <p>
-    {{ concatenatedOutput }}
+    <span v-if="publication.source">{{ publication.source }},</span>
+    <span v-if="publication.year">({{ publication.year }})</span><!--
+    --><span v-if="publication.year && publication.volume || publication.pages">,</span>
+    <span v-if="publication.volume">
+      <strong>{{ publication.volume }}</strong>
+    </span><!--
+    --><span v-if="publication.issue">({{ publication.issue }})</span><!--
+    --><span v-if="publication.volume && publication.pages">:</span><!--
+    --><span v-if="publication.pages">{{ publication.pages }}</span>
   </p>
 </template>
 
@@ -11,31 +19,6 @@ export default {
     publication: {
       type: Object,
       required: true,
-    },
-  },
-  computed: {
-    concatenatedOutput() {
-      let volumeAndIssue = '';
-      if (this.publication.volume) {
-        volumeAndIssue += this.publication.volume;
-      }
-      if (this.publication.issue) {
-        volumeAndIssue += `(${this.publication.issue})`;
-      }
-      const items = [];
-      if (this.publication.source) {
-        items.push(this.publication.source);
-      }
-      if (this.publication.year) {
-        items.push(`(${this.publication.year})`);
-      }
-      if (this.publication.pages) {
-        items.push(this.publication.pages);
-      }
-      if (volumeAndIssue) {
-        items.push(volumeAndIssue);
-      }
-      return items.join(', ');
     },
   },
 };
