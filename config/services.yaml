@@ -5,7 +5,7 @@
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     locale: 'en'
-    mailer_user: 'ilrilivegeneadmin@cgiar.org'
+    mailer_user: 'ilri.livegene@gmail.com'
     spa_user: '%env(resolve:SPA_USER)%'
 
 services:
