@@ -20,14 +20,37 @@ class PublicationController extends AbstractController
     }
 
     /**
-     * @Route("/api/publications/{id}/bib", name="publication_get_bib")
-     *
-     * @param   Request  $request
-     * @param   string   $id
+     * @Route("/api/publications/bib", name="publications_get_bib")
      *
      * @return Response
      */
-    public function showAction(Request $request, string $id): Response
+    public function listAction(): Response
+    {
+        $response = new Response();
+        try {
+            $bibtex = $this->publicationRepository->getPublicationsBib();
+            $response->setContent($bibtex);
+            $response->setStatusCode(Response::HTTP_OK);
+        } catch (CacheItemNotFoundException $e) {
+            $response->setContent('BiBTeX could not be retrieved. Mendeley Access Token not found.');
+            $response->setStatusCode(Response::HTTP_UNAUTHORIZED);
+        } catch (GuzzleException $e) {
+            $response->setContent('BiBTeX could not be retrieved. Bad request.');
+            $response->setStatusCode(Response::HTTP_BAD_REQUEST);
+        }
+        $response->headers->set('Content-Type', 'text/plain');
+
+        return $response;
+    }
+
+    /**
+     * @Route("/api/publications/{id}/bib", name="publication_get_bib")
+     *
+     * @param   string  $id
+     *
+     * @return Response
+     */
+    public function showAction(string $id): Response
     {
         $response = new Response();
         try {

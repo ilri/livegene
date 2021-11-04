@@ -17,10 +17,11 @@ class PublicationRepository
     /**
      * @param   AccessTokenCachedRepository  $accessTokenCachedRepository
      */
-    public function __construct(AccessTokenCachedRepository $accessTokenCachedRepository)
-    {
+    public function __construct(
+        AccessTokenCachedRepository $accessTokenCachedRepository
+    ) {
         $this->accessTokenCachedRepository = $accessTokenCachedRepository;
-        $this->client = new Client();
+        $this->client                      = new Client();
     }
 
     /**
@@ -32,7 +33,7 @@ class PublicationRepository
     {
         $accessToken = $this->accessTokenCachedRepository->getAccessToken();
 
-        $response    = $this->client->request('GET', self::API_ENDPOINT, [
+        $response = $this->client->request('GET', self::API_ENDPOINT, [
             'query'   => [
                 'group_id' => self::LIVEGENESHARE_GROUP_ID,
                 'limit'    => 500,
@@ -49,6 +50,28 @@ class PublicationRepository
     }
 
     /**
+     * @return string
+     * @throws CacheItemNotFoundException
+     * @throws GuzzleException
+     */
+    public function getPublicationsBib(): string
+    {
+        $accessToken = $this->accessTokenCachedRepository->getAccessToken();
+
+        return $this->client->request('GET', self::API_ENDPOINT, [
+            'query'   => [
+                'group_id' => self::LIVEGENESHARE_GROUP_ID,
+                'limit'    => 500,
+                'view'     => 'bib',
+            ],
+            'headers' => [
+                'Authorization' => 'Bearer '.$accessToken,
+                'Accept'        => 'application/x-bibtex',
+            ],
+        ])->getBody();
+    }
+
+    /**
      * @param   string  $id
      *
      * @return string
@@ -59,14 +82,18 @@ class PublicationRepository
     {
         $accessToken = $this->accessTokenCachedRepository->getAccessToken();
 
-        return $this->client->request('GET', sprintf('%s/%s', self::API_ENDPOINT, $id), [
-            'query' => [
-                'view' => 'bib',
-            ],
-            'headers' => [
-                'Authorization' => 'Bearer '.$accessToken,
-                'Accept'        => 'application/x-bibtex',
+        return $this->client->request(
+            'GET',
+            sprintf('%s/%s', self::API_ENDPOINT, $id),
+            [
+                'query'   => [
+                    'view' => 'bib',
+                ],
+                'headers' => [
+                    'Authorization' => 'Bearer '.$accessToken,
+                    'Accept'        => 'application/x-bibtex',
+                ],
             ]
-        ])->getBody();
+        )->getBody();
     }
 }
