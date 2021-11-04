@@ -14,7 +14,10 @@
         lg="10"
         class="px-0"
       >
-        <div>
+        <div
+          @mouseenter="showWordcloudHint"
+          @mouseleave="hideWordcloudHint"
+        >
           <word-cloud
             :data="words"
             :width="cloudWidth"
@@ -24,6 +27,12 @@
             :on-word-click="wordcloud.onWordClick"
           />
         </div>
+        <b-alert
+          :show="wordcloud.hint"
+          class="text-secondary"
+        >
+          Click on a word to perform a full text search.
+        </b-alert>
         <b-alert
           show
           class="text-secondary"
@@ -209,6 +218,7 @@ export default {
         // -90, -45, 0, 45, 90
         // eslint-disable-next-line no-bitwise
         rotate: () => (~~(Math.random() * 5) - 2) * 45,
+        hint: false,
       },
     };
   },
@@ -310,6 +320,12 @@ export default {
       this.$store.dispatch('publication/updateSearchFilterTypeAction', null);
       this.$store.dispatch('publication/updateFilteredPublicationsAction');
       this.$store.dispatch('publication/updatePaginationCurrentPageAction', 1);
+    },
+    showWordcloudHint() {
+      this.wordcloud.hint = true;
+    },
+    hideWordcloudHint() {
+      this.wordcloud.hint = false;
     },
   },
 };
