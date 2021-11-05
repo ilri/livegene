@@ -6,7 +6,6 @@ use App\Exception\CacheItemNotFoundException;
 use App\Repository\Mendeley\PublicationRepository;
 use GuzzleHttp\Exception\GuzzleException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -20,7 +19,7 @@ class PublicationController extends AbstractController
     }
 
     /**
-     * @Route("/api/publications/bib", name="publications_get_bib")
+     * @Route("/api/publications", name="api_publications_get_collection")
      *
      * @return Response
      */
@@ -28,14 +27,50 @@ class PublicationController extends AbstractController
     {
         $response = new Response();
         try {
+            $json = $this->publicationRepository->getPublications();
+            $response->setContent(json_encode($json));
+            $response->setStatusCode(Response::HTTP_OK);
+        } catch (CacheItemNotFoundException $e) {
+            $response->setContent(
+                json_encode(
+                    ['message' => 'Publications could not be retrieved. Mendeley Access Token not found']
+                )
+            );
+            $response->setStatusCode(Response::HTTP_UNAUTHORIZED);
+        } catch (GuzzleException $e) {
+            $response->setContent(
+                json_encode(
+                    ['message' => 'Publications could not be retrieved. Bad request.']
+                )
+            );
+            $response->setStatusCode(Response::HTTP_BAD_REQUEST);
+        }
+        $response->headers->set('Content-Type', 'application/json');
+
+        return $response;
+    }
+
+    /**
+     * @Route("/api/publications/bib", name="api_publications_get_collection_bib")
+     *
+     * @return Response
+     */
+    public function listBibAction(): Response
+    {
+        $response = new Response();
+        try {
             $bibtex = $this->publicationRepository->getPublicationsBib();
             $response->setContent($bibtex);
             $response->setStatusCode(Response::HTTP_OK);
         } catch (CacheItemNotFoundException $e) {
-            $response->setContent('BiBTeX could not be retrieved. Mendeley Access Token not found.');
+            $response->setContent(
+                'BiBTeX could not be retrieved. Mendeley Access Token not found.'
+            );
             $response->setStatusCode(Response::HTTP_UNAUTHORIZED);
         } catch (GuzzleException $e) {
-            $response->setContent('BiBTeX could not be retrieved. Bad request.');
+            $response->setContent(
+                'BiBTeX could not be retrieved. Bad request.'
+            );
             $response->setStatusCode(Response::HTTP_BAD_REQUEST);
         }
         $response->headers->set('Content-Type', 'text/plain');
@@ -44,13 +79,13 @@ class PublicationController extends AbstractController
     }
 
     /**
-     * @Route("/api/publications/{id}/bib", name="publication_get_bib")
+     * @Route("/api/publications/{id}/bib", name="api_publications_get_item_bib")
      *
      * @param   string  $id
      *
      * @return Response
      */
-    public function showAction(string $id): Response
+    public function showBibAction(string $id): Response
     {
         $response = new Response();
         try {
@@ -58,10 +93,14 @@ class PublicationController extends AbstractController
             $response->setContent($bibtex);
             $response->setStatusCode(Response::HTTP_OK);
         } catch (CacheItemNotFoundException $e) {
-            $response->setContent('BiBTeX could not be retrieved. Mendeley Access Token not found.');
+            $response->setContent(
+                'BiBTeX could not be retrieved. Mendeley Access Token not found.'
+            );
             $response->setStatusCode(Response::HTTP_UNAUTHORIZED);
         } catch (GuzzleException $e) {
-            $response->setContent('BiBTeX could not be retrieved. Bad request.');
+            $response->setContent(
+                'BiBTeX could not be retrieved. Bad request.'
+            );
             $response->setStatusCode(Response::HTTP_BAD_REQUEST);
         }
         $response->headers->set('Content-Type', 'text/plain');
