@@ -11,15 +11,9 @@ export default {
     },
   },
   actions: {
-    getJWTAction(context) {
-      context.commit(
-        'setJWT',
-        Cookies.get('jwt'),
-      );
-    },
     authenticateAction(context) {
       context.commit('SET_JWT', Cookies.get('jwt'));
-      // axios.defaults.baseURL = '/api';
+      axios.defaults.baseURL = '/api';
       /* eslint-disable dot-notation */
       axios.defaults.headers.common['Authorization'] = `Bearer ${context.state.jwt}`;
       /* eslint-enable dot-notation */

@@ -114,7 +114,7 @@ export default {
   },
   actions: {
     getPublicationBibAction(context, id) {
-      const url = `/api/publications/${id}/bib`;
+      const url = `/publications/${id}/bib`;
       const config = {
         headers: {
           Accept: 'text/plain',
