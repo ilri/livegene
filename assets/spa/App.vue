@@ -45,6 +45,7 @@ export default {
   created() {
     this.$store.dispatch('authenticateAction');
     this.$store.dispatch('getProjectsAction');
+    this.$store.dispatch('publication/getPublicationsAction');
   },
 };
 </script>

@@ -1,4 +1,3 @@
-import publications from '../../data/publications';
 import PublicationService from '../../services/PublicationService';
 import publicationTypeMixin from '../../mixins/publicationTypeMixin';
 
@@ -13,8 +12,8 @@ export default {
       type: null,
       fullText: '',
     },
-    publications,
-    filteredPublications: publications,
+    publications: [],
+    filteredPublications: [],
     publicationTypes: [
       'journal',
       'book',
@@ -46,6 +45,10 @@ export default {
     },
   },
   mutations: {
+    SET_PUBLICATIONS(state, publications) {
+      state.publications = publications;
+      state.filteredPublications = publications;
+    },
     SET_CITATION(state, citation) {
       state.citation = citation;
     },
@@ -113,16 +116,20 @@ export default {
     ),
   },
   actions: {
-    getPublicationBibAction(context, id) {
-      const url = `/publications/${id}/bib`;
-      const config = {
-        headers: {
-          Accept: 'text/plain',
-        },
-      };
-      PublicationService.getPublicationBib(url, config)
+    getPublicationsAction(context) {
+      PublicationService.getPublications()
         .then((response) => {
-          context.commit('SET_CITATION', response);
+          context.commit('SET_PUBLICATIONS', response.data);
+        })
+        .catch((error) => {
+          console.log(error);
+        })
+      ;
+    },
+    getPublicationBibAction(context, id) {
+      PublicationService.getPublicationBib(id)
+        .then((response) => {
+          context.commit('SET_CITATION', response.data);
         })
         .catch((error) => {
           context.commit('SET_CITATION_ERROR', {

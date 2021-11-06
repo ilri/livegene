@@ -88,7 +88,7 @@
           hover
           :per-page="paginationPerPage"
           :current-page="paginationCurrentPage"
-          :items="filteredPublications"
+          :items="publications"
           primary-key="id"
           :fields="fields"
         >
@@ -272,15 +272,21 @@ export default {
     publicationsCount() {
       return this.filteredPublications.length;
     },
+    cloudWidth() {
+      return window.innerWidth >= 992 ? (window.innerWidth / 12) * 10 : window.innerWidth;
+    },
+    cloudHeight() {
+      return this.cloudWidth / 4;
+    },
     words() {
       let text = this.publications
-        // concatenate title and abstract for each publication
+      // concatenate title and abstract for each publication
         .map((el) => (el.abstract ? `${el.title} ${el.abstract}` : el.title))
-        // join everything together in one big string
+      // join everything together in one big string
         .join(' ')
-        // clean from all non-letter characters, but keep white-space, dash (-) and single quote (')
+      // clean from all non-letter characters, but keep white-space, dash (-) and single quote (')
         .replace(/[^a-zA-Z\s\-']/g, ' ')
-        // make everything lowercase
+      // make everything lowercase
         .toLowerCase()
       ;
 
@@ -291,13 +297,13 @@ export default {
       );
 
       text = text
-        // create an array by splitting all words using white-space as separator
+      // create an array by splitting all words using white-space as separator
         .split(/\s+/)
-        // trim non-letter characters at beginning and end of words
+      // trim non-letter characters at beginning and end of words
         .map((el) => el.replace(/^[^a-z]+|[^a-z]+$/, ''))
-        // remove all words with 2 or less letters
+      // remove all words with 2 or less letters
         .filter((el) => el.length > 2)
-        // count the occurrences of all words
+      // count the occurrences of all words
         .reduce((acc, cur) => {
           acc[cur] = (acc[cur] || 0) + 1;
           return acc;
@@ -306,12 +312,6 @@ export default {
 
       // return all words with more than 3 occurrences
       return Object.keys(text).map((el) => (text[el] > 3 ? { text: el, value: text[el] } : {}));
-    },
-    cloudWidth() {
-      return window.innerWidth >= 992 ? (window.innerWidth / 12) * 10 : window.innerWidth;
-    },
-    cloudHeight() {
-      return this.cloudWidth / 4;
     },
   },
   methods: {

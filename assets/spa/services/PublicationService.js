@@ -1,19 +1,18 @@
 import axios from 'axios';
 
+const config = {
+  headers: {
+    Accept: 'text/plain',
+  },
+};
 export default {
-  /**
-   * Get Publication BibTeX
-   * @param url
-   * @param config
-   * @returns {Promise<*>}
-   */
-  async getPublicationBib(url, config) {
-    let result;
-    await axios.get(url, config)
-      .then((response) => {
-        result = response.data;
-      })
-    ;
-    return result;
+  getPublications() {
+    return axios.get('/publications', config);
+  },
+  getPublicationsBib() {
+    return axios.get('/publications/bib', config);
+  },
+  getPublicationBib(id) {
+    return axios.get(`/publications/${id}/bib`, config);
   },
 };

@@ -10,6 +10,7 @@
     </template>
     <template slot="graphic">
       <b-col
+        v-if="publication"
         cols="12"
         lg="10"
         class="px-0"
