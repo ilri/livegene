@@ -180,6 +180,10 @@ export default {
   created() {
     this.$store.dispatch('publication/getPublicationBibAction', [this.$route.params.id]);
   },
+  beforeRouteLeave(to, from, next) {
+    this.$store.dispatch('publication/resetCitation');
+    next();
+  },
   methods: {
     copyCitation() {
       const citation = document.getElementById('citation');

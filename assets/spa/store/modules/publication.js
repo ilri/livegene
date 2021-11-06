@@ -52,6 +52,9 @@ export default {
     SET_CITATION(state, citation) {
       state.citation = citation;
     },
+    SET_CITATION_ERROR(state, error) {
+      state.citationError = error;
+    },
     UPDATE_SEARCH_FILTER_TYPE(state, value) {
       state.searchFilter.type = value;
     },
@@ -81,9 +84,6 @@ export default {
     },
     UPDATE_PAGINATION_CURRENT_PAGE(state, value) {
       state.pagination.currentPage = value;
-    },
-    SET_CITATION_ERROR(state, error) {
-      state.citationError = error;
     },
   },
   getters: {
@@ -138,6 +138,10 @@ export default {
           });
         })
       ;
+    },
+    resetCitation(context) {
+      context.commit('SET_CITATION', '');
+      context.commit('SET_CITATION_ERROR', { flag: false, body: { data: null } });
     },
     updateFilteredPublicationsAction(context) {
       context.commit('UPDATE_FILTERED_PUBLICATIONS');
