@@ -10,18 +10,15 @@ class PublicationCachedRepository
 {
     private CacheInterface $cache;
     private PublicationRepository $publicationRepository;
-    private string $projectDir;
 
     /**
      * @param   CacheInterface         $cache
      * @param   PublicationRepository  $publicationRepository
-     * @param   string                 $projectDir
      */
-    public function __construct(CacheInterface $cache, PublicationRepository $publicationRepository, string $projectDir)
+    public function __construct(CacheInterface $cache, PublicationRepository $publicationRepository)
     {
         $this->cache = $cache;
         $this->publicationRepository = $publicationRepository;
-        $this->projectDir = $projectDir;
     }
 
     /**
@@ -54,10 +51,6 @@ class PublicationCachedRepository
         $response = $this->publicationRepository->getPublications();
         $publications->set($response);
         $this->cache->save($publications);
-        file_put_contents(
-            $this->projectDir.'/assets/spa/data/publications.json',
-            json_encode($publications->get(), JSON_PRETTY_PRINT)
-        );
     }
 
     /**

@@ -29,7 +29,7 @@ class DownloadMendeleyPublicationsCommand extends Command
         $this
             ->setName(self::$defaultName)
             ->setDescription(self::$defaultDescription)
-            ->setHelp('Run the command to save the download in assets/spa/data/publications.json')
+            ->setHelp('Run the command to fetch the publications from the Mendeley API.')
         ;
     }
 
