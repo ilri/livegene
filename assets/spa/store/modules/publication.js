@@ -122,7 +122,14 @@ export default {
           context.commit('SET_PUBLICATIONS', response.data);
         })
         .catch((error) => {
-          console.log(error);
+          context.dispatch(
+            'error/add',
+            {
+              ...error.response,
+              message: 'There was an error fetching the publications',
+            },
+            { root: true },
+          );
         })
       ;
     },
