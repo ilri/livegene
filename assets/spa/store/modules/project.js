@@ -9,6 +9,7 @@ const d3 = {
 };
 
 export default {
+  namespaced: true,
   state: {
     projects: [],
     projectsGroupedByTeam: new Map(),

@@ -44,7 +44,7 @@ export default {
   components: { NavBar },
   created() {
     this.$store.dispatch('auth/authenticateAction');
-    this.$store.dispatch('getProjectsAction');
+    this.$store.dispatch('project/getProjectsAction');
     this.$store.dispatch('publication/getPublicationsAction');
   },
 };
