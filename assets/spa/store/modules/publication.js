@@ -36,6 +36,7 @@ export default {
       'film',
       'bill',
     ],
+    citations: '',
     citation: '',
     citationError: {
       flag: false,
@@ -48,6 +49,9 @@ export default {
     SET_PUBLICATIONS(state, publications) {
       state.publications = publications;
       state.filteredPublications = publications;
+    },
+    SET_CITATIONS(state, citations) {
+      state.citations = citations;
     },
     SET_CITATION(state, citation) {
       state.citation = citation;
@@ -127,6 +131,23 @@ export default {
             {
               ...error.response,
               message: 'There was an error fetching the publications',
+            },
+            { root: true },
+          );
+        })
+      ;
+    },
+    getPublicationsBibAction(context) {
+      PublicationService.getPublicationsBib()
+        .then((response) => {
+          context.commit('SET_CITATIONS', response.data);
+        })
+        .catch((error) => {
+          context.dispatch(
+            'error/add',
+            {
+              ...error.response,
+              message: 'There was an error fetching the citations',
             },
             { root: true },
           );
