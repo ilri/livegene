@@ -39,6 +39,64 @@
         >
           There are <b-badge>{{ publicationsCount }}</b-badge> publications in total.
         </b-alert>
+        <div
+          class="accordion"
+          role="tablist"
+        >
+          <b-card
+            no-body
+            class="mb-1"
+          >
+            <b-card-header
+              header-tag="header"
+              class="p-1"
+              role="tab"
+            >
+              <b-button
+                v-b-toggle.accordion-1
+                block
+                variant="info"
+              >
+                Get citations
+              </b-button>
+            </b-card-header>
+            <b-collapse
+              id="accordion-1"
+              accordion="my-accordion"
+              role="tabpanel"
+            >
+              <b-card-body>
+                <b-card-text>
+                  You can get all citations in BibTeX format by clicking the button below.
+                </b-card-text>
+                <b-card-text>
+                  <b-button
+                    id="copyButton"
+                    variant="outline-secondary"
+                    class="text-black-50"
+                    @click="copyCitations"
+                  >
+                    <b-icon
+                      icon="files"
+                      aria-hidden="true"
+                    />
+                    <span id="copyText">Copy all citations to clipboard</span>
+                  </b-button>
+                </b-card-text>
+                <b-card-text>
+                  You can use
+                  <a
+                    href="https://bibtex.online/"
+                    target="_blank"
+                  >
+                    BibTeX Online Converter
+                  </a>
+                  to convert the citations in another format.
+                </b-card-text>
+              </b-card-body>
+            </b-collapse>
+          </b-card>
+        </div>
         <b-pagination
           v-model="paginationCurrentPage"
           :total-rows="publicationsCount"
@@ -228,6 +286,7 @@ export default {
       publications: (state) => state.publication.publications,
       filteredPublications: (state) => state.publication.filteredPublications,
       publicationTypes: (state) => state.publication.publicationTypes,
+      citations: (state) => state.publication.citations,
     }),
     ...mapGetters('publication', [
       'getAvailablePublicationTypes',
@@ -326,6 +385,15 @@ export default {
     },
     hideWordcloudHint() {
       this.wordcloud.hint = false;
+    },
+    copyCitations() {
+      navigator.clipboard.writeText(this.citations);
+      const buttonText = document.getElementById('copyText');
+      const oldValue = buttonText.innerText;
+      buttonText.innerText = 'All citations copied to clipboard!';
+      setTimeout(() => {
+        buttonText.innerText = oldValue;
+      }, 3000);
     },
   },
 };
