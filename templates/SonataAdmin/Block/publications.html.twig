@@ -9,7 +9,7 @@
 {% endblock %}
 
 {% block content %}
-    {% if is_granted('ROLE_SUPER_ADMIN') %}
+    {% if is_granted('ROLE_MENDELEY_USER') %}
         <div class="jumbotron text-center">
             <p>Click on the button below to fetch access token from Mendeley.</p>
             <a class="btn btn-primary" href="{{ path('connect_mendeley_start') }}">

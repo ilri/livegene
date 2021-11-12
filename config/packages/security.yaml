@@ -207,6 +207,7 @@ security:
             - ROLE_ADMIN_STAFF_MEMBER_ALL
             - ROLE_ADMIN_STAFF_ROLE_ALL
         ROLE_SUPER_ADMIN:
+            - ROLE_MENDELEY_USER
             - ROLE_API_USER
             - ROLE_ADMIN
             - ROLE_ALLOWED_TO_SWITCH
