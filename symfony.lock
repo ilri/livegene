@@ -1,12 +1,17 @@
 {
     "api-platform/core": {
-        "version": "2.1",
+        "version": "2.6",
         "recipe": {
             "repo": "github.com/symfony/recipes",
             "branch": "master",
-            "version": "2.1",
-            "ref": "18727d8f229306860b46955f438e1897421da689"
-        }
+            "version": "2.5",
+            "ref": "05b57782a78c21a664a42055dc11cf1954ca36bb"
+        },
+        "files": [
+            "config/routes/api_platform.yaml",
+            "config/packages/api_platform.yaml",
+            "src/Entity/.gitignore"
+        ]
     },
     "cocur/slugify": {
         "version": "v3.2"
