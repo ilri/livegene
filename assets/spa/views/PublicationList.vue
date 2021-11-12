@@ -51,7 +51,10 @@
                 block
                 variant="info"
               >
-                Get citations
+                Get citations <b-icon
+                  icon="box-arrow-down"
+                  aria-hidden="true"
+                />
               </b-button>
             </b-card-header>
             <b-collapse
