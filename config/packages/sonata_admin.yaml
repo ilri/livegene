@@ -69,6 +69,8 @@ sonata_admin:
     security:
         #handler: sonata.admin.security.handler.role
         handler: sonata.admin.security.handler.voter
+    options:
+        legacy_twig_text_extension: false
 
 sonata_block:
     blocks:
