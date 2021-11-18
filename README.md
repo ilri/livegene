@@ -37,4 +37,4 @@ The application uses MySQL for the data storage. The data model consists of 16 e
 Developer's guide
 -----------------
 
-![documentation](docs/index.md)
+Please read the [documentation](docs/index.md).
