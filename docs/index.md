@@ -28,4 +28,12 @@ are mapped to a PHP class. Common parts shared between multiple entities are
 contained into traits inside `src/Entity/Traits`.
 
 The REST API, created with [API Platform](https://api-platform.com), is configured
-through annotations in the entity classes.
+through annotations in the entity classes. The REST API requires authentication.
+A special endpoint for retrieving a JWT is created in the subdirectory `src/OpenApi/`.
+The REST API is accessible under https://livegene.ilri.org/api.
+
+The admin back-office is created with [Sonata Admin](https://sonata-project.org/).
+The subdirectory `src/Admin/` contains the classes driving the admin back-office.
+For each entity class there is a correspondent admin class. Further logic driving the
+admin back-office is present in other subdirectories. The admin-back office is
+accessible under https://livegene.ilri.org/admin.
