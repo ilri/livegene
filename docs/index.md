@@ -37,3 +37,19 @@ The subdirectory `src/Admin/` contains the classes driving the admin back-office
 For each entity class there is a correspondent admin class. Further logic driving the
 admin back-office is present in other subdirectories. The admin-back office is
 accessible under https://livegene.ilri.org/admin.
+
+Frontend
+--------
+
+The codebase for the Single-Page Application (SPA) is in the subdirectory `assets/spa/`.
+It is created with the framework [Vue.js](https://vuejs.org). The data visualisations
+are created with [D3.js](https://d3js.org/).
+
+The following files:
+- `.eslintrc.js`
+- `babel.config.js`
+- `package.json`
+- `webpack.config.js`
+- `yarn.lock`
+
+contain configuration settings and other information for the Single-Page Application.
