@@ -25,36 +25,11 @@ export default {
   },
   actions: {
     getProjectsAction(context) {
-      const url = '/projects';
-      const config = {
-        headers: {
-          Accept: 'application/ld+json',
-        },
-        params: {
-          properties: [
-            'id',
-            'ilriCode',
-            'fullName',
-            'shortName',
-            'team',
-            'principalInvestigator',
-            'startDate',
-            'endDate',
-            'donor',
-            'totalProjectValue',
-            'partnerships',
-            'staffRoles',
-            'countryRoles',
-            'isActive',
-            'isActiveThisYear',
-          ],
-        },
-      };
-
       NProgress.start();
-      ProjectService.getProjects(url, config)
+      ProjectService.getProjects()
         .then((response) => {
-          context.commit('SET_PROJECTS', response);
+          console.log(response);
+          context.commit('SET_PROJECTS', response.data['hydra:member']);
           context.commit('SORT_AND_GROUP_PROJECTS');
         })
         .catch((error) => {
@@ -66,7 +41,7 @@ export default {
             },
             { root: true },
           );
-          console.error(error);
+          console.log(error);
         })
         .finally(() => {
           NProgress.done();
