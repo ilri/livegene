@@ -127,10 +127,14 @@ export default {
         })
         .catch((error) => {
           context.dispatch(
-            'error/add',
+            'error/addAction',
             {
               ...error.response,
-              message: 'There was an error fetching the publications',
+              message: `
+                There was an error fetching the publications.\n
+                ${error.response.data.message}
+              `,
+              module: 'mendeley',
             },
             { root: true },
           );
@@ -144,10 +148,14 @@ export default {
         })
         .catch((error) => {
           context.dispatch(
-            'error/add',
+            'error/addAction',
             {
               ...error.response,
-              message: 'There was an error fetching the citations',
+              message: `
+                There was an error fetching the citations.\n
+                ${error.response.data.message}
+              `,
+              module: 'mendeley',
             },
             { root: true },
           );
@@ -167,7 +175,7 @@ export default {
         })
       ;
     },
-    resetCitation(context) {
+    resetCitationAction(context) {
       context.commit('SET_CITATION', '');
       context.commit('SET_CITATION_ERROR', { flag: false, body: { data: null } });
     },

@@ -28,20 +28,19 @@ export default {
       NProgress.start();
       ProjectService.getProjects()
         .then((response) => {
-          console.log(response);
           context.commit('SET_PROJECTS', response.data['hydra:member']);
           context.commit('SORT_AND_GROUP_PROJECTS');
         })
         .catch((error) => {
           context.dispatch(
-            'error/add',
+            'error/addAction',
             {
               ...error.response,
               message: 'There was an error fetching the projects',
+              module: 'projects',
             },
             { root: true },
           );
-          console.log(error);
         })
         .finally(() => {
           NProgress.done();

@@ -1,5 +1,5 @@
 <template>
-  <BaseView>
+  <BaseView :module="'mendeley'">
     <template slot="header">
       <b-nav
         small
