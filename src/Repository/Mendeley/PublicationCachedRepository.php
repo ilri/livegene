@@ -40,7 +40,6 @@ class PublicationCachedRepository
     /**
      * Fetch the publications from the Mendeley API endpoint /documents
      * and store them in the cache item 'mendeley_publications'.
-     * Write the publications into a JSON file.
      *
      * @throws GuzzleException
      * @throws CacheItemNotFoundException
