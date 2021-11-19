@@ -64,12 +64,16 @@ class PublicationController extends AbstractController
             $response->setStatusCode(Response::HTTP_OK);
         } catch (CacheItemNotFoundException $e) {
             $response->setContent(
-                'BiBTeX could not be retrieved. Mendeley Access Token not found.'
+                json_encode(
+                    ['message' => 'BiBTeX citations could not be retrieved. Mendeley Access Token not found.']
+                )
             );
             $response->setStatusCode(Response::HTTP_UNAUTHORIZED);
         } catch (GuzzleException $e) {
             $response->setContent(
-                'BiBTeX could not be retrieved. Bad request.'
+                json_encode(
+                    ['message' => 'BiBTeX citations could not be retrieved. Bad request.']
+                )
             );
             $response->setStatusCode(Response::HTTP_BAD_REQUEST);
         }
@@ -94,12 +98,16 @@ class PublicationController extends AbstractController
             $response->setStatusCode(Response::HTTP_OK);
         } catch (CacheItemNotFoundException $e) {
             $response->setContent(
-                'BiBTeX could not be retrieved. Mendeley Access Token not found.'
+                json_encode(
+                    ['message' => 'BiBTeX citation could not be retrieved. Mendeley Access Token not found.']
+                )
             );
             $response->setStatusCode(Response::HTTP_UNAUTHORIZED);
         } catch (GuzzleException $e) {
             $response->setContent(
-                'BiBTeX could not be retrieved. Bad request.'
+                json_encode(
+                    ['message' => 'BiBTeX citation could not be retrieved. Bad request.']
+                )
             );
             $response->setStatusCode(Response::HTTP_BAD_REQUEST);
         }
