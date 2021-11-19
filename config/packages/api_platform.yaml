@@ -1,4 +1,6 @@
 api_platform:
+    defaults:
+        pagination_client_enabled: true
     mapping:
         paths: ['%kernel.project_dir%/src/Entity']
     patch_formats:
@@ -12,3 +14,4 @@ api_platform:
     collection:
         pagination:
             items_per_page: 32
+            enabled_parameter_name: pagination
