@@ -181,7 +181,7 @@ export default {
     this.$store.dispatch('publication/getPublicationBibAction', [this.$route.params.id]);
   },
   beforeRouteLeave(to, from, next) {
-    this.$store.dispatch('publication/resetCitation');
+    this.$store.dispatch('publication/resetCitationAction');
     next();
   },
   methods: {
