@@ -34,11 +34,11 @@ export default {
     },
   },
   computed: {
-    ...mapGetters({
-      errorsForModule: 'error/getErrorsForModule',
-    }),
+    ...mapGetters('error', [
+      'getErrorsForModule',
+    ]),
     errors() {
-      return this.errorsForModule(this.module);
+      return this.getErrorsForModule(this.module);
     },
   },
 };
