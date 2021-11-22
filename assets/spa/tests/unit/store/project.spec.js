@@ -23,7 +23,7 @@ response.data['hydra:member'] = new Array(20).fill().map((v, i) => ({
 }));
 
 describe('project store module', () => {
-  test('get projects action should populate the projects and projectsGroupedByTeam', async () => {
+  test('getProjectsAction should populate the projects and projectsGroupedByTeam', async () => {
     expect.assertions(4);
     const projectModule = cloneDeep(ProjectModule);
     const store = new Vuex.Store(projectModule);
