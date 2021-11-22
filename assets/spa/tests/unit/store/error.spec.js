@@ -23,7 +23,7 @@ describe('error store module', () => {
   });
 
   test('getErrorsForModule should retrieve the correspondent errors', () => {
-    expect.assertions(3);
+    expect.assertions(4);
     const errorModule = cloneDeep(ErrorModule);
     const store = new Vuex.Store(errorModule);
     expect(store.state.errors.length).toEqual(0);
@@ -37,6 +37,7 @@ describe('error store module', () => {
       message: 'Error message',
       module: 'mendeley',
     });
+    expect(store.state.errors.length).toEqual(2);
     const projects = store.getters.getErrorsForModule('projects');
     expect(projects.length).toEqual(1);
     expect(projects[0].module).toEqual('projects');
