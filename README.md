@@ -14,8 +14,8 @@ The application is hosted with SymfonyCloud and is accessible under:
 https://livegene.ilri.org
 
 The application is developed with PHP and uses the framework Symfony.
-It requires PHP 7.4 and the LTS Symfony version 4.4. As of now (8th September 2021)
-it uses the patch version 4.4.30.  
+It requires PHP 7.4 and the LTS Symfony version 4.4. As of now (23rd November 2021)
+it uses the patch version 4.4.33.  
 The version 4.4 is supported until November 2023.
 
 It consists of 3 main parts:
