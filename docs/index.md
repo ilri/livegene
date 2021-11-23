@@ -53,3 +53,9 @@ The following files:
 - `yarn.lock`
 
 contain configuration settings and other information for the Single-Page Application.
+
+Other topics
+------------
+
+- [Security](security.md)
+- [Mendeley](mendeley.md)
