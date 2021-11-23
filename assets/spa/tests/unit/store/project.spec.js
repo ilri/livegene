@@ -16,7 +16,9 @@ const response = {}
 response.data = {};
 response.data['hydra:member'] = new Array(20).fill().map((v, i) => ({
   id: i + 1,
+  fullName: `Project ${i + 1}`,
   startDate: new Date(),
+  endDate: new Date(),
   // the value for team should be A, B or C
   // these are the corresponding values for 65, 66, 67
   team: String.fromCharCode(65 + (i % 3)),

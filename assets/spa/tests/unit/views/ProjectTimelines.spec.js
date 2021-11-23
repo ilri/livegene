@@ -2,17 +2,114 @@ import { mount, createLocalVue } from '@vue/test-utils';
 import BootstrapVue, { BButton } from 'bootstrap-vue';
 import Vuex from 'vuex';
 import ProjectTimelines from '../../../views/ProjectTimelines';
-import { state } from '../config/mock-store';
+import ErrorModule from '../../../store/modules/error';
 
 const localVue = createLocalVue();
 localVue.use(BootstrapVue);
 localVue.use(Vuex);
 
 describe('ProjectTimelines.vue', () => {
+  let projectState;
+  let errorState;
   let store;
+
   beforeEach(() => {
+    projectState = {
+      projects: [
+        {
+          id: 1,
+          fullName: 'Project_1',
+          startDate: '2021-01-01T00:00:00+00:00',
+          endDate: '2022-01-01T00:00:00+00:00',
+          team: 'Team_1',
+        },
+        {
+          id: 2,
+          fullName: 'Project_2',
+          startDate: '2021-01-01T00:00:00+00:00',
+          endDate: '2022-01-01T00:00:00+00:00',
+          team: 'Team_1',
+        },
+        {
+          id: 3,
+          fullName: 'Project_3',
+          startDate: '2021-01-01T00:00:00+00:00',
+          endDate: '2022-01-01T00:00:00+00:00',
+          team: 'Team_2',
+        },
+        {
+          id: 4,
+          fullName: 'Project_4',
+          startDate: '2021-01-01T00:00:00+00:00',
+          endDate: '2022-01-01T00:00:00+00:00',
+          team: 'Team_2',
+        },
+        {
+          id: 5,
+          fullName: 'Project_5',
+          startDate: '2021-01-01T00:00:00+00:00',
+          endDate: '2022-01-01T00:00:00+00:00',
+          team: 'Team_2',
+        },
+      ],
+      projectsGroupedByTeam: new Map(
+        [
+          ['Team_1',
+            [
+              {
+                id: 1,
+                fullName: 'Project_1',
+                startDate: '2021-01-01T00:00:00+00:00',
+                endDate: '2022-01-01T00:00:00+00:00',
+              },
+              {
+                id: 2,
+                fullName: 'Project_2',
+                startDate: '2021-01-01T00:00:00+00:00',
+                endDate: '2022-01-01T00:00:00+00:00',
+              },
+            ],
+          ],
+          ['Team_2',
+            [
+              {
+                id: 3,
+                fullName: 'Project_3',
+                startDate: '2021-01-01T00:00:00+00:00',
+                endDate: '2022-01-01T00:00:00+00:00',
+              },
+              {
+                id: 4,
+                fullName: 'Project_4',
+                startDate: '2021-01-01T00:00:00+00:00',
+                endDate: '2022-01-01T00:00:00+00:00',
+              },
+              {
+                id: 5,
+                fullName: 'Project_5',
+                startDate: '2021-01-01T00:00:00+00:00',
+                endDate: '2022-01-01T00:00:00+00:00',
+              },
+            ],
+          ],
+        ],
+      ),
+    };
+    errorState = {
+      errors: [],
+    };
     store = new Vuex.Store({
-      state,
+      modules: {
+        project: {
+          state: projectState,
+          namespaced: true,
+        },
+        error: {
+          state: errorState,
+          getters: ErrorModule.getters,
+          namespaced: true,
+        },
+      },
     });
   });
 
