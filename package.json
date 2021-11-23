@@ -19,7 +19,7 @@
         "babel-preset-vue": "^2.0.2",
         "bootstrap": "^4.5.3",
         "bootstrap-vue": "^2.21.1",
-        "chromedriver": "^93.0.1",
+        "chromedriver": "^96.0.0",
         "ckeditor": "^4.12.1",
         "core-js": "^3.1.2",
         "cross-env": "^7.0.0",
