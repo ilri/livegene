@@ -61,10 +61,6 @@ services:
         decorates: 'api_platform.openapi.factory'
         autoconfigure: false
 
-    app.custom_basic_authentication_entry_point:
-        class: App\Security\Service\CustomBasicAuthenticationEntryPoint
-        arguments: [ main ]
-
     app.user_mailer:
         class: App\Mailer\UserMailer
         arguments:
