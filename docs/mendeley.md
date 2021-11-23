@@ -30,3 +30,7 @@ This means that after clearing the cache the token has to be obtained once and
 afterwards the application should be able to use for the communication with the
 Mendeley API.
 Better solution would be to implement in-memory storage like Redis, for example.
+
+[BACK](index.md)
+
+[HOME](../README.md)

@@ -45,3 +45,7 @@ that contain data relevant for the SPA. This role is intended for the user `spa_
 which is the Single-Page Application.
 - ROLE_MENDELEY_USER is a special role for the people who are members of the
 LiveGeneShare private group at Mendeley.
+
+[BACK](index.md)
+
+[HOME](../README.md)
