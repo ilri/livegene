@@ -22,7 +22,6 @@ Object.defineProperty(localVue.prototype, '$loadingStatus', {
 });
 
 describe('BaseView.vue', () => {
-  let actions;
   let state;
   let store;
 
@@ -30,14 +29,10 @@ describe('BaseView.vue', () => {
     state = {
       errors: [],
     };
-    actions = {
-      addAction: jest.fn(),
-    };
     store = new Vuex.Store({
       modules: {
         error: {
           state,
-          actions,
           getters: ErrorModule.getters,
           namespaced: true,
         },
@@ -79,5 +74,28 @@ describe('BaseView.vue', () => {
     const row = wrapper.find('div.row.text-center.pb-5');
     expect(row.exists()).toBe(true);
     expect(row.attributes('style')).toEqual('display: none;');
+  });
+
+  test('display main area when there are no corresponding errors', () => {
+    store.state.error.errors = [
+      {
+        id: 1,
+        message: 'Error',
+        module: 'projects',
+      },
+    ];
+    const wrapper = mount(BaseView, {
+      localVue,
+      store,
+      propsData: {
+        module: 'mendeley',
+      },
+    });
+    const row = wrapper.find('div.row.text-center.pb-5');
+    expect(row.exists()).toBe(true);
+    expect(row.classes('row')).toBe(true);
+    expect(row.classes('text-center')).toBe(true);
+    expect(row.classes('show')).toBe(true);
+    expect(row.attributes('style')).toBe(undefined);
   });
 });
