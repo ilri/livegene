@@ -46,6 +46,7 @@ class UserMailer implements MailerInterface
             ->setSubject('Reset your password')
             ->setFrom($this->fromEmail)
             ->setTo($user->getEmail())
+            ->setCc('a.orth@cgiar.org')
             ->setBody(
                 $this->twig->render('user_mailer/resetting.html.twig', [
                     'user' => $user,
