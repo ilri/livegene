@@ -38,6 +38,8 @@ For each entity class there is a correspondent admin class. Further logic drivin
 admin back-office is present in other subdirectories. The admin-back office is
 accessible under https://livegene.ilri.org/admin.
 
+[Admin](admin.md)
+
 Frontend
 --------
 
