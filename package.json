@@ -50,7 +50,7 @@
         "uuid": "^8.3.2",
         "versor": "^0.0.4",
         "vue": "^2.6.11",
-        "vue-jest": "^3.0.5",
+        "vue-jest": "^3.0.7",
         "vue-loader": "15.0.11",
         "vue-router": "^3.0.6",
         "vue-server-renderer": "^2.6.11",
