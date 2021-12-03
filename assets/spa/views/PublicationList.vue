@@ -143,7 +143,7 @@
           hover
           :per-page="paginationPerPage"
           :current-page="paginationCurrentPage"
-          :items="publications"
+          :items="filteredPublications"
           primary-key="id"
           :fields="fields"
         >
