@@ -43,8 +43,10 @@ export default {
   name: 'App',
   components: { NavBar },
   created() {
-    this.$store.dispatch('authenticateAction');
-    this.$store.dispatch('getProjectsAction');
+    this.$store.dispatch('auth/authenticateAction');
+    this.$store.dispatch('project/getProjectsAction');
+    this.$store.dispatch('publication/getPublicationsAction');
+    this.$store.dispatch('publication/getPublicationsBibAction');
   },
 };
 </script>
@@ -68,9 +70,5 @@ export default {
     bottom: 0;
     width: 100%;
     height: 3em; /* Set the fixed height of the footer here */
-  }
-
-  .btn {
-    width: 12em;
   }
 </style>

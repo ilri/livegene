@@ -25,3 +25,10 @@ body {
   background-color: maroon;
 }
 
+#publicationsTotal {
+  font-size: 1.5em;
+}
+  #publicationsTotal .badge {
+    font-size: 1em;
+  }
+

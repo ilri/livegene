@@ -1,6 +1,7 @@
 import { v4 as uuidv4 } from 'uuid';
 
 export default {
+  namespaced: true,
   state: {
     errors: [],
   },
@@ -17,11 +18,16 @@ export default {
       );
     },
   },
+  getters: {
+    getErrorsForModule: (state) => (module) => state.errors.filter(
+      (error) => error.module === module,
+    ),
+  },
   actions: {
-    add(context, error) {
+    addAction(context, error) {
       context.commit('PUSH', error);
     },
-    remove(context, errorToRemove) {
+    removeAction(context, errorToRemove) {
       context.commit('DELETE', errorToRemove);
     },
   },

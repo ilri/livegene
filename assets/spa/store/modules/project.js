@@ -9,6 +9,7 @@ const d3 = {
 };
 
 export default {
+  namespaced: true,
   state: {
     projects: [],
     projectsGroupedByTeam: new Map(),
@@ -24,45 +25,22 @@ export default {
   },
   actions: {
     getProjectsAction(context) {
-      const url = '/api/projects';
-      const config = {
-        params: {
-          properties: [
-            'id',
-            'ilriCode',
-            'fullName',
-            'shortName',
-            'team',
-            'principalInvestigator',
-            'startDate',
-            'endDate',
-            'donor',
-            'totalProjectValue',
-            'partnerships',
-            'staffRoles',
-            'countryRoles',
-            'isActive',
-            'isActiveThisYear',
-          ],
-        },
-      };
-
       NProgress.start();
-      ProjectService.getProjects(url, config)
+      ProjectService.getProjects()
         .then((response) => {
-          context.commit('SET_PROJECTS', response);
+          context.commit('SET_PROJECTS', response.data['hydra:member']);
           context.commit('SORT_AND_GROUP_PROJECTS');
         })
         .catch((error) => {
           context.dispatch(
-            'error/add',
+            'error/addAction',
             {
               ...error.response,
               message: 'There was an error fetching the projects',
+              module: 'projects',
             },
             { root: true },
           );
-          console.error(error);
         })
         .finally(() => {
           NProgress.done();

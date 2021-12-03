@@ -74,8 +74,18 @@ export default {
           name: 'worldmap',
           label: 'World Map',
         },
+        {
+          name: 'publications',
+          label: 'Publications',
+        },
       ],
     };
   },
 };
 </script>
+
+<style scoped>
+.btn {
+  width: 12em;
+}
+</style>

@@ -1,8 +1,12 @@
 api_platform:
+    defaults:
+        pagination_client_enabled: true
     mapping:
         paths: ['%kernel.project_dir%/src/Entity']
-    enable_fos_user: true
+    patch_formats:
+        json: ['application/merge-patch+json']
     swagger:
+        versions: [3]
         api_keys:
             apiKey:
                 name: Authorization
@@ -10,3 +14,4 @@ api_platform:
     collection:
         pagination:
             items_per_page: 32
+            enabled_parameter_name: pagination

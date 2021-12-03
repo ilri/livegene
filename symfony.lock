@@ -1,24 +1,32 @@
 {
     "api-platform/core": {
-        "version": "2.1",
+        "version": "2.6",
         "recipe": {
             "repo": "github.com/symfony/recipes",
             "branch": "master",
-            "version": "2.1",
-            "ref": "18727d8f229306860b46955f438e1897421da689"
-        }
+            "version": "2.5",
+            "ref": "05b57782a78c21a664a42055dc11cf1954ca36bb"
+        },
+        "files": [
+            "config/routes/api_platform.yaml",
+            "config/packages/api_platform.yaml",
+            "src/Entity/.gitignore"
+        ]
     },
     "cocur/slugify": {
         "version": "v3.2"
     },
     "doctrine/annotations": {
-        "version": "1.0",
+        "version": "1.13",
         "recipe": {
             "repo": "github.com/symfony/recipes",
             "branch": "master",
             "version": "1.0",
-            "ref": "cb4152ebcadbe620ea2261da1a1c5a9b8cea7672"
-        }
+            "ref": "a2759dd6123694c8d901d0ec80006e044c2e6457"
+        },
+        "files": [
+            "config/routes/annotations.yaml"
+        ]
     },
     "doctrine/cache": {
         "version": "v1.8.0"
@@ -119,6 +127,12 @@
     "fzaninotto/faker": {
         "version": "v1.8.0"
     },
+    "guzzlehttp/guzzle": {
+        "version": "7.3.0"
+    },
+    "guzzlehttp/promises": {
+        "version": "1.4.1"
+    },
     "guzzlehttp/psr7": {
         "version": "1.5.2"
     },
@@ -194,6 +208,18 @@
     "knplabs/knp-menu-bundle": {
         "version": "v2.2.1"
     },
+    "knpuniversity/oauth2-client-bundle": {
+        "version": "1.20",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "master",
+            "version": "1.20",
+            "ref": "1ff300d8c030f55c99219cc55050b97a695af3f6"
+        },
+        "files": [
+            "config/packages/knpu_oauth2_client.yaml"
+        ]
+    },
     "kriswallsmith/buzz": {
         "version": "v0.16.1"
     },
@@ -205,6 +231,9 @@
     },
     "lcobucci/jwt": {
         "version": "3.3.1"
+    },
+    "league/oauth2-client": {
+        "version": "2.6.0"
     },
     "lexik/jwt-authentication-bundle": {
         "version": "2.5",
@@ -383,13 +412,18 @@
         }
     },
     "sonata-project/admin-bundle": {
-        "version": "3.31",
+        "version": "3.105",
         "recipe": {
             "repo": "github.com/symfony/recipes-contrib",
             "branch": "master",
-            "version": "3.31",
-            "ref": "0e5931df1732e3dccfba42a20853049e5e9db6ae"
-        }
+            "version": "3.64",
+            "ref": "9909a0cc9b4683a1d98be519a890375d3342a480"
+        },
+        "files": [
+            "config/routes/sonata_admin.yaml",
+            "config/packages/sonata_admin.yaml",
+            "src/Admin/.gitignore"
+        ]
     },
     "sonata-project/block-bundle": {
         "version": "3.14.0"

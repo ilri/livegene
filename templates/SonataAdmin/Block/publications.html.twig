@@ -1,0 +1,84 @@
+{% extends 'SonataAdminBundle::standard_layout.html.twig' %}
+
+{% block title -%}
+    - Publication List
+{% endblock %}
+
+{% block navbar_title %}
+    Publication List
+{% endblock %}
+
+{% block content %}
+    {% if is_granted('ROLE_MENDELEY_USER') %}
+        <div class="jumbotron text-center">
+            <p>Click on the button below to fetch access token from Mendeley.</p>
+            <a class="btn btn-primary" href="{{ path('connect_mendeley_start') }}">
+                FETCH
+            </a>
+        </div>
+    {% endif %}
+    <div class="jumbotron text-center">
+        <p>If the list of publications is not up-to-date, please click on the button below to download the current
+            state.</p>
+        <a class="btn btn-primary" href="{{ path('admin_publication_download') }}">
+            SYNC
+        </a>
+    </div>
+
+    {% include '@SonataTwig/FlashMessage/render.html.twig' %}
+    <div class="alert alert-info text-center" id="publicationsTotal">There are <span class="badge">{{ publications|length }}</span> publications in total.</div>
+{% endblock %}
+
+{% block list_table %}
+    <div class="col-xs-12 col-md-12">
+        <div class="box box-primary">
+            <div class="box-body table-responsive no-padding">
+                {% block table %}
+                    <table class="table table-bordered table-striped table-hover sonata-ba-list">
+                        {% block table_header %}
+                            <thead>
+                            <tr class="sonata-ba-list-field-header">
+                                {% for field in fields %}
+                                    {% apply spaceless %}
+                                        <th class="sonata-ba-list-field-header-text">
+                                            {{ field }}
+                                        </th>
+                                    {% endapply %}
+                                {% endfor %}
+                            </tr>
+                            </thead>
+                        {% endblock %}
+
+                        {% block table_body %}
+                            <tbody>
+                            {% for publication in publications %}
+                                <tr>
+                                    <td class="sonata-ba-list-field sonata-ba-list-field-text">
+                                        {{ publication.title }}
+                                    </td>
+                                    <td class="sonata-ba-list-field sonata-ba-list-field-text">
+                                        {% if publication.year is defined %}{{ publication.year }}{% endif %}
+                                    </td>
+                                    <td class="sonata-ba-list-field sonata-ba-list-field-text">
+                                        {{ publication.type }}
+                                    </td>
+                                    <td class="sonata-ba-list-field sonata-ba-list-field-text">
+                                        {% if publication.source is defined %}{{ publication.source }}{% endif %}
+                                    </td>
+                                    <td class="sonata-ba-list-field sonata-ba-list-field-text">
+                                        <a class="btn btn-sm btn-default view_link"
+                                           href="{{ path('admin_publication_show', { id: publication.id }) }}">
+                                            <i class="fa fa-eye" aria-hidden="true"></i>
+                                            Show
+                                        </a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        {% endblock %}
+                    </table>
+                {% endblock %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

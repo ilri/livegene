@@ -50,3 +50,12 @@ hooks:
         set -x -e
 
         (>&2 symfony-deploy)
+
+crons:
+    mendeley_download:
+        # Download LiveGeneShare publications from Mendeley every Sunday at noon
+        spec: '0 12 * * 0'
+        cmd: |
+            if [ "$SYMFONY_BRANCH" = "dashboard" ]; then
+                croncape symfony console app:mendeley:download
+            fi

@@ -15,7 +15,9 @@
           ERROR
         </h4>
         <hr>
-        <p>{{ error.message }}</p>
+        <p class="error-message">
+          {{ error.message }}
+        </p>
         <p>{{ error.status }} - {{ error.statusText }}</p>
       </b-alert>
     </b-col>
@@ -35,5 +37,7 @@ export default {
 </script>
 
 <style scoped>
-
+  .error-message {
+    white-space: pre-line;
+  }
 </style>

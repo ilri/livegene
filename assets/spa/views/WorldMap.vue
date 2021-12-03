@@ -1,5 +1,5 @@
 <template>
-  <BaseView>
+  <BaseView :module="'projects'">
     <template slot="header">
       <b-nav
         small

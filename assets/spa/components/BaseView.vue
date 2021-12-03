@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapGetters } from 'vuex';
 import ErrorBar from './ErrorBar';
 
 export default {
@@ -27,10 +27,19 @@ export default {
   components: {
     ErrorBar,
   },
+  props: {
+    module: {
+      type: String,
+      required: true,
+    },
+  },
   computed: {
-    ...mapState({
-      errors: (state) => state.error.errors,
-    }),
+    ...mapGetters('error', [
+      'getErrorsForModule',
+    ]),
+    errors() {
+      return this.getErrorsForModule(this.module);
+    },
   },
 };
 </script>

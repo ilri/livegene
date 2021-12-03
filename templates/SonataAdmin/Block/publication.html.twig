@@ -1,0 +1,118 @@
+{% extends 'SonataAdminBundle::standard_layout.html.twig' %}
+
+{% block title -%}
+    - Publication View
+{% endblock %}
+
+{% block navbar_title %}
+    Show{% if publication.title is defined %} &quot;{{ publication.title }}&quot;{% endif %}
+{% endblock %}
+
+{%- block actions -%}
+    <li>
+        <a href="{{ path('admin_publication_list') }}"><i class="fa fa-list" aria-hidden="true"></i>
+            Return to list
+        </a>
+    </li>
+{%- endblock -%}
+
+{% block content %}
+    {% include '@SonataTwig/FlashMessage/render.html.twig' %}
+{% endblock %}
+
+{% block show %}
+    <div class="sonata-ba-view">
+        <div class="row">
+            <div class="col-md-12 ">
+                <div class="box box-primary">
+                    <div class="box-header">
+                        <h4 class="box-title">
+                            Publication
+                        </h4>
+                    </div>
+                    {% if publication is empty %}
+                        <div></div>
+                    {% else %}
+                        <div class="box-body table-responsive no-padding">
+                            <table class="table">
+                                <tbody>
+                                <tr class="sonata-ba-view-container">
+                                    <th>ID</th>
+                                    <td>{{ publication.id }}</td>
+                                </tr>
+                                <tr class="sonata-ba-view-container">
+                                    <th>Title</th>
+                                    <td>{{ publication.title }}</td>
+                                </tr>
+                                <tr class="sonata-ba-view-container">
+                                    <th>Type</th>
+                                    <td>{{ publication.type }}</td>
+                                </tr>
+                                <tr class="sonata-ba-view-container">
+                                    <th>Profile ID</th>
+                                    <td>{{ publication.profile_id }}</td>
+                                </tr>
+                                <tr class="sonata-ba-view-container">
+                                    <th>Group ID</th>
+                                    <td>{{ publication.group_id }}</td>
+                                </tr>
+                                <tr class="sonata-ba-view-container">
+                                    <th>Created</th>
+                                    <td>{{ publication.created|date }}</td>
+                                </tr>
+                                <tr class="sonata-ba-view-container">
+                                    <th>Last modified</th>
+                                    <td>{{ publication.last_modified|date }}</td>
+                                </tr>
+                                <tr class="sonata-ba-view-container">
+                                    <th>Abstract</th>
+                                    <td>{% if publication.abstract is defined %}{{ publication.abstract }}{% endif %}</td>
+                                </tr>
+                                <tr class="sonata-ba-view-container">
+                                    <th>Source</th>
+                                    <td>{% if publication.source is defined %}{{ publication.source }}{% endif %}</td>
+                                </tr>
+                                <tr class="sonata-ba-view-container">
+                                    <th>Year</th>
+                                    <td>{% if publication.year is defined %}{{ publication.year }}{% endif %}</td>
+                                </tr>
+                                <tr class="sonata-ba-view-container">
+                                    <th>Authors</th>
+                                    <td>
+                                        {% if publication.authors is defined %}
+                                            {% for author in publication.authors %}
+                                                <p>{% if author.first_name is defined %}{{ author.first_name }} {% endif %}{{ author.last_name }}</p>
+                                            {% endfor %}
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                <tr class="sonata-ba-view-container">
+                                    <th>Identifiers</th>
+                                    <td>
+                                        {% if publication.identifiers is defined %}
+                                            {% for key, value in publication.identifiers %}
+                                                <p>{{ key|upper }}: {{ value }}</p>
+                                            {% endfor %}
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                <tr class="sonata-ba-view-container">
+                                    <th>Keywords</th>
+                                    <td>
+                                        {% if publication.keywords is defined %}
+                                            {% for keyword in publication.keywords %}
+                                                <p>{{ keyword }}</p>
+                                            {% endfor %}
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
