@@ -365,7 +365,7 @@ class ApplicationSecurityTest extends WebTestCase
     }
 
     /**
-     * Test that ROLE_USER can access the API platform.
+     * Test that ROLE_API_USER can access the API platform.
      *
      * @dataProvider apiFormats
      */
