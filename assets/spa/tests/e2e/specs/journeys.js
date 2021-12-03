@@ -20,12 +20,12 @@ module.exports = {
       .assert.urlContains('/staffroles')
       .click('button.navbar-toggler')
       .waitForElementVisible('ul.navbar-nav', 15000)
-      .click('li:nth-of-type(3) > a > button')
-      .assert.urlContains('/timelines')
-      .click('button.navbar-toggler')
-      .waitForElementVisible('ul.navbar-nav', 15000)
       .click('li:nth-of-type(4) > a > button')
       .assert.urlContains('/worldmap')
+      .click('button.navbar-toggler')
+      .waitForElementVisible('ul.navbar-nav', 15000)
+      .click('li:nth-of-type(3) > a > button')
+      .assert.urlContains('/timelines')
       .end();
   },
 

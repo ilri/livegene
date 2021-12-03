@@ -14,7 +14,7 @@ describe('ErrorBar.vue', () => {
         errors,
       },
     });
-    expect(wrapper.find(BAlert).exists()).toBe(false);
+    expect(wrapper.findComponent(BAlert).exists()).toBe(false);
   });
 
   test('an alert should be shown if there is an error', () => {
@@ -32,7 +32,7 @@ describe('ErrorBar.vue', () => {
         errors,
       },
     });
-    expect(wrapper.find(BAlert).exists()).toBe(true);
+    expect(wrapper.findComponent(BAlert).exists()).toBe(true);
   });
 
   test('an alert should be shown for each error', () => {
@@ -56,6 +56,6 @@ describe('ErrorBar.vue', () => {
         errors,
       },
     });
-    expect(wrapper.findAll(BAlert).length).toEqual(errors.length);
+    expect(wrapper.findAllComponents(BAlert).length).toEqual(errors.length);
   });
 });

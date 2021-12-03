@@ -15,7 +15,7 @@ describe('StaffRoles.vue', () => {
       router,
     });
     await wrapper.setData({ routes: [] });
-    const bNavItems = wrapper.findAll(BNavItem);
+    const bNavItems = wrapper.findAllComponents(BNavItem);
     expect(bNavItems.length).toEqual(0);
   });
 
@@ -35,7 +35,7 @@ describe('StaffRoles.vue', () => {
       router,
     });
     await wrapper.setData({ routes });
-    const bNavItems = wrapper.findAll(BNavItem);
+    const bNavItems = wrapper.findAllComponents(BNavItem);
     expect(bNavItems.length).toEqual(routes.length);
     bNavItems.wrappers.forEach((item, i) => {
       expect(item.text()).toBe(routes[i].label);
