@@ -15,8 +15,8 @@ describe('NavBar.vue', () => {
       router,
     });
     await wrapper.setData({ routes: [] });
-    const navbarNav = wrapper.find(BNavbarNav);
-    expect(navbarNav.find(BNavItem).exists()).toBe(false);
+    const navbarNav = wrapper.findComponent(BNavbarNav);
+    expect(navbarNav.findComponent(BNavItem).exists()).toBe(false);
   });
 
   test('a router link should be present if there is a route', async () => {
@@ -31,8 +31,8 @@ describe('NavBar.vue', () => {
       router,
     });
     await wrapper.setData({ routes });
-    const navbarNav = wrapper.find(BNavbarNav);
-    expect(navbarNav.find(BNavItem).exists()).toBe(true);
+    const navbarNav = wrapper.findComponent(BNavbarNav);
+    expect(navbarNav.findComponent(BNavItem).exists()).toBe(true);
   });
 
   test('a router link should be present for each route', async () => {
@@ -51,7 +51,7 @@ describe('NavBar.vue', () => {
       router,
     });
     await wrapper.setData({ routes });
-    const navbarNav = wrapper.find(BNavbarNav);
-    expect(navbarNav.findAll(BNavItem).length).toEqual(routes.length);
+    const navbarNav = wrapper.findComponent(BNavbarNav);
+    expect(navbarNav.findAllComponents(BNavItem).length).toEqual(routes.length);
   });
 });
