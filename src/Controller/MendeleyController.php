@@ -48,6 +48,6 @@ class MendeleyController extends AbstractController
             $this->get('session')->getFlashBag()->add('sonata_flash_error', $e->getMessage());
         }
 
-        return $this->redirectToRoute('admin_publication_list');
+        return $this->redirectToRoute('admin_publication_download');
     }
 }
