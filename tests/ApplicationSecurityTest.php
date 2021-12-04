@@ -345,31 +345,31 @@ class ApplicationSecurityTest extends WebTestCase
     }
 
     /**
-     * Test that an anonymous user can't access the API platform.
+     * Test that an anonymous user can't access the API Swagger UI.
      *
      * @dataProvider apiFormats
      */
-    public function testAnonymousCannotAccessApiPlatform($format): void
+    public function testAnonymousCanAccessApiSwagger($format): void
     {
         $this->client->request('GET', sprintf('/api/index.%s', $format));
         $this->assertSame(
-            Response::HTTP_UNAUTHORIZED,
+            Response::HTTP_OK,
             $this->client->getResponse()->getStatusCode()
         );
 
         $this->client->request('GET', sprintf('/api/docs.%s', $format));
         $this->assertSame(
-            Response::HTTP_UNAUTHORIZED,
+            Response::HTTP_OK,
             $this->client->getResponse()->getStatusCode()
         );
     }
 
     /**
-     * Test that ROLE_API_USER can access the API platform.
+     * Test that ROLE_API_USER can access the API Swagger UI.
      *
      * @dataProvider apiFormats
      */
-    public function testUserCanAccessApiPlatform($format): void
+    public function testUserCanAccessApiSwagger($format): void
     {
         $username = $this->fixtures->getReference('api_user')->getUsername();
         $this->getJsonWebToken($username);
