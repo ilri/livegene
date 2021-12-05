@@ -37,7 +37,7 @@
         "flag-icon-css": "^3.3.0",
         "flush-promises": "^1.0.2",
         "font-awesome": "^4.7.0",
-        "jest": "^24.9.0",
+        "jest": "^27.4.3",
         "jest-transform-stub": "^2.0.0",
         "jquery": "^3.5.0",
         "js-cookie": "^2.2.1",
@@ -71,6 +71,7 @@
         "lint": "eslint assets/spa --ext .js,.vue,"
     },
     "jest": {
+        "testEnvironment": "jsdom",
         "testMatch": [
             "**/assets/spa/tests/unit/**/*.spec.js"
         ],
