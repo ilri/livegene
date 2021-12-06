@@ -25,6 +25,8 @@ class PublicationController extends AbstractController
      */
     public function listAction(): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_SPA_USER');
+
         $response = new Response();
         try {
             $json = $this->publicationRepository->getPublications();
@@ -57,6 +59,8 @@ class PublicationController extends AbstractController
      */
     public function listBibAction(): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_SPA_USER');
+
         $response = new Response();
         try {
             $bibtex = $this->publicationRepository->getPublicationsBib();
@@ -91,6 +95,8 @@ class PublicationController extends AbstractController
      */
     public function showBibAction(string $id): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_SPA_USER');
+
         $response = new Response();
         try {
             $bibtex = $this->publicationRepository->getPublicationBib($id);
