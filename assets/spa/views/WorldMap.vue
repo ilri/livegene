@@ -470,9 +470,14 @@ export default {
       [this.selected.name] = team;
 
       const donors = new Set();
-      team[1].forEach((cur) => donors.add(JSON.stringify(cur.donor)));
+      team[1].forEach((cur) => {
+        donors.add(JSON.stringify(cur.donor));
+      });
+
       this.donors = [];
-      donors.forEach((cur) => this.donors.push(JSON.parse(cur)));
+      donors.forEach((cur) => {
+        this.donors.push(JSON.parse(cur));
+      });
 
       this.extractPartners(team[1]);
       this.highlightCountryPaths(team[1]);

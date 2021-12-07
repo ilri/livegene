@@ -1,8 +1,7 @@
-import { createLocalVue, shallowMount } from '@vue/test-utils';
+import { createLocalVue, mount, shallowMount } from '@vue/test-utils';
 import BootstrapVue from 'bootstrap-vue';
 import Vuex from 'vuex';
 import WorldMap from '../../../views/WorldMap';
-import ErrorModule from '../../../store/modules/error';
 
 const localVue = createLocalVue();
 localVue.use(BootstrapVue);
@@ -20,6 +19,9 @@ describe('WorldMap.vue', () => {
         startDate: '2021-01-01T00:00:00+00:00',
         endDate: '2022-01-01T00:00:00+00:00',
         team: 'Team_1',
+        donor: { id: 1, shortName: 'ACME', fullName: 'A Company that Makes Everything' },
+        partnerships: [],
+        countryRoles: [],
       },
       {
         id: 2,
@@ -27,6 +29,9 @@ describe('WorldMap.vue', () => {
         startDate: '2021-01-01T00:00:00+00:00',
         endDate: '2022-01-01T00:00:00+00:00',
         team: 'Team_1',
+        donor: { id: 1, shortName: 'ACME', fullName: 'A Company that Makes Everything' },
+        partnerships: [],
+        countryRoles: [],
       },
       {
         id: 3,
@@ -34,6 +39,9 @@ describe('WorldMap.vue', () => {
         startDate: '2021-01-01T00:00:00+00:00',
         endDate: '2022-01-01T00:00:00+00:00',
         team: 'Team_2',
+        donor: { id: 1, shortName: 'ACME', fullName: 'A Company that Makes Everything' },
+        partnerships: [],
+        countryRoles: [],
       },
       {
         id: 4,
@@ -41,6 +49,9 @@ describe('WorldMap.vue', () => {
         startDate: '2021-01-01T00:00:00+00:00',
         endDate: '2022-01-01T00:00:00+00:00',
         team: 'Team_2',
+        donor: { id: 1, shortName: 'ACME', fullName: 'A Company that Makes Everything' },
+        partnerships: [],
+        countryRoles: [],
       },
       {
         id: 5,
@@ -48,6 +59,9 @@ describe('WorldMap.vue', () => {
         startDate: '2021-01-01T00:00:00+00:00',
         endDate: '2022-01-01T00:00:00+00:00',
         team: 'Team_2',
+        donor: { id: 1, shortName: 'ACME', fullName: 'A Company that Makes Everything' },
+        partnerships: [],
+        countryRoles: [],
       },
     ],
     projectsGroupedByTeam: new Map(
@@ -59,12 +73,18 @@ describe('WorldMap.vue', () => {
               fullName: 'Project_1',
               startDate: '2021-01-01T00:00:00+00:00',
               endDate: '2022-01-01T00:00:00+00:00',
+              donor: { id: 1, shortName: 'ACME', fullName: 'A Company that Makes Everything' },
+              partnerships: [],
+              countryRoles: [],
             },
             {
               id: 2,
               fullName: 'Project_2',
               startDate: '2021-01-01T00:00:00+00:00',
               endDate: '2022-01-01T00:00:00+00:00',
+              donor: { id: 1, shortName: 'ACME', fullName: 'A Company that Makes Everything' },
+              partnerships: [],
+              countryRoles: [],
             },
           ],
         ],
@@ -75,18 +95,27 @@ describe('WorldMap.vue', () => {
               fullName: 'Project_3',
               startDate: '2021-01-01T00:00:00+00:00',
               endDate: '2022-01-01T00:00:00+00:00',
+              donor: { id: 1, shortName: 'ACME', fullName: 'A Company that Makes Everything' },
+              partnerships: [],
+              countryRoles: [],
             },
             {
               id: 4,
               fullName: 'Project_4',
               startDate: '2021-01-01T00:00:00+00:00',
               endDate: '2022-01-01T00:00:00+00:00',
+              donor: { id: 1, shortName: 'ACME', fullName: 'A Company that Makes Everything' },
+              partnerships: [],
+              countryRoles: [],
             },
             {
               id: 5,
               fullName: 'Project_5',
               startDate: '2021-01-01T00:00:00+00:00',
               endDate: '2022-01-01T00:00:00+00:00',
+              donor: { id: 1, shortName: 'ACME', fullName: 'A Company that Makes Everything' },
+              partnerships: [],
+              countryRoles: [],
             },
           ],
         ],
@@ -108,6 +137,11 @@ describe('WorldMap.vue', () => {
     const wrapper = shallowMount(WorldMap, {
       localVue,
       store,
+      data() {
+        return {
+          module: 'projects',
+        };
+      },
     });
     const listItems = wrapper.findAll('li.team');
     expect(listItems).toHaveLength(store.state.project.projectsGroupedByTeam.size);
@@ -123,34 +157,34 @@ describe('WorldMap.vue', () => {
   });
 
   test('calls selectTeam() method when user selects (clicks on) a team', () => {
-    const selectTeam = jest.fn();
     const wrapper = shallowMount(WorldMap, {
       localVue,
       store,
-      methods: {
-        selectTeam,
+      data() {
+        return {
+          module: 'projects',
+        };
       },
     });
+    console.log(wrapper.html());
+    jest.spyOn(wrapper.vm, 'selectTeam');
     const teamLinks = wrapper.findAll('li.team > span');
     teamLinks.wrappers.forEach((teamLink) => {
       teamLink.trigger('click');
-      expect(selectTeam).toHaveBeenCalled();
+      expect(wrapper.vm.selectTeam).toHaveBeenCalled();
     });
   });
 
   test('calls selectProject() when user selects (clicks on) a project', () => {
-    const selectProject = jest.fn();
     const wrapper = shallowMount(WorldMap, {
       localVue,
       store,
-      methods: {
-        selectProject,
-      },
     });
+    jest.spyOn(wrapper.vm, 'selectProject');
     const projectLinks = wrapper.findAll('li.project');
     projectLinks.wrappers.forEach((projectLink) => {
       projectLink.trigger('click');
-      expect(selectProject).toHaveBeenCalled();
+      expect(wrapper.vm.selectProject).toHaveBeenCalled();
     });
   });
 });
