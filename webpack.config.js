@@ -58,18 +58,6 @@ Encore
   // .enableReactPreset()
   // .addEntry('admin', './assets/js/admin.js')
 
-  /*
-   * BABEL CONFIG
-   */
-  .configureBabel((babelConfig) => {
-    babelConfig.plugins.push('@babel/plugin-transform-runtime');
-    const preset = babelConfig.presets.find(([name]) => name === '@babel/preset-env');
-    if (preset !== undefined) {
-      preset[1].useBuiltIns = 'usage';
-      preset[1].corejs = { version: 3, proposals: true };
-    }
-  })
-
   // enable Vue Loader
   .enableVueLoader()
   // ckeditor
