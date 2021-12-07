@@ -20,7 +20,7 @@ class HomeController extends AbstractController
      * @param JWTTokenManagerInterface $JWTManager
      * @return Response
      */
-    public function index(JWTTokenManagerInterface $JWTManager): Response
+    public function indexAction(JWTTokenManagerInterface $JWTManager): Response
     {
         $userRepository = $this->getDoctrine()->getRepository(User::class);
         $username = $this->getParameter('spa_user');
