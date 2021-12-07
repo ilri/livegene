@@ -124,7 +124,7 @@
               <line :y2="chart.height" />
               <text
                 :style="{ fontSize: barHeight + spacing }"
-                @click="toggleActiveProjects"
+                @click="toggleActiveProjects()"
               >
                 {{ '\uf274' }}
               </text>
@@ -135,7 +135,7 @@
           id="reset"
           variant="danger"
           size="sm"
-          @click="resetChart"
+          @click="resetChart()"
         >
           Reset
         </b-button>

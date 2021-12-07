@@ -114,30 +114,24 @@ describe('ProjectTimelines.vue', () => {
   });
 
   test('calls resetChart() when user clicks on the reset button', () => {
-    const resetChart = jest.fn();
     const wrapper = mount(ProjectTimelines, {
       localVue,
       store,
-      methods: {
-        resetChart,
-      },
     });
-    const resetButton = wrapper.find(BButton);
+    const spyResetChart = jest.spyOn(wrapper.vm, 'resetChart');
+    const resetButton = wrapper.findComponent(BButton);
     resetButton.trigger('click');
-    expect(resetChart).toHaveBeenCalled();
+    expect(spyResetChart).toHaveBeenCalled();
   });
 
   test('calls toggleActiveProjects() when user clicks on calendar icon', () => {
-    const toggleActiveProjects = jest.fn();
     const wrapper = mount(ProjectTimelines, {
       localVue,
       store,
-      methods: {
-        toggleActiveProjects,
-      },
     });
-    const resetButton = wrapper.find('g.today > text');
-    resetButton.trigger('click');
-    expect(toggleActiveProjects).toHaveBeenCalled();
+    const spyToggleActiveProjects = jest.spyOn(wrapper.vm, 'toggleActiveProjects');
+    const toggleButton = wrapper.find('g.today > text');
+    toggleButton.trigger('click');
+    expect(spyToggleActiveProjects).toHaveBeenCalled();
   });
 });
