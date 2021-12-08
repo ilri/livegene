@@ -59,7 +59,7 @@ Encore
   // .addEntry('admin', './assets/js/admin.js')
 
   // enable Vue Loader
-  .enableVueLoader()
+  .enableVueLoader(() => {}, { runtimeCompilerBuild: false })
   // ckeditor
   .copyFiles([
     {
