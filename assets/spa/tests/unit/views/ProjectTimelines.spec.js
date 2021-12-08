@@ -1,5 +1,5 @@
 import { mount, createLocalVue } from '@vue/test-utils';
-import BootstrapVue, { BButton } from 'bootstrap-vue';
+import BootstrapVue from 'bootstrap-vue';
 import Vuex from 'vuex';
 import ProjectTimelines from '../../../views/ProjectTimelines';
 import ErrorModule from '../../../store/modules/error';
@@ -119,7 +119,7 @@ describe('ProjectTimelines.vue', () => {
       store,
     });
     const spyResetChart = jest.spyOn(wrapper.vm, 'resetChart');
-    const resetButton = wrapper.findComponent(BButton);
+    const resetButton = wrapper.find('button#reset');
     resetButton.trigger('click');
     expect(spyResetChart).toHaveBeenCalled();
   });
