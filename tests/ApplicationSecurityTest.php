@@ -425,14 +425,14 @@ class ApplicationSecurityTest extends WebTestCase
     }
 
     /**
-     * Test that ROLE_USER can access the routes provided by
+     * Test that ROLE_API_USER can access the routes provided by
      * SonataMediaBundle.
      */
-    public function testUserCanAccessMedia(): void
+    public function testApiUserCanAccessMedia(): void
     {
         $galleryId = $this->fixtures->getReference('gallery')->getId();
         $mediaId = $this->fixtures->getReference('media')->getId();
-        $username = $this->fixtures->getReference('user')->getUsername();
+        $username = $this->fixtures->getReference('api_user')->getUsername();
         $this->getJsonWebToken($username);
 
         $this->client->request('GET', '/media/gallery/');

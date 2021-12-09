@@ -24,15 +24,17 @@ security:
             anonymous:          true
             switch_user:        true
         api:
-            pattern: ^/api/
+            pattern: ^/(api|media)/
             stateless: true
             anonymous: true
             provider: fos_userbundle
             guard:
                 authenticators:
                     - lexik_jwt_authentication.jwt_token_authenticator
-        main:
+        jwt_auth:
+            pattern: ^/authentication_token
             provider: fos_userbundle
+            stateless: true
             anonymous: true
             json_login:
                 check_path: /authentication_token
@@ -226,7 +228,7 @@ security:
         # This config requires being logged for the whole site and having the admin role for the admin part.
         # Change these rules to adapt them to your needs
         - { path: ^/admin/, roles: ROLE_SONATA_ADMIN}
-        - { path: ^/media/, roles: ROLE_USER }
+        - { path: ^/media/, roles: ROLE_API_USER }
         - { path: ^/api/, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/.*, roles: IS_AUTHENTICATED_ANONYMOUSLY, ip: 127.0.0.1, requires_channel: http }
         - { path: ^/.*, roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: https }
