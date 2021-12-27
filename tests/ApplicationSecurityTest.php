@@ -401,21 +401,25 @@ class ApplicationSecurityTest extends WebTestCase
     {
         $galleryId = $this->fixtures->getReference('gallery')->getId();
         $mediaId = $this->fixtures->getReference('media')->getId();
+
         $this->client->request('GET', '/media/gallery/');
         $this->assertSame(
             Response::HTTP_UNAUTHORIZED,
             $this->client->getResponse()->getStatusCode()
         );
+
         $this->client->request('GET', sprintf('/media/gallery/view/%s/', $galleryId));
         $this->assertSame(
             Response::HTTP_UNAUTHORIZED,
             $this->client->getResponse()->getStatusCode()
         );
+
         $this->client->request('GET', sprintf('/media/view/%s/', $mediaId));
         $this->assertSame(
             Response::HTTP_UNAUTHORIZED,
             $this->client->getResponse()->getStatusCode()
         );
+
         $this->client->request('GET', sprintf('/media/download/%s/', $mediaId));
         $this->assertSame(
             Response::HTTP_UNAUTHORIZED,
@@ -434,6 +438,43 @@ class ApplicationSecurityTest extends WebTestCase
         $mediaId = $this->fixtures->getReference('media')->getId();
         $username = $this->fixtures->getReference('api_user')->getUsername();
         $this->getJsonWebToken($username);
+
+        $this->client->request('GET', '/media/gallery/');
+        $this->assertSame(
+            Response::HTTP_OK,
+            $this->client->getResponse()->getStatusCode()
+        );
+
+        $this->client->request('GET', sprintf('/media/gallery/view/%s', $galleryId));
+        $this->assertSame(
+            Response::HTTP_OK,
+            $this->client->getResponse()->getStatusCode()
+        );
+
+        $this->client->request('GET', sprintf('/media/view/%s', $mediaId));
+        $this->assertSame(
+            Response::HTTP_OK,
+            $this->client->getResponse()->getStatusCode()
+        );
+
+        ob_start();
+        $this->client->request('GET', sprintf('/media/download/%s', $mediaId));
+        ob_end_clean();
+        $this->assertSame(
+            Response::HTTP_OK,
+            $this->client->getResponse()->getStatusCode()
+        );
+    }
+    /**
+     * Test that ROLE_SUPER_ADMIN can access the routes provided by
+     * SonataMediaBundle.
+     */
+    public function testSuperAdminUserCanAccessMedia(): void
+    {
+        $galleryId = $this->fixtures->getReference('gallery')->getId();
+        $mediaId = $this->fixtures->getReference('media')->getId();
+        $username = $this->fixtures->getReference('super_admin')->getUsername();
+        $this->formLogIn($username);
 
         $this->client->request('GET', '/media/gallery/');
         $this->assertSame(
