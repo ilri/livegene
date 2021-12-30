@@ -19,6 +19,21 @@ class StaffMemberRepository extends ServiceEntityRepository
         parent::__construct($registry, StaffMember::class);
     }
 
+    /**
+     * @param string $value
+     *
+     * @return StaffMember[] Returns an array of Staff objects
+     */
+    public function findByHomeProgram(string $value): array
+    {
+        return $this->createQueryBuilder('s')
+            ->andWhere('s.homeProgram = :val')
+            ->setParameter('val', $value)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
     // /**
     //  * @return StaffMember[] Returns an array of Staff objects
     //  */
