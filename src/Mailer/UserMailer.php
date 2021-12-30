@@ -9,18 +9,15 @@ use Twig\Environment;
 
 class UserMailer implements MailerInterface
 {
-    private UrlGeneratorInterface $urlGenerator;
-
+    private UrlGeneratorInterface $router;
     private Environment $twig;
-
     private \Swift_Mailer $mailer;
-
     private array $fromEmail;
 
-    public function __construct(UrlGeneratorInterface $urlGenerator, Environment $twig, \Swift_Mailer $mailer, array $fromEmail)
+    public function __construct(UrlGeneratorInterface $router, Environment $twig, \Swift_Mailer $mailer, array $fromEmail)
     {
-        $this->urlGenerator = $urlGenerator;
-        $this->twig = $twig;
+        $this->router = $router;
+        $this->twig   = $twig;
         $this->mailer = $mailer;
         $this->fromEmail = $fromEmail;
     }
@@ -38,7 +35,7 @@ class UserMailer implements MailerInterface
      */
     public function sendResettingEmailMessage(UserInterface $user)
     {
-        $url = $this->urlGenerator->generate('sonata_user_admin_resetting_reset', [
+        $url = $this->router->generate('sonata_user_admin_resetting_reset', [
             'token' => $user->getConfirmationToken(),
         ], UrlGeneratorInterface::ABSOLUTE_URL);
 
