@@ -50,6 +50,32 @@ class PublicationRepository
     }
 
     /**
+     * @param   string  $value
+     *
+     * @return array
+     * @throws CacheItemNotFoundException
+     * @throws GuzzleException
+     */
+    public function getPublicationsModifiedSince(string $value): array
+    {
+        $accessToken = $this->accessTokenCachedRepository->getAccessToken();
+
+        $response = $this->client->request('GET', self::API_ENDPOINT, [
+            'query'   => [
+                'group_id' => self::LIVEGENESHARE_GROUP_ID,
+                'order'    => 'asc',
+                'modified_since' => $value,
+            ],
+            'headers' => [
+                'Authorization' => 'Bearer '.$accessToken,
+                'Accept'        => 'application/vnd.mendeley-document.1+json',
+            ],
+        ])->getBody();
+
+        return json_decode($response, true);
+    }
+
+    /**
      * @return string
      * @throws CacheItemNotFoundException
      * @throws GuzzleException
