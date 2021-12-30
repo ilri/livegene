@@ -44,7 +44,7 @@ class UserMailer implements MailerInterface
             ->setFrom($this->fromEmail)
             ->setTo($user->getEmail())
             ->setBody(
-                $this->twig->render('user_mailer/resetting.html.twig', [
+                $this->twig->render('mailer/resetting.html.twig', [
                     'user' => $user,
                     'confirmationUrl' => $url,
                 ]),
