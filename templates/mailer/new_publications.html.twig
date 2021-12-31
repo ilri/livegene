@@ -64,34 +64,38 @@
     </div>
     <div class="content">
         <h2>
-            Congratulations!
+            New LiveGene Publications
         </h2>
-        <h3>
-            Dear LiveGene member,
-        </h3>
         <p>
-            there are recent activities in the LiveGeneShare group.
-        </p>
-        <p>
-            The following publications were added/updated last week:
+            Congratulations, the following publications from LiveGene team members were added to our list of publications during the last week:
         </p>
         <ul>
             {% for publication in publications %}
             <li>
-                {{  publication.title }} (<strong>{{  publication.type }}</strong>)<br>
-                {{ publication.mode }}
+                <div>
+                    <p>{{  publication.title }}</p>
+                    <p>
+                        {% if publication.authors is defined %}
+                            {% for author in publication.authors %}
+                                <span>{% if author.first_name %}{{ author.first_name }} {% endif %}{{ author.last_name }}</span>;
+                            {% endfor %}
+                        {% endif %}
+                    </p>
+                    <p>
+                        {% if publication.source is defined %}
+                            <em>{{ publication.source }}</em>
+                        {% endif %}
+                    </p>
+                </div>
             </li>
             {% endfor %}
         </ul>
         <p>
-            You can visit the LiveGene application at:
+            You can see these and all of our other publications at:
             <a href="https://livegene.ilri.org"><em>livegene.ilri.org</em></a>
         </p>
         <p>
-            Well done!
-        </p>
-        <p>
-            Sincerely,
+            Thanks!
         </p>
         <h4>
             Your ILRI LiveGene Admin

@@ -64,13 +64,17 @@ class MendeleyNewPublicationsNotifierCommand extends Command
         $isoDate = (new \DateTime(self::PERIOD))->format('c');
         try {
             $newPublications = $this->publicationRepository->getPublicationsModifiedSince($isoDate);
-            $publications = array_map(
-              function($publication) {
-                  $publication['mode'] = substr($publication['created'], 0, 10) == substr($publication['last_modified'], 0, 10) ? 'NEW' : 'UPDATED';
-                  return $publication;
-              }, $newPublications
+            $publications = array_filter(
+                $newPublications,
+                function($publication) use ($isoDate) {
+                    $created = (new \DateTime($publication['created']))->format('c');
+                    if ($created > $isoDate) {
+                          return $publication;
+                    }
+              }
             );
-        } catch  (GuzzleException | CacheItemNotFoundException $e) {
+            dump($publications);
+        } catch  (GuzzleException | CacheItemNotFoundException | \Exception $e) {
             $io->writeln([sprintf('<error>%s</error>', $e->getMessage())]);
             return 1;
         }

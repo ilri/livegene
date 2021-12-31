@@ -41,7 +41,7 @@ class NewPublicationsMailer
     {
         $sender = $this->params->get('mailer_user');
         $message = (new \Swift_Message())
-            ->setSubject('New activities in the LiveGeneShare group')
+            ->setSubject('New LiveGene Publications')
             ->setFrom($sender)
             ->setTo($recipients)
             ->setBody(
