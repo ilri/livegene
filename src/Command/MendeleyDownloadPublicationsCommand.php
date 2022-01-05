@@ -10,7 +10,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
-class DownloadMendeleyPublicationsCommand extends Command
+class MendeleyDownloadPublicationsCommand extends Command
 {
     protected static $defaultName = 'app:mendeley:download';
     protected static string $defaultDescription = 'Download all publications from the LiveGeneShare private group';
@@ -19,9 +19,9 @@ class DownloadMendeleyPublicationsCommand extends Command
 
     public function __construct(PublicationCachedRepository $publicationCachedRepository, string $name = null)
     {
-        $this->publicationCachedRepository = $publicationCachedRepository;
-
         parent::__construct($name);
+
+        $this->publicationCachedRepository = $publicationCachedRepository;
     }
 
     protected function configure(): void
