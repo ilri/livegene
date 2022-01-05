@@ -1,0 +1,9 @@
+{% extends '@SonataAdmin/CRUD/base_show_field.html.twig' %}
+
+{% block field %}
+    {% if value %}
+    <div class="text-danger">
+        <i class="fa fa-warning warning" aria-hidden="true" title="{{ value }}"></i>
+    </div>
+    {% endif %}
+{% endblock %}

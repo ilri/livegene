@@ -5,7 +5,7 @@ namespace App\Entity;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Application\Sonata\MediaBundle\Entity\Media;
 use App\Entity\Traits\ActiveTrait;
-use DateTimeInterface;
+use Carbon\Carbon;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -85,13 +85,13 @@ class SamplingDocumentation
      * @ORM\Column(type="date", nullable=true)
      * @Groups({"sampling_documentation:collection:get", "sampling_documentation:item:get"})
      */
-    private ?DateTimeInterface $startDate;
+    private ?\DateTimeInterface $startDate;
 
     /**
      * @ORM\Column(type="date", nullable=true)
      * @Groups({"sampling_documentation:collection:get", "sampling_documentation:item:get"})
      */
-    private ?DateTimeInterface $endDate;
+    private ?\DateTimeInterface $endDate;
 
     public function __toString()
     {
@@ -151,27 +151,50 @@ class SamplingDocumentation
         return $this;
     }
 
-    public function getStartDate(): ?DateTimeInterface
+    public function getStartDate(): ?\DateTimeInterface
     {
         return $this->startDate;
     }
 
-    public function setStartDate(?DateTimeInterface $startDate): self
+    public function setStartDate(?\DateTimeInterface $startDate): self
     {
         $this->startDate = $startDate;
 
         return $this;
     }
 
-    public function getEndDate(): ?DateTimeInterface
+    public function getEndDate(): ?\DateTimeInterface
     {
         return $this->endDate;
     }
 
-    public function setEndDate(?DateTimeInterface $endDate): self
+    public function setEndDate(?\DateTimeInterface $endDate): self
     {
         $this->endDate = $endDate;
 
         return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getExpirationWarning(): ?string
+    {
+        if (!$this->endDate) {
+            return 'No end date set';
+        };
+
+        $endDate = Carbon::instance($this->endDate);
+        $now = Carbon::now();
+
+        if ($endDate < $now) {
+            return 'Document has expired';
+        }
+;
+        if ($endDate > $now && $now->diffInDays($endDate) < 30) {
+            return 'Document expires in less than 30 days';
+        }
+        
+        return null;
     }
 }

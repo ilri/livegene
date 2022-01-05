@@ -71,6 +71,10 @@ class SamplingDocumentationAdmin extends AbstractAdmin
             ->add('endDate')
             ->add('isActive')
             ->add('country')
+            ->add('expirationWarning', null, [
+                'template' => 'SonataAdmin/CRUD/SamplingDocumentation/list_expiration_warning.html.twig',
+                'label' => 'Warning'
+            ])
             ->add('_action', 'actions', [
                 'actions' => [
                     'show' => [],
@@ -139,6 +143,10 @@ class SamplingDocumentationAdmin extends AbstractAdmin
             ->add('endDate')
             ->add('isActive')
             ->add('country')
+            ->add('expirationWarning', null, [
+                'template' => 'SonataAdmin/CRUD/SamplingDocumentation/show_expiration_warning.html.twig',
+                'label' => 'Warning'
+            ])
         ;
     }
 }
