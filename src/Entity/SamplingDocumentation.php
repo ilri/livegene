@@ -182,7 +182,7 @@ class SamplingDocumentation
     {
         if (!$this->endDate) {
             return 'No end date set';
-        };
+        }
 
         $endDate = Carbon::instance($this->endDate);
         $now = Carbon::now();
@@ -190,7 +190,7 @@ class SamplingDocumentation
         if ($endDate < $now) {
             return 'Document has expired';
         }
-;
+
         if ($endDate > $now && $now->diffInDays($endDate) < 30) {
             return 'Document expires in less than 30 days';
         }
