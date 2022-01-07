@@ -7,6 +7,8 @@ parameters:
     locale: 'en'
     mailer_user: 'ilrilivegeneadmin@cgiar.org'
     spa_user: '%env(resolve:SPA_USER)%'
+    redis.host: '%env(REDIS_HOST)%'
+    redis.port: '%env(REDIS_PORT)%'
 
 services:
     # default configuration for services in *this* file
