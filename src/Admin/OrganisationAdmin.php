@@ -52,7 +52,10 @@ class OrganisationAdmin extends AbstractAdmin
     {
         $organisation = $this->getSubject();
 
-        $fileFieldOptions = ['required' => false];
+        $fileFieldOptions = [
+            'label' => 'Logo URL',
+            'required' => false,
+        ];
         if ($organisation && ($webPath = $organisation->getLogoUrl())) {
             $fileFieldOptions['help'] = '<img src="'.$webPath.'" class="admin-preview" />';
         }
@@ -60,16 +63,17 @@ class OrganisationAdmin extends AbstractAdmin
         $form
             ->add('shortName', null, [
                 'required' => false,
-                'empty_data' => ''
+                'empty_data' => '',
             ])
             ->add('fullName')
             ->add('localName', null, [
                 'required' => false,
-                'empty_data' => ''
+                'empty_data' => '',
             ])
             ->add('link', null, [
                 'required' => false,
-                'empty_data' => ''
+                'empty_data' => '',
+                'help' => 'Website address of the organisation',
             ])
             ->add('logoUrl', null, $fileFieldOptions)
             ->add('country', ModelListType::class)
