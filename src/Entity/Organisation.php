@@ -84,6 +84,7 @@ class Organisation
      * @ORM\Column(type="string", length=255)
      * @Assert\Url()
      * @AppAssert\UrlIsAccessible()
+     * @AppAssert\UrlIsImage()
      * @Groups({"organisation:collection:get", "organisation:item:get", "project:collection:get", "project:item:get"})
      */
     private string $logoUrl = '';

@@ -55,6 +55,7 @@ class OrganisationAdmin extends AbstractAdmin
         $fileFieldOptions = [
             'label' => 'Logo URL',
             'required' => false,
+            'empty_data' => '',
         ];
         if ($organisation && ($webPath = $organisation->getLogoUrl())) {
             $fileFieldOptions['help'] = '<img src="'.$webPath.'" class="admin-preview" />';
