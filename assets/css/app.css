@@ -35,3 +35,11 @@ body {
 .warning {
   font-size: 1.5em;
 }
+
+.admin-preview {
+  border: thin solid grey;
+  padding: 5px;
+  object-fit: contain;
+  height: 256px;
+  width: 256px;
+}
