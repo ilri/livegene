@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
+use App\Validator\Constraints as AppAssert;
 use Doctrine\Common\Collections\{
     ArrayCollection,
     Collection,
@@ -74,6 +75,7 @@ class Organisation
     /**
      * @ORM\Column(type="string", length=255)
      * @Assert\Url()
+     * @AppAssert\UrlIsAccessible()
      * @Groups({"organisation:collection:get", "organisation:item:get", "project:collection:get", "project:item:get"})
      */
     private string $link = '';
@@ -81,6 +83,7 @@ class Organisation
     /**
      * @ORM\Column(type="string", length=255)
      * @Assert\Url()
+     * @AppAssert\UrlIsAccessible()
      * @Groups({"organisation:collection:get", "organisation:item:get", "project:collection:get", "project:item:get"})
      */
     private string $logoUrl = '';
