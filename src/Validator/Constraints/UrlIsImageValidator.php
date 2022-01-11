@@ -18,7 +18,6 @@ class UrlIsImageValidator extends ConstraintValidator
         }
 
         $headers = get_headers($value);
-        dump($headers);
         $contentTypeHeaders = array_filter($headers, function($item) {
             return strncasecmp('content-type', $item, 12) === 0;
         });
@@ -28,8 +27,6 @@ class UrlIsImageValidator extends ConstraintValidator
             $contentType = explode(':', end($contentTypeHeaders), 2);
             $flag = strpos($contentType[1], 'image/');
         }
-        dump($contentTypeHeaders);
-        dump($flag);
 
         if (!$flag) {
             $this->context->buildViolation($constraint->message)
