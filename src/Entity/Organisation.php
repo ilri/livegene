@@ -122,7 +122,7 @@ class Organisation
     public function __toString()
     {
         return $this->id
-            ? sprintf('%s (%s)', $this->fullName, $this->shortName)
+            ? $this->fullName
             : ''
         ;
     }
