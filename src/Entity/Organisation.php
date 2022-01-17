@@ -153,10 +153,6 @@ class Organisation
     {
         $this->fullName = $fullName;
 
-        if ('' === $fullName && '' != $this->localName) {
-            $this->fullName = $this->localName;
-        }
-
         return $this;
     }
 
