@@ -112,6 +112,16 @@ class Organisation
      */
     private Collection $samplingActivities;
 
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private ?string $encodedLogo;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private ?bool $logoStatus;
+
     public function __construct()
     {
         $this->projects = new ArrayCollection();
@@ -290,6 +300,30 @@ class Organisation
             $this->samplingActivities->removeElement($samplingActivity);
             $samplingActivity->removeSamplingPartner($this);
         }
+
+        return $this;
+    }
+
+    public function getEncodedLogo(): ?string
+    {
+        return $this->encodedLogo;
+    }
+
+    public function setEncodedLogo(string $encodedLogo): self
+    {
+        $this->encodedLogo = $encodedLogo;
+
+        return $this;
+    }
+
+    public function getLogoStatus(): ?bool
+    {
+        return $this->logoStatus;
+    }
+
+    public function setLogoStatus(?bool $logoStatus): self
+    {
+        $this->logoStatus = $logoStatus;
 
         return $this;
     }
