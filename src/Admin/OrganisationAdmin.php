@@ -18,11 +18,12 @@ class OrganisationAdmin extends AbstractAdmin
         $list->addIdentifier('id')
             ->add('shortName')
             ->add('fullName')
-            ->add('logoUrl', null, [
+            ->add('encodedLogo', null, [
                 'label' => 'Logo',
                 'sortable' => false,
                 'template' => 'SonataAdmin/CRUD/Organisation/list_logo.html.twig'
             ])
+            ->add('logoStatus')
             ->add('country', null, [
                 'sortable' => true,
                 'sort_field_mapping' => ['fieldName' => 'country'],
@@ -58,7 +59,7 @@ class OrganisationAdmin extends AbstractAdmin
             'empty_data' => '',
         ];
         if ($organisation && ($webPath = $organisation->getLogoUrl())) {
-            $fileFieldOptions['help'] = '<img src="'.$webPath.'" class="admin-preview" />';
+            $fileFieldOptions['help'] = '<img src="'.$webPath.'" class="admin-logo-show-preview" />';
         }
 
         $form

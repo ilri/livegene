@@ -1,9 +1,9 @@
 {% extends '@SonataAdmin/CRUD/list_outer_rows_mosaic.html.twig' %}
 
 {% block sonata_mosaic_background %}
-    <img src="{{ object.logoUrl }}" alt="logo" class="img-responsive" style="height: 6em; width: auto; margin: auto;">
+    <img src="{{ object.encodedLogo }}" alt="logo" class="admin-logo-mosaic-preview">
 {% endblock %}
 
 {% block sonata_mosaic_description %}
-    <span title="{{ meta.title }}">{{ meta.title|truncate(40) }}</span>
+    <span title="{{ meta.title }}">{{ meta.title|sonata_truncate(40) }}</span>
 {% endblock %}

@@ -36,7 +36,26 @@ body {
   font-size: 1.5em;
 }
 
-.admin-preview {
+.admin-logo-list-preview {
+  border: thin solid grey;
+  padding: 2px;
+  object-fit: contain;
+  height: 3em;
+  width: 3em;
+}
+
+.admin-logo-mosaic-preview {
+  display: block;
+  border: thin solid grey;
+  border-radius: 4px !important;
+  padding: 5px;
+  margin: auto;
+  object-fit: contain;
+  height: 6em !important;
+  width: 6em !important;
+}
+
+.admin-logo-show-preview {
   border: thin solid grey;
   padding: 5px;
   object-fit: contain;
