@@ -114,6 +114,10 @@ class Organisation
 
     /**
      * @ORM\Column(type="text", nullable=true)
+     * @Assert\Length(
+     *     max=1048576,
+     *     maxMessage="The logo image is too big. Please use a smaller image."
+     * )
      */
     private ?string $encodedLogo;
 
