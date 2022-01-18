@@ -90,10 +90,14 @@ class OrganisationAdmin extends AbstractAdmin
             ->add('link', null, [
                 'template' => 'SonataAdmin/CRUD/Organisation/show_link.html.twig'
             ])
-            ->add('logoUrl', null, [
+            ->add('logoUrl', null,  [
+                'label' => 'Logo URL'
+            ])
+            ->add('encodedLogo', null, [
                 'label' => 'Logo',
                 'template' => 'SonataAdmin/CRUD/Organisation/show_logo.html.twig'
             ])
+            ->add('logoStatus')
             ->add('country')
         ;
     }

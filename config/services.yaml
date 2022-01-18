@@ -52,6 +52,10 @@ services:
             - { name: kernel.event_listener, event: kernel.exception }
         public: true
 
+    'App\EventListener\OrganisationEventSubscriber':
+        tags:
+            - { name: doctrine.event_subscriber, connection: 'default' }
+
     'App\Serializer\Normalizer\SamplingDocumentationNormalizer':
         decorates: 'api_platform.jsonld.normalizer.item'
         arguments: [ '@App\Serializer\Normalizer\SamplingDocumentationNormalizer.inner' ]
