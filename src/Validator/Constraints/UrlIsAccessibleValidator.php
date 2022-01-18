@@ -21,15 +21,13 @@ class UrlIsAccessibleValidator extends ConstraintValidator
         $statusCodeHeaders = array_filter($headers, function($item) {
             return strpos($item, 'HTTP/') === 0;
         });
-        dump($headers);
-        dump($statusCodeHeaders);
 
         $flag = true;
         if ($statusCodeHeaders) {
             $statusCode = end($statusCodeHeaders);
             $flag = strpos($statusCode, '200');
         }
-        dump($flag);
+
         if (!$flag) {
             $this->context->buildViolation($constraint->message)
                 ->setParameter('{{ value }}', $value)
