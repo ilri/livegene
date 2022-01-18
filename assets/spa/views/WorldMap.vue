@@ -97,7 +97,7 @@
                 fluid-grow
                 class="figure-img organisation-logo"
                 :title="donor.fullName"
-                :src="donor.logoUrl"
+                :src="donor.encodedLogo"
                 :alt="donor.shortName"
               />
             </figure>
@@ -134,7 +134,7 @@
                 fluid-grow
                 class="figure-img organisation-logo"
                 :title="JSON.parse(partner).fullName"
-                :src="JSON.parse(partner).logoUrl"
+                :src="JSON.parse(partner).encodedLogo"
                 :alt="JSON.parse(partner).shortName"
                 :class="{ 'highlight-partner': selectedPartners.includes(partner) }"
               />

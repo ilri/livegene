@@ -85,7 +85,6 @@ class Organisation
      * @Assert\Url()
      * @AppAssert\UrlIsAccessible()
      * @AppAssert\UrlIsImage()
-     * @Groups({"organisation:collection:get", "organisation:item:get", "project:collection:get", "project:item:get"})
      */
     private string $logoUrl = '';
 
@@ -118,6 +117,7 @@ class Organisation
      *     max=1048576,
      *     maxMessage="The logo image is too big. Please use a smaller image."
      * )
+     * @Groups({"organisation:collection:get", "organisation:item:get", "project:collection:get", "project:item:get"})
      */
     private ?string $encodedLogo;
 
