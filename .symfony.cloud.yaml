@@ -64,5 +64,12 @@ crons:
         spec: '0 3 * * 1'
         cmd: |
             if [ "$SYMFONY_BRANCH" = "master" ]; then
-                croncape symfony console app:mendeley:download
+                croncape symfony console app:mendeley:new-publications-notifier
+            fi
+    organisation_logo_check_status:
+        # Check the status code of the organisation logos every Sunday and Wednesday midnight
+        spec: '0 0 * * 0,3'
+        cmd: |
+            if [ "$SYMFONY_BRANCH" = "master" ]; then
+                croncape symfony console app:organisation:check-logo-status
             fi
