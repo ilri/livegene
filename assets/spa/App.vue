@@ -45,6 +45,7 @@ export default {
   created() {
     this.$store.dispatch('auth/authenticateAction');
     this.$store.dispatch('project/getProjectsAction');
+    this.$store.dispatch('organisation/getOrganisationsAction');
     this.$store.dispatch('publication/getPublicationsAction');
     this.$store.dispatch('publication/getPublicationsBibAction');
   },

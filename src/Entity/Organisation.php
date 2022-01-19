@@ -16,7 +16,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @ApiResource(
  *     attributes={
- *         "security"="is_granted('ROLE_API_USER')"
+ *         "security"="is_granted('ROLE_SPA_USER')"
  *     },
  *     collectionOperations={
  *         "get"={
@@ -117,7 +117,7 @@ class Organisation
      *     max=1048576,
      *     maxMessage="The logo image is too big. Please use a smaller image."
      * )
-     * @Groups({"organisation:collection:get", "organisation:item:get", "project:collection:get", "project:item:get"})
+     * @Groups({"organisation:collection:get", "organisation:item:get"})
      */
     private ?string $encodedLogo;
 

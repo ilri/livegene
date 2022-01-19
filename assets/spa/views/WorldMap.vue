@@ -97,7 +97,7 @@
                 fluid-grow
                 class="figure-img organisation-logo"
                 :title="donor.fullName"
-                :src="donor.encodedLogo"
+                :src="getOrganisationLogo(donor.id)"
                 :alt="donor.shortName"
               />
             </figure>
@@ -134,7 +134,7 @@
                 fluid-grow
                 class="figure-img organisation-logo"
                 :title="JSON.parse(partner).fullName"
-                :src="JSON.parse(partner).encodedLogo"
+                :src="getOrganisationLogo(JSON.parse(partner).id)"
                 :alt="JSON.parse(partner).shortName"
                 :class="{ 'highlight-partner': selectedPartners.includes(partner) }"
               />
@@ -210,6 +210,7 @@ export default {
     ...mapState({
       projects: (state) => state.project.projects,
       projectsGroupedByTeam: (state) => state.project.projectsGroupedByTeam,
+      organisations: (state) => state.organisation.organisations,
     }),
     /**
      * Calculate the dimensions used to set width and height of the SVG element.
@@ -674,6 +675,16 @@ export default {
       );
 
       return lambda * 50;
+    },
+    /**
+     * Get the organisation logo for a given organisation ID.
+     *
+     * @param {Number} id
+     * @returns {*}
+     */
+    getOrganisationLogo(id) {
+      const organisation = this.organisations.find((el) => el.id === id);
+      return organisation.encodedLogo;
     },
     display() {
       this.renderChart();
