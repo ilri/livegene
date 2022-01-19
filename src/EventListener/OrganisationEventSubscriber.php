@@ -59,7 +59,18 @@ class OrganisationEventSubscriber implements EventSubscriber
     {
         $logo = file_get_contents($entity->getLogoUrl());
         $extension = pathinfo(parse_url($entity->getLogoUrl(), PHP_URL_PATH), PATHINFO_EXTENSION);
-        $encodedLogo = sprintf('data:image/%s;base64,%s', $extension, base64_encode($logo));
+        if ($extension === 'svg') {
+            $encodedLogo = sprintf(
+                'data:image/svg+xml;base64,%s',
+                base64_encode($logo)
+            );
+        } else {
+            $encodedLogo = sprintf(
+                'data:image/%s;base64,%s',
+                $extension,
+                base64_encode($logo)
+            );
+        }
 
         $entity->setEncodedLogo($encodedLogo);
         $entity->setLogoStatus(true);
