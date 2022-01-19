@@ -45,8 +45,13 @@ class OrganisationEventSubscriber implements EventSubscriber
             return;
         }
 
-        if ($args->hasChangedField('logoUrl') && $entity->getLogoUrl()) {
-            $this->setLogoData($entity);
+        if ($args->hasChangedField('logoUrl')) {
+             if ($entity->getLogoUrl()) {
+                 $this->setLogoData($entity);
+             } else {
+                 $entity->setEncodedLogo(null);
+                 $entity->setLogoStatus(null);
+             }
         }
     }
 

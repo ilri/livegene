@@ -199,7 +199,7 @@ class Organisation
         return $this->logoUrl;
     }
 
-    public function setLogoUrl(string $logoUrl): self
+    public function setLogoUrl(?string $logoUrl): self
     {
         $this->logoUrl = $logoUrl;
 
@@ -313,7 +313,7 @@ class Organisation
         return $this->encodedLogo;
     }
 
-    public function setEncodedLogo(string $encodedLogo): self
+    public function setEncodedLogo(?string $encodedLogo): self
     {
         $this->encodedLogo = $encodedLogo;
 
