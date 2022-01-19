@@ -4,6 +4,7 @@ type: php:7.4
 
 relationships:
     database: "mydatabase:mysql"
+    redis: "myredis:redis"
 
 runtime:
     extensions:
@@ -13,6 +14,7 @@ runtime:
         - iconv
         - ctype
         - pdo_mysql
+        - redis
         
 
 #variables:
