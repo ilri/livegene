@@ -59,7 +59,7 @@ class OrganisationAdmin extends AbstractAdmin
             'empty_data' => '',
         ];
         if ($organisation && ($webPath = $organisation->getLogoUrl())) {
-            $fileFieldOptions['help'] = '<img src="'.$webPath.'" class="admin-logo-show-preview" />';
+            $fileFieldOptions['help'] = '<img src="'.$webPath.'" alt="logo" class="organisation-logo organisation-logo-show-preview" />';
         }
 
         $form

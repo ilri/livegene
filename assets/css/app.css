@@ -36,29 +36,29 @@ body {
   font-size: 1.5em;
 }
 
-.admin-logo-list-preview {
+.organisation-logo {
   border: thin solid grey;
-  padding: 2px;
   object-fit: contain;
+  background-color: #3c8dbc;
+}
+
+.organisation-logo-list-preview {
+  padding: 2px;
   height: 3em;
   width: 3em;
 }
 
-.admin-logo-mosaic-preview {
+.organisation-logo-mosaic-preview {
   display: block;
-  border: thin solid grey;
   border-radius: 4px !important;
   padding: 5px;
   margin: auto;
-  object-fit: contain;
   height: 6em !important;
   width: 6em !important;
 }
 
-.admin-logo-show-preview {
-  border: thin solid grey;
+.organisation-logo-show-preview {
   padding: 5px;
-  object-fit: contain;
   height: 256px;
   width: 256px;
 }
