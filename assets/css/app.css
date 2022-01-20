@@ -39,7 +39,6 @@ body {
 .organisation-logo {
   border: thin solid grey;
   object-fit: contain;
-  background-color: #3c8dbc;
 }
 
 .organisation-logo-list-preview {
