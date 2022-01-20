@@ -128,6 +128,7 @@ class Organisation
 
     /**
      * @ORM\Column(type="string", length=7)
+     * @Groups({"organisation:collection:get", "organisation:item:get", "project:collection:get", "project:item:get"})
      */
     private ?string $logoBackgroundColor;
 

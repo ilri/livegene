@@ -99,6 +99,7 @@
                 :title="donor.fullName"
                 :src="getOrganisationLogo(donor.id)"
                 :alt="donor.shortName"
+                :style="`background-color:${donor.logoBackgroundColor};`"
               />
             </figure>
           </b-card-text>
@@ -137,6 +138,7 @@
                 :src="getOrganisationLogo(JSON.parse(partner).id)"
                 :alt="JSON.parse(partner).shortName"
                 :class="{ 'highlight-partner': selectedPartners.includes(partner) }"
+                :style="`background-color:${JSON.parse(partner).logoBackgroundColor};`"
               />
             </figure>
           </b-card-text>
@@ -758,7 +760,6 @@ export default {
   .organisation-logo {
     height: 4rem;
     object-fit: contain;
-    background-color: rgba(0, 0, 0, 0.03) !important;
   }
 
   .selected {
