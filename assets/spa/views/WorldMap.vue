@@ -758,6 +758,7 @@ export default {
   .organisation-logo {
     height: 4rem;
     object-fit: contain;
+    background-color: rgba(0, 0, 0, 0.03) !important;
   }
 
   .selected {
