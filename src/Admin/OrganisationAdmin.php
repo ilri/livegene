@@ -10,6 +10,7 @@ use Sonata\AdminBundle\Datagrid\{
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Form\Type\ModelListType;
 use Sonata\AdminBundle\Show\ShowMapper;
+use Symfony\Component\Form\Extension\Core\Type\ColorType;
 
 class OrganisationAdmin extends AbstractAdmin
 {
@@ -53,13 +54,15 @@ class OrganisationAdmin extends AbstractAdmin
     {
         $organisation = $this->getSubject();
 
+        $bgColor = $organisation->getLogoBackgroundColor() ?: '#FFFFFF';
+
         $fileFieldOptions = [
             'label' => 'Logo URL',
             'required' => false,
             'empty_data' => '',
         ];
         if ($organisation && ($webPath = $organisation->getLogoUrl())) {
-            $fileFieldOptions['help'] = '<img src="'.$webPath.'" alt="logo" class="organisation-logo organisation-logo-show-preview" />';
+            $fileFieldOptions['help'] = '<img src="'.$webPath.'" alt="logo" class="organisation-logo organisation-logo-show-preview" style="background-color:'.$bgColor.';" />';
         }
 
         $form
@@ -78,6 +81,12 @@ class OrganisationAdmin extends AbstractAdmin
                 'help' => 'Website address of the organisation',
             ])
             ->add('logoUrl', null, $fileFieldOptions)
+            ->add('logoBackgroundColor', ColorType::class, [
+                'help' => 'Choose background color for the logo. For white pictures the recommended value is R: 60 G: 141 B: 188',
+                'attr' => [
+                    'value' => $bgColor,
+                ]
+            ])
             ->add('country', ModelListType::class)
         ;
     }

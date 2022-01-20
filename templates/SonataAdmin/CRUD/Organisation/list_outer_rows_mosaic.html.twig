@@ -1,7 +1,12 @@
 {% extends '@SonataAdmin/CRUD/list_outer_rows_mosaic.html.twig' %}
 
 {% block sonata_mosaic_background %}
-    <img src="{{ object.encodedLogo }}" alt="logo" class="organisation-logo organisation-logo-mosaic-preview">
+    <img
+        src="{{ object.encodedLogo }}"
+        alt="logo"
+        class="organisation-logo organisation-logo-mosaic-preview"
+        {% if object.logoBackgroundColor %}style="background-color:{{ object.logoBackgroundColor }};"{% endif %}
+    >
 {% endblock %}
 
 {% block sonata_mosaic_description %}

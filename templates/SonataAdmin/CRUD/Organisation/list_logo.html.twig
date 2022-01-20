@@ -2,6 +2,11 @@
 
 {% block field %}
     <div class="text-center">
-        <img src="{{ value }}" alt="logo" class="organisation-logo organisation-logo-list-preview">
+        <img
+            src="{{ value }}"
+            alt="logo"
+            class="organisation-logo organisation-logo-list-preview"
+            {% if object.logoBackgroundColor %}style="background-color:{{ object.logoBackgroundColor }};"{% endif %}
+        >
     </div>
 {% endblock %}

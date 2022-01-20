@@ -126,6 +126,11 @@ class Organisation
      */
     private ?bool $logoStatus;
 
+    /**
+     * @ORM\Column(type="string", length=7)
+     */
+    private ?string $logoBackgroundColor;
+
     public function __construct()
     {
         $this->projects = new ArrayCollection();
@@ -328,6 +333,18 @@ class Organisation
     public function setLogoStatus(?bool $logoStatus): self
     {
         $this->logoStatus = $logoStatus;
+
+        return $this;
+    }
+
+    public function getLogoBackgroundColor(): ?string
+    {
+        return $this->logoBackgroundColor;
+    }
+
+    public function setLogoBackgroundColor(string $logoBackgroundColor): self
+    {
+        $this->logoBackgroundColor = strtoupper($logoBackgroundColor);
 
         return $this;
     }
