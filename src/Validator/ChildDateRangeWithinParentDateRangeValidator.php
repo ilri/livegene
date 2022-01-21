@@ -24,13 +24,13 @@ class ChildDateRangeWithinParentDateRangeValidator extends ConstraintValidator
         if (null === $value->getStartDate() || null === $value->getEndDate() || null === $value->getProject()) {
             return;
         }
-
+dump($value);
         if ($value->getStartDate() < $value->getProject()->getStartDate()) {
             $this->context->buildViolation($constraint->message)
-                ->setParameter('{{ entity }}', $this->getEntityName($entity))
+                ->setParameter('{{ entity }}', $this->getEntityName($value))
                 ->setParameter('{{ position }}', 'start')
-                ->setParameter('{{ childDate }}', $entity->getStartDate()->format('Y-m-d'))
-                ->setParameter('{{ parentDate }}', $entity->getProject()->getStartDate()->format('Y-m-d'))
+                ->setParameter('{{ childDate }}', $value->getStartDate()->format('Y-m-d'))
+                ->setParameter('{{ parentDate }}', $value->getProject()->getStartDate()->format('Y-m-d'))
                 ->setParameter('{{ comparator }}', 'before')
                 ->atPath('startDate')
                 ->addViolation();
@@ -38,10 +38,10 @@ class ChildDateRangeWithinParentDateRangeValidator extends ConstraintValidator
 
         if ($value->getEndDate() > $value->getProject()->getEndDate()) {
             $this->context->buildViolation($constraint->message)
-                ->setParameter('{{ entity }}', $this->getEntityName($entity))
+                ->setParameter('{{ entity }}', $this->getEntityName($value))
                 ->setParameter('{{ position }}', 'end')
-                ->setParameter('{{ childDate }}', $entity->getEndDate()->format('Y-m-d'))
-                ->setParameter('{{ parentDate }}', $entity->getProject()->getEndDate()->format('Y-m-d'))
+                ->setParameter('{{ childDate }}', $value->getEndDate()->format('Y-m-d'))
+                ->setParameter('{{ parentDate }}', $value->getProject()->getEndDate()->format('Y-m-d'))
                 ->setParameter('{{ comparator }}', 'after')
                 ->atPath('endDate')
                 ->addViolation();
