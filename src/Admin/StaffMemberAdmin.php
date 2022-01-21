@@ -27,6 +27,9 @@ class StaffMemberAdmin extends AbstractAdmin
             ->add('lastName')
             ->add('homeProgram')
             ->add('email')
+            ->add('isActive', null, [
+                'label' => 'Active',
+            ])
             ->add('_action', 'actions', [
                 'actions' => [
                     'show' => [],
@@ -43,6 +46,9 @@ class StaffMemberAdmin extends AbstractAdmin
             ->add('firstName')
             ->add('lastName')
             ->add('homeProgram')
+            ->add('isActive', null, [
+                'label' => 'Active',
+            ])
         ;
     }
 
@@ -57,6 +63,9 @@ class StaffMemberAdmin extends AbstractAdmin
                 ->add('lastName')
                 ->add('homeProgram')
                 ->add('email', EmailType::class)
+                ->add('isActive', null, [
+                    'label' => 'Active',
+                ])
             ->end()
         ;
 
@@ -92,6 +101,9 @@ class StaffMemberAdmin extends AbstractAdmin
             ->add('lastName')
             ->add('homeProgram')
             ->add('email')
+            ->add('isActive', null, [
+                'label' => 'Active',
+            ])
             ->add('totalStaffRolesPercent', 'percent')
         ;
     }
