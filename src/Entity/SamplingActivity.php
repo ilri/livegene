@@ -3,7 +3,7 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
-use App\Validator\Constraints as AppAssert;
+use App\Validator as AppAssert;
 use Doctrine\Common\Collections\{
     ArrayCollection,
     Collection,

@@ -9,7 +9,7 @@ use ApiPlatform\Core\Annotation\{
 use ApiPlatform\Core\Serializer\Filter\PropertyFilter;
 use App\Entity\Traits\ActiveTrait;
 use App\Entity\Traits\PercentageTrait;
-use App\Validator\Constraints as AppAssert;
+use App\Validator as AppAssert;
 use Carbon\Carbon;
 use Doctrine\Common\Collections\{
     ArrayCollection,
