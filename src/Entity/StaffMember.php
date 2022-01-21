@@ -92,6 +92,11 @@ class StaffMember
      */
     private Collection $staffRoles;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isActive;
+
     public function __construct()
     {
         $this->projects = new ArrayCollection();
@@ -225,5 +230,17 @@ class StaffMember
     public function getTotalStaffRolesPercent(): float
     {
         return $this->calculateTotalRolesPercentage($this->getActiveStaffRoles()->toArray());
+    }
+
+    public function getIsActive(): ?bool
+    {
+        return $this->isActive;
+    }
+
+    public function setIsActive(bool $isActive): self
+    {
+        $this->isActive = $isActive;
+
+        return $this;
     }
 }
