@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Validator\Constraints;
+namespace App\Validator;
 
 use Symfony\Component\Validator\Constraint;
 
 /**
  * @Annotation
  */
-class Percent extends Constraint
+class StartDateBeforeEndDate extends Constraint
 {
-    public string $message = 'The total percent for {{ subject }} must not exceed 100%. Now it is {{ total }}%.';
+    public string $message = 'The start date "{{ startDate }}" must be before the "{{ endDate }}".';
 
     /**
      * {@inheritdoc }

@@ -2,10 +2,9 @@
 
 namespace App\Command;
 
-use ApiPlatform\Core\Bridge\Symfony\Identifier\Normalizer\UlidNormalizer;
 use App\Repository\OrganisationRepository;
-use App\Validator\Constraints\UrlIsAccessible;
-use App\Validator\Constraints\UrlIsImage;
+use App\Validator\UrlIsAccessible;
+use App\Validator\UrlIsImage;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;

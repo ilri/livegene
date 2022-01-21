@@ -1,12 +1,9 @@
 <?php
 
-namespace App\Validator\Constraints;
+namespace App\Validator;
 
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\Validator\{
-    Constraint,
-    ConstraintValidator,
-};
+use Symfony\Component\Validator\{Constraint, ConstraintValidator,};
 
 class ChildDateRangeWithinParentDateRangeValidator extends ConstraintValidator
 {
