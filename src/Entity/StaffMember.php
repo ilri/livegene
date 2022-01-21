@@ -5,6 +5,7 @@ namespace App\Entity;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Entity\Traits\PercentageTrait;
 use App\Entity\Traits\PersonTrait;
+use App\Validator as AppAssert;
 use Doctrine\Common\Collections\{
     ArrayCollection,
     Collection,
@@ -45,6 +46,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Entity(repositoryClass="App\Repository\StaffMemberRepository")
  * @ORM\Table(name="app_staff_member")
  * @UniqueEntity({"username", "email"})
+ * @AppAssert\StaffHasNoActiveRoles()
  */
 class StaffMember
 {
@@ -191,7 +193,7 @@ class StaffMember
         return $this->staffRoles;
     }
 
-    /*
+    /**
      * @return Collection|StaffRole[]
      */
     public function getActiveStaffRoles(): Collection
