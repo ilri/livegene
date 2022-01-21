@@ -6,6 +6,9 @@ use Symfony\Component\Validator\{Constraint, ConstraintValidator,};
 
 class UrlIsAccessibleValidator extends ConstraintValidator
 {
+    /**
+     * { @inheritdoc }
+     */
     public function validate($value, Constraint $constraint)
     {
         /* @var $constraint UrlIsAccessible */

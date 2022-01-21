@@ -12,7 +12,7 @@ class Percent extends Constraint
     public string $message = 'The total percent for {{ subject }} must not exceed 100%. Now it is {{ total }}%.';
 
     /**
-     * {@inheritdoc }
+     * { @inheritdoc }
      */
     public function getTargets()
     {

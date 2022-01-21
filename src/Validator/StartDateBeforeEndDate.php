@@ -12,7 +12,7 @@ class StartDateBeforeEndDate extends Constraint
     public string $message = 'The start date "{{ startDate }}" must be before the "{{ endDate }}".';
 
     /**
-     * {@inheritdoc }
+     * { @inheritdoc }
      */
     public function getTargets()
     {

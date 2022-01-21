@@ -7,7 +7,7 @@ use Symfony\Component\Validator\{Constraint, ConstraintValidator,};
 class PercentValidator extends ConstraintValidator
 {
     /**
-     * {@inheritdoc }
+     * { @inheritdoc }
      */
     public function validate($value, Constraint $constraint)
     {

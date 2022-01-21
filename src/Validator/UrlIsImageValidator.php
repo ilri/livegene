@@ -6,6 +6,9 @@ use Symfony\Component\Validator\{Constraint, ConstraintValidator,};
 
 class UrlIsImageValidator extends ConstraintValidator
 {
+    /**
+     * { @inheritdoc }
+     */
     public function validate($value, Constraint $constraint)
     {
         /* @var $constraint UrlIsImage */
