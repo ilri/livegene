@@ -1,11 +1,8 @@
 <?php
 
-namespace App\Validator\Constraints;
+namespace App\Validator;
 
-use Symfony\Component\Validator\{
-    Constraint,
-    ConstraintValidator,
-};
+use Symfony\Component\Validator\{Constraint, ConstraintValidator,};
 
 class UrlIsAccessibleValidator extends ConstraintValidator
 {
