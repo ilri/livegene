@@ -24,6 +24,7 @@
     "require": {
         "php": "^7.4.3",
         "ext-ctype": "*",
+        "ext-fileinfo": "*",
         "ext-iconv": "*",
         "ext-json": "*",
         "composer-runtime-api": "^2",
