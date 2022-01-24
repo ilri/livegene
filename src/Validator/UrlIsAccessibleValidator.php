@@ -13,6 +13,10 @@ class UrlIsAccessibleValidator extends ConstraintValidator
     {
         /* @var $constraint UrlIsAccessible */
 
+        if (null === $value || '' === $value) {
+            return;
+        }
+
         $headers = get_headers($value, true);
         $statusCodes = array_filter($headers, function($key) {
             return is_int($key);
