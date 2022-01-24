@@ -3,8 +3,6 @@
 namespace App\Validator;
 
 use Symfony\Component\Validator\{Constraint, ConstraintValidator,};
-use GuzzleHttp\Client;
-use GuzzleHttp\Exception\GuzzleException;
 
 class UrlIsAccessibleValidator extends ConstraintValidator
 {
@@ -15,19 +13,13 @@ class UrlIsAccessibleValidator extends ConstraintValidator
     {
         /* @var $constraint UrlIsAccessible */
 
-        if (null === $value || '' === $value) {
-            return;
-        }
+        $headers = get_headers($value, true);
+        $statusCodes = array_filter($headers, function($key) {
+            return is_int($key);
+        }, ARRAY_FILTER_USE_KEY);
+        $statusCode = substr(end($statusCodes), 9, 3);
 
-        $client = new Client();
-        try {
-            $response = $client->request('HEAD', $value);
-            $statusCode = $response->getStatusCode();
-        } catch (GuzzleException $e) {
-            $statusCode = $e->getCode();
-        }
-
-        if (200 !== $statusCode) {
+        if (200 != $statusCode) {
             $this->context->buildViolation($constraint->message)
                 ->setParameter('{{ value }}', $value)
                 ->addViolation()
