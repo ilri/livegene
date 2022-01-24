@@ -17,13 +17,18 @@ class UrlIsImageValidator extends ConstraintValidator
             return;
         }
 
-        $image = file_get_contents($value);
-        $mimeType = (new \finfo(FILEINFO_MIME_TYPE))->buffer($image);
+        $headers = get_headers($value, true);
+        $contentType = array_filter($headers, function($key) {
+            return 0 === strcasecmp($key, 'content-type');
+        }, ARRAY_FILTER_USE_KEY);
+        $contentType = end($contentType);
+        $mimeType = is_array($contentType) ? end($contentType) : $contentType;
 
         if (false === strpos($mimeType, 'image/')) {
             $this->context->buildViolation($constraint->message)
                 ->setParameter('{{ value }}', $value)
-                ->addViolation();
+                ->addViolation()
+            ;
         }
     }
 }
