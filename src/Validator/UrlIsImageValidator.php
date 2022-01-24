@@ -21,10 +21,17 @@ class UrlIsImageValidator extends ConstraintValidator
         $contentType = array_filter($headers, function($key) {
             return 0 === strcasecmp($key, 'content-type');
         }, ARRAY_FILTER_USE_KEY);
-        $contentType = end($contentType);
-        $mimeType = is_array($contentType) ? end($contentType) : $contentType;
+        $contentType = reset($contentType);
+        $mimeType = false;
+        if ($contentType) {
+            $contentType = is_array($contentType)
+                ? end($contentType)
+                : $contentType
+            ;
+            $mimeType = strpos($contentType, 'image/');
+        }
 
-        if (false === strpos($mimeType, 'image/')) {
+        if (false === $mimeType) {
             $this->context->buildViolation($constraint->message)
                 ->setParameter('{{ value }}', $value)
                 ->addViolation()
