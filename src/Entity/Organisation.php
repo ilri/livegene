@@ -42,6 +42,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Entity(repositoryClass="App\Repository\OrganisationRepository")
  * @ORM\Table(name="app_organisation")
  * @UniqueEntity("fullName")
+ * @Assert\GroupSequence({"Organisation", "Access", "Value"})
  */
 class Organisation
 {
@@ -61,7 +62,7 @@ class Organisation
 
     /**
      * @ORM\Column(type="string", length=200)
-     * @Assert\NotBlank()
+     * @Assert\NotBlank(groups={"Organisation"})
      * @Groups({"organisation:collection:get", "organisation:item:get", "project:collection:get", "project:item:get"})
      */
     private ?string $fullName;
@@ -74,24 +75,24 @@ class Organisation
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\Url()
-     * @AppAssert\UrlIsAccessible()
+     * @Assert\Url(groups={"Organisation"})
+     * @AppAssert\UrlIsAccessible(groups={"Access"})
      * @Groups({"organisation:collection:get", "organisation:item:get", "project:collection:get", "project:item:get"})
      */
     private string $link = '';
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\Url()
-     * @AppAssert\UrlIsAccessible()
-     * @AppAssert\UrlIsImage()
+     * @Assert\Url(groups={"Organisation"})
+     * @AppAssert\UrlIsAccessible(groups={"Access"})
+     * @AppAssert\UrlIsImage(groups={"Value"})
      */
     private string $logoUrl = '';
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Country", inversedBy="organisations")
      * @ORM\JoinColumn(nullable=false)
-     * @Assert\NotBlank()
+     * @Assert\NotBlank(groups={"Organisation"})
      * @Groups({"organisation:collection:get", "organisation:item:get", "project:collection:get", "project:item:get"})
      */
     private ?Country $country;
@@ -115,7 +116,8 @@ class Organisation
      * @ORM\Column(type="text", nullable=true)
      * @Assert\Length(
      *     max=1048576,
-     *     maxMessage="The logo image is too big. Please use a smaller image."
+     *     maxMessage="The logo image is too big. Please use a smaller image.",
+     *     groups={"Value"}
      * )
      * @Groups({"organisation:collection:get", "organisation:item:get"})
      */
