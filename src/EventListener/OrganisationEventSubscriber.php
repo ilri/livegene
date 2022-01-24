@@ -12,7 +12,6 @@ use Doctrine\ORM\Events;
 
 class OrganisationEventSubscriber implements EventSubscriber
 {
-
     /**
      * @inheritDoc
      */
@@ -58,19 +57,14 @@ class OrganisationEventSubscriber implements EventSubscriber
     private function setLogoData(Organisation $entity)
     {
         $logo = file_get_contents($entity->getLogoUrl());
-        $extension = pathinfo(parse_url($entity->getLogoUrl(), PHP_URL_PATH), PATHINFO_EXTENSION);
-        if ($extension === 'svg') {
-            $encodedLogo = sprintf(
-                'data:image/svg+xml;base64,%s',
-                base64_encode($logo)
-            );
-        } else {
-            $encodedLogo = sprintf(
-                'data:image/%s;base64,%s',
-                $extension,
-                base64_encode($logo)
-            );
-        }
+        $mimeType = (new \finfo(FILEINFO_MIME_TYPE))->buffer($logo);
+        $mimeType = str_replace('svg', 'svg+xml', $mimeType);
+
+        $encodedLogo = sprintf(
+            'data:%s;base64,%s',
+            $mimeType,
+            base64_encode($logo)
+        );
 
         $entity->setEncodedLogo($encodedLogo);
         $entity->setLogoStatus(true);

@@ -54,7 +54,8 @@ services:
             - { name: kernel.event_listener, event: kernel.exception }
         public: true
 
-    'App\EventListener\OrganisationEventSubscriber':
+    app.event_subscriber.organisation_logo:
+        class: App\EventListener\OrganisationEventSubscriber
         tags:
             - { name: doctrine.event_subscriber, connection: 'default' }
 
