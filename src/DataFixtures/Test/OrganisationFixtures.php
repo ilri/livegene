@@ -20,12 +20,14 @@ class OrganisationFixtures extends Fixture implements DependentFixtureInterface,
         /** @var Country $country */
         $country = $this->getReference('country');
 
+        // The properties link and logoUrl are optional and must NOT be set here.
+        // Otherwise, PHP internal functions like get_headers() and file_get_contents()
+        // will be called and the tests will break.
         $organisation = new Organisation();
         $organisation->setShortName('ACME');
         $organisation->setFullName('A Company Making Everything');
         $organisation->setLocalName('A Company Making Everything');
-        $organisation->setLink('https://www.acme.co.uk/');
-        $organisation->setLogoUrl('https://www.acme.co.uk/images/logo.png');
+        $organisation->setLogoBackgroundColor('#FFFFFF');
         $organisation->setCountry($country);
         $manager->persist($organisation);
 
