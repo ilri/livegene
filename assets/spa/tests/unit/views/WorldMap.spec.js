@@ -10,6 +10,7 @@ localVue.use(Vuex);
 
 describe('WorldMap.vue', () => {
   let projectState;
+  let organisationState;
   let errorState;
   let store;
 
@@ -125,6 +126,18 @@ describe('WorldMap.vue', () => {
         ],
       ),
     };
+    organisationState = {
+      organisations: [
+        {
+          id: 1,
+          shortName: 'ACME',
+          fullName: 'A Company that Makes Everything',
+          link: 'www.acme.com',
+          encodedLogo: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABHNCSVQICAgIfAhkiAAAAAtJREFUCJlj+A8EAAn7A/3jVfKcAAAAAElFTkSuQmCC',
+          logoBackgroundColor: '#FFFFFF',
+        },
+      ],
+    };
     errorState = {
       errors: [],
     };
@@ -132,6 +145,10 @@ describe('WorldMap.vue', () => {
       modules: {
         project: {
           state: projectState,
+          namespaced: true,
+        },
+        organisation: {
+          state: organisationState,
           namespaced: true,
         },
         error: {
