@@ -85,8 +85,7 @@ class ProjectAPITest extends ApiTestCase
                             'shortName' => 'ACME',
                             'fullName' => 'A Company Making Everything',
                             'localName' => 'A Company Making Everything',
-                            'link' => 'https://www.acme.co.uk/',
-                            'logoUrl' => 'https://www.acme.co.uk/images/logo.png',
+                            'link' => '',
                             'country' => [
                                 'id' => 1,
                                 'country' => 'GB',
@@ -164,8 +163,7 @@ class ProjectAPITest extends ApiTestCase
                     'shortName' => 'ACME',
                     'fullName' => 'A Company Making Everything',
                     'localName' => 'A Company Making Everything',
-                    'link' => 'https://www.acme.co.uk/',
-                    'logoUrl' => 'https://www.acme.co.uk/images/logo.png',
+                    'link' => '',
                     'country' => [
                         'id' => 1,
                         'country' => 'GB',
