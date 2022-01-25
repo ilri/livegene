@@ -97,7 +97,7 @@ class StaffMember
     /**
      * @ORM\Column(type="boolean")
      */
-    private $isActive;
+    private ?bool $isActive;
 
     public function __construct()
     {
