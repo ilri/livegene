@@ -19,6 +19,7 @@ class StaffMemberFixtures extends Fixture implements FixtureGroupInterface
         $staffMember->setLastName('Coyote');
         $staffMember->setHomeProgram('Cartoon');
         $staffMember->setEmail('coyote@example.com');
+        $staffMember->setIsActive(true);
         $manager->persist($staffMember);
 
         $manager->flush();
