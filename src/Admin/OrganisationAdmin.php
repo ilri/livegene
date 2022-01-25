@@ -54,7 +54,10 @@ class OrganisationAdmin extends AbstractAdmin
     {
         $organisation = $this->getSubject();
 
-        $bgColor = $organisation->getLogoBackgroundColor() ?: '#FFFFFF';
+        $bgColor = '#FFFFFF';
+        if ($this->subject->getId()) {
+            $bgColor = $organisation->getLogoBackgroundColor() ?: '#FFFFFF';
+        }
 
         $fileFieldOptions = [
             'label' => 'Logo URL',
