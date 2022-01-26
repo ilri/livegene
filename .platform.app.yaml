@@ -53,25 +53,27 @@ hooks:
 
         (>&2 symfony-deploy)
 
-crons:
-    mendeley_download:
-        # Download LiveGeneShare publications from Mendeley every Sunday at noon
-        spec: '0 12 * * 0'
-        cmd: |
-            if [ "$SYMFONY_BRANCH" = "master" ]; then
-                croncape symfony console app:mendeley:download
-            fi
-    mendeley_new_publications_notifier:
-        # Notify LiveGene members about new publications at Mendeley every Monday at 3am
-        spec: '0 3 * * 1'
-        cmd: |
-            if [ "$SYMFONY_BRANCH" = "master" ]; then
-                croncape symfony console app:mendeley:new-publications-notifier
-            fi
-    organisation_logo_check_status:
-        # Check the status code of the organisation logos every Sunday and Wednesday midnight
-        spec: '0 0 * * 0,3'
-        cmd: |
-            if [ "$SYMFONY_BRANCH" = "master" ]; then
-                croncape symfony console app:organisation:check-logo-status
-            fi
+#crons:
+#    mendeley_download:
+#        # Download LiveGeneShare publications from Mendeley every Sunday at noon
+#        spec: '0 12 * * 0'
+#        cmd: |
+#            if [ "$SYMFONY_BRANCH" = "master" ]; then
+#                croncape symfony console app:mendeley:download
+#            fi
+#    mendeley_new_publications_notifier:
+#        # Notify LiveGene members about new publications at Mendeley every Monday at 3am
+#        spec: '0 3 * * 1'
+#        cmd: |
+#            if [ "$SYMFONY_BRANCH" = "master" ]; then
+#                croncape symfony console app:mendeley:new-publications-notifier
+#            fi
+#    organisation_logo_check_status:
+#        # Check the status code of the organisation logos every Sunday and Wednesday midnight
+#        spec: '0 0 * * 0,3'
+#        cmd: |
+#            if [ "$SYMFONY_BRANCH" = "master" ]; then
+#                croncape symfony console app:organisation:check-logo-status
+#            fi
+#
+#
