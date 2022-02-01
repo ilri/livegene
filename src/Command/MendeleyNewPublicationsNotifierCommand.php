@@ -68,12 +68,9 @@ class MendeleyNewPublicationsNotifierCommand extends Command
                 $newPublications,
                 function($publication) use ($isoDate) {
                     $created = (new \DateTime($publication['created']))->format('c');
-                    if ($created > $isoDate) {
-                          return $publication;
-                    }
-              }
+                    return $created > $isoDate;
+                }
             );
-            dump($publications);
         } catch  (GuzzleException | CacheItemNotFoundException | \Exception $e) {
             $io->writeln([sprintf('<error>%s</error>', $e->getMessage())]);
             return 1;
@@ -81,7 +78,7 @@ class MendeleyNewPublicationsNotifierCommand extends Command
 
         if ($publications) {
             $liveGeneStaff = $this->staffMemberRepository
-                ->findByHomeProgram(self::HOME_PROGRAM)
+                ->findActiveStaffByHomeProgram(self::HOME_PROGRAM)
             ;
             $emailAddresses = array_map(
                 function ($staffMember) {

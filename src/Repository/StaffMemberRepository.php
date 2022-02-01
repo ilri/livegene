@@ -24,11 +24,12 @@ class StaffMemberRepository extends ServiceEntityRepository
      *
      * @return StaffMember[] Returns an array of Staff objects
      */
-    public function findByHomeProgram(string $value): array
+    public function findActiveStaffByHomeProgram(string $value): array
     {
         return $this->createQueryBuilder('s')
             ->andWhere('s.homeProgram = :val')
             ->setParameter('val', $value)
+            ->andWhere('s.isActive = 1')
             ->getQuery()
             ->getResult()
         ;
