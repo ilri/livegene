@@ -5255,16 +5255,16 @@
         },
         {
             "name": "sonata-project/entity-audit-bundle",
-            "version": "1.6.0",
+            "version": "1.6.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sonata-project/EntityAuditBundle.git",
-                "reference": "3cd5c2dc7c9c6106ce3874e88a4f04217c8f9a18"
+                "reference": "866dc17a4d0454d4dfafa5cdd5254f8e3c3c7907"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sonata-project/EntityAuditBundle/zipball/3cd5c2dc7c9c6106ce3874e88a4f04217c8f9a18",
-                "reference": "3cd5c2dc7c9c6106ce3874e88a4f04217c8f9a18",
+                "url": "https://api.github.com/repos/sonata-project/EntityAuditBundle/zipball/866dc17a4d0454d4dfafa5cdd5254f8e3c3c7907",
+                "reference": "866dc17a4d0454d4dfafa5cdd5254f8e3c3c7907",
                 "shasum": ""
             },
             "require": {
@@ -5283,7 +5283,7 @@
             },
             "conflict": {
                 "doctrine/doctrine-bundle": "<1.4",
-                "gedmo/doctrine-extensions": "<2.3.1",
+                "gedmo/doctrine-extensions": "<3.0",
                 "symfony/framework-bundle": "<4.4"
             },
             "require-dev": {
@@ -5291,19 +5291,19 @@
                 "gedmo/doctrine-extensions": "^3.0",
                 "matthiasnoback/symfony-dependency-injection-test": "^4.2.1",
                 "phpstan/extension-installer": "^1.1",
-                "phpstan/phpstan": "^0.12.93",
-                "phpstan/phpstan-doctrine": "^0.12.44",
-                "phpstan/phpstan-phpunit": "^0.12.22",
-                "phpstan/phpstan-symfony": "^0.12.44",
+                "phpstan/phpstan": "^1.0",
+                "phpstan/phpstan-doctrine": "^1.0",
+                "phpstan/phpstan-phpunit": "^1.0",
+                "phpstan/phpstan-symfony": "^1.0",
                 "phpunit/phpunit": "^9.5",
                 "psalm/plugin-phpunit": "^0.16.1",
                 "psalm/plugin-symfony": "^3.0",
                 "symfony/cache": "^4.4 || ^5.3 || ^6.0",
                 "symfony/http-foundation": "^4.4 || ^5.3 || ^6.0",
-                "symfony/phpunit-bridge": "^5.3 || ^6.0",
+                "symfony/phpunit-bridge": "^6.0",
                 "symfony/var-dumper": "^4.4 || ^5.3 || ^6.0",
                 "vimeo/psalm": "^4.8",
-                "weirdan/doctrine-psalm-plugin": "^1.1"
+                "weirdan/doctrine-psalm-plugin": "^2.0"
             },
             "type": "symfony-bundle",
             "autoload": {
@@ -5323,7 +5323,7 @@
             ],
             "support": {
                 "issues": "https://github.com/sonata-project/EntityAuditBundle/issues",
-                "source": "https://github.com/sonata-project/EntityAuditBundle/tree/1.6.0"
+                "source": "https://github.com/sonata-project/EntityAuditBundle/tree/1.6.1"
             },
             "funding": [
                 {
@@ -5339,7 +5339,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2021-10-28T15:45:25+00:00"
+            "time": "2021-12-04T14:18:28+00:00"
         },
         {
             "name": "sonata-project/exporter",
