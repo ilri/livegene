@@ -5566,16 +5566,16 @@
         },
         {
             "name": "sonata-project/media-bundle",
-            "version": "3.37.0",
+            "version": "3.37.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sonata-project/SonataMediaBundle.git",
-                "reference": "1ea115208c075495bc2d7ab5c6734f84009e9699"
+                "reference": "0dece3c869fd7ca39ac90848d4cddcf2ff2e2191"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sonata-project/SonataMediaBundle/zipball/1ea115208c075495bc2d7ab5c6734f84009e9699",
-                "reference": "1ea115208c075495bc2d7ab5c6734f84009e9699",
+                "url": "https://api.github.com/repos/sonata-project/SonataMediaBundle/zipball/0dece3c869fd7ca39ac90848d4cddcf2ff2e2191",
+                "reference": "0dece3c869fd7ca39ac90848d4cddcf2ff2e2191",
                 "shasum": ""
             },
             "require": {
@@ -5726,7 +5726,7 @@
             ],
             "support": {
                 "issues": "https://github.com/sonata-project/SonataMediaBundle/issues",
-                "source": "https://github.com/sonata-project/SonataMediaBundle/tree/3.37.0"
+                "source": "https://github.com/sonata-project/SonataMediaBundle/tree/3.37.1"
             },
             "funding": [
                 {
@@ -5746,7 +5746,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2021-11-17T19:07:17+00:00"
+            "time": "2021-12-09T21:53:34+00:00"
         },
         {
             "name": "sonata-project/twig-extensions",
