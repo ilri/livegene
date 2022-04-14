@@ -123,7 +123,12 @@ export default {
     getPublicationsAction(context) {
       PublicationService.getPublications()
         .then((response) => {
-          context.commit('SET_PUBLICATIONS', response.data);
+          const publications = response.data.sort((a, b) => {
+            const dateA = new Date(a.year || 1977, a.month - 1 || 0, a.day || 1);
+            const dateB = new Date(b.year || 1977, b.month - 1 || 0, b.day || 1);
+            return dateB.getTime() - dateA.getTime();
+          });
+          context.commit('SET_PUBLICATIONS', publications);
         })
         .catch((error) => {
           context.dispatch(

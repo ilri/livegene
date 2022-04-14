@@ -35,10 +35,11 @@ class PublicationRepository
 
         $response = $this->client->request('GET', self::API_ENDPOINT, [
             'query'   => [
+                'view'     => 'all',
                 'group_id' => self::LIVEGENESHARE_GROUP_ID,
                 'limit'    => 500,
                 'order'    => 'desc',
-                'view'     => 'all',
+                'sort'     => 'created',
             ],
             'headers' => [
                 'Authorization' => 'Bearer '.$accessToken,
